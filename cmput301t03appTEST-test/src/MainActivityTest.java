@@ -8,8 +8,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 {
 	public void testViewByUpVotes(){
 		super(MainActivity.class);
-		QuestionListManager qlm=new QuestionListManager;
-		ArrayList<Question> questionList=new ArrayList<Question>;
+		QuestionListManager qlm=new QuestionListManager();
+		ArrayList<Question> questionList=new ArrayList<Question>();
 		questionList=qlm.load();
 		assertTrue("Upvoted questions dont exist",upvoteSort(questionList)>0);
 	}
@@ -22,8 +22,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	public void testCachedAnswersAndQuestions(){
 		super(MainActivity.class);
 		UserManager um=new UserManager;
-		ArrayList<Question> cachedAnswers=new ArrayList<Question>;
-		ArrayList<Question> cachedQuestions=new ArrayList<Question>;
+		ArrayList<Question> cachedAnswers=new ArrayList<Question>();
+		ArrayList<Question> cachedQuestions=new ArrayList<Question>();
 		cachedAnswers=um.loadCacheAnswers();
 		cachedQuestions=um.loadCacheQuestions();
 		assertTrue("There are no cached answers",cachedAnswers.size()>0);
