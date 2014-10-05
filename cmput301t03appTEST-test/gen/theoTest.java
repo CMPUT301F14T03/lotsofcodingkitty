@@ -50,6 +50,6 @@ public class theoTest extends ActivityInstrumentationTestCase2<MainActivity>
 		Author newAuthor = new Author;
 		profilePic = uploadPic("test.jpg");
 		newAuthor.setProfile(profilePic);
-		assertEquals(profilePic,newAuthor.getProfilePic());
+		assertEquals("test.jpg",newAuthor.getProfilePic());
 	}
 }
