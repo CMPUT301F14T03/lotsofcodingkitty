@@ -5,6 +5,7 @@ import org.junit.Test;
 import android.test.ActivityInstrumentationTestCase2;
 
 import ca.ualberta.cs.cmput301t03app.MainActivity;
+import ca.ualberta.cs.lonelytwitter.LonelyTwitterActivity;
 
 
 
@@ -12,6 +13,10 @@ import ca.ualberta.cs.cmput301t03app.MainActivity;
 
 public class theoTest extends ActivityInstrumentationTestCase2<MainActivity>
 {
+	public theoTest() {
+		super(MainActivity.class);
+	}
+	
 	// Creates a list of questions and and list of answers
 	// iterates through all existing questions and answers, favoriting
 	// each question and answer and then adding them to the
