@@ -15,17 +15,15 @@ public class theoTest extends ActivityInstrumentationTestCase2<MainActivity>
 	public void testViewFavorites() {
 		ArrayList<Question> favQuestions = new ArrayList<Question>();
 		ArrayList<Answer> favAnswer = new ArrayList<Answer>();
-		{
-			forumQuestionList listTest = new forumQuestionList;
-			ArrayList<Question> q = listTest.getList();
-			ArrayList<Answer> a = new ArrayList<Answer>();
-			for(int i = 0; i < q.size(); i++) {
-				User.addFavQuestion(q.indexOf(i));
-				ArrayList<Answer> temp = q.indexOf(i).getAnswers();
-				for(int j = 0; j < temp.size(); j++) {
-					User.addFavAnswer(temp.indexOf(j));
-					a.add(temp.indexOf(j))
-				}
+		forumQuestionList listTest = new forumQuestionList;
+		ArrayList<Question> q = listTest.getList();
+		ArrayList<Answer> a = new ArrayList<Answer>();
+		for(int i = 0; i < q.size(); i++) {
+			User.addFavQuestion(q.indexOf(i));
+			ArrayList<Answer> temp = q.indexOf(i).getAnswers();
+			for(int j = 0; j < temp.size(); j++) {
+				User.addFavAnswer(temp.indexOf(j));
+				a.add(temp.indexOf(j))
 			}
 		}
 		favQuestions = User.getFavQuestions();
