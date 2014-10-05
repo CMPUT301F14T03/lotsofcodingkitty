@@ -1,15 +1,21 @@
 import java.util.ArrayList;
 
-import ca.ualberta.cs.cmput301t03app.CacheDatabase;
+import ca.ualberta.cs.cmput301t03app.MainActivity;
 import android.test.ActivityInstrumentationTestCase2;
 
 
-public class CacheDatabaseTest extends ActivityInstrumentationTestCase2<CacheDatabase> {
+public class CacheDatabaseTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	
 	/*Cache read questions and answers 	
 	 * Allows the user save read questions/answers and questions/answers 
 	 * marked as read to be automatically saved to local cache */
+	public CacheDatabaseTest() {
+		
+		super(MainActivity.class);
+	}
+	
 	public void testSaveQuestionList() {
+		
 		
 		CacheDatabase cdb = new CacheDatabase();
 //		ArrayList<Questions> questionArray = new Arraylist<Questions>();
