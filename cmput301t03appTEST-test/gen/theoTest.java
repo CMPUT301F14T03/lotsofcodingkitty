@@ -5,11 +5,6 @@ import org.junit.Test;
 import android.test.ActivityInstrumentationTestCase2;
 
 import ca.ualberta.cs.cmput301t03app.MainActivity;
-import ca.ualberta.cs.lonelytwitter.LonelyTwitterActivity;
-
-
-
-
 
 public class theoTest extends ActivityInstrumentationTestCase2<MainActivity>
 {
