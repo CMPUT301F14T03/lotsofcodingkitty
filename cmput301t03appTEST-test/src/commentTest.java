@@ -9,7 +9,7 @@ import ca.ualberta.cs.cmput301t03app.QuestionListController;
 import android.test.ActivityInstrumentationTestCase2;
 
 
-public class commentTest extends ActivityInstrumentationTestCase2<T> {
+public class commentTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
 	/*
 	* View newest comment by default  User, Author
@@ -19,6 +19,7 @@ public class commentTest extends ActivityInstrumentationTestCase2<T> {
 	* */
 	
 	public void viewNewestComment() {
+		super(MainActivity.class);
 		/* How do test for viewing */		
 		
 	}
