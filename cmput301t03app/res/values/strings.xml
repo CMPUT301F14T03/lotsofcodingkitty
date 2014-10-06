@@ -2,7 +2,11 @@
 <resources>
 
     <string name="app_name">cmput301t03app</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="title_activity_respond">Respond</string>
+    <string name="ok">OK</string>
+	<string name="cancel">Cancel</string>
+	<string name="questionTitle">Question Title</string>
+	<string name="questionBody">Enter your question.</string>
+	<string name="attachImgTxt">Attach an image</string>
 </resources>
