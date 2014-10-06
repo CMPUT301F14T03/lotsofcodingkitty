@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 .classpath
-=======
 # Built application files
 *.apk
 *.ap_
@@ -9,8 +7,8 @@
 # Java class files
 *.class
 # Generated files
-bin/
-gen/
+bin/*
+gen/*
 # Gradle files
 .gradle/
 build/
