@@ -1,44 +1,42 @@
 package ca.ualberta.cs.cmput301t03app;
 
-
-<<<<<<< HEAD
-public class Question
-{
-	public String body=null;
-	public int rating=0;
-	public void Question(String string,int rating){
-		setBody(string);
-		setRating(rating);
-	}
-	
-	public String getBody()
-	{
-	
-		return body;
-	}
-	
-	public void setBody(String body)
-	{
-	
-		this.body = body;
-	}
-	
-	public int getRating()
-	{
-	
-		return rating;
-	}
-	
-	public void setRating(int rating)
-	{
-	
-		this.rating = rating;
-	}
-	
-=======
 import java.sql.Date;
 import java.util.ArrayList;
 
+
+//public class Question
+//{
+//	public String body=null;
+//	public int rating=0;
+//	public void Question(String string,int rating){
+//		setBody(string);
+//		setRating(rating);
+//	}
+//	
+//	public String getBody()
+//	{
+//	
+//		return body;
+//	}
+//	
+//	public void setBody(String body)
+//	{
+//	
+//		this.body = body;
+//	}
+//	
+//	public int getRating()
+//	{
+//	
+//		return rating;
+//	}
+//	
+//	public void setRating(int rating)
+//	{
+//	
+//		this.rating = rating;
+//	}
+//}
 public class Question {
 	
 
@@ -113,8 +111,4 @@ public class Question {
 		this.picture = picture;
 	}
 	
-	
-	
-
->>>>>>> c878cfaf0dac4cc9adca39222fb534fb23f1d4cb
 }
