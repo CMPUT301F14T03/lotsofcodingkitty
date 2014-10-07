@@ -1,6 +1,5 @@
 package ca.ualberta.cs.cmput301t03app;
 
-<<<<<<< HEAD
 import java.sql.Date;
 
 public class Comment {
@@ -15,10 +14,4 @@ public class Comment {
 		textBody = comment;
 			
 	}
-	
-	
-=======
-public class Comment {
-
->>>>>>> 323de00f7fac1e7e291e8335a13d16d6dba02d16
 }
