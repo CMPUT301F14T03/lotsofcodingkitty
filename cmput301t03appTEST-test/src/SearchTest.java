@@ -5,12 +5,13 @@ import java.util.List;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.Question;
 import ca.ualberta.cs.cmput301t03app.QuestionList;
+import ca.ualberta.cs.cmput301t03app.ServerDatabase;
 import android.test.ActivityInstrumentationTestCase2;
 
 
 public class SearchTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
-	public SearchTest(String name) {
+	public SearchTest() {
 		super(MainActivity.class);
 	}
 	
@@ -37,7 +38,7 @@ public class SearchTest extends ActivityInstrumentationTestCase2<MainActivity> {
 		assertNotNull(searchResults);
 		
 		Question q3 = searchResults.get(0);
-		assertEquals(q3.getTitle(),q1.getTitle());
+		assertEquals(q3.getSubject(),q1.getSubject());
 		
 		
 	}

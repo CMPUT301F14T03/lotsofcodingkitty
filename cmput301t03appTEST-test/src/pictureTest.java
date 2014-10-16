@@ -1,4 +1,3 @@
-import ca.ualberta.cs.lonelytwitter.LonelyTwitterActivity;
 import android.test.ActivityInstrumentationTestCase2;
 
 

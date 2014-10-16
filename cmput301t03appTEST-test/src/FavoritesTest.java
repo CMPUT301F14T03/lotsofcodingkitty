@@ -5,12 +5,13 @@ import ca.ualberta.cs.cmput301t03app.CacheDatabase;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.Question;
 import ca.ualberta.cs.cmput301t03app.QuestionList;
+import ca.ualberta.cs.cmput301t03app.User;
 import android.test.ActivityInstrumentationTestCase2;
 
 
 public class FavoritesTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
-	public FavoritesTest(String name) {
+	public FavoritesTest() {
 		super(MainActivity.class);
 	}
 

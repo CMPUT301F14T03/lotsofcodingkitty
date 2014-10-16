@@ -28,7 +28,7 @@ public class ServerDatabase {
 		//Add all questions that contain searchWord in the question title.
 		for (Question question : questionArray) {
 			
-			String questionTitle = question.getTitle().toLowerCase();
+			String questionTitle = question.getSubject().toLowerCase();
 			if (questionTitle.contains(searchWord.toLowerCase())) {
 				
 				searchResultsArray.add(question);

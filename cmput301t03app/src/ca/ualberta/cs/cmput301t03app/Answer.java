@@ -8,6 +8,21 @@ public class Answer {
 	String answer;
 	String author;
 	Date date;
+	int rating;
+	
+	public Answer(String answer, Date date){
+		this.date = date;
+		this.answer = answer;
+		this.rating = 0;
+	}
+	
+	public Answer()
+	{
+		this.author = null;
+		this.answer = null;
+		this.rating = 0;
+	}
+
 	public ArrayList<Comment> getComments() {
 		return comments;
 	}
@@ -32,6 +47,11 @@ public class Answer {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+	public int getRating() {
+		return rating;
+	}
+	public void setRating(int rating) {
+		this.rating = rating;
 	
-	
+	}
 }

@@ -1,8 +1,11 @@
-package ca.ualberta.cs.cmput301t03app;
 
+
+import ca.ualberta.cs.cmput301t03app.Answer;
+import ca.ualberta.cs.cmput301t03app.Comment;
+import ca.ualberta.cs.cmput301t03app.Question;
 import android.test.ActivityInstrumentationTestCase2;
 
-public class commentTestCases extends ActivityInstrumentationTestCase2<T> {
+public class commentTestCases extends ActivityInstrumentationTestCase2<MainActivity> {
 
 	/*
 	* View newest comment by default  User, Author
@@ -11,10 +14,6 @@ public class commentTestCases extends ActivityInstrumentationTestCase2<T> {
   	* Write comments, questions and answers
 	* */
 	
-	public void viewNewestComment() {
-		/* How do test for viewing */		
-		
-	}
 	
 	public void writePostsOffline() {
 		/* Write comments, questions and answers */

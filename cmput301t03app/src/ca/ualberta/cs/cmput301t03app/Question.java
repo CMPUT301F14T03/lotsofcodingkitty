@@ -3,7 +3,7 @@ package ca.ualberta.cs.cmput301t03app;
 import java.util.ArrayList;
 import java.util.Date;
 
-import android.media.Image;
+import android.media.*;
 
 
 public class Question{
@@ -11,8 +11,25 @@ public class Question{
 	ArrayList<Answer> answers;
 	String subject;
 	String question;
-	Image picture;
+	String author;
+//	Image picture;
 	Date date;
+	int rating;
+	
+	public Question(Date date, String subject, String question){
+		this.date = date;
+		this.subject = subject;
+		this.question = question;
+		this.rating = 0;
+	}
+	
+	public Question(){
+		this.date = null;
+		this.subject = null;
+		this.question = null;
+		this.rating = 0;
+	}
+	
 	public ArrayList<Comment> getComments() {
 		return comments;
 	}
@@ -37,17 +54,23 @@ public class Question{
 	public void setQuestion(String question) {
 		this.question = question;
 	}
-	public Image getPicture() {
-		return picture;
-	}
-	public void setPicture(Image picture) {
-		this.picture = picture;
-	}
+//	public Image getPicture() {
+//		return picture;
+//	}
+//	public void setPicture(Image picture) {
+//		this.picture = picture;
+//	}
 	public Date getDate() {
 		return date;
 	}
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	public int getRating() {
+		return rating;
+	}
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 	
 	
