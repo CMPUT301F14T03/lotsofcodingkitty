@@ -22,6 +22,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name=".ViewQuestion"
+            android:label="@string/title_activity_view_question" >
+        </activity>
+        <activity
+            android:name=".DisplayPicture"
+            android:label="@string/title_activity_display_picture" >
+        </activity>
     </application>
 
 </manifest>

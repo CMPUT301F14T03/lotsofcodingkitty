@@ -1,24 +1,29 @@
 package ca.ualberta.cs.cmput301t03app;
 
-<<<<<<< HEAD
 import java.sql.Date;
 
 public class Comment {
 	/*
 	 * This is the comment class. It allows users to set the text of a comment*/
 		
-	public Date dateCreated;
-	public String textBody;
+	public Date date;
+	public String comment;
 	
-	
-	public void setTextBody(String comment) {
-		textBody = comment;
-			
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	
 	
-=======
-public class Comment {
 
->>>>>>> 323de00f7fac1e7e291e8335a13d16d6dba02d16
+			
+	
 }
