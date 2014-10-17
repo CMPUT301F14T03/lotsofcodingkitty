@@ -1,6 +1,11 @@
 import java.util.ArrayList;
+import java.util.List;
+import java.sql.Date;
 
+import ca.ualberta.cs.cmput301t03app.CacheDatabase;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
+import ca.ualberta.cs.cmput301t03app.Question;
+import ca.ualberta.cs.cmput301t03app.QuestionList;
 import android.test.ActivityInstrumentationTestCase2;
 
 
@@ -14,27 +19,30 @@ public class CacheDatabaseTest extends ActivityInstrumentationTestCase2<MainActi
 		super(MainActivity.class);
 	}
 	
-	public void testSaveQuestionList() {
-		
+	public void testSaveLoadQuestionList() {		
 		
 		CacheDatabase cdb = new CacheDatabase();
-//		ArrayList<Questions> questionArray = new Arraylist<Questions>();
-//		ArrayList<Questions> newQuestionArray = new Arraylist<Questions>();
-		QuestionListController qlc = new QuestionListController();
+		QuestionList ql = new QuestionList();
 		
 		//Create Questions and add to the array
-		Question q1 = new Question();
-		Question q2 = new Question();
+		Date date = new Date(14, 0, 28);
+		Question q1 = new Question(date,"Title1","TextBody1");
+		Question q2 = new Question(date,"Title2","TextBody2");
 		
-		qlc.addQuestion(q1);
-		qlc.addQuestion(q2);
+		ql.addQuestion(q1);
+		ql.addQuestion(q2);
+		
+		List<Question> questionArray = ql.getQuestionList();
 		
 		cdb.saveQuestionList(questionArray);
 		
-		cdb.loadQuestionList(newQuestionArray);
+		List<Question> newQuestionArray = new ArrayList<Question>();
+		
+		newQuestionArray = cdb.loadQuestionList();
 		assertNotNull(newQuestionArray);
 	}
 	
+	/*Incomplete test*/
 //	public void testSearchQuestionAnswer() {
 //		
 //		CacheDatabase cdb = new CacheDatabase();

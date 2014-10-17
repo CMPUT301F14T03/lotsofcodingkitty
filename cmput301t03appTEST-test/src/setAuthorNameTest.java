@@ -1,5 +1,6 @@
 import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
+import ca.ualberta.cs.cmput301t03app.User;
 
 
 public class setAuthorNameTest extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -11,10 +12,10 @@ public class setAuthorNameTest extends ActivityInstrumentationTestCase2<MainActi
 	public void testSetName() {
 		User aUser = new User();
 		aUser.setName("Test1");
-		assertEquals(aUser.getName().equals("Test1"));
+		assert(aUser.getName().equals("Test1"));
 		String name = "Test2";
 		aUser.setName(name);
-		assertEquals(aUser.getName().equals(name));
-		assertEquals(aUser.getName().equals("Test2"));
+		assert(aUser.getName().equals(name));
+		assert(aUser.getName().equals("Test2"));
 	}
 }

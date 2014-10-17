@@ -1,7 +1,11 @@
 import java.util.ArrayList;
+import java.sql.Date;
 
 import android.test.ActivityInstrumentationTestCase2;
+import ca.ualberta.cs.cmput301t03app.Answer;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
+import ca.ualberta.cs.cmput301t03app.Question;
+import ca.ualberta.cs.cmput301t03app.QuestionList;
 
 public class sortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	
@@ -9,7 +13,28 @@ public class sortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 		super(MainActivity.class);
 	}
 	
+	// Creates a dummy questions, adds an upvote
+	// asserts that the question has one upvote
+	
+	public void testUpvoteQuestions() {
+		
+		Question testQuestion = new Question();
+		testQuestion.setRating(1);
+		assertEquals(testQuestion.getRating(),1);
+	}
+	
+	// Creates dummy answer, adds and upvote
+	// asserts that the question has one upvote
+	
+	public void testUpvoteAnswers() {
+		
+		Answer testAnswer = new Answer();
+		testAnswer.setRating(1);
+		assertEquals(testAnswer.getRating(), 1);
+	}
+	
 	// Sorts by date.  Newest date first.
+	
 	public void testSortByDate() {
 		ArrayList<Answer> ansList = new ArrayList<Answer>();
 		ansList.add(new Answer("Test 1", new Date(2014-09-01)));

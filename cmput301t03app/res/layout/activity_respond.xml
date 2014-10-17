@@ -19,7 +19,7 @@
     <EditText
         android:id="@+id/questionBody"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="0.13"
         android:ems="10"
         android:hint="@string/questionBody"
@@ -33,7 +33,7 @@
             android:id="@+id/attachImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="ATTACH_IMAGE_ICON_HERE" />
+            android:src="@drawable/ic_launcher" />
 
         <TextView
             android:id="@+id/attachImgTxt"
