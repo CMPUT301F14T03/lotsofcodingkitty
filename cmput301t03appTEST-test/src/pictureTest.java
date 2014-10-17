@@ -1,4 +1,7 @@
+import java.io.File;
+
 import android.test.ActivityInstrumentationTestCase2;
+import ca.ualberta.cs.cmput301t03app.MainActivity;
 
 
 public class pictureTest extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -10,7 +13,7 @@ public class pictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	
 	
 	public void ensurePicLessThan64k() {
-		Image img1 = new Image("filepath");
+		File img1 = new File("filepath");
 		
 		double img1Bytes = img1.length();
 		

@@ -2,8 +2,7 @@ import java.util.ArrayList;
 
 import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.Question;
-import ca.ualberta.cs.cmput301t03app.QuestionListManager;
-import android.R;
+import ca.ualberta.cs.cmput301t03app.MainActivity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 
@@ -15,13 +14,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		super(MainActivity.class);
 	}
 	
-	public void testViewByUpVotes(){
-
-		QuestionListManager qlm=new QuestionListManager();
-		ArrayList<Question> questionList=new ArrayList<Question>();
-		questionList=qlm.load();
-		assertTrue("Upvoted questions dont exist",upvoteSort(questionList)>0);
-	}
 	
 	public void testViewAnswersToQuestions(){
 

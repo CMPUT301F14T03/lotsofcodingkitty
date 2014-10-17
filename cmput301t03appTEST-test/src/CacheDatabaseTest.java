@@ -2,10 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.Date;
 
-import ca.ualberta.cs.cmput301t03app.CacheDatabase;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.Question;
-import ca.ualberta.cs.cmput301t03app.QuestionList;
 import android.test.ActivityInstrumentationTestCase2;
 
 

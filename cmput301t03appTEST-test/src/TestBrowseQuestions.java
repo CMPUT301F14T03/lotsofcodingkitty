@@ -7,8 +7,8 @@
 import java.util.ArrayList;
 
 import ca.ualberta.cs.cmput301t03app.MainActivity;
+import ca.ualberta.cs.cmput301t03app.PostController;
 import ca.ualberta.cs.cmput301t03app.Question;
-import ca.ualberta.cs.cmput301t03app.QuestionListManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 
@@ -18,15 +18,15 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 	}
 	//this is testing that the question list should be empty
 	public void testEmptyQuestions(){
-		QuestionListManager manager = new QuestionListManager();
-		ArrayList<Question> listofquestions = manager.loadQuestions();
+		PostController controller = new PostController();
+		ArrayList<Question> listofquestions = controller.getQuestionInstance();
 		assertTrue("listofquestions should be empty", listofquestions.size() == 0);
 	}
 	
 	//this is testing that the questionlist should not be empty
 	public void testGetQuestions(){
-		QuestionListManager manager = new QuestionListManager();
-		ArrayList<Question> listofquestions = manager.loadQuestions();
+		PostController controller = new PostController();
+		ArrayList<Question> listofquestions = controller.getQuestionInstance();
 		assertTrue("listofquestions not empty", listofquestions.size() > 0);
 	}	
 	
