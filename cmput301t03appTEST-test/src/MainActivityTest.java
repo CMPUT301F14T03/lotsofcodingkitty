@@ -1,5 +1,8 @@
+import java.io.File;
 import java.util.ArrayList;
 
+import ca.ualberta.cs.cmput301t03app.Answer;
+import ca.ualberta.cs.cmput301t03app.DataManager;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.Question;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
@@ -14,21 +17,22 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		super(MainActivity.class);
 	}
 	
-	
-	public void testViewAnswersToQuestions(){
-
-		EditText et=(EditText) ViewById(R.id.answerstoquestions);
-		String answers=et.getText().toString();
-		asserFalse("The string is null",answers==null);
-	}
+//  Commented out test related to viewing things
+//	
+//	public void testViewAnswersToQuestions(){
+//
+//		EditText et=(EditText) ViewById(R.id.answerstoquestions);
+//		String answers=et.getText().toString();
+//		assertFalse("The string is null",answers==null);
+//	}
 	
 	public void testCachedAnswersAndQuestions(){
 
-		UserManager um=new UserManager;
-		ArrayList<Question> cachedAnswers=new ArrayList<Question>();
+		DataManager dm = new DataManager();
+		ArrayList<Answer> cachedAnswers=new ArrayList<Answer>();
 		ArrayList<Question> cachedQuestions=new ArrayList<Question>();
-		cachedAnswers=um.loadCacheAnswers();
-		cachedQuestions=um.loadCacheQuestions();
+		cachedAnswers=dm.localLoadAnswers();
+		cachedQuestions=dm.localLoadQuestions();
 		assertTrue("There are no cached answers",cachedAnswers.size()>0);
 		assertTrue("There are no cached questions",cachedQuestions.size()>0);
 		
@@ -36,27 +40,19 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		
 	public void testAttachPictureToQuestions(){
 
-		Question question=new Question();
-		// Used from http://docs.oracle.com/javase/tutorial/2d/images/loadimage.html
-		BufferedImage img = null;
-		try {
-			// The image IO will be receiving from images from phone.
-			question.picture = ImageIO.read(new File("picture.jpg"));
-		} catch (IOException e) {
-		}
-		assertTrue("Question does not have a picture",question.picture== NULL);
+		File picture = new File("picture_path");
+		Question question = new Question();
+		question.setPicture(picture);
+		assertEquals(question.getPicture(),picture);
+		
 	}
 	
 	public void testAttachPictureToAnswers(){
 
-		Answer answer=new Answer();
-		// Used from http://docs.oracle.com/javase/tutorial/2d/images/loadimage.html
-		BufferedImage img = null;
-		try {
-			// The image IO will be receiving from images from phone.
-		    answer.picture = ImageIO.read(new File("picture.jpg"));
-		} catch (IOException e) {
-		}
-		assertTrue("Question does not have a picture",answer.picture== NULL);
+		File picture = new File("picture_path");
+		Answer answer = new Answer();
+		answer.setPicture(picture);
+		assertEquals(answer.getPicture(),picture);
+
 	}
 }

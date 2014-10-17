@@ -7,6 +7,15 @@ public class PostController {
 	UserPostCollector upc=null;
 	DataManager dm=new DataManager();
 	QuestionFilter qf =new QuestionFilter();
+	private String username;
+	
+	public void setUsername(String name){
+		this.username = name;
+	}
+	
+	public String getUsername(){
+		return username;
+	}
 	
 	public UserPostCollector getUPCInstance(){
 		if (upc==null){
@@ -40,7 +49,7 @@ public class PostController {
 	public Object loadUserPosts(){
 		return null;
 	}
-	public Object checkConnectivity(){
+	public Boolean checkConnectivity(){
 		return null;
 	}
 	public Object pushNewPosts(){
@@ -49,13 +58,13 @@ public class PostController {
 	public Object upVote(){
 		return null;
 	}
-	public Object addAnswer(){
+	public Object addAnswer(Answer answer){
 		return null;
 	}
-	public Object addQuestion(){
+	public Object addQuestion(Question question){
 		return null;
 	}
-	public Object addComment(){
+	public Object addComment(Comment comment){
 		return null;
 	}
 }

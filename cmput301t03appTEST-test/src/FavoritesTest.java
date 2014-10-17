@@ -4,7 +4,6 @@ import java.util.List;
 
 import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.Question;
-import ca.ualberta.cs.cmput301t03app.User;
 import ca.ualberta.cs.cmput301t03app.UserPostCollector;
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -25,7 +24,6 @@ public class FavoritesTest extends ActivityInstrumentationTestCase2<MainActivity
 	public void testMakeFavorite() {
 		
 		ArrayList<Question> questionArray;
-		User user = new User();
 		UserPostCollector userCollect = new UserPostCollector();
 		ArrayList<Question> ql = new ArrayList<Question>();
 		

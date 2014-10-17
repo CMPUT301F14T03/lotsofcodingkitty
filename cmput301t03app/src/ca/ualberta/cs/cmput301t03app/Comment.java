@@ -1,6 +1,6 @@
 package ca.ualberta.cs.cmput301t03app;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Comment {
 	/*
@@ -8,6 +8,11 @@ public class Comment {
 		
 	public Date date;
 	public String comment;
+	
+	public Comment(String comment) {
+		this.date = new Date();
+		this.comment = comment;
+	}
 	
 	public Date getDate() {
 		return date;

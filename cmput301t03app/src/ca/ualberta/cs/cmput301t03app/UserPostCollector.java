@@ -46,7 +46,7 @@ public class UserPostCollector {
 		return postedQuestions;
 	}
 	
-	public void setPostedQuestions(Question question) {
+	public void addPostedQuestion(Question question) {
 		getPostedQuestions().add(question);
 	}
 	
@@ -54,7 +54,7 @@ public class UserPostCollector {
 		return postedAnswers;
 	}
 	
-	public void setUserAnswers(Answer answer) {
+	public void addUserAnswer(Answer answer) {
 		getPostedAnswers().add(answer);
 	}
 	

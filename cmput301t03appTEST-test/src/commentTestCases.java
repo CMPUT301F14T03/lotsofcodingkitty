@@ -1,7 +1,9 @@
 import ca.ualberta.cs.cmput301t03app.Answer;
 import ca.ualberta.cs.cmput301t03app.Comment;
+import ca.ualberta.cs.cmput301t03app.PostController;
 import ca.ualberta.cs.cmput301t03app.Question;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
+import ca.ualberta.cs.cmput301t03app.UserPostCollector;
 import android.test.ActivityInstrumentationTestCase2;
 
 public class commentTestCases extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -23,97 +25,60 @@ public class commentTestCases extends ActivityInstrumentationTestCase2<MainActiv
 		/* Write comments, questions and answers */
 		
 		/* Check connection */
-		ConncetionManager cm = new ConnectionManager();
 		
-				
-		QuestionListController qlc = new QuestionListController();
-		Question q1 = new Question("My question");
 		
-		qlc.addQuestion(q1);
+			
+		PostController pc = new PostController();
+		Question q1 = new Question("My question", "My question body");
 		
-		AnswerController ac = new AnswerController();
+		pc.addQuestion(q1);
+		
 		Answer a1 = new Answer("My answer");
 		
-		q1.addAnswer(a1);
+		pc.addAnswer(a1);
 		
-		CommentController cc = new CommentController();
 		Comment c1 = new Comment("My comment");
 		
 		
-		if (!cm.isConnected) {
-			/* save to server */
-			
-			/* Assert its true while online */
-			
-			assertTrue("Add question", 1, qlc.ListofQuestions.size());
-			assertTrue("Add answer", 1, q1.ListofQuestions.size());
-			assertTrue("Add comment", 1, q1.ListofAnswers.size());
+		// loop until you gain connectivity? I don't know
+		
+		while(!pc.checkConnectivity()) {
 		}
+		
+		/* save to server */
+		
+		pc.pushNewPosts();
+		
+		/* Assert that after pushing, pulling(loading user posts) returns a result */
+		
+		assertFalse(pc.loadUserPosts().equals(null));
 	}
 		
 	public void writePostsOnline() {
 		/* Write comments, questions and answers */
 		
 		/* Check connection */
-		ConncetionManager cm = new ConnectionManager();
 		
-				
-		QuestionListController qlc = new QuestionListController();
-		Question q1 = new Question("My question");
+		PostController pc = new PostController();
+		Question q1 = new Question("My question", "My question body");
 		
-		qlc.addQuestion(q1);
+		pc.addQuestion(q1);
 		
-		AnswerController ac = new AnswerController();
 		Answer a1 = new Answer("My answer");
 		
-		q1.addAnswer(a1);
+		pc.addAnswer(a1);
 		
-		CommentController cc = new CommentController();
 		Comment c1 = new Comment("My comment");
 		
-		
-		if (!cm.isConnected) {
+		if (pc.checkConnectivity()) {
 			/* save to server */
 			
-			/* Assert its true while online */
+			pc.pushNewPosts();
 			
-			assertTrue("Add question", 1, qlc.ListofQuestions.size());
-			assertTrue("Add answer", 1, q1.ListofQuestions.size());
-			assertTrue("Add comment", 1, q1.ListofAnswers.size());
+			/* Assert that after pushing, pulling(loading user posts) returns a result */
+			
+			assertFalse(pc.loadUserPosts().equals(null));
 		}
 	}
-		
-		
-	public void writePosts() {
-		/* Write comments, questions and answers */
-		
-		/* Check connection */
-		ConncetionManager cm = new ConnectionManager();
-		
-				
-		QuestionListController qlc = new QuestionListController();
-		Question q1 = new Question("My question");
-		
-		qlc.addQuestion(q1);
-		
-		AnswerController ac = new AnswerController();
-		Answer a1 = new Answer("My answer");
-		
-		q1.addAnswer(a1);
-		
-		CommentController cc = new CommentController();
-		Comment c1 = new Comment("My comment");
-		
-		
-
-		assertTrue("Add question", 1, qlc.ListofQuestions.size());
-		assertTrue("Add answer", 1, q1.ListofQuestions.size());
-		assertTrue("Add comment", 1, q1.ListofAnswers.size());
-		
-	}
-
-	
-	
-	
 	
 }

@@ -1,5 +1,6 @@
 package ca.ualberta.cs.cmput301t03app;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ public class Question{
 	String subject;
 	String question;
 	String author;
-//	Image picture;
+	File picture;
 	Date date;
 	int rating;
 	
@@ -79,6 +80,12 @@ public class Question{
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+	public void setPicture(File picture){
+		this.picture = picture;
+	}
 	
+	public File getPicture(){
+		return this.picture;
+	}
 	
 }
