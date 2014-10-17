@@ -21,6 +21,28 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		// TODO Auto-generated constructor stub
 	}
 
+	public void testPullFromServer() {
+		PostController pc = new PostController();
+		while (!pc.checkConnectivity()) {
+		}
+		Object posts = new Object();
+		posts = pc.loadServerPosts();
+		assertNotSame(posts, null);
+	}
+	
+	public void testPushToServer() {
+		
+		PostController pc = new PostController();
+		Question question = new Question("Question title", "Question body");
+		Object posts = new Object();
+		pc.addQuestion(question);
+		while (!pc.checkConnectivity()) {
+		}
+		pc.saveServerPosts();
+		posts = pc.loadServerPosts();
+		assertEquals(posts, question);
+	}
+	
 	public void testWritePostsOffline() {
 		/* Write comments, questions and answers */
 		
