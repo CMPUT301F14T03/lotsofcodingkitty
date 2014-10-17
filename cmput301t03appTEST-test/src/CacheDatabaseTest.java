@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.Date;
 
+import ca.ualberta.cs.cmput301t03app.DataManager;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.Question;
 import android.test.ActivityInstrumentationTestCase2;
@@ -19,24 +20,21 @@ public class CacheDatabaseTest extends ActivityInstrumentationTestCase2<MainActi
 	
 	public void testSaveLoadQuestionList() {		
 		
-		CacheDatabase cdb = new CacheDatabase();
-		QuestionList ql = new QuestionList();
+		DataManager dataManager = new DataManager();
+		ArrayList<Question> q = new ArrayList<Question>();
 		
 		//Create Questions and add to the array
-		Date date = new Date(14, 0, 28);
-		Question q1 = new Question(date,"Title1","TextBody1");
-		Question q2 = new Question(date,"Title2","TextBody2");
+		Question q1 = new Question("Title1","TextBody1");
+		Question q2 = new Question("Title2","TextBody2");
 		
-		ql.addQuestion(q1);
-		ql.addQuestion(q2);
+		q.add(q1);
+		q.add(q2);
 		
-		List<Question> questionArray = ql.getQuestionList();
+		dataManager.localSaveQuestions(q);
 		
-		cdb.saveQuestionList(questionArray);
+		ArrayList<Question> newQuestionArray = new ArrayList<Question>();
 		
-		List<Question> newQuestionArray = new ArrayList<Question>();
-		
-		newQuestionArray = cdb.loadQuestionList();
+		newQuestionArray = dataManager.localLoadQuestions();
 		assertNotNull(newQuestionArray);
 	}
 	
