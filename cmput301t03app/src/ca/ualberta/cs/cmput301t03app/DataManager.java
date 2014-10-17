@@ -16,20 +16,20 @@ public class DataManager {
 		return null;
 	}
 	
-	public Object localSaveQuestions(ArrayList<Question> Questions){
-		return null;
-	}
-	
-//	public Object localLoad(){
+//	public Object localSaveQuestions(ArrayList<Question> Questions){
 //		return null;
 //	}
 	
-	public ArrayList<Question> localLoadQuestions() {
+	public Object localLoad(){
 		return null;
 	}
 	
-	public ArrayList<Answer> localLoadAnswers() {
-		return null;
-	}
+//	public ArrayList<Question> localLoadQuestions() {
+//		return null;
+//	}
+//	
+//	public ArrayList<Answer> localLoadAnswers() {
+//		return null;
+//	}
 
 }

@@ -41,13 +41,13 @@ public class Question{
 	public ArrayList<Comment> getComments() {
 		return comments;
 	}
-	public void addComments(Comment comment) {
+	public void addComment(Comment comment) {
 		getComments().add(comment);
 	}
 	public ArrayList<Answer> getAnswers() {
 		return answers;
 	}
-	public void addAnswers(Answer answer) {
+	public void addAnswer(Answer answer) {
 		getAnswers().add(answer);
 	}
 	public String getSubject() {

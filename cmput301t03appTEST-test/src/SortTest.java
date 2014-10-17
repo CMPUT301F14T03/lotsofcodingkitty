@@ -7,9 +7,9 @@ import ca.ualberta.cs.cmput301t03app.Answer;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.Question;
 
-public class sortTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	
-	public sortTest() {
+	public SortTest() {
 		super(MainActivity.class);
 	}
 	
