@@ -22,7 +22,7 @@ public class FavoritesTest extends ActivityInstrumentationTestCase2<MainActivity
 	// assert that the initialized array is the same as the array
 	// returned by get favourites
 	
-	public void testSaveFavorite() {
+	public void testMakeFavorite() {
 		
 		ArrayList<Question> questionArray;
 		User user = new User();
@@ -39,5 +39,9 @@ public class FavoritesTest extends ActivityInstrumentationTestCase2<MainActivity
 		
 		assertEquals(ql, questionArray);
 		
+	}
+	
+	public void testSaveFavorites() {
+		fail();
 	}
 }
