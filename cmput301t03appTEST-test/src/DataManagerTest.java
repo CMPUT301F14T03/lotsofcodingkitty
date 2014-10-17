@@ -1,13 +1,11 @@
 import java.util.ArrayList;
-import java.util.List;
-import java.sql.Date;
 
-import ca.ualberta.cs.cmput301t03app.Answer;
+import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.cmput301t03app.DataManager;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.PostController;
 import ca.ualberta.cs.cmput301t03app.Question;
-import android.test.ActivityInstrumentationTestCase2;
+import ca.ualberta.cs.cmput301t03app.UserPostCollector;
 
 
 public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -32,6 +30,7 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		q.add(q1);
 		q.add(q2);
 		
+		
 		dataManager.localSave();
 		
 		Object newQuestionArray;
@@ -44,6 +43,28 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		
 		PostController pc = new PostController();
 		assertNotNull(pc.getQuestionInstance());
+	}
+	
+	public void testSaveFavorites(){
+		
+		
+		ArrayList<Question> questionArray;
+		UserPostCollector userCollect = new UserPostCollector();
+		ArrayList<Question> ql = new ArrayList<Question>();
+		
+		Question q = new Question("Title1","TextBody1");
+		
+		ql.add(q);
+		
+		userCollect.addFavoriteQuestions(q);
+		
+		questionArray = userCollect.getFavoriteQuestions();
+		
+		assertEquals(ql, questionArray);
+		
+	}
+	public void testSaveFavorite(){
+		
 	}
 	
 	
