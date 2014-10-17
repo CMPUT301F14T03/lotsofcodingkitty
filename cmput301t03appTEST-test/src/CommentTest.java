@@ -6,7 +6,7 @@ import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.UserPostCollector;
 import android.test.ActivityInstrumentationTestCase2;
 
-public class commentTestCases extends ActivityInstrumentationTestCase2<MainActivity> {
+public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
 	/*
 	* View newest comment by default  User, Author
@@ -16,12 +16,12 @@ public class commentTestCases extends ActivityInstrumentationTestCase2<MainActiv
 	* */
 	
 	
-	public commentTestCases() {
+	public CommentTest() {
 		super(MainActivity.class);
 		// TODO Auto-generated constructor stub
 	}
 
-	public void writePostsOffline() {
+	public void testWritePostsOffline() {
 		/* Write comments, questions and answers */
 		
 		/* Check connection */
@@ -54,7 +54,7 @@ public class commentTestCases extends ActivityInstrumentationTestCase2<MainActiv
 		assertFalse(pc.loadUserPosts().equals(null));
 	}
 		
-	public void writePostsOnline() {
+	public void testWritePostsOnline() {
 		/* Write comments, questions and answers */
 		
 		/* Check connection */

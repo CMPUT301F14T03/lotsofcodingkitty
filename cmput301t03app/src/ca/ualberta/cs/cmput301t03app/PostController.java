@@ -37,6 +37,9 @@ public class PostController {
 	public Object getQuestion(){
 		return null;
 	}
+	public Object getComment(){
+		return null;
+	}
 	public Object saveServerPosts(){
 		return null;
 	}
