@@ -1,8 +1,7 @@
-
-
 import ca.ualberta.cs.cmput301t03app.Answer;
 import ca.ualberta.cs.cmput301t03app.Comment;
 import ca.ualberta.cs.cmput301t03app.Question;
+import ca.ualberta.cs.cmput301t03app.MainActivity;
 import android.test.ActivityInstrumentationTestCase2;
 
 public class commentTestCases extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -15,6 +14,11 @@ public class commentTestCases extends ActivityInstrumentationTestCase2<MainActiv
 	* */
 	
 	
+	public commentTestCases() {
+		super(MainActivity.class);
+		// TODO Auto-generated constructor stub
+	}
+
 	public void writePostsOffline() {
 		/* Write comments, questions and answers */
 		

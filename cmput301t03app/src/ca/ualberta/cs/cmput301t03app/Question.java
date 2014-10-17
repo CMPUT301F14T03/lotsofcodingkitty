@@ -23,6 +23,13 @@ public class Question{
 		this.rating = 0;
 	}
 	
+	public Question(String subject, String question) {
+		this.date = new Date();
+		this.subject = subject;
+		this.question = question;
+		this.rating = 0;
+	}
+	
 	public Question(){
 		this.date = null;
 		this.subject = null;
