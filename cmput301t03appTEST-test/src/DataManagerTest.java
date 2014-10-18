@@ -63,9 +63,6 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		assertEquals(ql, questionArray);
 		
 	}
-	public void testSaveFavorite(){
-		
-	}
 	
 	
 	
