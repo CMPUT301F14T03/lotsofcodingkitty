@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ualberta.cs.cmput301t03app.MainActivity;
+import ca.ualberta.cs.cmput301t03app.PostController;
 import ca.ualberta.cs.cmput301t03app.Question;
 import ca.ualberta.cs.cmput301t03app.UserPostCollector;
 import android.test.ActivityInstrumentationTestCase2;
@@ -40,6 +41,19 @@ public class FavoritesTest extends ActivityInstrumentationTestCase2<MainActivity
 	}
 	
 	public void testSaveFavorites() {
-		fail();
+		ArrayList<Question> questionArray;
+		PostController pc = new PostController();
+		UserPostCollector upc;
+		
+		Question q = new Question("Title1","TextBody1");
+		ArrayList<Question> qlist = new ArrayList<Question>();
+		qlist.add(q);
+		
+		upc = pc.getUPCInstance();
+		upc.addFavoriteQuestions(q);
+		assertEquals(upc.getFavoriteQuestions(), qlist);
+		
+		
+		
 	}
 }
