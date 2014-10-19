@@ -20,7 +20,7 @@ public PostingTest() {
 		Question q1 = new Question();
 		pc.getQuestionInstance().add(q1);
 		
-		assertEquals(pc.getQuestion(),q1);
+		assertEquals("Question not posted correctly.", pc.getQuestion(),q1);
 	}
 	
 	public void testPostAnswer() {
@@ -30,7 +30,7 @@ public PostingTest() {
 		Answer a1 = new Answer();
 		q1.addAnswer(a1);
 		
-		assertEquals(pc.getAnswer(),a1);
+		assertEquals("Answer not posted correctly.",pc.getAnswer(),a1);
 	}
 	
 	public void testPostCommentToQuestion() {
@@ -40,6 +40,6 @@ public PostingTest() {
 		Comment c1 = new Comment("Hello World.");
 		pc.addComment(c1);
 		
-		assertEquals(pc.getComment(),c1);
+		assertEquals("Comment not posted correctly.",pc.getComment(),c1);
 	}
 }

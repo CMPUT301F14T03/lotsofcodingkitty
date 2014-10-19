@@ -22,7 +22,7 @@ public class FavoritesTest extends ActivityInstrumentationTestCase2<MainActivity
 	// assert that the initialized array is the same as the array
 	// returned by get favourites
 	
-	public void testMakeFavorite() {
+	public void testSaveFavorites() {
 		
 		ArrayList<Question> questionArray;
 		UserPostCollector userCollect = new UserPostCollector();
@@ -36,24 +36,7 @@ public class FavoritesTest extends ActivityInstrumentationTestCase2<MainActivity
 		
 		questionArray = userCollect.getFavoriteQuestions();
 		
-		assertEquals(ql, questionArray);
-		
-	}
-	
-	public void testSaveFavorites() {
-		ArrayList<Question> questionArray;
-		PostController pc = new PostController();
-		UserPostCollector upc;
-		
-		Question q = new Question("Title1","TextBody1");
-		ArrayList<Question> qlist = new ArrayList<Question>();
-		qlist.add(q);
-		
-		upc = pc.getUPCInstance();
-		upc.addFavoriteQuestions(q);
-		assertEquals(upc.getFavoriteQuestions(), qlist);
-		
-		
+		assertEquals("Questions saved not same as questions retrieved.", ql, questionArray);
 		
 	}
 }

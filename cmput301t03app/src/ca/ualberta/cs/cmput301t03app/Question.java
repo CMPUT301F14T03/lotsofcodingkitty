@@ -37,7 +37,7 @@ public class Question{
 		this.question = null;
 		this.rating = 0;
 	}
-	
+
 	public ArrayList<Comment> getComments() {
 		return comments;
 	}
@@ -62,12 +62,6 @@ public class Question{
 	public void setQuestion(String question) {
 		this.question = question;
 	}
-//	public Image getPicture() {
-//		return picture;
-//	}
-//	public void setPicture(Image picture) {
-//		this.picture = picture;
-//	}
 	public Date getDate() {
 		return date;
 	}

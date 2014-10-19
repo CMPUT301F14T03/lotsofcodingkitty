@@ -22,8 +22,6 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		
 		DataManager dataManager = new DataManager();
 		ArrayList<Question> q = new ArrayList<Question>();
-		
-		//Create Questions and add to the array
 		Question q1 = new Question("Title1","TextBody1");
 		Question q2 = new Question("Title2","TextBody2");
 		
@@ -36,13 +34,13 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		Object newQuestionArray;
 		
 		newQuestionArray = dataManager.localLoad();
-		assertNotNull(newQuestionArray);
+		assertNotNull("No questions loaded.",newQuestionArray);
 	}
 	
 	public void testBrowseQuestions() {
 		
 		PostController pc = new PostController();
-		assertNotNull(pc.getQuestionInstance());
+		assertNotNull("No questions found.", pc.getQuestionInstance());
 	}
 	
 	public void testSaveFavorites(){
@@ -60,10 +58,7 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		
 		questionArray = userCollect.getFavoriteQuestions();
 		
-		assertEquals(ql, questionArray);
-		
-	}
-	public void testSaveFavorite(){
+		assertEquals("Favorites not saved.", ql, questionArray);
 		
 	}
 	

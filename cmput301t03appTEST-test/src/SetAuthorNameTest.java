@@ -12,10 +12,10 @@ public class SetAuthorNameTest extends ActivityInstrumentationTestCase2<MainActi
 	public void testSetName() {
 		PostController aUser = new PostController();
 		aUser.setUsername("Test1");
-		assertTrue(aUser.getUsername().equals("Test1"));
+		assertTrue("Username not set properly.", aUser.getUsername().equals("Test1"));
 		String name = "Test2";
 		aUser.setUsername(name);
-		assertTrue(aUser.getUsername().equals(name));
-		assertTrue(aUser.getUsername().equals("Test2"));
+		assertTrue("Username not changed properly.", aUser.getUsername().equals(name));
+		assertTrue("Username not same as expected.", aUser.getUsername().equals("Test2"));
 	}
 }
