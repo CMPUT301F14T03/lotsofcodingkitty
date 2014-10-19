@@ -21,14 +21,14 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 	public void testEmptyQuestions(){
 		PostController controller = new PostController();
 		ArrayList<Question> listofquestions = controller.getQuestionInstance();
-		assertTrue("listofquestions should be empty", listofquestions.size() == 0);
+		assertTrue("Question list should be empty.", listofquestions.size() == 0);
 	}
 	
 	//this is testing that the questionlist should not be empty
 	public void testGetQuestions(){
 		PostController controller = new PostController();
 		ArrayList<Question> listofquestions = controller.getQuestionInstance();
-		assertTrue("listofquestions not empty", listofquestions.size() > 0);
+		assertTrue("Failed to get questions, question list empty.", listofquestions.size() > 0);
 	}	
 	
 	public void testViewNumberOfAnswersToQuestion() {
@@ -37,28 +37,6 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 		Answer a1 = new Answer();
 		
 		q1.addAnswer(a1);
-		assertEquals(q1.getAnswers().size(),1);
-	}
-	
-	public void testUpvoteQuestion() {
-		
-		PostController pc = new PostController();
-		Question q1 = new Question();
-		
-		pc.addQuestion(q1);
-		pc.upVote();
-		
-		assertEquals(q1.getRating(),1);
-	}
-	
-	public void testUpvoteAnswer() {
-		
-		PostController pc = new PostController();
-		Answer a1 = new Answer();
-		
-		pc.addAnswer(a1);
-		pc.upVote();
-		
-		assertEquals(a1.getRating(),1);
+		assertEquals("Not expected number of answers.", q1.getAnswers().size(),1);
 	}
 }

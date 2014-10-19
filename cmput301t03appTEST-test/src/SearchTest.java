@@ -35,7 +35,7 @@ public class SearchTest extends ActivityInstrumentationTestCase2<MainActivity> {
 		assertNotNull(searchResults);
 		
 		Question q3 = searchResults.get(0);
-		assertEquals(q3.getSubject(),q1.getSubject());
+		assertEquals("Search results inconsistent with expected results.",q3.getSubject(),q1.getSubject());
 		
 		
 	}

@@ -30,7 +30,7 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		File picture = new File("picture_path");
 		Question question = new Question();
 		question.setPicture(picture);
-		assertEquals(question.getPicture(),picture);
+		assertEquals("Picture not attached correctly to question.", question.getPicture(),picture);
 		
 	}
 	
@@ -39,7 +39,7 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		File picture = new File("picture_path");
 		Answer answer = new Answer();
 		answer.setPicture(picture);
-		assertEquals(answer.getPicture(),picture);
+		assertEquals("Picture not attached correctly to answer.", answer.getPicture(),picture);
 
 	}
 	

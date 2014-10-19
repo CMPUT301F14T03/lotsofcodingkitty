@@ -36,17 +36,7 @@ public class FavoritesTest extends ActivityInstrumentationTestCase2<MainActivity
 		
 		questionArray = userCollect.getFavoriteQuestions();
 		
-		assertEquals(ql, questionArray);
-		
-	}
-	
-	// Just tries getting and setting a questions favorite boolean
-	
-	public void testMakeFavorite() {
-		Question q = new Question("My question", "Question body");
-		q.setFavorited(true);
-		assertTrue(q.getFavorited());
-		
+		assertEquals("Questions saved not same as questions retrieved.", ql, questionArray);
 		
 	}
 }

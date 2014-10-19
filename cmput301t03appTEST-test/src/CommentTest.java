@@ -7,13 +7,6 @@ import ca.ualberta.cs.cmput301t03app.UserPostCollector;
 import android.test.ActivityInstrumentationTestCase2;
 
 public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> {
-
-	/*
-	* View newest comment by default  User, Author
-  	* Write comments, questions and answers offline  Author
-  	* Push comments, questions and answers when connected  Author
-  	* Write comments, questions and answers
-	* */
 	
 	
 	public CommentTest() {
@@ -21,14 +14,23 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		// TODO Auto-generated constructor stub
 	}
 
+	// Test creates a new PostController object, infinitely loops until
+	// connectivity is determined, then attempts to pull a posts object
+	// from the server.
+	
 	public void testPullFromServer() {
 		PostController pc = new PostController();
 		while (!pc.checkConnectivity()) {
 		}
 		Object posts = new Object();
 		posts = pc.loadServerPosts();
-		assertNotSame(posts, null);
+		assertNotSame("No posts loaded from server.", posts, null);
 	}
+	
+	// Test creates a new post object, waits for server connectivity,
+	// calls the postcontroller to save the object to the server
+	// and then loads the pushed object. Asserts that loaded object
+	// and posted object are the same.
 	
 	public void testPushToServer() {
 		
@@ -40,25 +42,18 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		}
 		pc.saveServerPosts();
 		posts = pc.loadServerPosts();
-		assertEquals(posts, question);
+		assertEquals("Retrieved server questions not same and saved questions.", posts, question);
 	}
 	
 	public void testWritePostsOffline() {
 		/* Write comments, questions and answers */
-		
 		/* Check connection */
-		
-		
 			
 		PostController pc = new PostController();
 		Question q1 = new Question("My question", "My question body");
-		
 		pc.addQuestion(q1);
-		
 		Answer a1 = new Answer("My answer");
-		
 		pc.addAnswer(a1);
-		
 		Comment c1 = new Comment("My comment");
 		
 		
@@ -73,23 +68,19 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		
 		/* Assert that after pushing, pulling(loading user posts) returns a result */
 		
-		assertFalse(pc.loadUserPosts().equals(null));
+		assertFalse("No posts pushed to server.", pc.loadUserPosts().equals(null));
 	}
 		
 	public void testWritePostsOnline() {
-		/* Write comments, questions and answers */
 		
+		/* Write comments, questions and answers */
 		/* Check connection */
 		
 		PostController pc = new PostController();
 		Question q1 = new Question("My question", "My question body");
-		
 		pc.addQuestion(q1);
-		
 		Answer a1 = new Answer("My answer");
-		
 		pc.addAnswer(a1);
-		
 		Comment c1 = new Comment("My comment");
 		
 		if (pc.checkConnectivity()) {
@@ -99,7 +90,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 			
 			/* Assert that after pushing, pulling(loading user posts) returns a result */
 			
-			assertFalse(pc.loadUserPosts().equals(null));
+			assertFalse("No posts pushed to server.", pc.loadUserPosts().equals(null));
 		}
 	}
 	
