@@ -55,6 +55,8 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	// Asserts that when a question is added to the favorite questions array
 	// and then when the function getFavoriteQuestions() is called, it will
 	// return a corresponding array of all specific favorited questions.
+	// This question is also already in another class already,
+	// should delete one of these.
 	
 	public void testSaveFavorites(){
 		
