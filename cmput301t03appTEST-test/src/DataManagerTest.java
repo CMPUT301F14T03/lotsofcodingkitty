@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
-import ca.ualberta.cs.cmput301t03app.DataManager;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.PostController;
 import ca.ualberta.cs.cmput301t03app.Question;
+import ca.ualberta.cs.cmput301t03app.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.UserPostCollector;
 import ca.ualberta.cs.cmput301t03app.iDataManager;
 
@@ -23,7 +23,7 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	
 	public void testSaveLoadQuestionList() {		
 		//testing if question posted saved to cache
-		iDataManager dataManager;
+		iDataManager dataManager = new ServerDataManager();
 		ArrayList<Question> q = new ArrayList<Question>();
 		Question q1 = new Question("Title1","TextBody1");
 		Question q2 = new Question("Title2","TextBody2");
