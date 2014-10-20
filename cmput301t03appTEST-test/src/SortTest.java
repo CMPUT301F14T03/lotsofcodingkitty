@@ -20,7 +20,7 @@ public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 		
 		Question testQuestion = new Question();
 		testQuestion.setRating(1);
-		assertEquals(testQuestion.getRating(),1);
+		assertEquals("Question not upvoted properly.", testQuestion.getRating(),1);
 	}
 	
 	// Creates dummy answer, adds and upvote
@@ -30,7 +30,7 @@ public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 		
 		Answer testAnswer = new Answer();
 		testAnswer.setRating(1);
-		assertEquals(testAnswer.getRating(), 1);
+		assertEquals("Answer not upvoted properly", testAnswer.getRating(), 1);
 	}
 	
 	// Sorts by date.  Newest date first.
@@ -43,8 +43,8 @@ public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 		
 		// define a method for sorting
 		// Collections.sort(ansList);
-		assertTrue(ansList.get(0).getDate().compareTo(ansList.get(1).getDate())<0);
-		assertTrue(ansList.get(1).getDate().compareTo(ansList.get(2).getDate())<0);
+		assertTrue("Answer list not sorted properly by date.", ansList.get(0).getDate().compareTo(ansList.get(1).getDate())<0);
+		assertTrue("Answer list not sorted properly by date.", ansList.get(1).getDate().compareTo(ansList.get(2).getDate())<0);
 	}
 	
 	//Sorts by picture.  Objects with pictures are at the top of the list
@@ -58,7 +58,7 @@ public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 		// define a method for sorting
 		// Collections.sort(qList);
 		//assertTrue(qList.get(0).hasPicture());
-		assertTrue(qList.get(0).getSubject().equals("Test Subject2"));
+		assertTrue("Question list not sorted properly by picture.", qList.get(0).getSubject().equals("Test Subject2"));
 	}
 	
 	// Sort by score.  Highest score first.
@@ -70,6 +70,6 @@ public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 		qList.get(1).setRating(10);
 		// add a sort method
 		//qList.sortByRating();
-		assertTrue(qList.get(1).getRating() > qList.get(1).getRating());
+		assertTrue("Question list not sorted properly by score.", qList.get(1).getRating() > qList.get(1).getRating());
 	}
 }

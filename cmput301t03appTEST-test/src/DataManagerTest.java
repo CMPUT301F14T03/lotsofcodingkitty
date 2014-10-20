@@ -1,11 +1,12 @@
 import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
-import ca.ualberta.cs.cmput301t03app.DataManager;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.PostController;
 import ca.ualberta.cs.cmput301t03app.Question;
+import ca.ualberta.cs.cmput301t03app.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.UserPostCollector;
+import ca.ualberta.cs.cmput301t03app.iDataManager;
 
 
 public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -18,12 +19,12 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		super(MainActivity.class);
 	}
 	
+	// This test will need to be changed to reflect our new UML.
+	
 	public void testSaveLoadQuestionList() {		
-		
-		DataManager dataManager = new DataManager();
+		//testing if question posted saved to cache
+		iDataManager dataManager = new ServerDataManager();
 		ArrayList<Question> q = new ArrayList<Question>();
-		
-		//Create Questions and add to the array
 		Question q1 = new Question("Title1","TextBody1");
 		Question q2 = new Question("Title2","TextBody2");
 		
@@ -31,19 +32,32 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		q.add(q2);
 		
 		
-		dataManager.localSave();
+		dataManager.save(q);
 		
 		Object newQuestionArray;
 		
-		newQuestionArray = dataManager.localLoad();
-		assertNotNull(newQuestionArray);
+		newQuestionArray = dataManager.load();
+		assertNotNull("No questions loaded.",newQuestionArray);
 	}
+	
+	// Creates a new post controller and adds a question into the controller
+	// Asserts that the questions returned from pc.getQuestionInstance is not an empty list,
+	// which it should not be given that we have added a question to it.
 	
 	public void testBrowseQuestions() {
 		
 		PostController pc = new PostController();
-		assertNotNull(pc.getQuestionInstance());
+		Question q = new Question("Title", "Body");
+		pc.addQuestion(q);
+		assertNotNull("No questions found.", pc.getQuestionInstance());
 	}
+	
+	
+	// Asserts that when a question is added to the favorite questions array
+	// and then when the function getFavoriteQuestions() is called, it will
+	// return a corresponding array of all specific favorited questions.
+	// This test is also already in another class already,
+	// should delete one of these.
 	
 	public void testSaveFavorites(){
 		
@@ -60,12 +74,15 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		
 		questionArray = userCollect.getFavoriteQuestions();
 		
-		assertEquals(ql, questionArray);
+		assertEquals("Favorites not saved.", ql, questionArray);
 		
 	}
 	
 	
 	
+	
+	// Kind of an important test case
+	// should probably get this one coded
 	
 	
 //	public void testCachedAnswersAndQuestions(){

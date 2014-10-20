@@ -17,48 +17,44 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 	public TestBrowseQuestions(){
 		super(MainActivity.class);
 	}
-	//this is testing that the question list should be empty
+	
+	// Creates a new postcontroller and an ArrayList<Question>, and then sets the array
+	// to be the uninitiated question list (all values null)
+	// Asserts that the size of the list is empty
+	
 	public void testEmptyQuestions(){
 		PostController controller = new PostController();
 		ArrayList<Question> listofquestions = controller.getQuestionInstance();
-		assertTrue("listofquestions should be empty", listofquestions.size() == 0);
+		assertTrue("Question list should be empty.", listofquestions.size() == 0);
 	}
 	
-	//this is testing that the questionlist should not be empty
+	// Creates a new postcontroller and a new Question, then adds the question to
+	// the postcontrollers question list. Asserts that the size of the list returned by 
+	// getQuestionInstance is larger than zero, which it should be given that
+	// we've just added a question to it.
+	
 	public void testGetQuestions(){
 		PostController controller = new PostController();
+		Question q = new Question("Title", "body");
+		controller.addQuestion(q);
 		ArrayList<Question> listofquestions = controller.getQuestionInstance();
-		assertTrue("listofquestions not empty", listofquestions.size() > 0);
+		assertTrue("Failed to get questions, question list empty.", listofquestions.size() > 0);
 	}	
+	
+	// Creates an answer and postcontroller, then adds the question to the post controllers
+	// answer list and then asserts that the size of the answer list is 1, which it should be
+	// given that we just added exactly one answer to the answerlist
+	
+	// however I think the way we do this test should be related to testing the statistic function
+	// that calculates the number of answers to a certain question
+	// i.e creating question, adding answer children, having the function count
+	// the number of expected children of that question
 	
 	public void testViewNumberOfAnswersToQuestion() {
 		
-		Question q1 = new Question();
 		Answer a1 = new Answer();
-		
+		PostController q1 = new PostController();
 		q1.addAnswer(a1);
-		assertEquals(q1.getAnswers().size(),1);
-	}
-	
-	public void testUpvoteQuestion() {
-		
-		PostController pc = new PostController();
-		Question q1 = new Question();
-		
-		pc.addQuestion(q1);
-		pc.upVote();
-		
-		assertEquals(q1.getRating(),1);
-	}
-	
-	public void testUpvoteAnswer() {
-		
-		PostController pc = new PostController();
-		Answer a1 = new Answer();
-		
-		pc.addAnswer(a1);
-		pc.upVote();
-		
-		assertEquals(a1.getRating(),1);
+		assertEquals("Not expected number of answers.", q1.getAnswers().size(),1);
 	}
 }

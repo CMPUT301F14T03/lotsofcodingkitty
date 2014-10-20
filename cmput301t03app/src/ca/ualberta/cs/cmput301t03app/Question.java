@@ -13,7 +13,6 @@ public class Question{
 	String subject;
 	String question;
 	String author;
-	Boolean favorited;
 	File picture;
 	Date date;
 	int rating;
@@ -38,15 +37,7 @@ public class Question{
 		this.question = null;
 		this.rating = 0;
 	}
-	
-	public Boolean getFavorited() {
-		return favorited;
-	}
-	
-	public void setFavorited(boolean favorited) {
-		this.favorited = favorited;
-	}
-	
+
 	public ArrayList<Comment> getComments() {
 		return comments;
 	}
