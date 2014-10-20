@@ -13,15 +13,21 @@ public PostingTest() {
 		super(MainActivity.class);
 	}
 
+	// Creates a new post contrtoller and new question
+	// Adds the question to the newly created post controller
+	// Asserts that the question getter method of the post controller
+	// returns the earlier created question
 
 	public void testPostQuestion() {
 		
 		PostController pc = new PostController();
 		Question q1 = new Question();
-		pc.getQuestionInstance().add(q1);
+		pc.add(q1);
 		
 		assertEquals("Question not posted correctly.", pc.getQuestion(),q1);
 	}
+	
+	// Same as above but with answer object
 	
 	public void testPostAnswer() {
 		
@@ -32,6 +38,8 @@ public PostingTest() {
 		
 		assertEquals("Answer not posted correctly.",pc.getAnswer(),a1);
 	}
+	
+	// Same as above but with comment object
 	
 	public void testPostCommentToQuestion() {
 		
