@@ -23,7 +23,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		while (!pc.checkConnectivity()) {
 		}
 		Object posts = new Object();
-		posts = pc.loadServerPosts();
+		posts = pc.load();
 		assertNotSame("No posts loaded from server.", posts, null);
 	}
 	
@@ -40,8 +40,8 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		pc.addQuestion(question);
 		while (!pc.checkConnectivity()) {
 		}
-		pc.saveServerPosts();
-		posts = pc.loadServerPosts();
+		pc.save();
+		posts = pc.load();
 		assertEquals("Retrieved server questions not same and saved questions.", posts, question);
 	}
 	
@@ -68,7 +68,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		
 		/* Assert that after pushing, pulling(loading user posts) returns a result */
 		
-		assertFalse("No posts pushed to server.", pc.loadUserPosts().equals(null));
+		assertFalse("No posts pushed to server.", pc.load().equals(null));
 	}
 		
 	public void testWritePostsOnline() {
@@ -90,7 +90,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 			
 			/* Assert that after pushing, pulling(loading user posts) returns a result */
 			
-			assertFalse("No posts pushed to server.", pc.loadUserPosts().equals(null));
+			assertFalse("No posts pushed to server.", pc.load().equals(null));
 		}
 	}
 	

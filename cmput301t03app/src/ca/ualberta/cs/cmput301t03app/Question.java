@@ -4,9 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
-import android.media.*;
-
-
 public class Question{
 	ArrayList<Comment> comments;
 	ArrayList<Answer> answers;
@@ -38,6 +35,10 @@ public class Question{
 		this.rating = 0;
 	}
 
+	public int countAnswers() {
+		return answers.size();
+	}
+	
 	public ArrayList<Comment> getComments() {
 		return comments;
 	}
