@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class PostController {
 	ArrayList<Question> questions=null;
 	UserPostCollector upc=null;
-	DataManager dm=new DataManager();
+	iDataManager dm;
 	QuestionFilter qf =new QuestionFilter();
 	private String username;
 	
