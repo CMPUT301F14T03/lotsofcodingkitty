@@ -15,6 +15,8 @@ public class SearchTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	
 	public void testSearch() {
 		
+		// in real search should have a data manager class here
+		
 		ArrayList<Question> qList = new ArrayList<Question>();
 		String searchWord = "test";
 		Question q1 = new Question("This is test question?","TextBody1");
@@ -27,14 +29,19 @@ public class SearchTest extends ActivityInstrumentationTestCase2<MainActivity> {
 		
 		//Save questionArray into the server
 		
-		
+		//data manager is called to save questions
 		
 		// searchResults = sbd.search(searchWord); 
 		//Searches for searchWord in the list of questions in the server
 		
+		// elasticsearch query will go here
+		
 		assertNotNull(searchResults);
 		
 		Question q3 = searchResults.get(0);
+		
+		//asserts that the results obtained are the expected results of the search query
+		
 		assertEquals("Search results inconsistent with expected results.",q3.getSubject(),q1.getSubject());
 		
 		
