@@ -17,5 +17,9 @@ public class ServerDataManager implements iDataManager{
 		
 	}
 	
+	public void clearLocalNonPushed(){
+		
+	}
+	
 
 }

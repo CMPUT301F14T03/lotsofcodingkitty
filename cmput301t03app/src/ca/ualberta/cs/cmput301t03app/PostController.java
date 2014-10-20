@@ -40,16 +40,11 @@ public class PostController {
 	public Object getComment(){
 		return null;
 	}
-	public Object saveServerPosts(){
+	public Object save(){
 		return null;
 	}
-	public Object loadServerPosts(){
-		return null;
-	}
-	public Object saveUserPosts(){
-		return null;
-	}
-	public Object loadUserPosts(){
+
+	public Object load(){
 		return null;
 	}
 	public Boolean checkConnectivity(){
