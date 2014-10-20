@@ -11,7 +11,8 @@ public class ServerDataManager implements iDataManager{
 	}
 
 	@Override
-	public void load() {
+	public ArrayList<Question> load() {
+		return null;
 		// TODO Auto-generated method stub
 		
 	}
