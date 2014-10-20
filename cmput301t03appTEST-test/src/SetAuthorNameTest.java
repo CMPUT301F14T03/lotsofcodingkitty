@@ -9,13 +9,18 @@ public class SetAuthorNameTest extends ActivityInstrumentationTestCase2<MainActi
 		super(MainActivity.class);
 	}
 	
+	// Creates a new post controller containing a username "Test1" then asserts
+	// that the username of the user is "Test1". It then takes a new name "Test2"
+	// Sets the username once more and asserts the username returned by the user
+	// is equal to "Test2"
+	
+	
 	public void testSetName() {
 		PostController aUser = new PostController();
 		aUser.setUsername("Test1");
 		assertTrue("Username not set properly.", aUser.getUsername().equals("Test1"));
 		String name = "Test2";
 		aUser.setUsername(name);
-		assertTrue("Username not changed properly.", aUser.getUsername().equals(name));
 		assertTrue("Username not same as expected.", aUser.getUsername().equals("Test2"));
 	}
 }

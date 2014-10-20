@@ -13,6 +13,10 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		// TODO Auto-generated constructor stub
 	}
 	
+	// Creates a new file from <filepath>,
+	// gets the size of the file
+	// converts to kilobytes
+	// and asserts that the size of the file is less than 64
 	
 	public void ensurePicLessThan64k() {
 		File img1 = new File("filepath");
@@ -21,11 +25,17 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		
 		double imgKB= (img1Bytes / 1024);
 		
-		assertEquals("Same size", imgKB, 64);
+		assertTrue("Image not less than 64 kb.", imgKB<64);
 		
 	}
 	
 	public void testAttachPictureToQuestions() {
+
+	// Creates new picture from "picture_path"
+	// Creates a new question object
+	// Adds the picture to the question file
+	// attribute. Asserts that the questions file
+	// attribute is the same as the picture we specified.
 
 		File picture = new File("picture_path");
 		Question question = new Question();
@@ -33,6 +43,8 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		assertEquals("Picture not attached correctly to question.", question.getPicture(),picture);
 		
 	}
+	
+	// Same test as above.
 	
 	public void testAttachPictureToAnswers() {
 
