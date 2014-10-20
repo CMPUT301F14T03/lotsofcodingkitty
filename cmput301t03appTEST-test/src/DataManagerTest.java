@@ -18,6 +18,8 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		super(MainActivity.class);
 	}
 	
+	// This test will need to be changed to reflect our new UML.
+	
 	public void testSaveLoadQuestionList() {		
 		
 		DataManager dataManager = new DataManager();
@@ -37,11 +39,22 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		assertNotNull("No questions loaded.",newQuestionArray);
 	}
 	
+	// Creates a new post controller and adds a question into the controller
+	// Asserts that the questions returned from pc.getQuestionInstance is not an empty list,
+	// which it should not be given that we have added a question to it.
+	
 	public void testBrowseQuestions() {
 		
 		PostController pc = new PostController();
+		Question q = new Question("Title", "Body");
+		pc.addQuestion(q);
 		assertNotNull("No questions found.", pc.getQuestionInstance());
 	}
+	
+	
+	// Asserts that when a question is added to the favorite questions array
+	// and then when the function getFavoriteQuestions() is called, it will
+	// return a corresponding array of all specific favorited questions.
 	
 	public void testSaveFavorites(){
 		
@@ -64,6 +77,9 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	
 	
 	
+	
+	// Kind of an important test case
+	// should probably get this one coded
 	
 	
 //	public void testCachedAnswersAndQuestions(){
