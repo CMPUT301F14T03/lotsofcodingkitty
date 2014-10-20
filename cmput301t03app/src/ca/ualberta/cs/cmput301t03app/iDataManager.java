@@ -6,7 +6,7 @@ public interface iDataManager {
 
 
 	public void save(ArrayList<Question> list);
-	public void load();
+	public ArrayList<Question> load();
 
 
 }
