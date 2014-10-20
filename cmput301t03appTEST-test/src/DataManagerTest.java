@@ -6,6 +6,7 @@ import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.PostController;
 import ca.ualberta.cs.cmput301t03app.Question;
 import ca.ualberta.cs.cmput301t03app.UserPostCollector;
+import ca.ualberta.cs.cmput301t03app.iDataManager;
 
 
 public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -21,8 +22,8 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	// This test will need to be changed to reflect our new UML.
 	
 	public void testSaveLoadQuestionList() {		
-		
-		DataManager dataManager = new DataManager();
+		//testing if question posted saved to cache
+		iDataManager dataManager;
 		ArrayList<Question> q = new ArrayList<Question>();
 		Question q1 = new Question("Title1","TextBody1");
 		Question q2 = new Question("Title2","TextBody2");
@@ -31,11 +32,11 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		q.add(q2);
 		
 		
-		dataManager.localSave();
+		dataManager.save(q);
 		
 		Object newQuestionArray;
 		
-		newQuestionArray = dataManager.localLoad();
+		newQuestionArray = dataManager.load();
 		assertNotNull("No questions loaded.",newQuestionArray);
 	}
 	

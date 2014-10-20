@@ -11,7 +11,8 @@ public class LocalDataManager implements iDataManager{
 	}
 
 	@Override
-	public void load() {
+	public ArrayList<Question> load() {
+		return new ArrayList<Question>();
 		// TODO Auto-generated method stub
 		
 	}
