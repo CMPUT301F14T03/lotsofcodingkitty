@@ -11,6 +11,7 @@
     <string name="userHint">Username</string>
     <string name="done">Done</string>
     <string name="title_activity_view_question">ViewQuestion</string>
+    <string name="title_activity_respond">respond</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_display_picture">DisplayPicture</string>
     <string name="title_activity_login">title</string>
