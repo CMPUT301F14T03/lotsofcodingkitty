@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
--            android:name="RespondActivity"
+-            android:name=".Respond"
 -            android:label="@string/title_activity_respond"
 -            android:theme="@android:style/Theme.Dialog" >
         </activity>
