@@ -2,8 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
+    
 
-    <LinearLayout
+      <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#ffdd00"
@@ -14,7 +15,7 @@
         <LinearLayout
             android:layout_width="80dp"
             android:layout_height="fill_parent"
-            android:background="#ff0000"
+            android:background="#ffffff"
             android:gravity="left"
             android:orientation="vertical"
             android:textAlignment="center" >
@@ -47,12 +48,7 @@
                     android:gravity="left"
                     android:src="@drawable/ic_launcher" />
 
-                <ImageButton
-                    android:id="@+id/question_viewed_icon"
-                    android:layout_width="32dp"
-                    android:layout_height="28dp"
-                    android:gravity="right"
-                    android:src="@drawable/ic_launcher" />
+               
             </LinearLayout>
         </LinearLayout>
 
@@ -61,45 +57,49 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="#0000dd"
+            android:background="#000000"
             android:gravity="left"
             android:orientation="vertical"
-            android:padding="10dp" >
-            
-            
+            android:padding="10dp" 
+            >
+           
+             
              <TextView
-                android:id="@+id/question_title"
+                android:id="@+id/answer_text_body"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="This is the question title?"
+                android:text="Question activity ANSWER textbody. This is the text body of my ANSWER. What is the body of a ANSWER"
                 android:textAlignment="center"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textColor="#ffffff"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+             
              
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" 
-                android:textColor="#000000">
+                android:layout_marginTop="5dp"
+                >
 
                 <TextView
-                android:id="@+id/question_title"
+                android:id="@+id/post_timestamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Posted: Oct 31, 2014"
                 android:textAlignment="center"
                 android:gravity="left"
                 android:textSize="10dp"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
                 
                 <TextView
-                android:id="@+id/question_title"
+                android:id="@+id/question_author"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="by: Lotso CodingKitty"
                 android:gravity="right"
                 android:textSize="10dp"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
                 
             </LinearLayout>
@@ -107,5 +107,7 @@
             
         </LinearLayout>
     </LinearLayout>
-
+    
+    
+    
 </RelativeLayout>
