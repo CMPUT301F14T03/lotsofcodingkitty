@@ -9,6 +9,9 @@
 # Generated files
 bin/*
 gen/*
+cmput301t03app/bin/*
+cmput301t03app/gen/*
+cmput301t03app/TEST-test/gen/*
 # Gradle files
 .gradle/
 build/
