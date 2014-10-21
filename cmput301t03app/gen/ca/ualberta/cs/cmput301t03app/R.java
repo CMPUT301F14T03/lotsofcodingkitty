@@ -48,6 +48,7 @@ public final class R {
         public static final int question_upvote_button=0x7f080004;
         public static final int question_upvote_score=0x7f080005;
         public static final int question_viewed_icon=0x7f080007;
+        public static final int sync=0x7f080014;
         public static final int usernameText=0x7f080002;
     }
     public static final class layout {
@@ -79,6 +80,7 @@ public final class R {
         public static final int questionTitle=0x7f050003;
         public static final int title_activity_display_picture=0x7f05000b;
         public static final int title_activity_login=0x7f05000c;
+        public static final int title_activity_respond=0x7f05000d;
         public static final int title_activity_view_question=0x7f050009;
         public static final int userHint=0x7f050007;
     }
