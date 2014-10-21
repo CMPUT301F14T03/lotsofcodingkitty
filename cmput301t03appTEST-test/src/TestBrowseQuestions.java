@@ -50,8 +50,8 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 		
 		Question q1 = new Question();
 		for(int j = 0; j < 35; j++){
-			Answer j = new Answer()
-			q1.addAnswer(j);
+			Answer answer = new Answer();
+			q1.addAnswer(answer);
 		}
 		assertEquals("Not expected number of answers.", q1.countAnswers(),35);
 	}

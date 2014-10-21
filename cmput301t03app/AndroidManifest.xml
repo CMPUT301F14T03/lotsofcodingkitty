@@ -23,9 +23,9 @@
             </intent-filter>
         </activity>
         <activity
--            android:name=".Respond"
--            android:label="@string/title_activity_respond"
--            android:theme="@android:style/Theme.Dialog" >
+             android:name=".Respond"
+             android:label="@string/title_activity_respond"
+             android:theme="@android:style/Theme.Dialog" >
         </activity>
         <activity
             android:name=".LoginActivity"
