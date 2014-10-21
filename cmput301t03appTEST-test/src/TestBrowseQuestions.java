@@ -41,20 +41,18 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 		assertTrue("Failed to get questions, question list empty.", listofquestions.size() > 0);
 	}	
 	
-	// Creates an answer and postcontroller, then adds the question to the post controllers
-	// answer list and then asserts that the size of the answer list is 1, which it should be
-	// given that we just added exactly one answer to the answerlist
-	
-	// however I think the way we do this test should be related to testing the statistic function
-	// that calculates the number of answers to a certain question
-	// i.e creating question, adding answer children, having the function count
-	// the number of expected children of that question
+	// Creates a question and then creates an arbitrary amount of answers (it is currently 35)
+	// and then assigns them as children of the question
+	// The test then asserts that the counting method (size() of the arraylist of answers)
+	// returns the expected number of children
 	
 	public void testViewNumberOfAnswersToQuestion() {
 		
-		Answer a1 = new Answer();
-		PostController q1 = new PostController();
-		q1.addAnswer(a1);
-		assertEquals("Not expected number of answers.", q1.getAnswers().size(),1);
+		Question q1 = new Question();
+		for(int j = 0; j < 35; j++){
+			Answer j = new Answer()
+			q1.addAnswer(j);
+		}
+		assertEquals("Not expected number of answers.", q1.countAnswers(),35);
 	}
 }

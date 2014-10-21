@@ -22,7 +22,7 @@ public PostingTest() {
 		
 		PostController pc = new PostController();
 		Question q1 = new Question();
-		pc.add(q1);
+		pc.addQuestion(q1);
 		
 		assertEquals("Question not posted correctly.", pc.getQuestion(),q1);
 	}
