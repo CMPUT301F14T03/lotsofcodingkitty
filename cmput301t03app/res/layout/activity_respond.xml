@@ -20,10 +20,17 @@
         android:id="@+id/questionBody"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.12"
+        android:layout_weight="0.10"
         android:ems="10"
         android:hint="@string/questionBody"
         android:inputType="textMultiLine" />
+
+    <EditText
+        android:id="@+id/UsernameRespondTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/Username" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
