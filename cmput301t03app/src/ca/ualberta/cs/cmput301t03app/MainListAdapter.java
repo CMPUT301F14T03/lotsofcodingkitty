@@ -7,8 +7,12 @@
 
 package ca.ualberta.cs.cmput301t03app;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import android.app.Activity;
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -45,13 +49,55 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
+		// Major contribs from :
+				// http://www.mysamplecode.com/2012/07/android-listview-checkbox-example.html
+		
 		View row = convertView;
 		
 		//LayoutInflator inflator 
+		LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+		row = inflater.inflate(layoutResourceId, parent, false);
+
+		questionListHolder holder = null;
 		
+		// Tell Listview which xml to find the formatting to.
+		LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
+				Context.LAYOUT_INFLATER_SERVICE);
+		row = vi.inflate(R.layout.activity_main_question_entity, null);
 		
-		return null;
+		// Match the xml Ids with the TextViews
+		holder = new questionListHolder();
+
+		holder.question_title = (TextView) row.findViewById(R.id.question_title);
+		holder.post_timestamp = (TextView) row.findViewById(R.id.post_timestamp);
+		holder.question_author = (TextView) row.findViewById(R.id.question_author);
+		holder.question_upvote_score = 
+				(TextView) row.findViewById(R.id.question_upvote_score);
+
+		row.setTag(holder);
+
+		
+		//Does the selected state change as well as loads into ListView as selected or not
+		
+		Question q=questionList.get(position);
+		//Date to string
+		// http://javarevisited.blogspot.ca/2011/09/convert-date-to-string-simpledateformat.html
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		String date_to_string= sdf.format(q.getDate());
+		//Set the TextViews
+		holder.question_title.setText(q.getSubject());
+		holder.question_upvote_score.setText(Integer.toString(q.getRating()));
+		holder.post_timestamp.setText("Posted:"+ date_to_string);
+		holder.question_author.setText("By "+q.getAuthor());
+		// Tell the Textviews where the info is coming from.
+		holder.question_author.setTag(q);
+		holder.post_timestamp.setTag(q);
+		holder.question_upvote_score.setTag(q);
+		holder.question_title.setTag(q);
+		return row;
+
 	}
+	
 	
 	
 	
