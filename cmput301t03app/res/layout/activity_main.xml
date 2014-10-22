@@ -14,15 +14,5 @@
         tools:listitem="@layout/activity_main_question_entity" >
 
     </ListView>
-
-    <Button
-        android:id="@+id/addQuestionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:onClick="addQuestionButtonFunction"
-        android:text="Add a Question" />
     
 </RelativeLayout>
