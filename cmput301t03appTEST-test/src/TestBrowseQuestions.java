@@ -35,7 +35,7 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 	
 	public void testGetQuestions(){
 		PostController controller = new PostController();
-		Question q = new Question("Title", "body");
+		Question q = new Question("Title1","TextBody1", "author");
 		controller.addQuestion(q);
 		ArrayList<Question> listofquestions = controller.getQuestionInstance();
 		assertTrue("Failed to get questions, question list empty.", listofquestions.size() > 0);
@@ -48,9 +48,9 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 	
 	public void testViewNumberOfAnswersToQuestion() {
 		
-		Question q1 = new Question();
+		Question q1 = new Question("Title1","TextBody1", "author");
 		for(int j = 0; j < 35; j++){
-			Answer answer = new Answer();
+			Answer answer = new Answer("title", "author");
 			q1.addAnswer(answer);
 		}
 		assertEquals("Not expected number of answers.", q1.countAnswers(),35);

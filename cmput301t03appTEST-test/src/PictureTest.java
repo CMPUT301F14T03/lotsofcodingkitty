@@ -38,7 +38,7 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	// attribute is the same as the picture we specified.
 
 		File picture = new File("picture_path");
-		Question question = new Question();
+		Question question = new Question("Title1","TextBody1", "author");
 		question.setPicture(picture);
 		assertEquals("Picture not attached correctly to question.", question.getPicture(),picture);
 		
@@ -49,7 +49,7 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	public void testAttachPictureToAnswers() {
 
 		File picture = new File("picture_path");
-		Answer answer = new Answer();
+		Answer answer = new Answer("answer", "a author");
 		answer.setPicture(picture);
 		assertEquals("Picture not attached correctly to answer.", answer.getPicture(),picture);
 

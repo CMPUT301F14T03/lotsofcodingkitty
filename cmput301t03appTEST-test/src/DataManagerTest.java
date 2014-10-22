@@ -25,9 +25,8 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		//testing if question posted saved to cache
 		iDataManager dataManager = new ServerDataManager();
 		ArrayList<Question> q = new ArrayList<Question>();
-		Question q1 = new Question("Title1","TextBody1");
-		Question q2 = new Question("Title2","TextBody2");
-		
+		Question q1 = new Question("Title1","TextBody1", "author");
+		Question q2 = new Question("Title1","TextBody1", "author");
 		q.add(q1);
 		q.add(q2);
 		
@@ -47,7 +46,7 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	public void testBrowseQuestions() {
 		
 		PostController pc = new PostController();
-		Question q = new Question("Title", "Body");
+		Question q = new Question("Title1","TextBody1", "author");
 		pc.addQuestion(q);
 		assertNotNull("No questions found.", pc.getQuestionInstance());
 	}
@@ -66,7 +65,7 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		UserPostCollector userCollect = new UserPostCollector();
 		ArrayList<Question> ql = new ArrayList<Question>();
 		
-		Question q = new Question("Title1","TextBody1");
+		Question q = new Question("Title1","TextBody1", "author");
 		
 		ql.add(q);
 		
