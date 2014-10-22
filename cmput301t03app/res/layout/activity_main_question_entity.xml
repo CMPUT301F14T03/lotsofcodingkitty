@@ -42,7 +42,8 @@
                     android:layout_width="32dp"
                     android:layout_height="28dp"
                     android:gravity="left"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/ic_fav_no"
+                    android:background="#ffffff" />
 
                 <ImageButton
                     android:id="@+id/question_viewed_icon"
