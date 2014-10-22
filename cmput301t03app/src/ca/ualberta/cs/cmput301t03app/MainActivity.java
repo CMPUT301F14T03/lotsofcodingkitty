@@ -99,6 +99,9 @@ public class MainActivity extends Activity {
 		final EditText questionBody = (EditText) promptsView
 				.findViewById(R.id.questionBody);
 		
+		final EditText userName = (EditText) promptsView
+				.findViewById(R.id.UsernameRespondTextView);
+		
 		// Create a new AlertDialog
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
@@ -115,8 +118,9 @@ public class MainActivity extends Activity {
 
 							String questionTitleString = (String) questionTitle.getText().toString();
 							String questionBodyString = (String) questionBody.getText().toString();
+							String userNameString = (String) userName.getText().toString();
 							
-							Question q = new Question(questionTitleString,questionBodyString, "Test Author");
+							Question q = new Question(questionTitleString,questionBodyString, userNameString);
 							questions.add(q);
 							setupAdapter();
 							
