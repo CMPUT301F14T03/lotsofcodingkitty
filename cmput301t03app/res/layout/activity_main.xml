@@ -5,13 +5,23 @@
 
     tools:context="ca.ualberta.cs.cmput301t03app.MainActivity" >
 
+    <Button
+        android:id="@+id/activity_main_question_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:onClick="addQuestionButtonFunction"
+        android:text="Add a question" />
+    
     <ListView
+        android:layout_marginTop="50dp"
         android:id="@+id/activity_main_question_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/addQuestionButton"
-        tools:listitem="@layout/activity_main_question_entity" >
+        android:layout_alignParentRight="true" 
+        tools:listitem="@layout/activity_main_question_entity">
 
     </ListView>
     
