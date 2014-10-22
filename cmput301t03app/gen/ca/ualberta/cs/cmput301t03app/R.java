@@ -27,28 +27,35 @@ public final class R {
     }
     public static final class drawable {
         public static final int camera_icon=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
+        public static final int ic_action_search=0x7f020001;
+        public static final int ic_fav_no=0x7f020002;
+        public static final int ic_fav_yes=0x7f020003;
+        public static final int ic_launcher=0x7f020004;
+        public static final int ic_upvote=0x7f020005;
+        public static final int ic_user=0x7f020006;
     }
     public static final class id {
-        public static final int CancelButton=0x7f080010;
-        public static final int OkButton=0x7f08000f;
-        public static final int action_settings=0x7f080013;
-        public static final int answer_text_body=0x7f080011;
-        public static final int attachImg=0x7f08000d;
-        public static final int attachImgTxt=0x7f08000e;
+        public static final int CancelButton=0x7f08000f;
+        public static final int OkButton=0x7f08000e;
+        public static final int action_settings=0x7f080015;
+        public static final int activity_main_question_list=0x7f080003;
+        public static final int activity_view_question_main_question=0x7f080010;
+        public static final int answer_text_body=0x7f080013;
+        public static final int attachImg=0x7f08000c;
+        public static final int attachImgTxt=0x7f08000d;
         public static final int doneBtn=0x7f080000;
         public static final int inputUsername=0x7f080001;
-        public static final int listView1=0x7f080003;
-        public static final int post_timestamp=0x7f080009;
-        public static final int questionBody=0x7f08000c;
-        public static final int questionTitle=0x7f08000b;
-        public static final int question_author=0x7f08000a;
-        public static final int question_fav_icon=0x7f080006;
-        public static final int question_text_body=0x7f080012;
-        public static final int question_title=0x7f080008;
-        public static final int question_upvote_button=0x7f080004;
-        public static final int question_upvote_score=0x7f080005;
-        public static final int question_viewed_icon=0x7f080007;
+        public static final int listView1=0x7f080011;
+        public static final int post_timestamp=0x7f080008;
+        public static final int questionBody=0x7f08000b;
+        public static final int questionTitle=0x7f08000a;
+        public static final int question_author=0x7f080009;
+        public static final int question_fav_icon=0x7f080005;
+        public static final int question_text_body=0x7f080014;
+        public static final int question_title=0x7f080007;
+        public static final int question_upvote_button=0x7f080012;
+        public static final int question_upvote_score=0x7f080004;
+        public static final int question_viewed_icon=0x7f080006;
         public static final int usernameText=0x7f080002;
     }
     public static final class layout {
