@@ -3,13 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:selectAllOnFocus="true" >
+    android:selectAllOnFocus="true" 
+    android:minWidth="300dp" 
+  	android:minHeight="400dp"
+  	android:background="#FFFFFF">
 
     <EditText
         android:id="@+id/questionTitle"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:ems="10"
         android:hint="@string/questionTitle"
         android:inputType="textPersonName" >
 
@@ -21,12 +23,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.12"
-        android:ems="10"
+        android:gravity="top|left"
         android:hint="@string/questionBody"
         android:inputType="textMultiLine" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.01" >
 
@@ -36,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="7dp"
             android:background="@null"
             android:src="@drawable/camera_icon" />
 
@@ -44,17 +46,20 @@
             android:id="@+id/attachImgTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/attachImg"
-            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="2dp"
             android:layout_toRightOf="@+id/attachImg"
-            android:text="@string/attachImgTxt" />
+            android:text="@string/attachImgTxt"
+            android:textColor="#000000" />
 
     </RelativeLayout>
 
     <LinearLayout
         style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content" 
+        android:background="#FFFFFF">
 
         <Button
             android:id="@+id/OkButton"
