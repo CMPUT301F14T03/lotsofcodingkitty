@@ -1,19 +1,42 @@
 package ca.ualberta.cs.cmput301t03app;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+	ListView lv;
+	MainListAdapter mla;
+	public ArrayList<Question> questions=new ArrayList<Question>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		populatequestions();
+		lv=(ListView) findViewById(R.id.activity_main_question_list);
+		mla=new MainListAdapter(this,R.layout.activity_main_question_entity,questions);
+		lv.setAdapter(mla);
+		
+		
 	}
+	public void populatequestions(){
+		Question q=new Question("Dance sucka","Said groove sucka","Jam kick out");
+		Question q1=new Question("How do I post question?","What about the body"
+						,"Noobsauce");
+		q1.upRating();
+		questions.add(q);
+		questions.add(q1);
+		
+	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
