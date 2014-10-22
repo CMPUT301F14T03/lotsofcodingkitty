@@ -19,7 +19,7 @@
     <EditText
         android:id="@+id/questionBody"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="100dp"
         android:layout_weight="0.12"
         android:ems="10"
         android:hint="@string/questionBody"

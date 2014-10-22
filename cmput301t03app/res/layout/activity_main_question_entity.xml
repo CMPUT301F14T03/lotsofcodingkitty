@@ -41,6 +41,8 @@
                     android:id="@+id/question_fav_icon"
                     android:layout_width="32dp"
                     android:layout_height="28dp"
+                    android:height="10dp"
+                    android:width="10dp"
                     android:gravity="left"
                     android:src="@drawable/ic_fav_no"
                     android:background="#ffffff" />
@@ -49,6 +51,8 @@
                     android:id="@+id/question_viewed_icon"
                     android:layout_width="32dp"
                     android:layout_height="28dp"
+                    android:height="10dp"
+                    android:width="10dp"
                     android:gravity="right"
                     android:src="@drawable/ic_fav_yes" 
                     android:background="#ffffff"/>

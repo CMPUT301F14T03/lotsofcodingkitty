@@ -46,6 +46,10 @@ public final class R {
         public static final int attachImgTxt=0x7f08000e;
         public static final int doneBtn=0x7f080000;
         public static final int filter=0x7f080017;
+        public static final int filter_date=0x7f08001a;
+        public static final int filter_newest=0x7f080019;
+        public static final int filter_picture=0x7f08001b;
+        public static final int filter_popular=0x7f080018;
         public static final int inputUsername=0x7f080001;
         public static final int listView1=0x7f080010;
         public static final int post_timestamp=0x7f080009;
@@ -59,7 +63,7 @@ public final class R {
         public static final int question_upvote_score=0x7f080005;
         public static final int question_viewed_icon=0x7f080007;
         public static final int search=0x7f080016;
-        public static final int sync=0x7f080018;
+        public static final int sync=0x7f08001c;
         public static final int user=0x7f080015;
         public static final int usernameText=0x7f080002;
     }
