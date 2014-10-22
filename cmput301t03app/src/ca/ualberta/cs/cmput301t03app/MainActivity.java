@@ -51,19 +51,19 @@ public class MainActivity extends Activity {
 		Question q7 = new Question("Test question 7: Boolean == Boolean?", "Said groove sucka",
 				"Test Author 7");
 
-		for (int i = 0; i < 13; i++) {
+		for (int i = 0; i < 130; i++) {
 			q.upRating();
 		}
 		
-		for (int i = 0; i < 58; i++) {
+		for (int i = 0; i < 97; i++) {
 			q1.upRating();
 		}
 		
-		for (int i = 0; i < 802; i++) {
+		for (int i = 0; i < 98; i++) {
 			q2.upRating();
 		}
 		
-		for (int i = 0; i < 1999; i++) {
+		for (int i = 0; i < 99; i++) {
 			q3.upRating();
 		}
 		for (int i = 0; i < 2000; i++) {
