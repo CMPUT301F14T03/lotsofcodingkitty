@@ -35,7 +35,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	public void testPushToServer() {
 		
 		PostController pc = new PostController();
-		Question question = new Question("Question title", "Question body");
+		Question question = new Question("Question title", "Question body", "author");
 		Object posts = new Object();
 		pc.addQuestion(question);
 		while (!pc.checkConnectivity()) {
@@ -50,9 +50,9 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		/* Check connection */
 			
 		PostController pc = new PostController();
-		Question q1 = new Question("My question", "My question body");
+		Question q1 = new Question("Question title", "Question body", "author");
 		pc.addQuestion(q1);
-		Answer a1 = new Answer("My answer");
+		Answer a1 = new Answer("My answer", "author");
 		pc.addAnswer(a1);
 		Comment c1 = new Comment("My comment");
 		
@@ -77,9 +77,9 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		/* Check connection */
 		
 		PostController pc = new PostController();
-		Question q1 = new Question("My question", "My question body");
+		Question q1 = new Question("Question title", "Question body", "author");
 		pc.addQuestion(q1);
-		Answer a1 = new Answer("My answer");
+		Answer a1 = new Answer("My answer", "author");
 		pc.addAnswer(a1);
 		Comment c1 = new Comment("My comment");
 		
