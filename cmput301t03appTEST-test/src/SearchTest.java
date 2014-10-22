@@ -19,8 +19,8 @@ public class SearchTest extends ActivityInstrumentationTestCase2<MainActivity> {
 		
 		ArrayList<Question> qList = new ArrayList<Question>();
 		String searchWord = "test";
-		Question q1 = new Question("This is test question?","TextBody1");
-		Question q2 = new Question("This question should not be returned?","TextBody2");
+		Question q1 = new Question("Title1","TextBody1", "author");
+		Question q2 = new Question("Title1","TextBody1", "author");
 		ArrayList<Question> searchResults = new ArrayList<Question>();
 		
 		

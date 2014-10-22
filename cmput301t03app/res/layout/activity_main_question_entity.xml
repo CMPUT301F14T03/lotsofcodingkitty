@@ -17,22 +17,19 @@
             android:background="#ffffff"
             android:gravity="left"
             android:orientation="vertical"
-            android:textAlignment="center" >
-
-            <ImageButton
-                android:id="@+id/question_upvote_button"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher"
-                android:gravity="center" />
+            android:textAlignment="center"
+             >
 
             <TextView
                 android:id="@+id/question_upvote_score"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Score"
+                android:layout_marginTop="10dp"
+                android:text="13"
                 android:gravity="center"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textStyle="bold"
+                android:textSize="30dp"
+                />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -45,14 +42,16 @@
                     android:layout_width="32dp"
                     android:layout_height="28dp"
                     android:gravity="left"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/ic_fav_no"
+                    android:background="#ffffff" />
 
                 <ImageButton
                     android:id="@+id/question_viewed_icon"
                     android:layout_width="32dp"
                     android:layout_height="28dp"
                     android:gravity="right"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/ic_fav_yes" 
+                    android:background="#ffffff"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -74,6 +73,7 @@
                 android:text="Main Activity Question title. This is the title thatf a question?"
                 android:textAlignment="center"
                 android:textStyle="bold"
+                 android:textColor="#000000"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
              
             <LinearLayout

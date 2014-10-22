@@ -2,10 +2,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="ca.ualberta.cs.cmput301t03app.MainActivity" >
 
-    <item
-        android:id="@+id/action_settings"
+   
+    <item android:id="@+id/user" 
         android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="Hello"/>
+          android:showAsAction="always"
+         android:title="User" 
+         android:icon="@drawable/ic_user"/>
+    
+    <item android:id="@+id/search" 
+        android:orderInCategory="100"
+          android:showAsAction="always"
+         android:title="Search" 
+         android:icon="@drawable/ic_action_search"/>
+    
+    <group android:id="@+id/filter" 
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:checkableBehavior="single" 
+        android:menuCategory="container" 
+        android:title="Filter" 
+        android:icon="@drawable/ic_filter"/>
+    
+    <item android:id="@+id/sync" 
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="Sync" 
+        android:icon="@drawable/ic_sync"></item>
+    
+    
+    
 
 </menu>

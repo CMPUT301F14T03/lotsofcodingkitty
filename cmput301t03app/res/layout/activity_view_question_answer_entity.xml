@@ -24,16 +24,19 @@
                 android:id="@+id/question_upvote_button"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher"
+                android:src="@drawable/ic_upvote"
+                android:background="#ffffff"
                 android:gravity="center" />
 
             <TextView
                 android:id="@+id/question_upvote_score"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Score"
+                android:text="0000"
                 android:gravity="center"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textStyle="bold"
+                android:textSize="30dp"
+                 />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -46,7 +49,8 @@
                     android:layout_width="32dp"
                     android:layout_height="28dp"
                     android:gravity="left"
-                    android:src="@drawable/ic_launcher" />
+                    android:background="#ffffff"
+                    android:src="@drawable/ic_fav_no" />
 
                
             </LinearLayout>

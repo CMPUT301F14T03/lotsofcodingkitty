@@ -28,7 +28,7 @@ public class FavoritesTest extends ActivityInstrumentationTestCase2<MainActivity
 		UserPostCollector userCollect = new UserPostCollector();
 		ArrayList<Question> ql = new ArrayList<Question>();
 		
-		Question q = new Question("Title1","TextBody1");
+		Question q = new Question("Title1","TextBody1", "author");
 		
 		ql.add(q);
 		

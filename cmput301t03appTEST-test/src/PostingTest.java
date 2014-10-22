@@ -21,7 +21,7 @@ public PostingTest() {
 	public void testPostQuestion() {
 		
 		PostController pc = new PostController();
-		Question q1 = new Question();
+		Question q1 = new Question("Title1","TextBody1", "author");
 		pc.addQuestion(q1);
 		
 		assertEquals("Question not posted correctly.", pc.getQuestion(),q1);
@@ -32,8 +32,8 @@ public PostingTest() {
 	public void testPostAnswer() {
 		
 		PostController pc = new PostController();
-		Question q1 = new Question();
-		Answer a1 = new Answer();
+		Question q1 = new Question("Title1","TextBody1", "author");
+		Answer a1 = new Answer("answer", "author");
 		q1.addAnswer(a1);
 		
 		assertEquals("Answer not posted correctly.",pc.getAnswer(),a1);

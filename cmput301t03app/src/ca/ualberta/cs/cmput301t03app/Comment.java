@@ -6,8 +6,8 @@ public class Comment {
 	/*
 	 * This is the comment class. It allows users to set the text of a comment*/
 		
-	public Date date;
-	public String comment;
+	private Date date;
+	private String comment;
 	
 	public Comment(String comment) {
 		this.date = new Date();
@@ -15,17 +15,24 @@ public class Comment {
 	}
 	
 	public Date getDate() {
-		return date;
+		return this.date;
 	}
+	
+	/** We should not be allowing anyone to tamper with timestamps!
 	public void setDate(Date date) {
 		this.date = date;
 	}
+	**/
+	
 	public String getComment() {
-		return comment;
+		return this.comment;
 	}
+	
+	/** This is already set in the constructor!
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	**/
 	
 	
 
