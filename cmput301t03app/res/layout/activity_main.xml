@@ -13,7 +13,9 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:onClick="addQuestionButtonFunction"
-        android:text="Add a question" />
+        android:text="Ask a question"
+        android:background="#000000"
+        android:textColor="#ffffff" />
     
     <ListView
         android:layout_marginTop="50dp"
