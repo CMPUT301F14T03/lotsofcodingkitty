@@ -7,5 +7,12 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="Hello"/>
+    
+    <item android:id="@+id/user" android:title="User Home" android:icon="@drawable/ic_user"></item>
+    <group android:id="@+id/filter" android:checkableBehavior="single" android:menuCategory="container" android:icon="@drawable/ic_filter"></group>
+    <item android:id="@+id/sync" android:title="Sync" android:icon="@drawable/ic_sync"></item>
+    
+    
+    
 
 </menu>
