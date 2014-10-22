@@ -2,6 +2,7 @@ package ca.ualberta.cs.cmput301t03app;
 
 import java.util.ArrayList;
 
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -27,37 +28,41 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		populatequestions();
-		lv=(ListView) findViewById(R.id.activity_main_question_list);
-		mla=new MainListAdapter(this,R.layout.activity_main_question_entity,questions);
-		lv.setAdapter(mla);
+		setupAdapter();
 		
 		
 	}
 	
-	public void startup() {
-		Button addQuestionButton = (Button) findViewById(R.id.activity_main_question_button);
-		
-		addQuestionButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				addQuestionButtonFunction(v);
-			}
-		});
-		
-	}
+//	public void startup() {
+//		Button addQuestionButton = (Button) findViewById(R.id.activity_main_question_button);
+//		
+//		addQuestionButton.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				addQuestionButtonFunction(v);
+//			}
+//		});
+//		
+//	}
 	
 	public void populatequestions(){
 		Question q=new Question("Dance sucka","Said groove sucka","Jam kick out");
-		Question q1=new Question("How do I post question?","What about the body"
-						,"Noobsauce");
+		Question q1=new Question("How do I post question?","What about the body","Noobsauce");
 		q1.upRating();
 		questions.add(q);
 		questions.add(q1);
 		
 	}
 	
+	
+	public void setupAdapter() {
+		lv=(ListView) findViewById(R.id.activity_main_question_list);
+		mla=new MainListAdapter(this,R.layout.activity_main_question_entity,questions);
+		lv.setAdapter(mla);
+		
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -113,10 +118,24 @@ public class MainActivity extends Activity {
 							
 							Question q = new Question(questionTitleString,questionBodyString, "Test Author");
 							questions.add(q);
+							setupAdapter();
 							
 						}
 						
+					}).setNegativeButton("Cancel",
+							new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							// Do nothing
+							dialog.cancel();
+						}
 					});
+		
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		alertDialog.show();
+
+		
+		
 		Toast.makeText(this, "Please write your question", Toast.LENGTH_SHORT).show();
 	}
 }
