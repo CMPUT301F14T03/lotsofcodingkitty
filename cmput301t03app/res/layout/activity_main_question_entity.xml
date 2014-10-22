@@ -24,7 +24,7 @@
                 android:id="@+id/question_upvote_score"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:text="13"
                 android:gravity="center"
                 android:textStyle="bold"
@@ -35,22 +35,23 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginBottom="8dp"
                 >
 
                 <ImageButton
                     android:id="@+id/question_fav_icon"
-                    android:layout_width="32dp"
-                    android:layout_height="28dp"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
                     android:gravity="left"
-                    android:src="@drawable/ic_fav_no"
+                    android:src="@drawable/ic_fav_no__blue_small"
                     android:background="#ffffff" />
 
                 <ImageButton
                     android:id="@+id/question_viewed_icon"
-                    android:layout_width="32dp"
-                    android:layout_height="28dp"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
                     android:gravity="right"
-                    android:src="@drawable/ic_fav_yes" 
+                    android:src="@drawable/ic_fav_yes_blue_small" 
                     android:background="#ffffff"/>
             </LinearLayout>
         </LinearLayout>
