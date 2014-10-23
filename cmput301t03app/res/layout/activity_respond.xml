@@ -3,7 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:selectAllOnFocus="true" >
+    android:selectAllOnFocus="true" 
+    android:minWidth="300dp"
+    android:minHeight="400dp"
+    android:background="#FFFFFF"
+    >
 
     <EditText
         android:id="@+id/questionTitle"
@@ -22,6 +26,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.10"
         android:ems="10"
+        android:gravity="top|left"
         android:hint="@string/questionBody"
         android:inputType="textMultiLine" />
 
@@ -79,6 +84,6 @@
             android:layout_height="wrap_content"
             android:onClick="cancelResponse"
             android:text="@string/cancel" />
-    </LinearLayout> -->
+    </LinearLayout>  -->
 
 </LinearLayout>

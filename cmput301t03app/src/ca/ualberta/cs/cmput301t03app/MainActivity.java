@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -96,9 +97,9 @@ public class MainActivity extends Activity {
 		mla = new MainListAdapter(this, R.layout.activity_main_question_entity,
 				questions);
 		lv.setAdapter(mla);
-
 	}
 
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -135,6 +136,9 @@ public class MainActivity extends Activity {
 		final EditText userName = (EditText) promptsView
 				.findViewById(R.id.UsernameRespondTextView);
 
+//		Intent intent = new Intent(this, Respond.class);
+//		startActivity(intent);
+		
 		// Create a new AlertDialog
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
@@ -158,8 +162,8 @@ public class MainActivity extends Activity {
 						Question q = new Question(questionTitleString,
 								questionBodyString, userNameString);
 						questions.add(q);
-						setupAdapter();
-
+						
+						mla.updateAdapter(questions);
 					}
 
 				}).setNegativeButton("Cancel",
