@@ -3,12 +3,17 @@ package ca.ualberta.cs.cmput301t03app;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import android.content.Context;
 
@@ -24,9 +29,9 @@ public class LocalDataManager implements iDataManager{
 	private static final String FAVORITE_FILE = "favorite.sav";
 	
 	//File modes
-	private static final int READ = 1;
-	private static final int TO_READ = 2;
-	private static final int FAVORITE = 3;
+	public static final int READ = 1;
+	public static final int TO_READ = 2;
+	public static final int FAVORITE = 3;
 	
 	private Context context;
 	private Integer validModes[] = {READ, TO_READ, FAVORITE};
@@ -57,30 +62,51 @@ public class LocalDataManager implements iDataManager{
 	public void save(ArrayList<Question> list) {
 		
         try {
-        	assert isCorrectMode() : "Mode is not set or incorrect mode."; 
+        	//Check for correct mode
+        	if (!isCorrectMode()) {
+        		throw new IllegalStateException("Invalid mode set or not set at all.");
+        	}
+        	
         	FileOutputStream fileOutputStream = context.openFileOutput(SAVE_FILE, Context.MODE_PRIVATE);
-        	ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-        	objectOutputStream.writeObject(list);
+        	OutputStreamWriter objectStreamWriter = new OutputStreamWriter(fileOutputStream);
+        	
+        	GsonBuilder builder = new GsonBuilder();
+        	Gson gson = builder.create();
+        	builder.serializeNulls(); //Show fields with null values
+        	
+        	gson.toJson(list, objectStreamWriter); //Serialize to Json
+        	fileOutputStream.flush();
 	        fileOutputStream.close();
 	        
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	/*Loads a question list from local storage*/
+	/*Loads a general question list from local storage.
+	 * In other words, this method does NOT put the retrieved
+	 * Question objects into its corresponding static question list.*/
 	@Override
 	public ArrayList<Question> load() {
 
 		ArrayList<Question> list = new ArrayList<Question>();
 		
 		try {
-			assert isCorrectMode() : "Mode is not set or incorrect mode.";
-			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);	
-			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-			list = (ArrayList<Question>) objectInputStream.readObject();
+			//Check for correct mode
+        	if (!isCorrectMode()) {
+        		throw new IllegalStateException("Invalid mode set or not set at all.");
+        	}
 			
-		} catch(Exception e) {
+			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);	
+			InputStreamReader inputStreamRedaer = new InputStreamReader(fileInputStream);
+			Type listType = new TypeToken<ArrayList<Question>>(){}.getType();
+			list = new Gson().fromJson(inputStreamRedaer, listType);
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		}
 		return list;
