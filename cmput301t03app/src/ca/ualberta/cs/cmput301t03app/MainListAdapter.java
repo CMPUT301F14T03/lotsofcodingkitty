@@ -87,8 +87,8 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 		//Set the TextViews
 		holder.question_title.setText(q.getSubject());
 		holder.question_upvote_score.setText(Integer.toString(q.getRating()));
-		holder.post_timestamp.setText("Posted:"+ date_to_string);
-		holder.question_author.setText("By "+q.getAuthor());
+		holder.post_timestamp.setText("Posted: "+ date_to_string);
+		holder.question_author.setText("By: "+q.getAuthor());
 		// Tell the Textviews where the info is coming from.
 		holder.question_author.setTag(q);
 		holder.post_timestamp.setTag(q);
@@ -98,6 +98,13 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 
 	}
 	
+	// refresh Adapter Method calling in Homepage Activity
+
+	   public synchronized void updateAdapter(ArrayList<Question> qList) {   
+	    questionList.clear();
+	    questionList.addAll(qList);
+	    notifyDataSetChanged();
+	   }
 	
 	
 	
