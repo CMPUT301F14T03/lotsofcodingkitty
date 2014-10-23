@@ -20,16 +20,16 @@ public class LocalDataManager implements iDataManager{
 
 	//File names
 	private static final String READ_FILE = "read.sav";
-	private static final String READ_LATER_FILE = "read_later.sav";
+	private static final String TO_READ_FILE = "read_later.sav";
 	private static final String FAVORITE_FILE = "favorite.sav";
 	
 	//File modes
 	private static final int READ = 1;
-	private static final int READ_LATER = 2;
+	private static final int TO_READ = 2;
 	private static final int FAVORITE = 3;
 	
 	private Context context;
-	private Integer validModes[] = {READ, READ_LATER, FAVORITE};
+	private Integer validModes[] = {READ, TO_READ, FAVORITE};
 	private String SAVE_FILE; //This will be equal to one of the filenames when user sets a mode
 	private int mode = 0;
 	
@@ -45,8 +45,8 @@ public class LocalDataManager implements iDataManager{
 		switch (mode) {
 			case READ:
 				SAVE_FILE = READ_FILE;
-			case READ_LATER:
-				SAVE_FILE = READ_LATER_FILE;
+			case TO_READ:
+				SAVE_FILE = TO_READ_FILE;
 			case FAVORITE:
 				SAVE_FILE = FAVORITE_FILE;
 		}
