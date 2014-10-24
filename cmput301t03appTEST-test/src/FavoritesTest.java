@@ -25,7 +25,7 @@ public class FavoritesTest extends ActivityInstrumentationTestCase2<MainActivity
 	public void testSaveFavorites() {
 		
 		ArrayList<Question> questionArray;
-		UserPostCollector userCollect = new UserPostCollector();
+		UserPostCollector userCollect = new UserPostCollector(getInstrumentation().getTargetContext());
 		ArrayList<Question> ql = new ArrayList<Question>();
 		
 		Question q = new Question("Title1","TextBody1", "author");
