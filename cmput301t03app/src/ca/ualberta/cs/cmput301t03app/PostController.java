@@ -2,13 +2,15 @@ package ca.ualberta.cs.cmput301t03app;
 
 import java.util.ArrayList;
 
+import android.content.Context;
+
 public class PostController {
 	ArrayList<Question> questions=null;
 	UserPostCollector upc=null;
 	iDataManager dm;
 	QuestionFilter qf =new QuestionFilter();
 	private String username;
-	
+	private Context context; //THIS IS SOLELY FOR TESTING PURPOSES -Carly
 	public void setUsername(String name){
 		this.username = name;
 	}
@@ -19,7 +21,7 @@ public class PostController {
 	
 	public UserPostCollector getUPCInstance(){
 		if (upc==null){
-			upc=new UserPostCollector();
+			upc=new UserPostCollector(context);
 			}
 		return upc;
 	}

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.PostController;
@@ -58,20 +59,18 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	// This test is also already in another class already,
 	// should delete one of these.
 	
-	public void testSaveFavorites(){
-		
+	public void testSaveAndLoadFromCache(){
 		
 		ArrayList<Question> questionArray;
-		UserPostCollector userCollect = new UserPostCollector();
+		UserPostCollector userPostCollector = new UserPostCollector(getInstrumentation().getTargetContext());
 		ArrayList<Question> ql = new ArrayList<Question>();
 		
-		Question q = new Question("Title1","TextBody1", "author");
-		
+		Question q = new Question("This is a test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");	
 		ql.add(q);
 		
-		userCollect.addFavoriteQuestions(q);
+		userPostCollector.addFavoriteQuestions(q);
 		
-		questionArray = userCollect.getFavoriteQuestions();
+		questionArray = userPostCollector.getFavoriteQuestions();
 		
 		assertEquals("Favorites not saved.", ql, questionArray);
 		

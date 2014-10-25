@@ -3,12 +3,17 @@ package ca.ualberta.cs.cmput301t03app;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import android.content.Context;
 
@@ -20,81 +25,96 @@ public class LocalDataManager implements iDataManager{
 
 	//File names
 	private static final String READ_FILE = "read.sav";
-	private static final String READ_LATER_FILE = "read_later.sav";
+	private static final String TO_READ_FILE = "read_later.sav";
 	private static final String FAVORITE_FILE = "favorite.sav";
 	
-	//File modes
-	private static final int READ = 1;
-	private static final int READ_LATER = 2;
-	private static final int FAVORITE = 3;
-	
 	private Context context;
-	private Integer validModes[] = {READ, READ_LATER, FAVORITE};
 	private String SAVE_FILE; //This will be equal to one of the filenames when user sets a mode
 	private int mode = 0;
-	
+
 	public LocalDataManager(Context context) {
 		this.context = context;
 		
 	}
 	
-	/*This sets the mode to indicate which file to save to*/
-	public void setMode(int mode) {
-		this.mode = mode;
-		
-		switch (mode) {
-			case READ:
-				SAVE_FILE = READ_FILE;
-			case READ_LATER:
-				SAVE_FILE = READ_LATER_FILE;
-			case FAVORITE:
-				SAVE_FILE = FAVORITE_FILE;
-		}
+	public void saveFavorites(ArrayList<Question> list) {
+		SAVE_FILE = FAVORITE_FILE;
+		save(list);
 	}
 	
-	/*Saves a question list to local storage*/
+	public void saveRead(ArrayList<Question> list) {
+		SAVE_FILE = READ_FILE;
+		save(list);
+	}
+	
+	public void saveToRead(ArrayList<Question> list) {
+		SAVE_FILE = TO_READ_FILE;
+		save(list);
+	}
+	
+	public ArrayList<Question> loadFavorites() {
+		SAVE_FILE = FAVORITE_FILE;
+		ArrayList<Question> list = new ArrayList<Question>();
+		list = load();
+		return list;
+	}
+	
+	public ArrayList<Question> loadRead() {
+		SAVE_FILE = READ_FILE;
+		ArrayList<Question> list = new ArrayList<Question>();
+		list = load();
+		return list;
+	}
+	
+	public ArrayList<Question> loadToRead() {
+		SAVE_FILE = TO_READ_FILE;
+		ArrayList<Question> list = new ArrayList<Question>();
+		list = load();
+		return list;
+	}
+	
+	/*Saves a general question list to local storage*/
 	@Override
 	public void save(ArrayList<Question> list) {
 		
         try {
-        	assert isCorrectMode() : "Mode is not set or incorrect mode."; 
+        	
         	FileOutputStream fileOutputStream = context.openFileOutput(SAVE_FILE, Context.MODE_PRIVATE);
-        	ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-        	objectOutputStream.writeObject(list);
+        	OutputStreamWriter objectStreamWriter = new OutputStreamWriter(fileOutputStream);
+        	
+        	GsonBuilder builder = new GsonBuilder();
+        	Gson gson = builder.create();
+        	builder.serializeNulls(); //Show fields with null values
+        	
+        	gson.toJson(list, objectStreamWriter); //Serialize to Json
+        	fileOutputStream.flush();
 	        fileOutputStream.close();
 	        
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 	
-	/*Loads a question list from local storage*/
+	/*Loads a general question list from local storage.
+	 * In other words, this method does NOT put the retrieved
+	 * Question objects into its corresponding question list.*/
 	@Override
 	public ArrayList<Question> load() {
 
 		ArrayList<Question> list = new ArrayList<Question>();
 		
 		try {
-			assert isCorrectMode() : "Mode is not set or incorrect mode.";
-			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);	
-			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-			list = (ArrayList<Question>) objectInputStream.readObject();
 			
-		} catch(Exception e) {
+			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);	
+			InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+			Type listType = new TypeToken<ArrayList<Question>>(){}.getType();
+			list = new Gson().fromJson(inputStreamReader, listType);
+			
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
 		return list;
 		
 	}
 	
-	/*Checks to see if a correct mode was set or even set at all*/
-	private boolean isCorrectMode() {
-		Set<Integer> set = new HashSet<Integer>(Arrays.asList(validModes));
-		
-		if (set.contains(mode)) {
-			return true;
-		} else {
-			return false;
-		}	
-	}
 }
