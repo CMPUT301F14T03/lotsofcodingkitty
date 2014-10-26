@@ -3,8 +3,10 @@ package ca.ualberta.cs.cmput301t03app;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 public class Question{
+	private String id;
 	private ArrayList<Comment> comments;
 	private ArrayList<Answer> answers;
 	private String subject;
@@ -25,6 +27,7 @@ public class Question{
 	**/
 	
 	public Question(String subject, String body, String author) {
+		this.id = UUID.randomUUID().toString();
 		this.date = new Date();
 		this.subject = subject;
 		this.body = body;
@@ -111,6 +114,9 @@ public class Question{
 
 	public String getAuthor() {
 		return this.author;
+	}
+	public String getId(){
+		return this.id;
 	}
 	
 }
