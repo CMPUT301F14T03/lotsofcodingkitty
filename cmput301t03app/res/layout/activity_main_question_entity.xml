@@ -1,114 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:clickable="false"
+    android:focusable="false" >
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/question_upvote_score"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="130"
+        android:textSize="30dp"
+         />
+
+     <ImageView
+        android:id="@+id/question_fav_icon"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/question_upvote_score"
+        android:layout_marginLeft="5dp"
+        android:background="@null"
+        android:clickable="false"
+        android:focusable="false"
+        android:src="@drawable/ic_fav_no__blue_small" /> 
+
+    <TextView
+        android:id="@+id/question_title"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#ffdd00"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/question_upvote_score"
+        android:text="Main Activity Question title. This is the title thatf a question?"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:textStyle="bold" />
 
-        <!-- This is the Score/upvote part on the left -->
+    <TextView
+        android:id="@+id/post_timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@+id/question_title"
+        android:layout_toRightOf="@+id/question_upvote_score"
+        android:gravity="left"
+        android:text="Posted: Oct 31, 2014"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#000000"
+        android:textSize="10dp" />
 
-        <LinearLayout
-            android:layout_width="80dp"
-            android:layout_height="fill_parent"
-            android:background="#ffffff"
-            android:gravity="left"
-            android:orientation="vertical"
-            android:textAlignment="center"
-             >
-
-            <TextView
-                android:id="@+id/question_upvote_score"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="13"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="30dp"
-                />
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginBottom="8dp"
-                >
-
-                <ImageButton
-                    android:id="@+id/question_fav_icon"
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
-                    android:gravity="left"
-                    android:src="@drawable/ic_fav_no__blue_small"
-                    android:background="#ffffff" />
-
-                <ImageButton
-                    android:id="@+id/question_viewed_icon"
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
-                    android:gravity="right"
-                    android:src="@drawable/ic_fav_yes_blue_small" 
-                    android:background="#ffffff"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- This is the question title/time stamp part -->
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="#ffffff"
-            android:gravity="left"
-            android:orientation="vertical"
-            android:padding="10dp" >
-            
-            
-             <TextView
-                android:id="@+id/question_title"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Main Activity Question title. This is the title thatf a question?"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                 android:textColor="#000000"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-             
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" 
-                android:textColor="#000000"
-                android:layout_marginTop="5dp">
-
-                <TextView
-                android:id="@+id/post_timestamp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Posted: Oct 31, 2014"
-                android:textAlignment="center"
-                android:gravity="left"
-                android:textSize="10dp"
-                android:textColor="#000000"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-                
-                <TextView
-                android:id="@+id/question_author"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="by: Lotso CodingKitty"
-                android:gravity="right"
-                android:textSize="10dp"
-                android:textColor="#000000"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-                
-            </LinearLayout>
-
-            
-        </LinearLayout>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/question_author"
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"
+        android:layout_below="@+id/question_title"
+        android:layout_marginRight="10dp"
+        android:gravity="right"
+        android:text="by: Lotso CodingKitty"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#000000"
+        android:textSize="10dp" />
 
 </RelativeLayout>

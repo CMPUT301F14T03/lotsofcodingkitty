@@ -1,6 +1,7 @@
 /*this test tests our main activity UI functionality*/
 
 import ca.ualberta.cs.cmput301t03app.MainActivity;
+import ca.ualberta.cs.cmput301t03app.Question;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
@@ -31,7 +32,7 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	private void addQuestion(String text){
 		//assertNotNull((ListView) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_list));
 		MainActivity ma = getActivity();
-		ArrayAdapter<Question> aa = ma.getAdapter();
+	//	ArrayAdapter<Question> aa = ma.getAdapter();
 		
 	
 	}
