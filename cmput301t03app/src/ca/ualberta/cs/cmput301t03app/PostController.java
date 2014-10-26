@@ -26,7 +26,7 @@ public class PostController {
 		return upc;
 	}
 	
-	public ArrayList<Question> getQuestionInstance(){
+	public ArrayList<Question> getQuestionsInstance(){
 		if (questions==null){
 			questions=new ArrayList<Question>();
 			}
@@ -46,6 +46,8 @@ public class PostController {
 	public Object getComment(){
 		return null;
 	}
+	
+	
 	public Object save(){
 		return null;
 	}
@@ -65,8 +67,8 @@ public class PostController {
 	public Object addAnswer(Answer answer){
 		return null;
 	}
-	public Object addQuestion(Question question){
-		return null;
+	public void addQuestion(Question question){
+		questions.add(question);
 	}
 	public Object addComment(Comment comment){
 		return null;
