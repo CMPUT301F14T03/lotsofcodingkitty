@@ -35,28 +35,28 @@ public class QuestionModelTest extends ActivityInstrumentationTestCase2<MainActi
 	// Also checks to see if two answers with the same attributes are added as separate objects.
 	public void testAddAnswer() {
 		Question q1 = new Question("a subject", "a body", "a author");
-		Answer a1 = new Answer("a body", "a author");
-		q1.addAnswer(a1);
+		Answer a1 = new Answer("a body", "a author","1");
+		q1.addAnswer("1");
 		assertSame("answer object is the same", a1, q1.getAnswers().get(0));
 		
-		Answer a2 = new Answer("a body", "a author");
-		q1.addAnswer(a2);
+		Answer a2 = new Answer("a body", "a author","2");
+		q1.addAnswer("2");
 		assertNotSame("a1 is not a2", a1, a2); // Checks to ensure a1 is not a2
 		assertNotSame("a1 is not a2", q1.getAnswers().get(0), q1.getAnswers().get(1)); // Now checks to ensure this is also the case for the
 																					   // answers added.
 		
-		q1.addAnswer(a2);
+		q1.addAnswer("2");
 		assertSame("index 1 and 2 have the same answer object", q1.getAnswers().get(1), q1.getAnswers().get(2));
 	}
 	
 	// Check if the counting of questions works properly
 	public void testAnswerCount() {
 		Question q1 = new Question("a subject", "a body", "a author");
-		Answer a1 = new Answer("a body", "a author");
-		q1.addAnswer(a1);
+		Answer a1 = new Answer("a body", "a author","1");
+		q1.addAnswer("1");
 		assertEquals("Answer count  is 1", 1, q1.countAnswers());
-		Answer a2 = new Answer("a body", "a author");
-		q1.addAnswer(a2);
+		Answer a2 = new Answer("a body", "a author","1");
+		q1.addAnswer("2");
 		assertEquals("Answer count is 2", 2, q1.countAnswers());
 	}
 	

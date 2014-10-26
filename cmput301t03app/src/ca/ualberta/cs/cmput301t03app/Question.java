@@ -8,13 +8,13 @@ import java.util.UUID;
 public class Question{
 	private String id;
 	private ArrayList<Comment> comments;
-	private ArrayList<Answer> answers;
 	private String subject;
 	private String body;
 	private String author;
 	private File picture;
 	private Date date;
 	private int rating;
+	private ArrayList<String> answers;
 
 	/** This constructor should not exist because we do not allow the user to set the date manually.
 	public Question(Date date, String subject, String question){
@@ -33,8 +33,8 @@ public class Question{
 		this.body = body;
 		this.author = author; // Added author to constructor (Added by Eric)
 		this.rating = 0;
-		this.answers = new  ArrayList<Answer>();  // Need to initialize the lists (Added by Eric)
 		this.comments = new ArrayList<Comment>(); // Same as above
+		this.answers = new ArrayList<String>();
 	}
 	
 	/** This constructor should NOT exist, as they allow the author to create questions without a subject or body
@@ -58,12 +58,12 @@ public class Question{
 		this.getComments().add(comment);
 	}
 	
-	public ArrayList<Answer> getAnswers() {
+	public ArrayList<String> getAnswers() {
 		return this.answers;
 	}
 	
-	public void addAnswer(Answer answer) {
-		this.answers.add(answer);
+	public void addAnswer(String answerID){
+		this.answers.add(answerID);
 	}
 	
 	public String getSubject() {

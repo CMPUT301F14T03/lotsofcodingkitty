@@ -28,7 +28,7 @@ public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	
 	public void testUpvoteAnswers() {
 		
-		Answer testAnswer = new Answer("body", "author");
+		Answer testAnswer = new Answer("body", "author","3");
 		testAnswer.upRating();
 		assertEquals("Answer not upvoted properly", testAnswer.getRating(), 1);
 	}
@@ -37,9 +37,9 @@ public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	
 	public void testSortByDate() {
 		ArrayList<Answer> ansList = new ArrayList<Answer>();
-		ansList.add(new Answer("body1", "author"));
-		ansList.add(new Answer("body2", "author"));
-		ansList.add(new Answer("body3", "author"));
+		ansList.add(new Answer("body1", "author","1"));
+		ansList.add(new Answer("body2", "author","1"));
+		ansList.add(new Answer("body3", "author","1"));
 		
 		// define a method for sorting
 		// Collections.sort(ansList);
