@@ -3,8 +3,10 @@ package ca.ualberta.cs.cmput301t03app;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 public class Answer {
+	private String id;
 	private ArrayList<Comment> comments;
 	private String answer;
 	private String author;
@@ -21,6 +23,7 @@ public class Answer {
 	**/
 	
 	public Answer(String answer, String author){
+		this.id = UUID.randomUUID().toString()
 		this.date = new Date();
 		this.answer = answer;
 		this.author = author; // Added author to constructor (Added by Eric)
@@ -90,6 +93,9 @@ public class Answer {
 	
 	public File getPicture(){
 		return this.picture;
+	}
+	public String getId(){
+		return this.id;
 	}
 	
 }
