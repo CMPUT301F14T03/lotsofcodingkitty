@@ -24,7 +24,7 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 	
 	public void testEmptyQuestions(){
 		PostController controller = new PostController();
-		ArrayList<Question> listofquestions = controller.getQuestionInstance();
+		ArrayList<Question> listofquestions = controller.getQuestionsInstance();
 		assertTrue("Question list should be empty.", listofquestions.size() == 0);
 	}
 	
@@ -37,7 +37,7 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 		PostController controller = new PostController();
 		Question q = new Question("Title1","TextBody1", "author");
 		controller.addQuestion(q);
-		ArrayList<Question> listofquestions = controller.getQuestionInstance();
+		ArrayList<Question> listofquestions = controller.getQuestionsInstance();
 		assertTrue("Failed to get questions, question list empty.", listofquestions.size() > 0);
 	}	
 	
