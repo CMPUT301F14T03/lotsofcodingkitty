@@ -49,7 +49,7 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		PostController pc = new PostController();
 		Question q = new Question("Title1","TextBody1", "author");
 		pc.addQuestion(q);
-		assertNotNull("No questions found.", pc.getQuestionInstance());
+		assertNotNull("No questions found.", pc.getQuestionsInstance());
 	}
 	
 	

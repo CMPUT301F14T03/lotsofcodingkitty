@@ -19,6 +19,7 @@ public class AnswerModelTest extends ActivityInstrumentationTestCase2<MainActivi
 		assertEquals("body is 'a body'", "a body", a1.getAnswer());
 		assertEquals("author is 'a author'",  "a author", a1.getAuthor());
 		assertEquals("rating is 0", 0, a1.getRating());
+		assertTrue("Id is a string",a1.getId() instanceof String);
 	}
 	
 	// Checks that the rating of the answer is incremented properly
@@ -47,4 +48,5 @@ public class AnswerModelTest extends ActivityInstrumentationTestCase2<MainActivi
 		
 		
 	}
+	
 }

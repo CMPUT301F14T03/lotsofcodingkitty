@@ -23,7 +23,7 @@ public class Answer {
 	**/
 	
 	public Answer(String answer, String author){
-		this.id = UUID.randomUUID().toString()
+		this.id = UUID.randomUUID().toString();
 		this.date = new Date();
 		this.answer = answer;
 		this.author = author; // Added author to constructor (Added by Eric)
