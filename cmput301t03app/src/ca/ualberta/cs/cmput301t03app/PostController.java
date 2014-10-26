@@ -34,7 +34,7 @@ public class PostController {
 	}
 	
 	public int countAnswers(Question q) {
-		return q.getAnswers().size();
+		return q.countAnswers();
 	}
 	
 	public Object getAnswer(){
