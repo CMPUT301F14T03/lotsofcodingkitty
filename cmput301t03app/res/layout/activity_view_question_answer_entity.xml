@@ -21,7 +21,7 @@
             android:textAlignment="center" >
 
             <ImageButton
-                android:id="@+id/question_upvote_button"
+                android:id="@+id/answer_upvote_button"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_upvote"
@@ -29,7 +29,7 @@
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/question_upvote_score"
+                android:id="@+id/answer_upvote_score"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="0000"
@@ -45,7 +45,7 @@
                 >
 
                 <ImageButton
-                    android:id="@+id/question_fav_icon"
+                    android:id="@+id/answer_fav_icon"
                     android:layout_width="32dp"
                     android:layout_height="28dp"
                     android:gravity="left"
@@ -97,7 +97,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall" />
                 
                 <TextView
-                android:id="@+id/question_author"
+                android:id="@+id/answer_author"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="by: Lotso CodingKitty"

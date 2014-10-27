@@ -33,7 +33,6 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 		this.context = context;
 		this.questionList = new ArrayList<Question>();
 		this.questionList.addAll(questionList);
-			
 	}
 	
 	/* This is the custom holder with the custom elements for each row */
@@ -80,7 +79,7 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 		
 		//Does the selected state change as well as loads into ListView as selected or not
 		
-		Question q=questionList.get(position);
+		Question q = questionList.get(position);
 		//Date to string
 		// http://javarevisited.blogspot.ca/2011/09/convert-date-to-string-simpledateformat.html
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
