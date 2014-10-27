@@ -28,7 +28,7 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	public void testSuccessfulSavingAndLoadingFromCache(){
 		
 		ArrayList<Question> questionArray;
-		UserPostCollector userPostCollector = new UserPostCollector(getInstrumentation().getTargetContext());
+		UserPostCollector userPostCollector = new UserPostCollector();
 		ArrayList<Question> ql = new ArrayList<Question>();
 		
 		Question q = new Question("This is a test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");	

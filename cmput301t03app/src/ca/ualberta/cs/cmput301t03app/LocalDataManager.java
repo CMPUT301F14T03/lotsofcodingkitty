@@ -88,6 +88,13 @@ public class LocalDataManager implements iDataManager{
 		return list;
 	}
 	
+	// need to add this method
+	
+	public ArrayList<Answer> loadPostedAnswers() {
+		return null;
+	}
+	
+	
 	/**
 	 * Saves a general question list to local storage.
 	 * 
