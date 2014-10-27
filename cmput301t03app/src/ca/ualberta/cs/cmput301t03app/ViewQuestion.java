@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class ViewQuestion extends Activity {
 	PostController pc = new PostController();
-	UserPostCollector upc = new UserPostCollector(this);
+	UserPostCollector upc = new UserPostCollector();
 	ImageButton favIcon;
 	ImageButton upvoteButton;
 	TextView upvote_score;

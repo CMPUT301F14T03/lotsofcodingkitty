@@ -13,41 +13,52 @@ public PostingTest() {
 		super(MainActivity.class);
 	}
 
-	// Creates a new post contrtoller and new question
+	// Creates a new post controller and new question
 	// Adds the question to the newly created post controller
 	// Asserts that the question getter method of the post controller
 	// returns the earlier created question
 
 	public void testPostQuestion() {
 		
+		String Id;
 		PostController pc = new PostController();
 		Question q1 = new Question("Title1","TextBody1", "author");
+		Id = q1.getId();
 		pc.addQuestion(q1);
 		
-		assertEquals("Question not posted correctly.", pc.getQuestion(),q1);
+		assertEquals("Question not posted correctly.", pc.getQuestion(Id),q1);
 	}
 	
 	// Same as above but with answer object
 	
 	public void testPostAnswer() {
 		
+		String Id;
 		PostController pc = new PostController();
-		Question q1 = new Question("Title1","TextBody1", "author");
 		Answer a1 = new Answer("answer", "author","1");
-		q1.addAnswer("1");
+		Id = a1.getId();
+		pc.addAnswer(a1);
 		
-		assertEquals("Answer not posted correctly.",pc.getAnswer(),a1);
+		assertEquals("Answer not posted correctly.",pc.getAnswer(Id),a1);
 	}
 	
 	// Same as above but with comment object
 	
+	public void testPostCommentToAnswer() {
+		
+		Answer a1 = new Answer(null, null, null);
+		Comment c1 = new Comment("Hello World.");
+		a1.addComment(c1);
+		
+		assertEquals("Comment not posted correctly.", a1.getComments().get(0),c1);
+	}
+	
 	public void testPostCommentToQuestion() {
 		
-
-		PostController pc = new PostController();
+		Question q1 = new Question(null, null, null);
 		Comment c1 = new Comment("Hello World.");
-		pc.addComment(c1);
+		q1.addComment(c1);
 		
-		assertEquals("Comment not posted correctly.",pc.getComment(),c1);
+		assertEquals("Comment not posted correctly.",q1.getComments().get(0),c1);
 	}
 }
