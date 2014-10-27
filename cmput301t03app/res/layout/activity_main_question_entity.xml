@@ -17,13 +17,24 @@
 
      <ImageView
         android:id="@+id/question_fav_icon"
-        android:layout_width="75dp"
+        android:layout_width="45dp"
         android:layout_height="30dp"
         android:layout_below="@+id/question_upvote_score"
         android:background="@null"
         android:clickable="false"
         android:focusable="false"
-        android:src="@drawable/ic_fav_no__blue_small" /> 
+        android:src="@drawable/ic_fav_no_small" /> 
+        
+      <ImageView
+        android:id="@+id/question_pic_icon"
+        android:layout_width="25dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/question_upvote_score"
+        android:layout_toRightOf="@+id/question_fav_icon"
+        android:background="@null"
+        android:clickable="false"
+        android:focusable="false"
+        android:src="@drawable/ic_picture_no" /> 
 
     <TextView
         android:id="@+id/question_title"
