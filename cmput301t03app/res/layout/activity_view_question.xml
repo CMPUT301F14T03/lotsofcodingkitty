@@ -4,12 +4,6 @@
     android:layout_height="match_parent"
     tools:context="ca.ualberta.cs.cmput301t03app.ViewQuestion" >
 
-    <!-- <include
-        android:id="@+id/activity_view_question_main_question"
-        android:layout_width="fill_parent"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        layout="@layout/activity_view_question_entity" /> -->
         
         
          <LinearLayout

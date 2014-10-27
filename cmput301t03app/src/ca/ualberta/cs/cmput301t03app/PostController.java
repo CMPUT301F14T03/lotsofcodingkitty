@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 
 public class PostController {
-	ArrayList<Question> questions=null;
+	static ArrayList<Question> questions=null;
 	UserPostCollector upc=null;
 	iDataManager dm;
 	QuestionFilter qf =new QuestionFilter();
@@ -40,7 +40,12 @@ public class PostController {
 	public Object getAnswer(){
 		return null ;
 	}
-	public Object getQuestion(){
+	public Question getQuestion(String qID){
+		for (int i = 0; i<getQuestionsInstance().size(); i++){
+			if (getQuestionsInstance().get(i).getId().equals(qID)){
+				return getQuestionsInstance().get(i);
+			}
+		}
 		return null;
 	}
 	public Object getComment(){
