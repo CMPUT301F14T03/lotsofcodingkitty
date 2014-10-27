@@ -16,6 +16,20 @@
         android:text="A N S W E R"
         android:background="#000000"
         android:textColor="#ffffff" />
+     
+     
+     <TextView
+         android:id="@+id/answer_count"
+         android:layout_below="@+id/question_answer_button"
+         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+         android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="#eeeeee"
+        android:text="Answers: 24"
+         />
     
     <!-- This is the Score/upvote part on the left -->
 
@@ -24,7 +38,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/question_upvote_button"
-        android:layout_below="@+id/question_answer_button"
+        android:layout_below="@+id/answer_count"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:clickable="false"
@@ -67,7 +81,7 @@
         android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/question_answer_button"
+        android:layout_below="@+id/answer_count"
         android:layout_marginTop="5dp"
         android:background="@null"
         android:clickable="true"
