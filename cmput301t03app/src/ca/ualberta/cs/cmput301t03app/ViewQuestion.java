@@ -25,7 +25,13 @@ public class ViewQuestion extends Activity {
 	public void setQuestionText(String ID) {
 		Question q=pc.getQuestion(ID);
 		TextView q_title = (TextView) findViewById(R.id.question_title);
+		TextView q_body = (TextView) findViewById(R.id.question_text_body);
+		TextView q_author = (TextView) findViewById(R.id.question_author);
+		TextView q_date = (TextView) findViewById(R.id.post_timestamp);
 		q_title.setText(q.getSubject());
+		q_body.setText(q.getBody());
+		q_author.setText(q.getAuthor());
+		q_date.setText(q.getDate().toString());
 		
 	}
 	
