@@ -50,6 +50,13 @@ public class MainActivity extends Activity {
 		setupAdapter();
 
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		mla.updateAdapter(pc.getQuestionsInstance());
+		
+	}
 
 	public void populatequestions() {
 		// This is a temporary method that hardcodes some questions for testing.
