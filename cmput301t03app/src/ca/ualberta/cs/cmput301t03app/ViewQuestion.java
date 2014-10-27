@@ -2,12 +2,12 @@ package ca.ualberta.cs.cmput301t03app;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 public class ViewQuestion extends Activity {
+	PostController pc = new PostController();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -15,15 +15,15 @@ public class ViewQuestion extends Activity {
 		setContentView(R.layout.activity_view_question);
 		
 		Bundle extras = getIntent().getExtras();
-		String question_title = extras.getString("question_title");
+		String question_title = extras.getString("question_id");
 		
 		setQuestionText(question_title);
 	}
 
-	public void setQuestionText(String question_title) {
-		Log.d("click", "IN QUESTION " + question_title);
+	public void setQuestionText(String ID) {
+		Question q=pc.getQuestion(ID);
 		TextView q_title = (TextView) findViewById(R.id.question_title);
-		q_title.setText(question_title);
+		q_title.setText(q.getSubject());
 		
 	}
 	

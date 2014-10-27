@@ -24,6 +24,7 @@ public class MainActivity extends Activity {
 	ListView lv;
 	MainListAdapter mla;
 	public ArrayList<Question> questions = new ArrayList<Question>();
+	PostController pc = new PostController();
 	
 
 	@Override
@@ -132,15 +133,14 @@ public class MainActivity extends Activity {
 	public void setupAdapter() {
 		lv = (ListView) findViewById(R.id.activity_main_question_list);
 		mla = new MainListAdapter(this, R.layout.activity_main_question_entity,
-				questions);
+				pc.getQuestionsInstance());
 		lv.setAdapter(mla);
 	}
 
 	public void toQuestionActivity(int position) {
-		Log.d("click", questions.get(position).getSubject() );
 		
 		Intent i = new Intent( this, ViewQuestion.class );
-		i.putExtra("question_title", questions.get(position).getSubject());
+		i.putExtra("question_id", pc.getQuestionsInstance().get(position).getId());
 		startActivity(i);
 	}
 
@@ -205,9 +205,9 @@ public class MainActivity extends Activity {
 
 						Question q = new Question(questionTitleString,
 								questionBodyString, userNameString);
-						questions.add(q);
+						pc.getQuestionsInstance().add(q);
 
-						mla.updateAdapter(questions);
+						mla.updateAdapter(pc.getQuestionsInstance());
 					}
 
 				}).setNegativeButton("Cancel",
