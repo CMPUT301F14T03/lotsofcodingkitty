@@ -201,7 +201,7 @@ public class PostController
 
 	// Add a comment when you only know the Question or Answer parentId
 
-	public void addComment(Comment comment, String parentId)
+	public void addCommentToQuestion(Comment comment, String parentId)
 	{
 
 		for (int i = 0; i < subQuestions.size(); i++)
@@ -211,6 +211,11 @@ public class PostController
 				subQuestions.get(i).addComment(comment);
 			}
 		}
+	}
+
+	public void addCommentToAnswer(Comment comment, String parentId)
+	{
+
 		for (int i = 0; i < subAnswers.size(); i++)
 		{
 			if (subAnswers.get(i).getId().equals(parentId))

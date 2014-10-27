@@ -19,6 +19,7 @@ public class ViewQuestion extends Activity {
 	ImageButton upvoteButton;
 	TextView upvote_score;
 	String question_id;
+	TextView answerCounter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,9 @@ public class ViewQuestion extends Activity {
 		favIcon = (ImageButton) findViewById(R.id.question_fav_icon);
 		upvoteButton = (ImageButton) findViewById(R.id.question_upvote_button);
 		upvote_score = (TextView) findViewById(R.id.question_upvote_score);
+		
+		answerCounter = (TextView) findViewById(R.id.answer_count);
+		answerCounter.setText("Answers: " + String.valueOf(pc.getQuestion(question_id).countAnswers()));
 
 		favIcon.setOnClickListener(new OnClickListener() {
 
