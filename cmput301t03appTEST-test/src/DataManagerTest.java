@@ -21,12 +21,9 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	}
 	
 	/** 
-	 * Asserts that when a question is added to the favorite questions array
-	 * and then when the function getFavoriteQuestions() is called, it will
-	 * return a corresponding array of all specific favorited questions.
-	 * This test is also already in another class already,
-	 * should delete one of these.
-	 * 
+	 * This test uses the favoriteQuestions list to test the saving and loading
+	 * functionality to cache. This works with any other questions list in the
+	 * UserPostCollector. Asserts all questions have the same content.
 	 */
 	public void testSuccessfulSavingAndLoadingFromCache(){
 		

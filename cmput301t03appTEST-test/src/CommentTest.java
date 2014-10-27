@@ -52,7 +52,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		PostController pc = new PostController();
 		Question q1 = new Question("Question title", "Question body", "author");
 		pc.addQuestion(q1);
-		Answer a1 = new Answer("My answer", "author");
+		Answer a1 = new Answer("My answer", "author","1");
 		pc.addAnswer(a1);
 		Comment c1 = new Comment("My comment");
 		
@@ -79,7 +79,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		PostController pc = new PostController();
 		Question q1 = new Question("Question title", "Question body", "author");
 		pc.addQuestion(q1);
-		Answer a1 = new Answer("My answer", "author");
+		Answer a1 = new Answer("My answer", "author","2");
 		pc.addAnswer(a1);
 		Comment c1 = new Comment("My comment");
 		
