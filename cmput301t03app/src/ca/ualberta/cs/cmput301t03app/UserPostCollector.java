@@ -42,6 +42,7 @@ public class UserPostCollector {
 	}
 	
 	public ArrayList<Question> getPostedQuestions() {
+		toReadQuestions = localDataManager.loadPostedQuestions();
 		return postedQuestions;
 	}
 	
@@ -70,6 +71,7 @@ public class UserPostCollector {
 	
 	public void addPostedQuestion(Question question) {
 		getPostedQuestions().add(question);
+		localDataManager.savePostedQuestions(toReadQuestions);
 	}
 	
 	public void addUserAnswer(Answer answer) {
