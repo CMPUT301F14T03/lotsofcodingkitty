@@ -81,11 +81,11 @@ public class PostController
 	public Question getQuestion(String qID)
 	{
 
-		for (int i = 0; i < getQuestionsInstance().size(); i++)
+		for (int i = 0; i < subQuestions.size(); i++)
 		{
-			if (getQuestionsInstance().get(i).getId().equals(qID))
+			if (subQuestions.get(i).getId().equals(qID))
 			{
-				return getQuestionsInstance().get(i);
+				return subQuestions.get(i);
 			}
 		}
 		return null;
