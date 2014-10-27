@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,6 +77,12 @@ public class ViewQuestion extends Activity {
 		// }
 
 	}
+	
+//	public void setAnswerAdapter() {
+//		ListView answerListView = (ListView) findViewById(R.id.answerListView);
+//		AnswerListAdapter ala = new AnswerListAdapter(this, R.id.answerListView, pc.getAnswer() );
+//		answerListView.setAdapter(ala);
+//	}
 
 	public void setFavorited() {
 		upc.addFavoriteQuestions(pc.getQuestion(question_id));
