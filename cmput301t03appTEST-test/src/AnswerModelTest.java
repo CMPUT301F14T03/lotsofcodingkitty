@@ -15,15 +15,17 @@ public class AnswerModelTest extends ActivityInstrumentationTestCase2<MainActivi
 	}
 	// Checks that the constructor fills attributes properly and that the attributes can be retrieved.
 	public void testAnswerConstructor() {
-		Answer a1 = new Answer("a body", "a author");
+		Answer a1 = new Answer("a body", "a author","1");
 		assertEquals("body is 'a body'", "a body", a1.getAnswer());
 		assertEquals("author is 'a author'",  "a author", a1.getAuthor());
 		assertEquals("rating is 0", 0, a1.getRating());
+		assertTrue("Id is a string",a1.getId() instanceof String);
+		assertTrue("ParentID is 1",a1.getParentID()=="1");
 	}
 	
 	// Checks that the rating of the answer is incremented properly
 	public void testIncreaseAnswerScore() {
-		Answer a1 = new Answer("a body", "a author");
+		Answer a1 = new Answer("a body", "a author","1");
 		assertEquals("rating is 0", 0, a1.getRating());
 		a1.upRating();
 		assertEquals("rating is 1", 1, a1.getRating());
@@ -32,7 +34,7 @@ public class AnswerModelTest extends ActivityInstrumentationTestCase2<MainActivi
 	// Checks if a comment can be added by seeing if the object created is the same object in the comment list of the answer
 	// Also checks to see if two comments with the same attributes are added as separate objects.
 	public void testAddComment() {
-		Answer a1 = new Answer("a body", "a author");
+		Answer a1 = new Answer("a body", "a author","1");
 		Comment c1 = new Comment("a comment");
 		a1.addComments(c1);
 		assertSame("comment object is the same", c1, a1.getComments().get(0));
@@ -47,4 +49,5 @@ public class AnswerModelTest extends ActivityInstrumentationTestCase2<MainActivi
 		
 		
 	}
+	
 }

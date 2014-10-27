@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainListAdapter extends ArrayAdapter<Question> {
@@ -39,7 +40,7 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 	public static class questionListHolder {
 		ImageButton question_upvote_button;
 		TextView question_upvote_score;
-		ImageButton question_fav_icon;
+		ImageView question_fav_icon;
 		ImageButton question_viewed_icon;
 		TextView question_title;
 		TextView post_timestamp;
@@ -68,11 +69,11 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 		// Match the xml Ids with the TextViews
 		holder = new questionListHolder();
 
+		holder.question_fav_icon = (ImageView) row.findViewById(R.id.question_fav_icon);
 		holder.question_title = (TextView) row.findViewById(R.id.question_title);
 		holder.post_timestamp = (TextView) row.findViewById(R.id.post_timestamp);
 		holder.question_author = (TextView) row.findViewById(R.id.question_author);
-		holder.question_upvote_score = 
-				(TextView) row.findViewById(R.id.question_upvote_score);
+		holder.question_upvote_score = (TextView) row.findViewById(R.id.question_upvote_score);
 
 		row.setTag(holder);
 

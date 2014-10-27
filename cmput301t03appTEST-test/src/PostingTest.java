@@ -33,8 +33,8 @@ public PostingTest() {
 		
 		PostController pc = new PostController();
 		Question q1 = new Question("Title1","TextBody1", "author");
-		Answer a1 = new Answer("answer", "author");
-		q1.addAnswer(a1);
+		Answer a1 = new Answer("answer", "author","1");
+		q1.addAnswer("1");
 		
 		assertEquals("Answer not posted correctly.",pc.getAnswer(),a1);
 	}
