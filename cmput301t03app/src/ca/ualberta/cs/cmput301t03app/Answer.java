@@ -46,7 +46,7 @@ public class Answer {
 		return this.comments;
 	}
 	
-	public void addComments(Comment comment) {
+	public void addComment(Comment comment) {
 		this.comments.add(comment);
 	}
 	

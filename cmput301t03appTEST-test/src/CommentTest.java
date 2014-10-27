@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import ca.ualberta.cs.cmput301t03app.Answer;
 import ca.ualberta.cs.cmput301t03app.Comment;
 import ca.ualberta.cs.cmput301t03app.PostController;
@@ -22,9 +24,11 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		PostController pc = new PostController();
 		while (!pc.checkConnectivity()) {
 		}
-		Object posts = new Object();
-		posts = pc.load();
-		assertNotSame("No posts loaded from server.", posts, null);
+		pc.loadServerPosts();
+		ArrayList<Question> questions = pc.getQuestionsInstance();
+		ArrayList<Answer> answers = pc.getAnswersInstance();
+		assertNotSame("No questions loaded from server.", questions, null);
+		assertNotSame("No answers loaded from server.", answers, null);
 	}
 	
 	// Test creates a new post object, waits for server connectivity,
@@ -36,13 +40,10 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		
 		PostController pc = new PostController();
 		Question question = new Question("Question title", "Question body", "author");
-		Object posts = new Object();
 		pc.addQuestion(question);
 		while (!pc.checkConnectivity()) {
 		}
-		pc.save();
-		posts = pc.load();
-		assertEquals("Retrieved server questions not same and saved questions.", posts, question);
+		assertTrue(pc.pushNewPosts());
 	}
 	
 	public void testWritePostsOffline() {
@@ -54,7 +55,6 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		pc.addQuestion(q1);
 		Answer a1 = new Answer("My answer", "author","1");
 		pc.addAnswer(a1);
-		Comment c1 = new Comment("My comment");
 		
 		
 		// loop until you gain connectivity? I don't know
@@ -62,13 +62,9 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		while(!pc.checkConnectivity()) {
 		}
 		
-		/* save to server */
+		// Assert that pushing posts to server works
 		
-		pc.pushNewPosts();
-		
-		/* Assert that after pushing, pulling(loading user posts) returns a result */
-		
-		assertFalse("No posts pushed to server.", pc.load().equals(null));
+		assertTrue("No posts pushed to server.", pc.pushNewPosts());
 	}
 		
 	public void testWritePostsOnline() {
@@ -84,13 +80,10 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		Comment c1 = new Comment("My comment");
 		
 		if (pc.checkConnectivity()) {
-			/* save to server */
 			
-			pc.pushNewPosts();
+			// Assert that pushing posts to server works
 			
-			/* Assert that after pushing, pulling(loading user posts) returns a result */
-			
-			assertFalse("No posts pushed to server.", pc.load().equals(null));
+			assertTrue("Posts not pushed properly", pc.pushNewPosts());
 		}
 	}
 	

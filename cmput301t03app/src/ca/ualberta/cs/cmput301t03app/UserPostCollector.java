@@ -11,12 +11,10 @@ public class UserPostCollector {
 	private ArrayList<Question> postedQuestions;
 	private ArrayList<Answer> postedAnswers;
 	
-	private Context context;
-	private LocalDataManager localDataManager;
+//	private Context context;
+//	private LocalDataManager localDataManager;
 		
-	public UserPostCollector(Context context) {
-		this.context = context;
-		localDataManager = new LocalDataManager(context);
+	public UserPostCollector() {
 		favoriteQuestions = new ArrayList<Question>();
 		readQuestions = new ArrayList<Question>();
 		toReadQuestions = new ArrayList<Question>();
@@ -24,25 +22,38 @@ public class UserPostCollector {
 		postedAnswers = new ArrayList<Answer>();
 	}
 	
+	// This is a constructor that is used when the UPC is created using the LocalDataManagers loading methods
+	
+	public UserPostCollector(ArrayList<Question> favoriteQuestions, ArrayList<Question> readQuestions,
+				ArrayList<Question> toReadQuestions, ArrayList<Question> postedQuestions, ArrayList<Answer> postedAnswers) {
+		this.favoriteQuestions = favoriteQuestions;
+		this.readQuestions = readQuestions;
+		this.toReadQuestions = toReadQuestions;
+		this.postedQuestions = postedQuestions;
+		this.postedAnswers = postedAnswers;
+	}
+	
+	// I changed a lot of these because it didn't really seem MVC for the model
+	// to be calling the dataManager (which is what our post controller should know about)
+	// to populate its own lists.
+	//
+	// The model is now populated by the PostController calling the LocalDataManager.
+	
 	
 	/*=====================Getters=====================*/
 	public ArrayList<Question> getFavoriteQuestions() {
-		favoriteQuestions = localDataManager.loadFavorites();	
 		return favoriteQuestions;
 	}
 
 	public ArrayList<Question> getReadQuestions() {
-		readQuestions = localDataManager.loadRead();
 		return readQuestions;
 	}
 	
 	public ArrayList<Question> getToReadQuestions() {
-		toReadQuestions = localDataManager.loadToRead();
 		return toReadQuestions;
 	}
 	
 	public ArrayList<Question> getPostedQuestions() {
-		toReadQuestions = localDataManager.loadPostedQuestions();
 		return postedQuestions;
 	}
 	
@@ -54,28 +65,23 @@ public class UserPostCollector {
 	
 	/*=====================Adding=====================*/
 	public void addFavoriteQuestions(Question question) {
-//		getFavoriteQuestions().add(question);
-		favoriteQuestions.add(question); //For testing
-		localDataManager.saveFavorites(favoriteQuestions);		
+		favoriteQuestions.add(question);
 	}
 	
 	public void addReadQuestions(Question question) {
-		getReadQuestions().add(question);
-		localDataManager.saveRead(readQuestions);
+		readQuestions.add(question);
 	}
 	
 	public void addtoReadQuestions(Question question) {
-		getToReadQuestions().add(question);
-		localDataManager.saveToRead(toReadQuestions);
+		toReadQuestions.add(question);
 	}
 	
 	public void addPostedQuestion(Question question) {
-		getPostedQuestions().add(question);
-		localDataManager.savePostedQuestions(toReadQuestions);
+		postedQuestions.add(question);
 	}
 	
 	public void addUserAnswer(Answer answer) {
-		getPostedAnswers().add(answer);
+		postedAnswers.add(answer);
 	}
 	
 }
