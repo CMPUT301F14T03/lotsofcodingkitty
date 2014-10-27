@@ -7,9 +7,8 @@
 
     <TextView
         android:id="@+id/question_upvote_score"
-        android:layout_width="70dp"
+        android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="130"
@@ -18,10 +17,9 @@
 
      <ImageView
         android:id="@+id/question_fav_icon"
-        android:layout_width="70dp"
+        android:layout_width="75dp"
         android:layout_height="30dp"
         android:layout_below="@+id/question_upvote_score"
-        android:layout_marginLeft="5dp"
         android:background="@null"
         android:clickable="false"
         android:focusable="false"
@@ -44,7 +42,7 @@
     <TextView
         android:id="@+id/post_timestamp"
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="28dp"
         android:layout_below="@+id/question_title"
         android:layout_toRightOf="@+id/question_upvote_score"
         android:gravity="left"
@@ -52,18 +50,18 @@
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#000000"
-        android:textSize="10dp" />
+        android:textSize="13dp" />
 
     <TextView
         android:id="@+id/question_author"
         android:layout_width="fill_parent"
-        android:layout_height="25dp"
+        android:layout_height="28dp"
         android:layout_below="@+id/question_title"
         android:layout_marginRight="10dp"
         android:gravity="right"
         android:text="by: Lotso CodingKitty"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#000000"
-        android:textSize="10dp" />
+        android:textSize="13dp" />
 
 </RelativeLayout>

@@ -1,3 +1,4 @@
+
 package ca.ualberta.cs.cmput301t03app;
 
 import java.util.ArrayList;
@@ -17,6 +18,15 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+
+/*
+ * This class is the main access point to the application. 
+ * 
+ * @author
+ * 
+ * */
+
 
 public class MainActivity extends Activity {
 	ListView lv;
