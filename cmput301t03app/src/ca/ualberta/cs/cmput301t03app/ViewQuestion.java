@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ViewQuestion extends Activity {
 	PostController pc = new PostController();
@@ -45,4 +47,5 @@ public class ViewQuestion extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 }
