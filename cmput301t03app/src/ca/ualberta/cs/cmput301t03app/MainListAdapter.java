@@ -1,8 +1,8 @@
 /*
  *  This class populates a custom list adapter full of custom question rows.
  * This is displayed in the Main Activity
- * by: Joshua Nguyen
- * */
+ * @ author
+ *  * */
 
 
 package ca.ualberta.cs.cmput301t03app;
