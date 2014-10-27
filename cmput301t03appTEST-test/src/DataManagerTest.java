@@ -20,9 +20,46 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		super(MainActivity.class);
 	}
 	
-	// This test will need to be changed to reflect our new UML.
+	/** 
+	 * Asserts that when a question is added to the favorite questions array
+	 * and then when the function getFavoriteQuestions() is called, it will
+	 * return a corresponding array of all specific favorited questions.
+	 * This test is also already in another class already,
+	 * should delete one of these.
+	 * 
+	 */
+	public void testSuccessfulSavingAndLoadingFromCache(){
+		
+		ArrayList<Question> questionArray;
+		UserPostCollector userPostCollector = new UserPostCollector(getInstrumentation().getTargetContext());
+		ArrayList<Question> ql = new ArrayList<Question>();
+		
+		Question q = new Question("This is a test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");	
+		Question q2 = new Question("This is a another test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");
+		ql.add(q);
+		ql.add(q2);
+		
+		userPostCollector.addFavoriteQuestions(q);	
+		userPostCollector.addFavoriteQuestions(q2);	
+		questionArray = userPostCollector.getFavoriteQuestions();
+		
+		for (int i = 0; i<ql.size(); i++) {
+			assertEquals("Favorites not saved.", ql.get(i).getAuthor(), questionArray.get(i).getAuthor());
+			assertEquals("Favorites not saved.", ql.get(i).getBody(), questionArray.get(i).getBody());
+			assertEquals("Favorites not saved.", ql.get(i).getRating(), questionArray.get(i).getRating());
+			assertEquals("Favorites not saved.", ql.get(i).getSubject(), questionArray.get(i).getSubject());
+			assertEquals("Favorites not saved.", ql.get(i).getAnswers(), questionArray.get(i).getAnswers());
+			assertEquals("Favorites not saved.", ql.get(i).getComments(), questionArray.get(i).getComments());
+			assertEquals("Favorites not saved.", ql.get(i).getDate().getTime(), questionArray.get(i).getDate().getTime());
+			assertEquals("Favorites not saved.", ql.get(i).getPicture(), questionArray.get(i).getPicture());
+		}
+	}
 	
-	public void testSaveLoadQuestionList() {		
+	/**
+	 * This test will need to be changed to reflect our new UML.	
+	 * 
+	 */
+	public void testSuccessfulSavingAndLoadingToServer() {		
 		//testing if question posted saved to cache
 		iDataManager dataManager = new ServerDataManager();
 		ArrayList<Question> q = new ArrayList<Question>();
@@ -39,59 +76,4 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		newQuestionArray = dataManager.load();
 		assertNotNull("No questions loaded.",newQuestionArray);
 	}
-	
-	// Creates a new post controller and adds a question into the controller
-	// Asserts that the questions returned from pc.getQuestionInstance is not an empty list,
-	// which it should not be given that we have added a question to it.
-	
-	public void testBrowseQuestions() {
-		
-		PostController pc = new PostController();
-		Question q = new Question("Title1","TextBody1", "author");
-		pc.addQuestion(q);
-		assertNotNull("No questions found.", pc.getQuestionInstance());
-	}
-	
-	
-	// Asserts that when a question is added to the favorite questions array
-	// and then when the function getFavoriteQuestions() is called, it will
-	// return a corresponding array of all specific favorited questions.
-	// This test is also already in another class already,
-	// should delete one of these.
-	
-	public void testSaveAndLoadFromCache(){
-		
-		ArrayList<Question> questionArray;
-		UserPostCollector userPostCollector = new UserPostCollector(getInstrumentation().getTargetContext());
-		ArrayList<Question> ql = new ArrayList<Question>();
-		
-		Question q = new Question("This is a test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");	
-		ql.add(q);
-		
-		userPostCollector.addFavoriteQuestions(q);
-		
-		questionArray = userPostCollector.getFavoriteQuestions();
-		
-		assertEquals("Favorites not saved.", ql, questionArray);
-		
-	}
-	
-	
-	
-	
-	// Kind of an important test case
-	// should probably get this one coded
-	
-	
-//	public void testCachedAnswersAndQuestions(){
-//
-//		DataManager dm = new DataManager();
-//		ArrayList<Answer> cachedAnswers=new ArrayList<Answer>();
-//		ArrayList<Question> cachedQuestions=new ArrayList<Question>();
-//		cachedAnswers=dm.localLoadAnswers();
-//		cachedQuestions=dm.localLoadQuestions();
-//		assertTrue("There are no cached answers",cachedAnswers.size()>0);
-//		assertTrue("There are no cached questions",cachedQuestions.size()>0);
-//		
-//	}
 }
