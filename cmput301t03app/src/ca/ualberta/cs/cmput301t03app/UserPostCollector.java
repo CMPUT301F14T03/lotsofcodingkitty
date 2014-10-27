@@ -2,8 +2,6 @@ package ca.ualberta.cs.cmput301t03app;
 
 import java.util.ArrayList;
 
-import android.content.Context;
-
 public class UserPostCollector {
 	private ArrayList<Question> favoriteQuestions;
 	private ArrayList<Question> readQuestions;
