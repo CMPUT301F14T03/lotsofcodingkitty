@@ -64,7 +64,7 @@ public class ViewQuestion extends Activity {
 				.getRating()));
 		q_title.setText(q.getSubject());
 		q_body.setText(q.getBody());
-		q_author.setText(q.getAuthor());
+		q_author.setText("By: " + q.getAuthor());
 		q_date.setText(q.getDate().toString());
 
 		// Log.d("click", "Contains? " +

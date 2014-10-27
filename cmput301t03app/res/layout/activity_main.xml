@@ -13,7 +13,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:onClick="addQuestionButtonFunction"
-        android:text="Ask a question"
+        android:text="A S K"
         android:background="#000000"
         android:textColor="#ffffff" />
     
