@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
 	ListView lv;
 	MainListAdapter mla;
 	public ArrayList<Question> questions = new ArrayList<Question>();
-	PostController pc = new PostController();
+	PostController pc = new PostController(getApplicationContext());
 	
 
 	@Override

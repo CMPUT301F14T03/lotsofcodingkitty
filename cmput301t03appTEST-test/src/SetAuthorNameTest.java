@@ -16,7 +16,7 @@ public class SetAuthorNameTest extends ActivityInstrumentationTestCase2<MainActi
 	
 	
 	public void testSetName() {
-		PostController aUser = new PostController();
+		PostController aUser = new PostController(getInstrumentation().getTargetContext());
 		aUser.setUsername("Test1");
 		assertTrue("Username not set properly.", aUser.getUsername().equals("Test1"));
 		String name = "Test2";

@@ -25,16 +25,17 @@ public class FavoritesTest extends ActivityInstrumentationTestCase2<MainActivity
 	public void testSaveFavorites() {
 		
 		ArrayList<Question> questionArray;
-		UserPostCollector userCollect = new UserPostCollector(getInstrumentation().getTargetContext());
+		PostController postController = new PostController(getInstrumentation().getTargetContext());
+		UserPostCollector userPostCollector = postController.getUPCInstance();
 		ArrayList<Question> ql = new ArrayList<Question>();
 		
 		Question q = new Question("Title1","TextBody1", "author");
 		
 		ql.add(q);
 		
-		userCollect.addFavoriteQuestions(q);
+		userPostCollector.addFavoriteQuestions(q);
 		
-		questionArray = userCollect.getFavoriteQuestions();
+		questionArray = userPostCollector.getFavoriteQuestions();
 		
 		assertEquals("Questions saved not same as questions retrieved.", ql, questionArray);
 		
