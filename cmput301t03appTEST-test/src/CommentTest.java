@@ -19,11 +19,11 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	// from the server.
 	
 	public void testPullFromServer() {
-		PostController pc = new PostController();
+		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		while (!pc.checkConnectivity()) {
 		}
 		Object posts = new Object();
-		posts = pc.load();
+		posts = pc.loadServerPosts();
 		assertNotSame("No posts loaded from server.", posts, null);
 	}
 	
@@ -34,14 +34,14 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	
 	public void testPushToServer() {
 		
-		PostController pc = new PostController();
+		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		Question question = new Question("Question title", "Question body", "author");
 		Object posts = new Object();
 		pc.addQuestion(question);
 		while (!pc.checkConnectivity()) {
 		}
-		pc.save();
-		posts = pc.load();
+		pc.pushNewPosts();
+		posts = pc.loadServerPosts();
 		assertEquals("Retrieved server questions not same and saved questions.", posts, question);
 	}
 	
@@ -49,7 +49,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		/* Write comments, questions and answers */
 		/* Check connection */
 			
-		PostController pc = new PostController();
+		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		Question q1 = new Question("Question title", "Question body", "author");
 		pc.addQuestion(q1);
 		Answer a1 = new Answer("My answer", "author","1");
@@ -68,7 +68,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		
 		/* Assert that after pushing, pulling(loading user posts) returns a result */
 		
-		assertFalse("No posts pushed to server.", pc.load().equals(null));
+		assertFalse("No posts pushed to server.", pc.loadServerPosts().equals(null));
 	}
 		
 	public void testWritePostsOnline() {
@@ -76,7 +76,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		/* Write comments, questions and answers */
 		/* Check connection */
 		
-		PostController pc = new PostController();
+		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		Question q1 = new Question("Question title", "Question body", "author");
 		pc.addQuestion(q1);
 		Answer a1 = new Answer("My answer", "author","2");
@@ -90,7 +90,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 			
 			/* Assert that after pushing, pulling(loading user posts) returns a result */
 			
-			assertFalse("No posts pushed to server.", pc.load().equals(null));
+			assertFalse("No posts pushed to server.", pc.loadServerPosts().equals(null));
 		}
 	}
 	

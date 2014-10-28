@@ -17,6 +17,11 @@ public class PostController
 	private String username;
 	private Context context; // THIS IS SOLELY FOR TESTING PURPOSES -Carly
 
+	// THIS IS SOLELY FOR TESTING PURPOSES -Carly
+	public PostController(Context context) {
+		this.context = context;
+	}
+	
 	public void setUsername(String name)
 	{
 

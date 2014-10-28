@@ -20,23 +20,23 @@ public PostingTest() {
 
 	public void testPostQuestion() {
 		
-		PostController pc = new PostController();
+		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		Question q1 = new Question("Title1","TextBody1", "author");
 		pc.addQuestion(q1);
 		
-		assertEquals("Question not posted correctly.", pc.getQuestion(),q1);
+		assertEquals("Question not posted correctly.", pc.getQuestion(q1.getId()),q1);
 	}
 	
 	// Same as above but with answer object
 	
 	public void testPostAnswer() {
 		
-		PostController pc = new PostController();
+		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		Question q1 = new Question("Title1","TextBody1", "author");
 		Answer a1 = new Answer("answer", "author","1");
 		q1.addAnswer("1");
 		
-		assertEquals("Answer not posted correctly.",pc.getAnswer(),a1);
+		assertEquals("Answer not posted correctly.",pc.getAnswer(a1.getId()),a1);
 	}
 	
 	// Same as above but with comment object
@@ -44,10 +44,11 @@ public PostingTest() {
 	public void testPostCommentToQuestion() {
 		
 
-		PostController pc = new PostController();
+		PostController pc = new PostController(getInstrumentation().getTargetContext());
+		Question q1 = new Question("Title1","TextBody1", "author");
 		Comment c1 = new Comment("Hello World.");
-		pc.addComment(c1);
+		pc.addCommentToQuestion(c1, q1.getId());
 		
-		assertEquals("Comment not posted correctly.",pc.getComment(),c1);
+		assertEquals("Comment not posted correctly.",pc.getQuestion(q1.getId()).getComments().get(0),c1);
 	}
 }

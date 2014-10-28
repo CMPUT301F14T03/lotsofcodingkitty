@@ -36,15 +36,15 @@ public class AnswerModelTest extends ActivityInstrumentationTestCase2<MainActivi
 	public void testAddComment() {
 		Answer a1 = new Answer("a body", "a author","1");
 		Comment c1 = new Comment("a comment");
-		a1.addComments(c1);
+		a1.addComment(c1);
 		assertSame("comment object is the same", c1, a1.getComments().get(0));
 		
 		Comment c2 = new Comment("a comment");
-		a1.addComments(c2);
+		a1.addComment(c2);
 		assertNotSame("c1 is not c2", c1, c2);  // Check to ensure objects with same attributes are different instances
 		assertNotSame("c1 is not c2", a1.getComments().get(0), a1.getComments().get(1)); // Same check for objects in the list
 		
-		a1.addComments(c2);
+		a1.addComment(c2);
 		assertSame("index 1 and 2 have the same comment object", a1.getComments().get(1), a1.getComments().get(2));
 		
 		

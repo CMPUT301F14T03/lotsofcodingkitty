@@ -28,7 +28,8 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	public void testSuccessfulSavingAndLoadingFromCache(){
 		
 		ArrayList<Question> questionArray;
-		UserPostCollector userPostCollector = new UserPostCollector(getInstrumentation().getTargetContext());
+		PostController postController = new PostController(getInstrumentation().getTargetContext());
+		UserPostCollector userPostCollector = postController.getUPCInstance();
 		ArrayList<Question> ql = new ArrayList<Question>();
 		
 		Question q = new Question("This is a test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");	
@@ -36,8 +37,8 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		ql.add(q);
 		ql.add(q2);
 		
-		userPostCollector.addFavoriteQuestions(q);	
-		userPostCollector.addFavoriteQuestions(q2);	
+		userPostCollector.addFavoriteQuestions(q);
+		userPostCollector.addFavoriteQuestions(q2);
 		questionArray = userPostCollector.getFavoriteQuestions();
 		
 		for (int i = 0; i<ql.size(); i++) {

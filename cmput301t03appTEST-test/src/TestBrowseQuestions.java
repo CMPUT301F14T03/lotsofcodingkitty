@@ -23,7 +23,7 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 	// Asserts that the size of the list is empty
 	
 	public void testEmptyQuestions(){
-		PostController controller = new PostController();
+		PostController controller = new PostController(getInstrumentation().getTargetContext());
 		ArrayList<Question> listofquestions = controller.getQuestionsInstance();
 		assertTrue("Question list should be empty.", listofquestions.size() == 0);
 	}
@@ -34,7 +34,7 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 	// we've just added a question to it.
 	
 	public void testGetQuestions(){
-		PostController controller = new PostController();
+		PostController controller = new PostController(getInstrumentation().getTargetContext());
 		Question q = new Question("Title1","TextBody1", "author");
 		controller.addQuestion(q);
 		ArrayList<Question> listofquestions = controller.getQuestionsInstance();
