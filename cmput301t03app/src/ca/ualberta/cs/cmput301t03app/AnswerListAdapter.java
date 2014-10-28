@@ -21,7 +21,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 	private static ArrayList<Answer> answerList;
 
 	public AnswerListAdapter(Context context, int layoutResourceId,
-			ArrayList<Question> questionList) {
+			ArrayList<Answer> answerList) {
 		super(context, layoutResourceId, answerList);
 		this.layoutResourceId = layoutResourceId;
 		this.context = context;
@@ -42,21 +42,26 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 
 		View row = convertView;
 		LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-		row = inflater.inflate(layoutResourceId, parent, false);
 
 		answerListHolder holder = null;
 
 		// Tell Listview which xml to find the formatting to.
 		LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
-		row = vi.inflate(R.id.answerListView, null);
+		row = vi.inflate(R.layout.activity_view_question_answer_entity, null);
 
 		holder = new answerListHolder();
 
 		holder.answer_text_body = (TextView) row
 				.findViewById(R.id.answer_text_body);
-		row.setTag(holder);
+		holder.answer_author = (TextView) row
+				.findViewById(R.id.answer_author);
+		holder.post_timestamp = (TextView) row
+				.findViewById(R.id.post_timestamp);
 
+		row.setTag(holder);
+		
+		
 		Answer a = answerList.get(position);
 		// Date to string
 		// http://javarevisited.blogspot.ca/2011/09/convert-date-to-string-simpledateformat.html
@@ -64,10 +69,9 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		String date_to_string = sdf.format(a.getDate());
 		
 		
-		
-		
-		
 		holder.answer_text_body.setText(a.getAnswer());
+		holder.answer_author.setText("By: " + a.getAuthor());
+		holder.post_timestamp.setText("Posted: " + date_to_string);
 
 		return row;
 

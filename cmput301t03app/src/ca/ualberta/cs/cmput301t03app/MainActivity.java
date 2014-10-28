@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
 /*
  * This class is the main access point to the application. 
  * 
@@ -56,7 +55,6 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		populatequestions();
 		setupAdapter();
 
 	}
@@ -68,82 +66,6 @@ public class MainActivity extends Activity {
 		
 	}
 
-	public void populatequestions() {
-		// This is a temporary method that hardcodes some questions for testing.
-
-		PostController pc = new PostController();
-		
-		Question q = new Question(
-				"Test question 0: What does this question ask?",
-				"Said groove sucka", "Test Author 0");
-		Question q1 = new Question(
-				"Test question 1: This is a longer test question to see how it will look when wrapped on multiple lines. How do I post question?",
-				"What about the body", "Test Author 1");
-		Question q2 = new Question(
-				"Test question 2: What does this question ask? This is slightly longer",
-				"Said groove sucka", "Test Author 2");
-		Question q3 = new Question(
-				"Test question 3: What does this question ask? Some variety",
-				"Said groove sucka", "Test Author 3");
-		Question q4 = new Question(
-				"Test question 4: What does this question ask? How about this one?",
-				"Said groove sucka", "Test Author 4");
-		Question q5 = new Question("Test question 5: Boolean?",
-				"Said groove sucka", "Test Author 5");
-		Question q6 = new Question("Test question 6: How are you?",
-				"Said groove sucka", "Test Author 6");
-		Question q7 = new Question("Test question 7: Boolean == Boolean?",
-				"Said groove sucka", "Test Author 7");
-
-		for (int i = 0; i < 130; i++) {
-			q.upRating();
-		}
-
-		for (int i = 0; i < 97; i++) {
-			q1.upRating();
-		}
-
-		for (int i = 0; i < 98; i++) {
-			q2.upRating();
-		}
-
-		for (int i = 0; i < 99; i++) {
-			q3.upRating();
-		}
-		for (int i = 0; i < 200; i++) {
-			q4.upRating();
-		}
-		for (int i = 0; i < 201; i++) {
-			q5.upRating();
-		}
-		for (int i = 0; i < 17; i++) {
-			q6.upRating();
-		}
-
-		for (int i = 0; i < 209; i++) {
-			q7.upRating();
-		}
-
-		//pc.addQuestion(q);
-		
-//		pc.addQuestion(q1);
-//		pc.addQuestion(q2);
-//		pc.addQuestion(q3);
-//		pc.addQuestion(q4);
-//		pc.addQuestion(q5);
-//		pc.addQuestion(q6);
-//		pc.addQuestion(q7);
-		
-		questions.add(q);
-		questions.add(q1);
-		questions.add(q2);
-		questions.add(q3);
-		questions.add(q4);
-		questions.add(q5);
-		questions.add(q6);
-		questions.add(q7);
-
-	}
 
 	public void setupAdapter() {
 		lv = (ListView) findViewById(R.id.activity_main_question_list);
