@@ -182,9 +182,9 @@ public class PostController
 	{
 
 		subAnswers.add(answer);
-		pushAnswers.add(answer);
-		upc.addUserAnswer(answer);
-		pushNewPosts();
+	//	pushAnswers.add(answer);
+	//	upc.addUserAnswer(answer);
+	//	pushNewPosts();
 	}
 
 	// When an question is added it is added to the subQuestions list,
@@ -194,9 +194,9 @@ public class PostController
 	{
 
 		subQuestions.add(question);
-		pushQuestions.add(question);
-		upc.addPostedQuestion(question);
-		pushNewPosts();
+	//	pushQuestions.add(question);
+	//	upc.addPostedQuestion(question);
+	//	pushNewPosts();
 	}
 
 	// Add a comment when you only know the Question or Answer parentId
