@@ -1,5 +1,6 @@
 package ca.ualberta.cs.cmput301t03app;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -108,7 +109,11 @@ public class ViewQuestion extends Activity {
 		q_title.setText(q.getSubject());
 		q_body.setText(q.getBody());
 		q_author.setText("By: " + q.getAuthor());
-		q_date.setText(q.getDate().toString());
+		//Date to string
+		// http://javarevisited.blogspot.ca/2011/09/convert-date-to-string-simpledateformat.html
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		String date_to_string= sdf.format(q.getDate());
+		q_date.setText("Posted: "+ date_to_string);
 
 		// Log.d("click", "Contains? " +
 		// upc.getFavoriteQuestions().contains(pc.getQuestion(question_id)));
