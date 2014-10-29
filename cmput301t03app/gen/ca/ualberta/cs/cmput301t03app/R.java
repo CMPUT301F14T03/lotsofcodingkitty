@@ -49,12 +49,12 @@ public final class R {
         public static final int activity_main_question_list=0x7f080008;
         public static final int answerBody=0x7f080000;
         public static final int answerListView=0x7f080015;
-        public static final int answer_author=0x7f08001a;
+        public static final int answer_author=0x7f080018;
         public static final int answer_count=0x7f080012;
-        public static final int answer_fav_icon=0x7f080018;
+        public static final int answer_fav_icon=0x7f08001a;
         public static final int answer_text_body=0x7f080019;
-        public static final int answer_upvote_button=0x7f080016;
-        public static final int answer_upvote_score=0x7f080017;
+        public static final int answer_upvote_button=0x7f080017;
+        public static final int answer_upvote_score=0x7f080016;
         public static final int attachImg=0x7f080002;
         public static final int attachImgTxt=0x7f080003;
         public static final int doneBtn=0x7f080004;

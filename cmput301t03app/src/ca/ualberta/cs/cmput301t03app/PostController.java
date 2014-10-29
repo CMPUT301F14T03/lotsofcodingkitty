@@ -21,6 +21,7 @@ public class PostController
 	public PostController(Context context) {
 		this.context = context;
 	}
+	public PostController(){}
 	
 	public void setUsername(String name)
 	{
