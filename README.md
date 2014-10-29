@@ -10,7 +10,8 @@ User Manual
 -----------
 
 ON APP START-UP:
-Upon opening the application, a list of ready-asked questions may appear for you to browse. If no questions populate, there may not be any questions asked yet; in which case you should ask the first question! You may also not be connected to the server. Check your connection. 
+
+Upon opening the application, a list of ready-asked questions may appear for you to browse. If no questions populate, there may not be any questions asked yet. You may also not be connected to the server. Check your connection. 
 
 
 QUESTION AND ANSWER STUFF:
