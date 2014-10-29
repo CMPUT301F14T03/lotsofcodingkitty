@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ViewQuestion extends Activity {
-	PostController pc = new PostController(getApplicationContext());
+	PostController pc = new PostController(this);
 	UserPostCollector upc = new UserPostCollector();
 	ArrayList answerList = new ArrayList<Answer>();
 	AnswerListAdapter ala;
