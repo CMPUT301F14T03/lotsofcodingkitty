@@ -41,14 +41,13 @@ public class LocalDataManager implements iDataManager{
 		this.context = context;
 		
 	}
-	
 	/**
 	 * Saves a list of question id's of favorite questions to cache.
 	 * @param list A list of strings containing ID's.
 	 */
-	public void saveFavorites(ArrayList<String> list) {
+	public void saveFavorites(Question q) {
 		SAVE_FILE = FAVORITE_FILE;
-		saveIds(list);
+		saveIds(q);
 	}
 	
 	/**
@@ -93,10 +92,10 @@ public class LocalDataManager implements iDataManager{
 	 * Saves a list of answers posted by the user to cache.
 	 * @param list A list of Answer objects.
 	 */
-//	public void savePostedAnswers(ArrayList<Answer> list) {
-//		SAVE_FILE = POSTED_ANSWERS_FILE;
-//		saveAnswers(list);
-//	}
+	public void savePostedAnswers(ArrayList<Answer> list) {
+		SAVE_FILE = POSTED_ANSWERS_FILE;
+		saveAnswers(list);
+	}
 	
 	/**
 	 * Loads a list of question ID's of favorite questions from cache.
@@ -160,12 +159,12 @@ public class LocalDataManager implements iDataManager{
 	 * Loads a list of answers posted by the user from cache.
 	 * @return list A list of Question objects.
 	 */
-//	public ArrayList<Answer> loadPostedAnswers() {
-//		SAVE_FILE = POSTED_ANSWERS_FILE;
-//		ArrayList<Answer> list = new ArrayList<Answer>();
-//		list = loadAnswers();
-//		return list;
-//	}
+	public ArrayList<String> loadPostedAnswers() {
+		SAVE_FILE = POSTED_ANSWERS_FILE;
+		ArrayList<String> list = new ArrayList<String>();
+		list = loadIds();
+		return list;
+	}
 	
 	
 	/**
@@ -267,46 +266,46 @@ public class LocalDataManager implements iDataManager{
 		return idArray;
 	}
 	
-//	public void saveAnswers(ArrayList<Answer> list) {
-//		
-//        try {
-//        	
-//        	FileOutputStream fileOutputStream = context.openFileOutput(SAVE_FILE, Context.MODE_PRIVATE);
-//        	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
-//        	
-//        	GsonBuilder builder = new GsonBuilder();
-//        	//Gson does not serialize/deserialize dates with milisecond precision unless specified
-//        	Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create();
-//        	builder.serializeNulls(); //Show fields with null values
-//        	
-//        	gson.toJson(list, outputStreamWriter); //Serialize to Json
-//        	outputStreamWriter.flush();
-//	        outputStreamWriter.close();
-//	        
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//	
-//	public ArrayList<Answer> loadAnswers() {
-//		
-//		ArrayList<Answer> answerArray = new ArrayList<Answer>();
-//		
-//		try {
-//			
-//			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);	
-//			InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-//			Type listType = new TypeToken<ArrayList<Answer>>(){}.getType();
-//			GsonBuilder builder = new GsonBuilder();
-//			//Gson does not serialize/deserialize dates with milisecond precision unless specified
-//        	Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create(); 
-//        	ArrayList<Answer> list = gson.fromJson(inputStreamReader, listType);
-//        	answerArray = list;
-//			
-//			
-//		} catch(IOException e) {
-//			e.printStackTrace();
-//		}
-//		return answerArray;
-//	}
+	public void saveAnswers(ArrayList<Answer> list) {
+		
+        try {
+        	
+        	FileOutputStream fileOutputStream = context.openFileOutput(SAVE_FILE, Context.MODE_PRIVATE);
+        	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
+        	
+        	GsonBuilder builder = new GsonBuilder();
+        	//Gson does not serialize/deserialize dates with milisecond precision unless specified
+        	Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create();
+        	builder.serializeNulls(); //Show fields with null values
+        	
+        	gson.toJson(list, outputStreamWriter); //Serialize to Json
+        	outputStreamWriter.flush();
+	        outputStreamWriter.close();
+	        
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<Answer> loadAnswers() {
+		
+		ArrayList<Answer> answerArray = new ArrayList<Answer>();
+		
+	try {
+			
+			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);	
+			InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+			Type listType = new TypeToken<ArrayList<Answer>>(){}.getType();
+			GsonBuilder builder = new GsonBuilder();
+			//Gson does not serialize/deserialize dates with milisecond precision unless specified
+        	Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create(); 
+        	ArrayList<Answer> list = gson.fromJson(inputStreamReader, listType);
+        	answerArray = list;
+			
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		return answerArray;
+	}
 }

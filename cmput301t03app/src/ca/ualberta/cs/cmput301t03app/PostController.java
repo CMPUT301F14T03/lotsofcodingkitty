@@ -10,9 +10,9 @@ public class PostController{
 	private static ArrayList<Answer> subAnswers = null;
 	private ArrayList<Question> pushQuestions = new ArrayList<Question>();
 	private ArrayList<Answer> pushAnswers = new ArrayList<Answer>();
-	UserPostCollector upc = new UserPostCollector();
-	iDataManager dm;
-	QuestionFilter qf = new QuestionFilter();
+	private static UserPostCollector upc = new UserPostCollector();
+	private iDataManager dm;
+	private QuestionFilter qf = new QuestionFilter();
 	private String username;
 	private Context context; // THIS IS SOLELY FOR TESTING PURPOSES -Carly
 
@@ -88,7 +88,7 @@ public class PostController{
 
 		if (checkConnectivity()){
 			dm = new ServerDataManager();
-			dm.save(pushQuestions);
+			//dm.save(pushQuestions);
 
 			// need a method for saving new to be pushed answers to server
 			// dm.saveAnswers(pushAnswers);
@@ -102,7 +102,8 @@ public class PostController{
 
 	// Creates a LocalDataManager and then calls all the saving methods
 	// on each of the UPC's arrays.
-
+	// I don't understand why this exists --- Eric
+	/**
 	public void saveUserPosts(){
 
 		dm = new LocalDataManager(context);
@@ -114,6 +115,8 @@ public class PostController{
 
 	// Creates a LocalDataManager and then populates the UPC
 	// with arrays loaded from the local cache.
+	 * 
+	 */
 
 	public void loadUserPosts(){
 
@@ -136,7 +139,7 @@ public class PostController{
 
 		if (!checkConnectivity()) return false;
 		dm = new ServerDataManager();
-		subQuestions = dm.load();
+		//subQuestions = dm.load();
 		// subAnswers = dm.loadAnswers()
 		// this answers will be all of the children of the
 		// questions we just loaded
@@ -188,4 +191,42 @@ public class PostController{
 			}
 		}
 	}
+	/**
+	 * These are all communicating with the UPC to tell it to save stuff
+	 * Please pass in the context, because it is needed for saving (Json DEMANDS IT!)
+	 * Direct questions on these to Eric
+	 */
+	public void addFavoriteQuestion(Question q, Context context) {
+		LocalDataManager local = new LocalDataManager(context);
+		local.saveFavorites(q);
+		
+	}
+	
+	public void addReadQuestion(Question q, Context context) {
+		String id = q.getId();
+		LocalDataManager local = new LocalDataManager(context);
+		local.saveRead(id);
+		
+	}
+	
+	public void addToRead(Question q, Context context) {
+		String id = q.getId();
+		upc.addtoReadQuestion(id);
+	}
+	/**
+	 * addUserPost() is overloaded.  Pass in the correct object and it'll do the rest.
+	 * @param q
+	 */
+	public void addUserPost(Question q, Context context) {
+		String id = q.getId();
+		upc.addPostedQuestion(id);
+	}
+	
+	public void addUserPost(Answer a, Context context) {
+		String id = a.getId();
+		upc.addUserAnswer(id);
+	}
+	/**
+	 * End of what Eric wrote
+	 */
 }

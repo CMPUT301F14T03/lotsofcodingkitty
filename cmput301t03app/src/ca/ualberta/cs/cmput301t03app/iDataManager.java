@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public interface iDataManager {
 
-
-	void saveQuestions(ArrayList<Question> list);
-	ArrayList<Question> loadQuestions();
+	public void saveQuestions(ArrayList<Question> list);
+	public ArrayList<Question> loadQuestions();
+	public void saveAnswers(ArrayList<Answer> list);
 //	void saveAnswers(ArrayList<Answer> list);
 //	ArrayList<Answer> loadAnswers();
 
