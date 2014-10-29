@@ -95,7 +95,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		answerList.addAll(aList);
 		notifyDataSetChanged();
 	}
-	public void updateRating(){
+	public void notifyChange(){
 		notifyDataSetChanged();
 	}
 

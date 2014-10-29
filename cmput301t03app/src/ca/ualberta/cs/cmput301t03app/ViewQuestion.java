@@ -228,7 +228,7 @@ public class ViewQuestion extends Activity {
 	public void upvoteAnswer(View v){
 		Answer answer=(Answer) v.getTag();
 		answer.upRating();
-		ala.updateRating();
+		ala.notifyChange();
 		
 	}
 
