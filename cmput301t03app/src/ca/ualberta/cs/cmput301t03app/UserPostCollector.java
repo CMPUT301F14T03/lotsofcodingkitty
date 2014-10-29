@@ -60,7 +60,7 @@ public class UserPostCollector {
 	}
 	
 	/*--------------------------------------------------------*/
-	
+	/* Not sure if we need adders anymore Carly since we're appending one object at a time.
 	/*=====================Adding=====================*/
 	public void addFavoriteQuestions(Question question) {
 		favoriteQuestions.add(question);

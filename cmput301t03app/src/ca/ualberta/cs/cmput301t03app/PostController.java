@@ -202,29 +202,34 @@ public class PostController{
 		
 	}
 	
-	public void addReadQuestion(Question q, Context context) {
-		String id = q.getId();
+	public void addFavoriteAnswer(Question q, Context context) {
 		LocalDataManager local = new LocalDataManager(context);
-		local.saveRead(id);
+		ArrayList<String> list = q.getAnswers();
+		
+	}
+	
+	public void addReadQuestion(Question q, Context context) {
+		LocalDataManager local = new LocalDataManager(context);
+		local.saveRead(q);
 		
 	}
 	
 	public void addToRead(Question q, Context context) {
-		String id = q.getId();
-		upc.addtoReadQuestion(id);
+		LocalDataManager local = new LocalDataManager(context);
+		local.saveToRead(q);
 	}
 	/**
 	 * addUserPost() is overloaded.  Pass in the correct object and it'll do the rest.
 	 * @param q
 	 */
 	public void addUserPost(Question q, Context context) {
-		String id = q.getId();
-		upc.addPostedQuestion(id);
+		LocalDataManager local = new LocalDataManager(context);
+		local.savePostedQuestions(q);
 	}
 	
 	public void addUserPost(Answer a, Context context) {
-		String id = a.getId();
-		upc.addUserAnswer(id);
+		LocalDataManager local = new LocalDataManager(context);
+		local.savePostedAnswer(a);
 	}
 	/**
 	 * End of what Eric wrote
