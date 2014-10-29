@@ -8,10 +8,12 @@ import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class AnswerListAdapter extends ArrayAdapter<Answer> {
@@ -19,8 +21,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 	private int layoutResourceId;
 	private Context context;
 	private static ArrayList<Answer> answerList;
-	private String answerID;
-	PostController pc=new PostController();
+
 
 	public AnswerListAdapter(Context context, int layoutResourceId,
 			ArrayList<Answer> answerList) {
@@ -32,6 +33,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 	}
 
 	public class answerListHolder {
+		Answer answer;
 		ImageButton answer_upvote_button;
 		TextView answer_upvote_score;
 		ImageView answer_fav_icon;
@@ -53,7 +55,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		row = vi.inflate(R.layout.activity_view_question_answer_entity, null);
 
 		holder = new answerListHolder();
-
+		holder.answer = answerList.get(position);
 		holder.answer_text_body = (TextView) row
 				.findViewById(R.id.answer_text_body);
 		holder.answer_author = (TextView) row
@@ -62,49 +64,38 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 				.findViewById(R.id.post_timestamp);
 		holder.answer_upvote_score = (TextView) row
 				.findViewById(R.id.answer_upvote_score);
+		holder.answer_upvote_button = (ImageButton) row.findViewById(R.id.answer_upvote_button);
+		holder.answer_upvote_button.setTag(holder.answer);
 
 		row.setTag(holder);
 		
 		
-		Answer a = answerList.get(position);
 		// Date to string
 		// http://javarevisited.blogspot.ca/2011/09/convert-date-to-string-simpledateformat.html
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		String date_to_string = sdf.format(a.getDate());
+		String date_to_string = sdf.format(holder.answer.getDate());
 		
 		
-		holder.answer_text_body.setText(a.getAnswer());
-		holder.answer_author.setText("By: " + a.getAuthor());
+		holder.answer_text_body.setText(holder.answer.getAnswer());
+		holder.answer_author.setText("By: " + holder.answer.getAuthor());
 		holder.post_timestamp.setText("Posted: " + date_to_string);
-		holder.answer_upvote_score.setText(Integer.toString(a.getRating()));
-		// AnswerID needs to be global so that the onclick can do stuff to it.
-		answerID=a.getId();
-		// This sets it up so it knows the answer upvote button is clicked.
-		// Inspired by SHAHAB from
-		// http://tausiq.wordpress.com/2012/08/22/android-listview-example-with-custom-adapter/
-		ImageButton upvote=(ImageButton) row.findViewById(R.id.answer_upvote_button);
-		upvote.setOnClickListener(new View.OnClickListener()
-		{
-			
-			@Override
-			public void onClick(View v)
-			{
-				pc.getAnswer(answerID).upRating();
-				notifyDataSetChanged();
-				Log.d("Click","Upvote");
-				
-			}
-		});
+		holder.answer_upvote_score.setText(Integer.toString(holder.answer.getRating()));
+
+		
 
 
 		return row;
-
 	}
+
+
 
 	// refresh Adapter Method calling in Question Activity
 	public synchronized void updateAdapter(ArrayList<Answer> aList) {
 		answerList.clear();
 		answerList.addAll(aList);
+		notifyDataSetChanged();
+	}
+	public void notifyChange(){
 		notifyDataSetChanged();
 	}
 
