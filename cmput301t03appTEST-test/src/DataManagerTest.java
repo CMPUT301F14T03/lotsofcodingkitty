@@ -9,12 +9,13 @@ import ca.ualberta.cs.cmput301t03app.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.UserPostCollector;
 import ca.ualberta.cs.cmput301t03app.iDataManager;
 
+/**
+ * Tests all saving and loading methods in both the LocalDataManager
+ * and the ServerDataManager.
+ */
 
 public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	
-	/*Cache read questions and answers 	
-	 * Allows the user save read questions/answers and questions/answers 
-	 * marked as read to be automatically saved to local cache */
 	public DataManagerTest() {
 		
 		super(MainActivity.class);
@@ -25,9 +26,9 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	 * functionality to cache. This works with any other questions list in the
 	 * UserPostCollector. Asserts all questions have the same content.
 	 */
-	public void testSuccessfulSavingAndLoadingFromCache(){
+	public void testSuccessfulSavingAndLoadingFromCache() {
 		
-		ArrayList<Question> questionArray;
+		ArrayList<String> idArray;
 		PostController postController = new PostController(getInstrumentation().getTargetContext());
 		UserPostCollector userPostCollector = postController.getUPCInstance();
 		ArrayList<Question> ql = new ArrayList<Question>();
@@ -37,20 +38,11 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		ql.add(q);
 		ql.add(q2);
 		
-		userPostCollector.addFavoriteQuestions(q);
-		userPostCollector.addFavoriteQuestions(q2);
-		questionArray = userPostCollector.getFavoriteQuestions();
+		userPostCollector.addFavoriteQuestion(q.getId());
+		userPostCollector.addFavoriteQuestion(q2.getId());
+		idArray = userPostCollector.getFavoriteQuestions();
 		
-		for (int i = 0; i<ql.size(); i++) {
-			assertEquals("Favorites not saved.", ql.get(i).getAuthor(), questionArray.get(i).getAuthor());
-			assertEquals("Favorites not saved.", ql.get(i).getBody(), questionArray.get(i).getBody());
-			assertEquals("Favorites not saved.", ql.get(i).getRating(), questionArray.get(i).getRating());
-			assertEquals("Favorites not saved.", ql.get(i).getSubject(), questionArray.get(i).getSubject());
-			assertEquals("Favorites not saved.", ql.get(i).getAnswers(), questionArray.get(i).getAnswers());
-			assertEquals("Favorites not saved.", ql.get(i).getComments(), questionArray.get(i).getComments());
-			assertEquals("Favorites not saved.", ql.get(i).getDate().getTime(), questionArray.get(i).getDate().getTime());
-			assertEquals("Favorites not saved.", ql.get(i).getPicture(), questionArray.get(i).getPicture());
-		}
+		assertEquals("Questions saved not same as questions retrieved.", ql, idArray);
 	}
 	
 	/**
@@ -67,11 +59,11 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		q.add(q2);
 		
 		
-		dataManager.save(q);
+		dataManager.saveQuestions(q);
 		
 		Object newQuestionArray;
 		
-		newQuestionArray = dataManager.load();
+		newQuestionArray = dataManager.loadQuestions();
 		assertNotNull("No questions loaded.",newQuestionArray);
 	}
 }
