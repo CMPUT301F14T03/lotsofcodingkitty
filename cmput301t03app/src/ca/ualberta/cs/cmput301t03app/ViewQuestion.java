@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ViewQuestion extends Activity {
 	PostController pc = new PostController(this);
@@ -77,7 +76,6 @@ public class ViewQuestion extends Activity {
 			}
 		});
 		
-		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -131,6 +129,7 @@ public class ViewQuestion extends Activity {
 		upvote_score = (TextView) findViewById(R.id.question_upvote_score);
 		answerButton = (Button) findViewById(R.id.question_answer_button);
 		answerCounter = (TextView) findViewById(R.id.answer_count);
+		answerListView= (ListView) findViewById(R.id.answerListView);
 	}
 	
 	public void answerQuestion() {
@@ -225,6 +224,12 @@ public class ViewQuestion extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	public void upvoteAnswer(View v){
+		Answer answer=(Answer) v.getTag();
+		answer.upRating();
+		ala.updateRating();
+		
 	}
 
 }

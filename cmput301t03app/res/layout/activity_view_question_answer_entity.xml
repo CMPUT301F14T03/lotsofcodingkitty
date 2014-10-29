@@ -28,7 +28,8 @@
                     android:layout_alignRight="@+id/answer_upvote_score"
                     android:background="#ffffff"
                     android:gravity="center"
-                    android:src="@drawable/ic_upvote" />
+                    android:src="@drawable/ic_upvote"
+                    android:onClick="upvoteAnswer" />
 
                 <TextView
                     android:id="@+id/answer_author"
