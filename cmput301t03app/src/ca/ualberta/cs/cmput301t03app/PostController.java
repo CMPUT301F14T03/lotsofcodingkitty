@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 
-public class PostController
-{
+public class PostController{
 
 	private static ArrayList<Question> subQuestions = null;
 	private static ArrayList<Answer> subAnswers = null;
@@ -21,85 +20,62 @@ public class PostController
 	public PostController(Context context) {
 		this.context = context;
 	}
+	
 	public PostController(){}
 	
-	public void setUsername(String name)
-	{
-
+	public void setUsername(String name){
 		this.username = name;
 	}
 
-	public String getUsername()
-	{
-
+	public String getUsername(){
 		return username;
 	}
 
-	public UserPostCollector getUPCInstance()
-	{
-
-		if (upc == null)
-		{
+	public UserPostCollector getUPCInstance(){
+		if (upc == null){
 			upc = new UserPostCollector();
 		}
 		return upc;
 	}
 
-	public ArrayList<Question> getQuestionsInstance()
-	{
-
-		if (subQuestions == null)
-		{
+	public ArrayList<Question> getQuestionsInstance(){
+		if (subQuestions == null){
 			subQuestions = new ArrayList<Question>();
 		}
 		return subQuestions;
 	}
 
-	public ArrayList<Answer> getAnswersInstance()
-	{
-
-		if (subAnswers == null)
-		{
+	public ArrayList<Answer> getAnswersInstance(){
+		if (subAnswers == null){
 			subAnswers = new ArrayList<Answer>();
 		}
 		return subAnswers;
 	}
 
-	public int countAnswers(Question q)
-	{
-
+	public int countAnswers(Question q){
 		return q.countAnswers();
 	}
 
-	public Answer getAnswer(String Id)
-	{
+	public Answer getAnswer(String Id){
 
-		for (int i = 0; i < subAnswers.size(); i++)
-		{
-			if (subAnswers.get(i).getId() == Id)
-			{
+		for (int i = 0; i < subAnswers.size(); i++){
+			if (subAnswers.get(i).getId() == Id){
 				return subAnswers.get(i);
 			}
 		}
 		return null;
 	}
 
-	public Question getQuestion(String qID)
-	{
-
-		for (int i = 0; i < subQuestions.size(); i++)
-		{
-			if (subQuestions.get(i).getId().equals(qID))
-			{
+	public Question getQuestion(String qID){
+		for (int i = 0; i < subQuestions.size(); i++){
+			if (subQuestions.get(i).getId().equals(qID)){
 				return subQuestions.get(i);
 			}
 		}
 		return null;
 	}
 
-	public Boolean checkConnectivity()
-	{
-
+	public Boolean checkConnectivity(){
 		return null;
 	}
 
@@ -108,11 +84,9 @@ public class PostController
 	// returns false otherwise
 	// This makes testing easier
 
-	public Boolean pushNewPosts()
-	{
+	public Boolean pushNewPosts(){
 
-		if (checkConnectivity())
-		{
+		if (checkConnectivity()){
 			dm = new ServerDataManager();
 			dm.save(pushQuestions);
 
@@ -129,8 +103,7 @@ public class PostController
 	// Creates a LocalDataManager and then calls all the saving methods
 	// on each of the UPC's arrays.
 
-	public void saveUserPosts()
-	{
+	public void saveUserPosts(){
 
 		dm = new LocalDataManager(context);
 		((LocalDataManager) dm).saveFavorites(upc.getFavoriteQuestions());
@@ -142,8 +115,7 @@ public class PostController
 	// Creates a LocalDataManager and then populates the UPC
 	// with arrays loaded from the local cache.
 
-	public void loadUserPosts()
-	{
+	public void loadUserPosts(){
 
 		dm = new LocalDataManager(context);
 		upc = new UserPostCollector(((LocalDataManager) dm).loadFavorites(),
@@ -160,23 +132,17 @@ public class PostController
 	// Returns true otherwise
 	// This makes testing easier
 
-	public Boolean loadServerPosts()
-	{
+	public Boolean loadServerPosts(){
 
-		if (!checkConnectivity())
-		{
-			return false;
-		}
+		if (!checkConnectivity()) return false;
 		dm = new ServerDataManager();
 		subQuestions = dm.load();
 		// subAnswers = dm.loadAnswers()
 		// this answers will be all of the children of the
 		// questions we just loaded
 
-		if (subQuestions == null)
-		{
-			return false;
-		}
+		if (subQuestions == null) return false;
+		
 		return true;
 
 	}
@@ -184,8 +150,7 @@ public class PostController
 	// When an answer is added it is added to the subAnswers list,
 	// the pushAnswers list, and then the UPC.
 
-	public void addAnswer(Answer answer)
-	{
+	public void addAnswer(Answer answer){
 
 		subAnswers.add(answer);
 	//	pushAnswers.add(answer);
@@ -196,8 +161,7 @@ public class PostController
 	// When an question is added it is added to the subQuestions list,
 	// the pushQuestions list, and then the UPC.
 
-	public void addQuestion(Question question)
-	{
+	public void addQuestion(Question question){
 
 		subQuestions.add(question);
 	//	pushQuestions.add(question);
@@ -207,25 +171,19 @@ public class PostController
 
 	// Add a comment when you only know the Question or Answer parentId
 
-	public void addCommentToQuestion(Comment comment, String parentId)
-	{
+	public void addCommentToQuestion(Comment comment, String parentId){
 
-		for (int i = 0; i < subQuestions.size(); i++)
-		{
-			if (subQuestions.get(i).getId().equals(parentId))
-			{
+		for (int i = 0; i < subQuestions.size(); i++){
+			if (subQuestions.get(i).getId().equals(parentId)){
 				subQuestions.get(i).addComment(comment);
 			}
 		}
 	}
 
-	public void addCommentToAnswer(Comment comment, String parentId)
-	{
+	public void addCommentToAnswer(Comment comment, String parentId){
 
-		for (int i = 0; i < subAnswers.size(); i++)
-		{
-			if (subAnswers.get(i).getId().equals(parentId))
-			{
+		for (int i = 0; i < subAnswers.size(); i++){
+			if (subAnswers.get(i).getId().equals(parentId)){
 				subAnswers.get(i).addComment(comment);
 			}
 		}
