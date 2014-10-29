@@ -29,7 +29,7 @@
                     android:background="#ffffff"
                     android:gravity="center"
                     android:src="@drawable/ic_upvote"
-                    android:onClick="upvoteAnswer" />
+                    android:onClick="notifyChange" />
 
                 <TextView
                     android:id="@+id/answer_author"

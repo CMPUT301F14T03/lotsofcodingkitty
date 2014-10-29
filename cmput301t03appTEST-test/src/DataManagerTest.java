@@ -28,7 +28,7 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	 */
 	public void testSuccessfulSavingAndLoadingFromCache() {
 		
-		ArrayList<String> idArray;
+		ArrayList<Question> idArray;
 		PostController postController = new PostController(getInstrumentation().getTargetContext());
 		UserPostCollector userPostCollector = postController.getUPCInstance();
 		ArrayList<Question> ql = new ArrayList<Question>();
@@ -38,8 +38,8 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		ql.add(q);
 		ql.add(q2);
 		
-		userPostCollector.addFavoriteQuestion(q.getId());
-		userPostCollector.addFavoriteQuestion(q2.getId());
+		userPostCollector.addFavoriteQuestions(q);
+		userPostCollector.addFavoriteQuestions(q2);
 		idArray = userPostCollector.getFavoriteQuestions();
 		
 		assertEquals("Questions saved not same as questions retrieved.", ql, idArray);
@@ -59,11 +59,11 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		q.add(q2);
 		
 		
-		dataManager.saveQuestions(q);
+		dataManager.save(q);
 		
 		Object newQuestionArray;
 		
-		newQuestionArray = dataManager.loadQuestions();
+		newQuestionArray = dataManager.load();
 		assertNotNull("No questions loaded.",newQuestionArray);
 	}
 }
