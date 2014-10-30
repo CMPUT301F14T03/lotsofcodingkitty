@@ -170,6 +170,12 @@ public class MainActivity extends Activity {
 				if(questionTitle.getText().length() == 0){
 					button.setEnabled(false);
 				}
+				else if(questionBody.getText().length() == 0){
+					button.setEnabled(false);
+				}
+				else if(userName.getText().length() == 0){
+					button.setEnabled(false);
+				}
 				else{
 					button.setEnabled(true);
 				}	
@@ -194,35 +200,11 @@ public class MainActivity extends Activity {
 		};
 			
 		
-				questionTitle.addTextChangedListener(new TextWatcher() {
-					private void handleText(){
-						final Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-						if(questionTitle.getText().length() == 0){
-							button.setEnabled(false);
-						}
-						else{
-							button.setEnabled(true);
-						}	
-					}
-					@Override
-					public void afterTextChanged(Editable s) {
-						// TODO Auto-generated method stub
-						handleText();
-					}
-					@Override
-					public void beforeTextChanged(CharSequence s, int start,
-							int count, int after) {
-						// TODO Auto-generated method stub
-						
-					}
-					@Override
-					public void onTextChanged(CharSequence s, int start,
-							int before, int count) {
-						// TODO Auto-generated method stub
-						
-					}
-				}
-				);
+				questionTitle.addTextChangedListener(textwatcher);
+				questionBody.addTextChangedListener(textwatcher);
+				userName.addTextChangedListener(textwatcher);
+				
+				
 		Toast.makeText(this, "Please write your question", Toast.LENGTH_SHORT)
 				.show();
 	}
