@@ -225,7 +225,10 @@ public class ViewQuestion extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	public void upvoteAnswer(View v){
+	
+	// Dominik told me to change this method name
+	
+	public void notifyChange(View v){
 		Answer answer=(Answer) v.getTag();
 		answer.upRating();
 		ala.notifyChange();

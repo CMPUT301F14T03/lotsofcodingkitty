@@ -12,5 +12,6 @@ public interface iDataManager {
 //	ArrayList<Answer> loadAnswers();
 	void save(ArrayList<Question> list);
 	ArrayList<Question> load();
+	void saveAnswerList(ArrayList<Answer> list);
 
 }
