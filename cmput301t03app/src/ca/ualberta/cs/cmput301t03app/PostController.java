@@ -196,11 +196,32 @@ public class PostController{
 	 * Please pass in the context, because it is needed for saving (Json DEMANDS IT!)
 	 * Direct questions on these to Eric
 	 */
-	public void addFavoriteQuestion(Question q, Context context) {
+	public void addFavoriteQuestion(Question q) {
 		LocalDataManager local = new LocalDataManager(context);
 		String id = q.getId();
+		
+		UserPostCollector upc = getUPCInstance();
+		upc.addFavoriteQuestion(id);
+		
 		local.saveFavoritesID(id);
-		local.saveQuestion(q);
+		local.appendToQuestionBank(q);
+	}
+	
+	public ArrayList<Question> getFavoriteQuestions() {
+		LocalDataManager local = new LocalDataManager(context);
+		ArrayList<Question> favoriteArray = new ArrayList<Question>();
+		ArrayList<Question> questionArray = local.loadQuestions();
+		ArrayList<String> idArray = local.loadFavorites();
+		
+		for (String id : idArray) {
+			for (int i = 0; i<questionArray.size(); i++) {
+				Question question = questionArray.get(i);
+				if (id == question.getId()) {
+					favoriteArray.add(question);
+				}
+			}
+		}
+		return favoriteArray;
 	}
 	
 	// This should not be needed anymore.  Unless we're saving answers independent of questions.
@@ -215,14 +236,14 @@ public class PostController{
 		LocalDataManager local = new LocalDataManager(context);
 		String id = q.getId();
 		local.saveReadID(id);
-		local.saveQuestion(q);		
+		local.appendToQuestionBank(q);		
 	}
 	
 	public void addToRead(Question q, Context context) {
 		LocalDataManager local = new LocalDataManager(context);
 		String id = q.getId();
 		local.saveToReadID(id);
-		local.saveQuestion(q);
+		local.appendToQuestionBank(q);
 	}
 	
 	/**
@@ -233,7 +254,7 @@ public class PostController{
 		LocalDataManager local = new LocalDataManager(context);
 		String id = q.getId();
 		local.savePostedQuestionsID(id);
-		local.saveQuestion(q);
+		local.appendToQuestionBank(q);
 	}
 	
 	public void addUserPost(Answer a, Context context) {
