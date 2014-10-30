@@ -20,6 +20,36 @@ public class ServerDataManager implements iDataManager{
 	public void clearLocalNonPushed(){
 		
 	}
+
+	@Override
+	public void saveQuestion(Question q) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ArrayList<Question> loadQuestions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void saveAnswers(ArrayList<Answer> list) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveAnswer(Answer a) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveAnswerList(ArrayList<Answer> list) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }
