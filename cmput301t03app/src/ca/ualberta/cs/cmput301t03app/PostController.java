@@ -198,38 +198,49 @@ public class PostController{
 	 */
 	public void addFavoriteQuestion(Question q, Context context) {
 		LocalDataManager local = new LocalDataManager(context);
-		local.saveFavorites(q);
-		
+		String id = q.getId();
+		local.saveFavoritesID(id);
+		local.saveQuestion(q);
 	}
 	
-	public void addFavoriteAnswer(Question q, Context context) {
+	// This should not be needed anymore.  Unless we're saving answers independent of questions.
+	public void addFavoriteAnswer(Answer a, Context context) {
 		LocalDataManager local = new LocalDataManager(context);
-		ArrayList<String> list = q.getAnswers();
-		
+		String id = a.getId();
+		local.saveFavoriteAnswerID(id);
+		local.saveAnswer(a);
 	}
 	
 	public void addReadQuestion(Question q, Context context) {
 		LocalDataManager local = new LocalDataManager(context);
-		local.saveRead(q);
-		
+		String id = q.getId();
+		local.saveReadID(id);
+		local.saveQuestion(q);		
 	}
 	
 	public void addToRead(Question q, Context context) {
 		LocalDataManager local = new LocalDataManager(context);
-		local.saveToRead(q);
+		String id = q.getId();
+		local.saveToReadID(id);
+		local.saveQuestion(q);
 	}
+	
 	/**
 	 * addUserPost() is overloaded.  Pass in the correct object and it'll do the rest.
 	 * @param q
 	 */
 	public void addUserPost(Question q, Context context) {
 		LocalDataManager local = new LocalDataManager(context);
-		local.savePostedQuestions(q);
+		String id = q.getId();
+		local.savePostedQuestionsID(id);
+		local.saveQuestion(q);
 	}
 	
 	public void addUserPost(Answer a, Context context) {
 		LocalDataManager local = new LocalDataManager(context);
-		local.savePostedAnswer(a);
+		String id = a.getId();
+		local.savePostedAnswersID(id);
+		local.saveAnswer(a);
 	}
 	/**
 	 * End of what Eric wrote
