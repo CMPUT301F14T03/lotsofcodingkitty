@@ -30,12 +30,13 @@
         android:layout_below="@+id/question_answer_button"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:clickable="false"
+        android:clickable="true"
         android:focusable="false"
         android:text="This is the question title. This is the Question"
         android:textAlignment="center"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:onClick="toCommentActivity" />
     
      <TextView
         android:id="@+id/question_text_body"
@@ -46,12 +47,13 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="8dp"
          android:layout_marginRight="10dp"
-        android:clickable="false"
+        android:clickable="true"
         android:focusable="false"
         android:text="Question activity question textbody. This is the text body of my question. What is the body of a question?"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:onClick="toCommentActivity" />
 
     
     <TextView
@@ -146,7 +148,8 @@
         android:gravity="center_vertical|left"
         android:paddingLeft="10dp"
         android:text="Comments: 4"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:onClick="toCommentActivity" />
     
     
     <TextView

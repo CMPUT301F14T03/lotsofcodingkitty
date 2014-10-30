@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,11 +14,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class ViewQuestion extends Activity {
 	PostController pc = new PostController(this);
@@ -39,7 +42,7 @@ public class ViewQuestion extends Activity {
 
 		Bundle extras = getIntent().getExtras();
 		question_id = extras.getString("question_id");
-
+		
 		instantiateViews();
 		setQuestionText(question_id);
 		updateAnswerCount();
@@ -48,6 +51,29 @@ public class ViewQuestion extends Activity {
 	}
 
 	public void setListeners() {
+//		thisQuestion.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				toCommentActivity();
+//			}
+//		});
+		
+
+		answerListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					final int position, long id) {
+				// TODO Auto-generated method stub
+
+				Log.d("click", "click Answer" + position);
+				
+				toCommentActivityAnswer(position);
+				
+			}
+		});
+		
 		answerButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -124,6 +150,9 @@ public class ViewQuestion extends Activity {
 	}
 	
 	public void instantiateViews(){
+		
+	//	thisQuestion = (TextView) findViewById(R.id.question_title);
+		answerListView = (ListView) findViewById(R.id.answerListView);
 		favIcon = (ImageButton) findViewById(R.id.question_fav_icon);
 		upvoteButton = (ImageButton) findViewById(R.id.question_upvote_button);
 		upvote_score = (TextView) findViewById(R.id.question_upvote_score);
@@ -131,6 +160,27 @@ public class ViewQuestion extends Activity {
 		answerCounter = (TextView) findViewById(R.id.answer_count);
 		answerListView= (ListView) findViewById(R.id.answerListView);
 	}
+	
+	
+	public void toCommentActivity(View v) {
+		/* This method takes user to ViewComment activity */ 
+		Intent i = new Intent( this, ViewComment.class );
+		i.putExtra("question_id", question_id);
+		startActivity(i);
+	}
+	
+	public void toCommentActivityAnswer(int position) {
+		/* This method takes user to ViewComment activity */ 
+		
+		
+		ArrayList<String> answerIdList = pc.getQuestion(question_id).getAnswers();
+		Log.d("click", "answer ID" + answerIdList.get(position));
+		
+		Intent i = new Intent( this, ViewComment.class );
+		i.putExtra("question_id", answerIdList.get(position));
+		startActivity(i);
+	}
+	
 	
 	public void answerQuestion() {
 		
