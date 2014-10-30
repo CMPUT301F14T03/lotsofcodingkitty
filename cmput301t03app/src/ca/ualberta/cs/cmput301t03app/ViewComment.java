@@ -16,11 +16,11 @@ public class ViewComment extends Activity {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_view_comment);
 	    
-	    Bundle extras = getIntent().getExtras();
-		question_or_answer_id = extras.getString("question_id");
-		
+//	    Bundle extras = getIntent().getExtras();
+//		question_or_answer_id = extras.getString("question_id");
+//		
 		TextView questionTitle = (TextView) findViewById(R.id.comments_question_title);
-		questionTitle.setText(pc.getQuestion(question_or_answer_id).getSubject());
+		//questionTitle.setText(pc.getQuestion(question_or_answer_id).getSubject());
 
 	}
 	

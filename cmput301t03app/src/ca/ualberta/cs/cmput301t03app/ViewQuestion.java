@@ -276,12 +276,21 @@ public class ViewQuestion extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	// Dominik told me to change this method name
+	// These button listeners are for the answers
 	
-	public void notifyChange(View v){
+	// This on upvotes an answer
+	public void answerUpvote(View v){
 		Answer answer=(Answer) v.getTag();
 		answer.upRating();
 		ala.notifyChange();
+		
+	}
+	// This one sends the user to the comments activity
+	public void sendToComments(View v) {
+		//Answer answer=(Answer) v.getTag();
+		Intent i = new Intent( this, ViewComment.class );
+		startActivity(i);
+
 		
 	}
 
