@@ -189,7 +189,7 @@ public class ViewQuestion extends Activity {
 
 
 	public void setFavorited() {
-		upc.addFavoriteQuestions(pc.getQuestion(question_id));
+		upc.addFavoriteQuestion(question_id);
 		//Log.d("click", "Favs: " + upc.getFavoriteQuestions());
 	}
 
