@@ -4,23 +4,23 @@
     android:layout_height="match_parent" >
 
     <Button
-        android:id="@+id/question_comment_button"
+        android:id="@+id/comment_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:background="#000000"
-        android:text="C O M M E N T"
+        android:text="+ C O M M E N T"
         android:textColor="#ffffff" />
 
     <TextView
-        android:id="@+id/comments_question_title"
+        android:id="@+id/comment_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/question_comment_button"
+        android:layout_below="@+id/comment_button"
         android:clickable="false"
         android:focusable="false"
         android:padding="10dp"
@@ -32,12 +32,12 @@
     <!-- The answer list -->
     
     <TextView 
-		android:id="@+id/comments_count"
+		android:id="@+id/comment_count"
 		android:layout_width="fill_parent"
         android:layout_height="wrap_content"
 		 android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/comments_question_title"
+        android:layout_below="@+id/comment_title"
         android:background="#eeeeee"
         android:paddingRight="10dp"
         android:text="Comments: 5"
@@ -48,7 +48,7 @@
         android:id="@+id/commentListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/comments_count"
+        android:layout_below="@+id/comment_count"
         
          >
     </ListView>

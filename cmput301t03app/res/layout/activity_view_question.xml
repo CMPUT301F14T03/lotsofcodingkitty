@@ -14,7 +14,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         
-        android:text="A N S W E R"
+        android:text="+ A N S W E R"
         android:background="#000000"
         android:textColor="#ffffff" />
      
@@ -53,7 +53,7 @@
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#000000"
-        android:onClick="toCommentActivity" />
+        android:onClick="toCommentActivityQuestion" />
 
     
     <TextView
@@ -149,7 +149,7 @@
         android:paddingLeft="10dp"
         android:text="Comments: 4"
         android:textStyle="bold"
-        android:onClick="toCommentActivity" />
+        android:onClick="toCommentActivityQuestion" />
     
     
     <TextView

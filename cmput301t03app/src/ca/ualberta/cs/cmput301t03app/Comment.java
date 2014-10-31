@@ -8,10 +8,12 @@ public class Comment {
 		
 	private Date date;
 	private String comment;
+	private String author;
 	
-	public Comment(String comment) {
+	public Comment(String comment, String author) {
 		this.date = new Date();
 		this.comment = comment;
+		this.author = author;
 	}
 	
 	public Date getDate() {
@@ -24,7 +26,7 @@ public class Comment {
 	}
 	**/
 	
-	public String getComment() {
+	public String getCommentBody() {
 		return this.comment;
 	}
 	
@@ -34,6 +36,9 @@ public class Comment {
 	}
 	**/
 	
+	public String getAuthor() {
+		return this.author;
+	}
 	
 
 			
