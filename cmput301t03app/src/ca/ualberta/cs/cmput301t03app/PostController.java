@@ -197,10 +197,13 @@ public class PostController{
 	 * Direct questions on these to Eric
 	 */
 	public void addFavoriteQuestion(Question q, Context context) {
+		upc.initFavoriteID(context);
 		LocalDataManager local = new LocalDataManager(context);
 		String id = q.getId();
-		local.saveFavoritesID(id);
-		local.saveQuestion(q);
+		if (!upc.getFavoriteQuestions().contains(id)) {
+			local.saveFavoritesID(id);
+			local.saveQuestion(q);
+		}
 	}
 	
 	// This should not be needed anymore.  Unless we're saving answers independent of questions.
@@ -212,17 +215,23 @@ public class PostController{
 	}
 	
 	public void addReadQuestion(Question q, Context context) {
+		upc.initReadID(context);
 		LocalDataManager local = new LocalDataManager(context);
 		String id = q.getId();
-		local.saveReadID(id);
-		local.saveQuestion(q);		
+		if (!upc.getReadQuestions().contains(id)){
+			local.saveReadID(id);
+			local.saveQuestion(q);		
+		}
 	}
 	
 	public void addToRead(Question q, Context context) {
+		upc.initToReadID(context);
 		LocalDataManager local = new LocalDataManager(context);
 		String id = q.getId();
-		local.saveToReadID(id);
-		local.saveQuestion(q);
+		if (!upc.getToReadQuestions().contains(id)){
+			local.saveToReadID(id);
+			local.saveQuestion(q);
+		}
 	}
 	
 	/**
@@ -230,18 +239,27 @@ public class PostController{
 	 * @param q
 	 */
 	public void addUserPost(Question q, Context context) {
+		upc.initPostedQuestionID(context);
 		LocalDataManager local = new LocalDataManager(context);
 		String id = q.getId();
-		local.savePostedQuestionsID(id);
-		local.saveQuestion(q);
+		if (!upc.getPostedQuestions().contains(id)) {
+			local.savePostedQuestionsID(id);
+			local.saveQuestion(q);
+		}
 	}
 	
+	/*
+	 * This method is not needed, but if we decide to need to save user posted answers
+	 * then just uncomment.
+	 * 
 	public void addUserPost(Answer a, Context context) {
 		LocalDataManager local = new LocalDataManager(context);
 		String id = a.getId();
 		local.savePostedAnswersID(id);
 		local.saveAnswer(a);
 	}
+	*/
+	
 	/**
 	 * End of what Eric wrote
 	 */
