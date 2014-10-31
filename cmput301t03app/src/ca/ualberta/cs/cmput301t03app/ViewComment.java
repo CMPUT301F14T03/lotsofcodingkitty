@@ -22,18 +22,14 @@ public class ViewComment extends Activity {
 	String questionID;
 	String answerID;
 	ArrayList<Comment> comments = new ArrayList<Comment>();
-<<<<<<< HEAD
+
 	PostController pc = new PostController(this);
-	
-=======
 	ArrayList<String> commentBodyList = new ArrayList<String>();
 	ArrayAdapter<String> cla;
-	PostController pc = new PostController();
 	ListView commentListView;
 	Button commentButton;
 	TextView commentCount;
 
->>>>>>> upstream/master
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
