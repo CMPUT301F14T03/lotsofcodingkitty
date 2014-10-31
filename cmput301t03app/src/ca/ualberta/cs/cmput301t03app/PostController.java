@@ -205,27 +205,21 @@ public class PostController{
 	 * Please pass in the context, because it is needed for saving (Json DEMANDS IT!)
 	 * Direct questions on these to Eric
 	 */
-<<<<<<< HEAD
 	public void addFavoriteQuestion(Question q, Context context) {
-		upc.initFavoriteID(context);
+		upc.initFavoriteID(context);  // I need to load the lists if they haven't been loaded yet.
+		upc.initQuestionBank(context);
 		LocalDataManager local = new LocalDataManager(context);
 		String id = q.getId();
 		if (!upc.getFavoriteQuestions().contains(id)) {
-			local.saveFavoritesID(id);
-			local.saveQuestion(q);
+			ArrayList<String> idList = upc.getFavoriteQuestions();
+			idList.add(id);
+			local.saveFavoritesID(idList);
+			ArrayList<Question> questionList = upc.getQuestionBank();
+			questionList.add(q);
+			local.saveToQuestionBank(questionList);
 		}
-=======
-	public void addFavoriteQuestion(Question q) {
-		LocalDataManager local = new LocalDataManager(context);
-		String id = q.getId();
-		
-		UserPostCollector upc = getUPCInstance();
-		upc.addFavoriteQuestion(id);
-		
-		local.saveFavoritesID(id);
-		local.appendToQuestionBank(q);
 	}
-	
+
 	/**
 	 * Returns the list of favorite questions.
 	 * This method only pulls from the question bank the questions 
@@ -247,45 +241,45 @@ public class PostController{
 			}
 		}
 		return favoriteArray;
->>>>>>> upstream/master
 	}
 	
 	// This should not be needed anymore.  Unless we're saving answers independent of questions.
 	public void addFavoriteAnswer(Answer a, Context context) {
 		LocalDataManager local = new LocalDataManager(context);
 		String id = a.getId();
-		local.saveFavoriteAnswerID(id);
-		local.saveAnswer(a);
+	//	local.saveFavoriteAnswerID(id);
+	//	local.saveAnswer(a);
 	}
 	
 	public void addReadQuestion(Question q, Context context) {
 		upc.initReadID(context);
+		upc.initQuestionBank(context);
 		LocalDataManager local = new LocalDataManager(context);
 		String id = q.getId();
-<<<<<<< HEAD
 		if (!upc.getReadQuestions().contains(id)){
-			local.saveReadID(id);
-			local.saveQuestion(q);		
+			ArrayList<String> readList = upc.getToReadQuestions();
+			readList.add(id);
+			local.saveReadID(readList);
+			ArrayList<Question> questionList = upc.getQuestionBank();
+			questionList.add(q);
+			local.saveToQuestionBank(questionList);
 		}
-=======
-		local.saveReadID(id);
-		local.appendToQuestionBank(q);		
->>>>>>> upstream/master
 	}
 	
 	public void addToRead(Question q, Context context) {
 		upc.initToReadID(context);
+		upc.initQuestionBank(context);
 		LocalDataManager local = new LocalDataManager(context);
 		String id = q.getId();
-<<<<<<< HEAD
 		if (!upc.getToReadQuestions().contains(id)){
-			local.saveToReadID(id);
-			local.saveQuestion(q);
+			ArrayList<String> toReadList = upc.getToReadQuestions();
+			toReadList.add(id);
+			local.saveToReadID(toReadList);
+			ArrayList<Question> questionList = upc.getQuestionBank();
+			questionList.add(q);
+			local.saveToQuestionBank(questionList);
 		}
-=======
-		local.saveToReadID(id);
-		local.appendToQuestionBank(q);
->>>>>>> upstream/master
+		
 	}
 	
 	/**
@@ -294,17 +288,17 @@ public class PostController{
 	 */
 	public void addUserPost(Question q, Context context) {
 		upc.initPostedQuestionID(context);
+		upc.initQuestionBank(context);
 		LocalDataManager local = new LocalDataManager(context);
 		String id = q.getId();
-<<<<<<< HEAD
 		if (!upc.getPostedQuestions().contains(id)) {
-			local.savePostedQuestionsID(id);
-			local.saveQuestion(q);
+			ArrayList<String> userPostList = upc.getPostedQuestions();
+			userPostList.add(id);
+			local.savePostedQuestionsID(userPostList);
+			ArrayList<Question> questionList = upc.getQuestionBank();
+			questionList.add(q);
+			local.saveToQuestionBank(questionList);
 		}
-=======
-		local.savePostedQuestionsID(id);
-		local.appendToQuestionBank(q);
->>>>>>> upstream/master
 	}
 	
 	/*
