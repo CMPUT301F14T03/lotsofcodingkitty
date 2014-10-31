@@ -7,7 +7,6 @@ import android.content.Context;
 public class PostController{
 
 	private static ArrayList<Question> subQuestions = null;
-	private static ArrayList<Answer> subAnswers = null;
 	private ArrayList<Question> pushQuestions = new ArrayList<Question>();
 	private ArrayList<Answer> pushAnswers = new ArrayList<Answer>();
 	private static UserPostCollector upc = new UserPostCollector();
@@ -45,23 +44,16 @@ public class PostController{
 		return subQuestions;
 	}
 
-	public ArrayList<Answer> getAnswersInstance(){
-		if (subAnswers == null){
-			subAnswers = new ArrayList<Answer>();
-		}
-		return subAnswers;
-	}
-
 	public int countAnswers(Question q){
 		return q.countAnswers();
 	}
 
-	public Answer getAnswer(String Id){
-
-		for (int i = 0; i < subAnswers.size(); i++){
-			if (subAnswers.get(i).getId() == Id){
-				return subAnswers.get(i);
-			}
+	public Answer getAnswer(String answerId,String questionId){
+		Question q = getQuestion(questionId);
+		ArrayList<Answer> a = q.getAnswers();
+		for (int i = 0; i < a.size(); i++){
+				if (a.get(i).getId().equals(answerId))
+					return a.get(i);
 		}
 		return null;
 	}
@@ -153,12 +145,8 @@ public class PostController{
 	// When an answer is added it is added to the subAnswers list,
 	// the pushAnswers list, and then the UPC.
 
-	public void addAnswer(Answer answer){
-
-		subAnswers.add(answer);
-	//	pushAnswers.add(answer);
-	//	upc.addUserAnswer(answer);
-	//	pushNewPosts();
+	public void addAnswer(Answer answer,String questionID){
+		getQuestion(questionID).addAnswer(answer);
 	}
 
 	// When an question is added it is added to the subQuestions list,
@@ -182,15 +170,36 @@ public class PostController{
 			}
 		}
 	}
+	public ArrayList<Comment> getCommentsToQuestion(String questionID){
 
-	public void addCommentToAnswer(Comment comment, String parentId){
+		for (int i = 0; i < subQuestions.size(); i++){
+			if (subQuestions.get(i).getId().equals(questionID)){
+				return subQuestions.get(i).getComments();
+			}
+		}
+		return null;
+	}
 
-		for (int i = 0; i < subAnswers.size(); i++){
-			if (subAnswers.get(i).getId().equals(parentId)){
-				subAnswers.get(i).addComment(comment);
+	public void addCommentToAnswer(Comment comment, String questionID,String answerID){
+		Question q = getQuestion(questionID);
+		ArrayList<Answer> a = q.getAnswers();
+		for (int i = 0; i < a.size(); i++){
+			if (a.get(i).getId().equals(questionID)){
+				a.get(i).addComment(comment);
 			}
 		}
 	}
+	public ArrayList<Comment> getCommentsToAnswer(String questionID,String answerID){
+		Question q = getQuestion(questionID);
+		ArrayList<Answer> a = q.getAnswers();
+		for (int i = 0; i < a.size(); i++){
+			if (a.get(i).getId().equals(questionID)){
+				return a.get(i).getComments();
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * These are all communicating with the UPC to tell it to save stuff
 	 * Please pass in the context, because it is needed for saving (Json DEMANDS IT!)

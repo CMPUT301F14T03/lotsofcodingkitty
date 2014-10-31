@@ -29,9 +29,7 @@
                     android:background="#ffffff"
                     android:gravity="center"
                     android:src="@drawable/ic_upvote"
-                    android:onClick="notifyChange" />
-
-             
+                    android:onClick="answerUpvote" />
 
                 <TextView
                     android:id="@+id/answer_text_body"
@@ -41,7 +39,9 @@
                     android:layout_alignLeft="@+id/post_timestamp"
                     android:layout_alignParentRight="true"
                     android:background="#2DAD98"
+                    android:clickable="true"
                     android:gravity="top"
+                    android:onClick="toCommentActivityAnswer"
                     android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
