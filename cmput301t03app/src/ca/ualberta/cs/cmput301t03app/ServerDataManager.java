@@ -21,18 +21,6 @@ public class ServerDataManager implements iDataManager{
 	}
 
 	@Override
-	public void saveAnswer(Answer a) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void appendToQuestionBank(Question q) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void saveToQuestionBank(ArrayList<Question> list) {
 		// TODO Auto-generated method stub
 		

@@ -20,7 +20,9 @@ public class PostController{
 		this.context = context;
 	}
 	
-	public PostController(){}
+	public Context getContext() {
+		return this.context;
+	}
 	
 	public void setUsername(String name){
 		this.username = name;
@@ -29,11 +31,14 @@ public class PostController{
 	public String getUsername(){
 		return username;
 	}
-
-	public UserPostCollector getUPCInstance(){
-		if (upc == null){
-			upc = new UserPostCollector();
-		}
+	
+	/*
+	 * The upc is never null, you instantiated it up there.
+	 */
+	public UserPostCollector getUPC(){
+	//	if (upc == null){
+	//		upc = new UserPostCollector();
+	//	}
 		return upc;
 	}
 
@@ -205,10 +210,10 @@ public class PostController{
 	 * Please pass in the context, because it is needed for saving (Json DEMANDS IT!)
 	 * Direct questions on these to Eric
 	 */
-	public void addFavoriteQuestion(Question q, Context context) {
-		upc.initFavoriteID(context);  // I need to load the lists if they haven't been loaded yet.
-		upc.initQuestionBank(context);
-		LocalDataManager local = new LocalDataManager(context);
+	public void addFavoriteQuestion(Question q) {
+		upc.initFavoriteID(getContext());  // I need to load the lists if they haven't been loaded yet.
+		upc.initQuestionBank(getContext());
+		LocalDataManager local = new LocalDataManager(getContext());
 		String id = q.getId();
 		if (!upc.getFavoriteQuestions().contains(id)) {
 			ArrayList<String> idList = upc.getFavoriteQuestions();
@@ -227,7 +232,7 @@ public class PostController{
 	 * @return favoriteArray A list of Question objects.
 	 */
 	public ArrayList<Question> getFavoriteQuestions() {
-		LocalDataManager local = new LocalDataManager(context);
+		LocalDataManager local = new LocalDataManager(getContext());
 		ArrayList<Question> favoriteArray = new ArrayList<Question>();
 		ArrayList<Question> questionArray = local.loadQuestions();
 		ArrayList<String> idArray = local.loadFavorites();
@@ -244,17 +249,17 @@ public class PostController{
 	}
 	
 	// This should not be needed anymore.  Unless we're saving answers independent of questions.
-	public void addFavoriteAnswer(Answer a, Context context) {
-		LocalDataManager local = new LocalDataManager(context);
+	public void addFavoriteAnswer(Answer a) {
+		LocalDataManager local = new LocalDataManager(getContext());
 		String id = a.getId();
 	//	local.saveFavoriteAnswerID(id);
 	//	local.saveAnswer(a);
 	}
 	
-	public void addReadQuestion(Question q, Context context) {
-		upc.initReadID(context);
-		upc.initQuestionBank(context);
-		LocalDataManager local = new LocalDataManager(context);
+	public void addReadQuestion(Question q) {
+		upc.initReadID(getContext());
+		upc.initQuestionBank(getContext());
+		LocalDataManager local = new LocalDataManager(getContext());
 		String id = q.getId();
 		if (!upc.getReadQuestions().contains(id)){
 			ArrayList<String> readList = upc.getToReadQuestions();
@@ -266,10 +271,10 @@ public class PostController{
 		}
 	}
 	
-	public void addToRead(Question q, Context context) {
-		upc.initToReadID(context);
-		upc.initQuestionBank(context);
-		LocalDataManager local = new LocalDataManager(context);
+	public void addToRead(Question q) {
+		upc.initToReadID(getContext());
+		upc.initQuestionBank(getContext());
+		LocalDataManager local = new LocalDataManager(getContext());
 		String id = q.getId();
 		if (!upc.getToReadQuestions().contains(id)){
 			ArrayList<String> toReadList = upc.getToReadQuestions();
@@ -286,10 +291,10 @@ public class PostController{
 	 * addUserPost() is overloaded.  Pass in the correct object and it'll do the rest.
 	 * @param q
 	 */
-	public void addUserPost(Question q, Context context) {
-		upc.initPostedQuestionID(context);
-		upc.initQuestionBank(context);
-		LocalDataManager local = new LocalDataManager(context);
+	public void addUserPost(Question q) {
+		upc.initPostedQuestionID(getContext());
+		upc.initQuestionBank(getContext());
+		LocalDataManager local = new LocalDataManager(getContext());
 		String id = q.getId();
 		if (!upc.getPostedQuestions().contains(id)) {
 			ArrayList<String> userPostList = upc.getPostedQuestions();
