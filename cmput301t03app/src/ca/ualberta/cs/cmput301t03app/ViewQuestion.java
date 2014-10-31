@@ -181,10 +181,10 @@ public class ViewQuestion extends Activity {
 		LayoutInflater li = LayoutInflater.from(this);
 
 		// Get XML file to view
-		View promptsView = li.inflate(R.layout.activity_answer_dialog, null);
+		View promptsView = li.inflate(R.layout.activity_post_dialog, null);
 
 		final EditText answerBody = (EditText) promptsView
-				.findViewById(R.id.answerBody);
+				.findViewById(R.id.postBody);
 
 		final EditText userName = (EditText) promptsView
 				.findViewById(R.id.UsernameRespondTextView);
