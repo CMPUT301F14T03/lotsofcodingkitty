@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.cmput301t03app.MainActivity;
@@ -28,9 +29,9 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	 */
 	public void testSuccessfulSavingAndLoadingFromCache() {
 		
-		ArrayList<Question> idArray;
+		ArrayList<Question> questionArray;
 		PostController postController = new PostController(getInstrumentation().getTargetContext());
-		UserPostCollector userPostCollector = postController.getUPCInstance();
+//		UserPostCollector userPostCollector = postController.getUPCInstance();
 		ArrayList<Question> ql = new ArrayList<Question>();
 		
 		Question q = new Question("This is a test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");	
@@ -38,11 +39,11 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		ql.add(q);
 		ql.add(q2);
 		
-		userPostCollector.addFavoriteQuestions(q);
-		userPostCollector.addFavoriteQuestions(q2);
-		idArray = userPostCollector.getFavoriteQuestions();
+		postController.addFavoriteQuestion(q);
+		postController.addFavoriteQuestion(q2);
+		questionArray = postController.getFavoriteQuestions();
 		
-		assertEquals("Questions saved not same as questions retrieved.", ql, idArray);
+		assertEquals("Questions saved not same as questions retrieved.", ql, questionArray);
 	}
 	
 	/**
@@ -59,11 +60,11 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		q.add(q2);
 		
 		
-		dataManager.save(q);
+		dataManager.saveToQuestionBank(q);
 		
 		Object newQuestionArray;
 		
-		newQuestionArray = dataManager.load();
+		newQuestionArray = dataManager.loadQuestions();
 		assertNotNull("No questions loaded.",newQuestionArray);
 	}
 }

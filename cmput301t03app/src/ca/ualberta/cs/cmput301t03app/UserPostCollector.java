@@ -12,7 +12,11 @@ public class UserPostCollector {
 	private ArrayList<String> toReadQuestions;
 	private ArrayList<String> postedQuestions;
 	private ArrayList<String> postedAnswers;
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> upstream/master
 //	private Context context;
 //	private LocalDataManager localDataManager;
 
@@ -26,8 +30,11 @@ public class UserPostCollector {
 	}
 
 	// This is a constructor that is used when the UPC is created using the LocalDataManagers loading methods
+<<<<<<< HEAD
 	// 
 	// Unsure about this constructor.....
+=======
+>>>>>>> upstream/master
 	public UserPostCollector(ArrayList<String> favoriteQuestions, ArrayList<String> readQuestions,
 			ArrayList<String> toReadQuestions, ArrayList<String> postedQuestions, ArrayList<String> postedAnswers) {
 		this.favoriteQuestions = favoriteQuestions;
@@ -37,6 +44,7 @@ public class UserPostCollector {
 		this.postedAnswers = postedAnswers;
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * This method initializes the favorites id list
 	 * @param context
@@ -86,6 +94,8 @@ public class UserPostCollector {
 	//
 	// The model is now populated by the PostController calling the LocalDataManager.
 
+=======
+>>>>>>> upstream/master
 	/*=====================Getters=====================*/
 	public ArrayList<Question> getQuestionBank() {
 		return questionBank;
@@ -101,15 +111,30 @@ public class UserPostCollector {
 
 	public ArrayList<String> getToReadQuestions() {
 		return toReadQuestions;
+<<<<<<< HEAD
 	}
+=======
+
+	}	
+>>>>>>> upstream/master
 
 	public ArrayList<String> getPostedQuestions() {
 		return postedQuestions;
+<<<<<<< HEAD
 	}
+=======
+
+	}	
+>>>>>>> upstream/master
 
 	public ArrayList<String> getPostedAnswers() {
 		return postedAnswers;
+<<<<<<< HEAD
 	}
+=======
+
+	}	
+>>>>>>> upstream/master
 
 	/*--------------------------------------------------------*/
 
@@ -120,7 +145,12 @@ public class UserPostCollector {
 	
 	public void addFavoriteQuestion(String qId) {
 		favoriteQuestions.add(qId);
+<<<<<<< HEAD
 	}
+=======
+
+	}	
+>>>>>>> upstream/master
 
 	public void addReadQuestion(String qId) {
 		readQuestions.add(qId);
@@ -132,11 +162,15 @@ public class UserPostCollector {
 
 	public void addPostedQuestion(String qId) {
 		postedQuestions.add(qId);
+<<<<<<< HEAD
 	}
+=======
+
+	}	
+>>>>>>> upstream/master
 
 	public void addUserAnswer(String qId) {
 		postedAnswers.add(qId);
 	}
-
 }
 

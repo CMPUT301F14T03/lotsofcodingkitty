@@ -65,7 +65,10 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		holder.answer_upvote_score = (TextView) row
 				.findViewById(R.id.answer_upvote_score);
 		holder.answer_upvote_button = (ImageButton) row.findViewById(R.id.answer_upvote_button);
+		// This sets the answer to the object. So in view question you can get the answer
+		// that was clicked.
 		holder.answer_upvote_button.setTag(holder.answer);
+		holder.answer_text_body.setTag(holder.answer);
 
 		row.setTag(holder);
 		
@@ -95,6 +98,8 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		answerList.addAll(aList);
 		notifyDataSetChanged();
 	}
+	
+	// This is called from the ViewQuestion when an answer is upvoted.
 	public void notifyChange(){
 		notifyDataSetChanged();
 	}
