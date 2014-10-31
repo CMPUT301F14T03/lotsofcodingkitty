@@ -27,6 +27,7 @@ public class ViewComment extends Activity {
 	PostController pc = new PostController();
 	ListView commentListView;
 	Button commentButton;
+	TextView commentCount;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -39,31 +40,40 @@ public class ViewComment extends Activity {
 		// This is used to find which mode this is set to. Either Answer
 		// comments
 		// or Question comments.
+		
+		Log.d("click", "Comment type: " + commentType);
+		questionID = extras.getString(ViewQuestion.QUESTION_ID_KEY);
+		
+		
 		switch (commentType) {
 		case 1:
-			questionID = extras.getString(ViewQuestion.QUESTION_ID_KEY);
 			comments = pc.getCommentsToQuestion(questionID);
+			
 		case 2:
-			questionID = extras.getString(ViewQuestion.QUESTION_ID_KEY);
 			answerID = extras.getString(ViewQuestion.ANSWER_ID_KEY);
 			comments = pc.getCommentsToAnswer(questionID, answerID);
+			
 		}
 		
-		TextView commentTitle = (TextView) findViewById(R.id.comment_title);
-		if(commentType == 1) {
+		// Set the Title (question or answer)
+				TextView commentTitle = (TextView) findViewById(R.id.comment_title);
+		if (commentType == 1) {
 			commentTitle.setText(pc.getQuestion(questionID).getSubject());
 		} else if (commentType == 2) {
 			commentTitle.setText(pc.getAnswer(answerID, questionID).getAnswer());
 		}
 
+		
 		instantiateViews();
 		setListeners();
-		getCommentBodyFromComment(comments);
 		setCommentAdapter();
+		
+		updateCommentCount();
 	}
 
 	public void instantiateViews() {
 		commentButton = (Button) findViewById(R.id.comment_button);
+		commentCount = (TextView) findViewById(R.id.comment_count);
 		commentListView = (ListView) findViewById(R.id.commentListView);
 		cla = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, commentBodyList);
@@ -81,11 +91,13 @@ public class ViewComment extends Activity {
 	}
 
 	public void setCommentAdapter() {
-		getCommentBodyFromComment(comments);
+		getCommentBodiesFromComment(comments);
+		
+		
 		commentListView.setAdapter(cla);
 	}
 
-	public ArrayList<String> getCommentBodyFromComment(
+	public ArrayList<String> getCommentBodiesFromComment(
 			ArrayList<Comment> comments) {
 		
 		if (comments == null) {
@@ -94,8 +106,15 @@ public class ViewComment extends Activity {
 			commentBodyList.clear();
 			for (int i = 0; i < comments.size(); i++)
 				commentBodyList.add(comments.get(i).getCommentBody());
+			Log.d("click", "comments size" + commentBodyList.size());
 			return commentBodyList;
 		}
+		
+	}
+	
+	public void updateCommentCount() {
+		//if (commentBodyList != null)
+			//commentCount.setText(commentBodyList.size());
 		
 	}
 
@@ -143,8 +162,8 @@ public class ViewComment extends Activity {
 						}
 
 						setCommentAdapter();
-						//cla.notifyDataSetChanged();
-						// updateAnswerCount();
+						cla.notifyDataSetChanged();
+						updateCommentCount();
 					}
 
 				}).setNegativeButton("Cancel",

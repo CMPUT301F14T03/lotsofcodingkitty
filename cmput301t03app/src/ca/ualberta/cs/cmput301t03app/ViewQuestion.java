@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment.SavedState;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,7 +27,7 @@ public class ViewQuestion extends Activity {
 	PostController pc = new PostController(this);
 	UserPostCollector upc = new UserPostCollector();
 	ArrayList<Answer> answerList = new ArrayList<Answer>();
-	public static final String SET_COMMENT_TYPE="0";
+	public static final String SET_COMMENT_TYPE = "0";
 	public static final int COMMENT_ON_QUESTION_KEY = 1;
 	public static final int COMMENT_ON_ANSWER_KEY = 2;
 	public static final String QUESTION_ID_KEY = "3";
@@ -39,6 +40,7 @@ public class ViewQuestion extends Activity {
 	Button answerButton;
 	String question_id;
 	TextView answerCounter;
+	TextView commentCounter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +49,22 @@ public class ViewQuestion extends Activity {
 
 		Bundle extras = getIntent().getExtras();
 		question_id = extras.getString("question_id");
-		
+
 		instantiateViews();
 		setQuestionText(question_id);
 		updateAnswerCount();
 		setListeners();
 		setAnswerAdapter();
+
+		// updates comments counter
+		updateCommentCount();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// updates comments counter
+		updateCommentCount();
 	}
 
 	public void setListeners() {
@@ -65,21 +77,21 @@ public class ViewQuestion extends Activity {
 				// TODO Auto-generated method stub
 
 				Log.d("click", "click Answer" + position);
-				
+
 				toCommentActivityAnswer(view);
-				
+
 			}
 		});
-		
+
 		answerButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				answerQuestion();
 			}
 		});
-		
+
 		favIcon.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -98,9 +110,9 @@ public class ViewQuestion extends Activity {
 				increment_upvote();
 			}
 		});
-		
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void setAnswerAdapter() {
 		answerListView = (ListView) findViewById(R.id.answerListView);
@@ -108,13 +120,13 @@ public class ViewQuestion extends Activity {
 		ala = new AnswerListAdapter(this, R.id.answerListView, answerList);
 		answerListView.setAdapter(ala);
 	}
-	
+
 	public void populateThisQuestionsAnswers(String question_id) {
 		answerList.clear();
 		answerList.addAll(pc.getQuestion(question_id).getAnswers());
-		
+
 	}
-	
+
 	public void setQuestionText(String ID) {
 		Question q = pc.getQuestion(ID);
 		TextView q_title = (TextView) findViewById(R.id.question_title);
@@ -127,11 +139,11 @@ public class ViewQuestion extends Activity {
 		q_title.setText(q.getSubject());
 		q_body.setText(q.getBody());
 		q_author.setText("By: " + q.getAuthor());
-		//Date to string
+		// Date to string
 		// http://javarevisited.blogspot.ca/2011/09/convert-date-to-string-simpledateformat.html
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		String date_to_string= sdf.format(q.getDate());
-		q_date.setText("Posted: "+ date_to_string);
+		String date_to_string = sdf.format(q.getDate());
+		q_date.setText("Posted: " + date_to_string);
 
 		// Log.d("click", "Contains? " +
 		// upc.getFavoriteQuestions().contains(pc.getQuestion(question_id)));
@@ -142,42 +154,45 @@ public class ViewQuestion extends Activity {
 		// }
 
 	}
-	
-	public void instantiateViews(){
-		
-	//	thisQuestion = (TextView) findViewById(R.id.question_title);
+
+	public void instantiateViews() {
+
+		// thisQuestion = (TextView) findViewById(R.id.question_title);
 		answerListView = (ListView) findViewById(R.id.answerListView);
 		favIcon = (ImageButton) findViewById(R.id.question_fav_icon);
 		upvoteButton = (ImageButton) findViewById(R.id.question_upvote_button);
 		upvote_score = (TextView) findViewById(R.id.question_upvote_score);
 		answerButton = (Button) findViewById(R.id.question_answer_button);
 		answerCounter = (TextView) findViewById(R.id.answer_count);
-		answerListView= (ListView) findViewById(R.id.answerListView);
+		commentCounter = (TextView) findViewById(R.id.question_comment_count);
+		answerListView = (ListView) findViewById(R.id.answerListView);
 	}
-	
-	// This function sends the user the view comment activity to comment on a question
+
+	// This function sends the user the view comment activity to comment on a
+	// question
 	public void toCommentActivityQuestion(View v) {
-		/* This method takes user to ViewComment activity */ 
-		Intent i = new Intent( this, ViewComment.class );
-		i.putExtra(SET_COMMENT_TYPE,COMMENT_ON_QUESTION_KEY);
+		/* This method takes user to ViewComment activity */
+		Intent i = new Intent(this, ViewComment.class);
+		i.putExtra(SET_COMMENT_TYPE, COMMENT_ON_QUESTION_KEY);
 		i.putExtra(QUESTION_ID_KEY, question_id);
 		startActivity(i);
 	}
-	// This function sends the user the view comment activity to comment on an answer
+
+	// This function sends the user the view comment activity to comment on an
+	// answer
 	public void toCommentActivityAnswer(View v) {
-		/* This method takes user to ViewComment activity */ 
-		Answer answer=(Answer) v.getTag();
-		Intent i = new Intent( this, ViewComment.class );
-		i.putExtra(SET_COMMENT_TYPE,COMMENT_ON_ANSWER_KEY);
+		/* This method takes user to ViewComment activity */
+		Answer answer = (Answer) v.getTag();
+		Intent i = new Intent(this, ViewComment.class);
+		i.putExtra(SET_COMMENT_TYPE, COMMENT_ON_ANSWER_KEY);
 		i.putExtra(QUESTION_ID_KEY, question_id);
 		i.putExtra(ANSWER_ID_KEY, answer.getId());
-		
+
 		startActivity(i);
 	}
-	
-	
+
 	public void answerQuestion() {
-		
+
 		LayoutInflater li = LayoutInflater.from(this);
 
 		// Get XML file to view
@@ -188,7 +203,6 @@ public class ViewQuestion extends Activity {
 
 		final EditText userName = (EditText) promptsView
 				.findViewById(R.id.UsernameRespondTextView);
-
 
 		// Create a new AlertDialog
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -203,16 +217,17 @@ public class ViewQuestion extends Activity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 
-						String answerBodyString = (String) answerBody
-								.getText().toString();
+						String answerBodyString = (String) answerBody.getText()
+								.toString();
 						String userNameString = (String) userName.getText()
 								.toString();
 
-						Answer a = new Answer(answerBodyString, userNameString, question_id);
-						
+						Answer a = new Answer(answerBodyString, userNameString,
+								question_id);
+
 						pc.getQuestion(question_id).addAnswer(a);
 						populateThisQuestionsAnswers(question_id);
-						
+
 						ala.updateAdapter(answerList);
 						updateAnswerCount();
 					}
@@ -230,10 +245,9 @@ public class ViewQuestion extends Activity {
 		alertDialog.show();
 	}
 
-
 	public void setFavorited() {
 		upc.addFavoriteQuestion(question_id);
-		//Log.d("click", "Favs: " + upc.getFavoriteQuestions());
+		// Log.d("click", "Favs: " + upc.getFavoriteQuestions());
 	}
 
 	public void increment_upvote() {
@@ -242,10 +256,19 @@ public class ViewQuestion extends Activity {
 		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
 				.getRating()));
 	}
-	
+
 	public void updateAnswerCount() {
-		Log.d("click", "Count" + String.valueOf(pc.getQuestion(question_id).countAnswers()));
-		answerCounter.setText("Answers: " + String.valueOf(pc.getQuestion(question_id).countAnswers()));
+		Log.d("click",
+				"Count"
+						+ String.valueOf(pc.getQuestion(question_id)
+								.countAnswers()));
+		answerCounter.setText("Answers: "
+				+ String.valueOf(pc.getQuestion(question_id).countAnswers()));
+	}
+
+	public void updateCommentCount() {
+		commentCounter.setText("Comments: "
+				+ String.valueOf(pc.getQuestion(question_id).countComments()));
 	}
 
 	@Override
@@ -266,16 +289,15 @@ public class ViewQuestion extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	// These button listeners are for the answers
-	
+
 	// This on upvotes an answer
-	public void answerUpvote(View v){
-		Answer answer=(Answer) v.getTag();
+	public void answerUpvote(View v) {
+		Answer answer = (Answer) v.getTag();
 		answer.upRating();
 		ala.notifyChange();
-		
-	}
 
+	}
 
 }
