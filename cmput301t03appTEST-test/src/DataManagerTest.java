@@ -27,11 +27,10 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	 * functionality to cache. This works with any other questions list in the
 	 * UserPostCollector. Asserts all questions have the same content.
 	 */
-	public void testSuccessfulSavingAndLoadingFromCache() {
+	public void testSuccessfulSavingAndLoadingFavoritesFromCache() {
 		
 		ArrayList<Question> questionArray;
 		PostController postController = new PostController(getInstrumentation().getTargetContext());
-//		UserPostCollector userPostCollector = postController.getUPCInstance();
 		ArrayList<Question> ql = new ArrayList<Question>();
 		
 		Question q = new Question("This is a test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");	
@@ -46,6 +45,24 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		assertEquals("Questions saved not same as questions retrieved.", ql, questionArray);
 	}
 	
+//public void testSuccessfulSavingAndLoadingReadFromCache() {
+//		
+//		ArrayList<Question> questionArray;
+//		PostController postController = new PostController(getInstrumentation().getTargetContext());
+////		UserPostCollector userPostCollector = postController.getUPCInstance();
+//		ArrayList<Question> ql = new ArrayList<Question>();
+//		
+//		Question q = new Question("This is a test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");	
+//		Question q2 = new Question("This is a another test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");
+//		ql.add(q);
+//		ql.add(q2);
+//		
+//		postController.addReadQuestion(q);
+//		postController.addReadQuestion(q2);
+//		questionArray = postController.getFavoriteQuestions();
+//		
+//		assertEquals("Questions saved not same as questions retrieved.", ql, questionArray);
+//	}
 	/**
 	 * This test will need to be changed to reflect our new UML.	
 	 * 
