@@ -52,17 +52,13 @@ public class Answer {
 		return this.answer;
 	}
 	
-	
 	public String getAuthor() {
 		return this.author;
 	}
 	
-	
 	public Date getDate() {
 		return this.date;
 	}
-	
-
 	
 	public int getRating() {
 		return this.rating;

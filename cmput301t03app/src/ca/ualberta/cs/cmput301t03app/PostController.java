@@ -214,21 +214,36 @@ public class PostController{
 	 * Please pass in the context, because it is needed for saving (Json DEMANDS IT!)
 	 * Direct questions on these to Eric
 	 */
-	public void addFavoriteQuestion(Question q) {
+	public void addFavoriteQuestion(Question q, ArrayList<String> idList) {
 		upc.initFavoriteID(getContext());  // I need to load the lists if they haven't been loaded yet.
 		upc.initQuestionBank(getContext());
 		LocalDataManager local = new LocalDataManager(getContext());
 		String id = q.getId();
-		if (!upc.getFavoriteQuestions().contains(id)) {
-			ArrayList<String> idList = upc.getFavoriteQuestions();
+		
+		if (!idList.contains(id)) {
 			idList.add(id);
 			local.saveFavoritesID(idList);
+			checkExistanceOfQuestion(q, local);
+		}
+	}
+
+	private void checkExistanceOfQuestion(Question q, LocalDataManager local) {
+		boolean found = false;
+		
+		for (int i = 0; i < upc.getQuestionBank().size(); i++) {
+			if (upc.getQuestionBank().get(i).getId().equals(q.getId())) {
+				found = true;
+				break;
+			}
+		}
+		
+		if (!found) {
 			ArrayList<Question> questionList = upc.getQuestionBank();
 			questionList.add(q);
 			local.saveToQuestionBank(questionList);
 		}
 	}
-
+	
 	// This should not be needed anymore.  Unless we're saving answers independent of questions.
 	public void addFavoriteAnswer(Answer a) {
 		LocalDataManager local = new LocalDataManager(getContext());
@@ -237,53 +252,46 @@ public class PostController{
 	//	local.saveAnswer(a);
 	}
 	
-	public void addReadQuestion(Question q) {
-		upc.initReadID(getContext());
+	public void addReadQuestion(Question q, ArrayList<String> idList) {
+		upc.initReadID(getContext());  // I need to load the lists if they haven't been loaded yet.
 		upc.initQuestionBank(getContext());
 		LocalDataManager local = new LocalDataManager(getContext());
 		String id = q.getId();
-		if (!upc.getReadQuestions().contains(id)){
-			ArrayList<String> readList = upc.getToReadQuestions();
-			readList.add(id);
-			local.saveReadID(readList);
-			ArrayList<Question> questionList = upc.getQuestionBank();
-			questionList.add(q);
-			local.saveToQuestionBank(questionList);
+		
+		if (!idList.contains(id)) {
+			idList.add(id);
+			local.saveReadID(idList);
+			checkExistanceOfQuestion(q, local);
 		}
 	}
 	
-	public void addToRead(Question q) {
-		upc.initToReadID(getContext());
+	public void addToRead(Question q, ArrayList<String> idList) {
+		upc.initToReadID(getContext());  // I need to load the lists if they haven't been loaded yet.
 		upc.initQuestionBank(getContext());
 		LocalDataManager local = new LocalDataManager(getContext());
 		String id = q.getId();
-		if (!upc.getToReadQuestions().contains(id)){
-			ArrayList<String> toReadList = upc.getToReadQuestions();
-			toReadList.add(id);
-			local.saveToReadID(toReadList);
-			ArrayList<Question> questionList = upc.getQuestionBank();
-			questionList.add(q);
-			local.saveToQuestionBank(questionList);
-		}
 		
+		if (!idList.contains(id)) {
+			idList.add(id);
+			local.saveToReadID(idList);
+			checkExistanceOfQuestion(q, local);
+		}
 	}
 	
 	/**
 	 * addUserPost() is overloaded.  Pass in the correct object and it'll do the rest.
 	 * @param q
 	 */
-	public void addUserPost(Question q) {
-		upc.initPostedQuestionID(getContext());
+	public void addUserPost(Question q, ArrayList<String> idList) {
+		upc.initPostedQuestionID(getContext());  // I need to load the lists if they haven't been loaded yet.
 		upc.initQuestionBank(getContext());
 		LocalDataManager local = new LocalDataManager(getContext());
 		String id = q.getId();
-		if (!upc.getPostedQuestions().contains(id)) {
-			ArrayList<String> userPostList = upc.getPostedQuestions();
-			userPostList.add(id);
-			local.savePostedQuestionsID(userPostList);
-			ArrayList<Question> questionList = upc.getQuestionBank();
-			questionList.add(q);
-			local.saveToQuestionBank(questionList);
+		
+		if (!idList.contains(id)) {
+			idList.add(id);
+			local.savePostedQuestionsID(idList);
+			checkExistanceOfQuestion(q, local);
 		}
 	}
 	
