@@ -17,6 +17,11 @@ import ca.ualberta.cs.cmput301t03app.iDataManager;
 
 public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	
+	ArrayList<Question> questionArray;
+	PostController postController;
+	ArrayList<Question> ql;
+	Question q;
+	Question q2;
 	public DataManagerTest() {
 		
 		super(MainActivity.class);
@@ -24,50 +29,49 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	
 	/** 
 	 * This test uses the favoriteQuestions list to test the saving and loading
-	 * functionality to cache. This works with any other questions list in the
-	 * UserPostCollector. Asserts all questions have the same content.
+	 *  Asserts all questions have the same content.
 	 */
 	public void testSuccessfulSavingAndLoadingFavoritesFromCache() {
 		
-		ArrayList<Question> questionArray;
-		PostController postController = new PostController(getInstrumentation().getTargetContext());
-		ArrayList<Question> ql = new ArrayList<Question>();
-		
-		Question q = new Question("This is a test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");	
-		Question q2 = new Question("This is a another test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");
-		ql.add(q);
-		ql.add(q2);
+		setup();
 		
 		postController.addFavoriteQuestion(q);
 		postController.addFavoriteQuestion(q2);
 		questionArray = postController.getFavoriteQuestions();
 		
-		assertNotNull("Loaded array is not empty", questionArray);
-		assertEquals("Loaded array is the same size as ql", questionArray.size(), ql.size());
-		assertSame("The first index of loaded array has the same question as the first question added", q, questionArray.get(0));
-		assertSame("The second index of the loaded array has the same question as the second question added", q2, questionArray.get(1));
-		assertEquals("The loaded array is the same as the area saved", ql, questionArray);
-		//assertEquals("Questions saved not same as questions retrieved.", ql, questionArray);
+		checkCorrect();
 	}
 	
-//public void testSuccessfulSavingAndLoadingReadFromCache() {
-//		
-//		ArrayList<Question> questionArray;
-//		PostController postController = new PostController(getInstrumentation().getTargetContext());
-////		UserPostCollector userPostCollector = postController.getUPCInstance();
-//		ArrayList<Question> ql = new ArrayList<Question>();
-//		
-//		Question q = new Question("This is a test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");	
-//		Question q2 = new Question("This is a another test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");
-//		ql.add(q);
-//		ql.add(q2);
-//		
-//		postController.addReadQuestion(q);
-//		postController.addReadQuestion(q2);
-//		questionArray = postController.getFavoriteQuestions();
-//		
-//		assertEquals("Questions saved not same as questions retrieved.", ql, questionArray);
-//	}
+	/** 
+	 * This test uses the readQuestions list to test the saving and loading
+	 * Asserts all questions have the same content.
+	 */
+	public void testSuccessfulSavingAndLoadingReadFromCache() {
+		
+		setup();
+		
+		postController.addReadQuestion(q);
+		postController.addReadQuestion(q2);
+		questionArray = postController.getReadQuestions();
+		
+		checkCorrect();
+	}
+	
+	/** 
+	 * This test uses the readQuestions list to test the saving and loading
+	 * Asserts all questions have the same content.
+	 */
+	public void testSuccessfulSavingAndLoadingToReadFromCache() {
+		
+		setup();
+		
+		postController.addToRead(q);
+		postController.addToRead(q2);
+		questionArray = postController.getToRead();
+		
+		checkCorrect();
+	}
+	
 	/**
 	 * This test will need to be changed to reflect our new UML.	
 	 * 
@@ -88,5 +92,25 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		
 		newQuestionArray = dataManager.loadQuestions();
 		assertNotNull("No questions loaded.",newQuestionArray);
+	}
+	
+	private void setup() {
+		
+		postController = new PostController(getInstrumentation().getTargetContext());
+		ql = new ArrayList<Question>();
+		
+		q = new Question("This is a test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");	
+		q2 = new Question("This is a another test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");
+		ql.add(q);
+		ql.add(q2);
+	}
+	
+	private void checkCorrect() {
+		assertNotNull("Loaded array is not empty", questionArray);
+		assertEquals("Loaded array is the same size as ql", questionArray.size(), ql.size());
+		assertSame("The first index of loaded array has the same question as the first question added", q, questionArray.get(0));
+		assertSame("The second index of the loaded array has the same question as the second question added", q2, questionArray.get(1));
+		assertEquals("The loaded array is the same as the area saved", ql, questionArray);
+		//assertEquals("Questions saved not same as questions retrieved.", ql, questionArray);
 	}
 }
