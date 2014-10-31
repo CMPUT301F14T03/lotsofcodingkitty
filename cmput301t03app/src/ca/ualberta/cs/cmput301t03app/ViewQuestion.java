@@ -25,7 +25,12 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ViewQuestion extends Activity {
 	PostController pc = new PostController(this);
 	UserPostCollector upc = new UserPostCollector();
-	ArrayList answerList = new ArrayList<Answer>();
+	ArrayList<Answer> answerList = new ArrayList<Answer>();
+	public static final String SET_COMMENT_TYPE="0";
+	public static final int COMMENT_ON_QUESTION_KEY = 1;
+	public static final int COMMENT_ON_ANSWER_KEY = 2;
+	public static final String QUESTION_ID_KEY = "3";
+	public static final String ANSWER_ID_KEY = "4";
 	AnswerListAdapter ala;
 	ListView answerListView;
 	ImageButton favIcon;
@@ -51,14 +56,6 @@ public class ViewQuestion extends Activity {
 	}
 
 	public void setListeners() {
-//		thisQuestion.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				toCommentActivity();
-//			}
-//		});
-		
 
 		answerListView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -69,7 +66,7 @@ public class ViewQuestion extends Activity {
 
 				Log.d("click", "click Answer" + position);
 				
-				toCommentActivityAnswer(position);
+				toCommentActivityAnswer(view);
 				
 			}
 		});
@@ -114,11 +111,8 @@ public class ViewQuestion extends Activity {
 	
 	public void populateThisQuestionsAnswers(String question_id) {
 		answerList.clear();
-		ArrayList<String> answerIdList = pc.getQuestion(question_id).getAnswers();
-		for (int i = 0; i<answerIdList.size(); i++) {
-			Answer a = pc.getAnswer(answerIdList.get(i));
-			answerList.add(a);
-		}
+		answerList.addAll(pc.getQuestion(question_id).getAnswers());
+		
 	}
 	
 	public void setQuestionText(String ID) {
@@ -161,23 +155,23 @@ public class ViewQuestion extends Activity {
 		answerListView= (ListView) findViewById(R.id.answerListView);
 	}
 	
-	
-	public void toCommentActivity(View v) {
+	// This function sends the user the view comment activity to comment on a question
+	public void toCommentActivityQuestion(View v) {
 		/* This method takes user to ViewComment activity */ 
 		Intent i = new Intent( this, ViewComment.class );
-		i.putExtra("question_id", question_id);
+		i.putExtra(SET_COMMENT_TYPE,COMMENT_ON_QUESTION_KEY);
+		i.putExtra(QUESTION_ID_KEY, question_id);
 		startActivity(i);
 	}
-	
-	public void toCommentActivityAnswer(int position) {
+	// This function sends the user the view comment activity to comment on an answer
+	public void toCommentActivityAnswer(View v) {
 		/* This method takes user to ViewComment activity */ 
-		
-		
-		ArrayList<String> answerIdList = pc.getQuestion(question_id).getAnswers();
-		Log.d("click", "answer ID" + answerIdList.get(position));
-		
+		Answer answer=(Answer) v.getTag();
 		Intent i = new Intent( this, ViewComment.class );
-		i.putExtra("question_id", answerIdList.get(position));
+		i.putExtra(SET_COMMENT_TYPE,COMMENT_ON_ANSWER_KEY);
+		i.putExtra(QUESTION_ID_KEY, question_id);
+		i.putExtra(ANSWER_ID_KEY, answer.getId());
+		
 		startActivity(i);
 	}
 	
@@ -216,8 +210,7 @@ public class ViewQuestion extends Activity {
 
 						Answer a = new Answer(answerBodyString, userNameString, question_id);
 						
-						pc.getQuestion(question_id).addAnswer(a.getId());
-						pc.getAnswersInstance().add(a);
+						pc.getQuestion(question_id).addAnswer(a);
 						populateThisQuestionsAnswers(question_id);
 						
 						ala.updateAdapter(answerList);
@@ -245,8 +238,6 @@ public class ViewQuestion extends Activity {
 
 	public void increment_upvote() {
 		pc.getQuestion(question_id).upRating();
-		Log.d("click",
-				Integer.toString(pc.getQuestion(question_id).getRating()));
 		TextView upvote_score = (TextView) findViewById(R.id.question_upvote_score);
 		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
 				.getRating()));
@@ -285,13 +276,6 @@ public class ViewQuestion extends Activity {
 		ala.notifyChange();
 		
 	}
-	// This one sends the user to the comments activity
-	public void sendToComments(View v) {
-		//Answer answer=(Answer) v.getTag();
-		Intent i = new Intent( this, ViewComment.class );
-		startActivity(i);
 
-		
-	}
 
 }

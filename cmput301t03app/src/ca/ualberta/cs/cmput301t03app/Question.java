@@ -14,17 +14,8 @@ public class Question{
 	private File picture;
 	private Date date;
 	private int rating;
-	private ArrayList<String> answers;
+	private ArrayList<Answer> answers;
 
-	/** This constructor should not exist because we do not allow the user to set the date manually.
-	public Question(Date date, String subject, String question){
-		this.date = date;
-		this.subject = subject;
-		this.question = question;
-		
-		this.rating = 0;
-	}
-	**/
 	
 	public Question(String subject, String body, String author) {
 		this.id = UUID.randomUUID().toString();
@@ -34,17 +25,10 @@ public class Question{
 		this.author = author; // Added author to constructor (Added by Eric)
 		this.rating = 0;
 		this.comments = new ArrayList<Comment>(); // Same as above
-		this.answers = new ArrayList<String>();
+		this.answers = new ArrayList<Answer>();
 	}
 	
-	/** This constructor should NOT exist, as they allow the author to create questions without a subject or body
-	public Question(){
-		this.date = null;
-		this.subject = null;
-		this.question = null;
-		this.rating = 0;
-	}
-	**/
+
 
 	public int countAnswers() {
 		return this.answers.size();
@@ -58,43 +42,30 @@ public class Question{
 		this.getComments().add(comment);
 	}
 	
-	public ArrayList<String> getAnswers() {
+	public ArrayList<Answer> getAnswers() {
 		return this.answers;
 	}
 	
-	public void addAnswer(String answerID){
-		this.answers.add(answerID);
+	public void addAnswer(Answer answer){
+		this.answers.add(answer);
 	}
 	
 	public String getSubject() {
 		return this.subject;
 	}
 	
-	/**  Subject is already set in the constructor
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-	**/
+
 	
 	public String getBody() {
 		return this.body;
 	}
 	
-	/** Question body is already set in the constructor
-	public void setQuestion(String body) {
-		this.body = body;
-	}
-	**/
+
 	
 	public Date getDate() {
 		return this.date;
 	}
 	
-	/** Date is already set in the constructor
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	**/
 	
 	public int getRating() {
 		return this.rating;
