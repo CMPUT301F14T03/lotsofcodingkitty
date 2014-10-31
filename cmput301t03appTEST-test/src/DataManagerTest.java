@@ -22,6 +22,7 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	ArrayList<Question> ql;
 	Question q;
 	Question q2;
+	Question q3;
 	public DataManagerTest() {
 		
 		super(MainActivity.class);
@@ -58,7 +59,7 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	}
 	
 	/** 
-	 * This test uses the readQuestions list to test the saving and loading
+	 * This test uses the toReadQuestions list to test the saving and loading
 	 * Asserts all questions have the same content.
 	 */
 	public void testSuccessfulSavingAndLoadingToReadFromCache() {
@@ -67,11 +68,41 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		
 		postController.addToRead(q);
 		postController.addToRead(q2);
-		questionArray = postController.getToRead();
+		questionArray = postController.getToReadQuestions();
 		
 		checkCorrect();
 	}
 	
+	/** 
+	 * This test uses the toReadQuestions list to test the saving and loading
+	 * Asserts all questions have the same content.
+	 */
+	public void testSuccessfulSavingAndLoadingUserPostsFromCache() {
+		
+		setup();
+		
+		postController.addUserPost(q);
+		postController.addUserPost(q2);
+		questionArray = postController.getUserPostedQuestions();
+		
+		checkCorrect();
+	}
+	/**
+	 * This tests that the favorite list is extracting the correct questions.
+	 */
+	public void testParsingFavoriteList() {
+		setup();
+		
+		postController.addReadQuestion(q);
+		postController.addReadQuestion(q2);
+		postController.addReadQuestion(q3);
+		postController.addFavoriteQuestion(q2);
+		questionArray = postController.getFavoriteQuestions();
+		
+		checkEdgeCases();
+		//Need to clear the lists after so other tests work.
+		cleanUp();
+	}
 	/**
 	 * This test will need to be changed to reflect our new UML.	
 	 * 
@@ -101,16 +132,27 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		
 		q = new Question("This is a test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");	
 		q2 = new Question("This is a another test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");
+		q3 = new Question("This is a third test question for caching a favorite question.","This is some random text to fill out the textbody.", "Tonberry");
 		ql.add(q);
 		ql.add(q2);
+		ql.add(q3);
 	}
 	
 	private void checkCorrect() {
-		assertNotNull("Loaded array is not empty", questionArray);
-		assertEquals("Loaded array is the same size as ql", questionArray.size(), ql.size());
-		assertSame("The first index of loaded array has the same question as the first question added", q, questionArray.get(0));
-		assertSame("The second index of the loaded array has the same question as the second question added", q2, questionArray.get(1));
-		assertEquals("The loaded array is the same as the area saved", ql, questionArray);
-		//assertEquals("Questions saved not same as questions retrieved.", ql, questionArray);
+		assertNotNull("Loaded array is empty", questionArray);
+		assertEquals("Loaded array is the not the same size as ql", questionArray.size(), ql.size());
+		assertEquals("The first index of loaded array does not have the same question as the first question added", q.getSubject(), questionArray.get(0).getSubject());
+		assertEquals("The second index of the loaded array does not have the same question as the second question added", q.getId(), questionArray.get(0).getId());
+	}
+	
+	private void checkEdgeCases() {
+		assertEquals("Parser did not find correct question", q2.getId(), questionArray.get(0).getId());
+		
+	}
+	
+	private void cleanUp() {
+		UserPostCollector upc = postController.getUPC();
+//		upc.clearLists();		
+		postController.saveUserPosts();
 	}
 }
