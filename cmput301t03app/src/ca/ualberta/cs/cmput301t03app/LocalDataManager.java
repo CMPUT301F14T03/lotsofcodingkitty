@@ -48,40 +48,44 @@ public class LocalDataManager implements iDataManager{
 	
 	/**
 	 * Saves a list of question id's of favorite questions to cache.
+	 * @param idList TODO
 	 * @param UUID
 	 */
-	public void saveFavoritesID(String id) {
+	public void saveFavoritesID(ArrayList<String> idList) {
 		SAVE_FILE = FAVORITE_FILE;
-		saveIds(id);
+		saveIds(null);
 	}
 	
 	/**
 	 * Saves a list of question id's of read questions to cache.
+	 * @param idList TODO
 	 * @param UUID
 	 */
-	public void saveReadID(String id) {
+	public void saveReadID(ArrayList<String> idList) {
 		SAVE_FILE = READ_FILE;
-		saveIds(id);
+		saveIds(idList);
 	}
 
 	/**
 	 * Saves a list of question id's of questions to be
 	 * read later to cache.
+	 * @param idList TODO
 	 * @param UUID
 	 */
-	public void saveToReadID(String id) {
+	public void saveToReadID(ArrayList<String> idList) {
 		SAVE_FILE = TO_READ_FILE;
-		saveIds(id);
+		saveIds(idList);
 	}
 
 	/**
 	 * Saves a list of question id's of questions posted by the
 	 * user to cache.
+	 * @param idList TODO
 	 * @param UUID
 	 */
-	public void savePostedQuestionsID(String id) {
+	public void savePostedQuestionsID(ArrayList<String> idList) {
 		SAVE_FILE = POSTED_QUESTIONS_FILE;
-		saveIds(id);
+		saveIds(idList);
 	}
 
 	// These two methods set the same mode!
@@ -102,31 +106,33 @@ public class LocalDataManager implements iDataManager{
 
 	/**
 	 * Saves a list of answers posted by the user to cache.
+	 * @param idList TODO
 	 * @param UUID
 	 *
 	 */
-	public void savePostedAnswersID(String id) {
+	public void savePostedAnswersID(ArrayList<String> idList) {
 		SAVE_FILE = POSTED_ANSWERS_FILE;
-		saveIds(id);
+		saveIds(idList);
 	}
 	
 	/**
 	 * Saves the answer ID.  This should only be needed if we're saving answers independent of questions.
+	 * @param idList TODO
 	 * @param UUID
 	 */
-	public void saveFavoriteAnswerID(String id) {
+	public void saveFavoriteAnswerID(ArrayList<String> idList) {
 		SAVE_FILE = FAVORITE_ANSWERS_ID;
-		saveIds(id);
+		saveIds(idList);
 	}
 	
 	/**
 	 * Saves a single question to the bank of questions.
 	 * @param Question object
 	 */
-	public void appendToQuestionBank(Question q) {
-		SAVE_FILE = QUESTION_BANK;
-		saveQuestion(q);
-	}
+//	public void appendToQuestionBank(Question q) {
+//		SAVE_FILE = QUESTION_BANK;
+//		saveQuestion(q);
+//	}
 	
 	/**
 	 * Saves
@@ -141,31 +147,31 @@ public class LocalDataManager implements iDataManager{
 	 * Saves an answer to the bank of answers.
 	 * @param Answer object
 	 */
-	public void saveToAnswerBank(Answer a) {
-		SAVE_FILE = ANSWER_BANK;
-		saveAnswer(a);
-	}
+//	public void saveToAnswerBank(Answer a) {
+//		SAVE_FILE = ANSWER_BANK;
+//		saveAnswer(a);
+//	}
 	
 	/**
 	 * Appends a single Answer object to the answer bank.
 	 * @param a An Answer object.
 	 */
-	public void saveAnswer(Answer a) {
-		 try {
-	        	FileOutputStream fileOutputStream = context.openFileOutput(SAVE_FILE, Context.MODE_APPEND);
-	        	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
-	        	GsonBuilder builder = new GsonBuilder();
-
-	        	//Gson does not serialize/deserialize dates with milisecond precision unless specified
-	        	Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create();
-	        	builder.serializeNulls(); //Show fields with null values
-	        	gson.toJson(a, outputStreamWriter); //Serialize to Json
-	        	outputStreamWriter.flush();
-		        outputStreamWriter.close();   
-	        } catch (IOException e) {
-				e.printStackTrace();
-			}		
-	}
+//	public void saveAnswer(Answer a) {
+//		 try {
+//	        	FileOutputStream fileOutputStream = context.openFileOutput(SAVE_FILE, Context.MODE_APPEND);
+//	        	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
+//	        	GsonBuilder builder = new GsonBuilder();
+//
+//	        	//Gson does not serialize/deserialize dates with milisecond precision unless specified
+//	        	Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create();
+//	        	builder.serializeNulls(); //Show fields with null values
+//	        	gson.toJson(a, outputStreamWriter); //Serialize to Json
+//	        	outputStreamWriter.flush();
+//		        outputStreamWriter.close();   
+//	        } catch (IOException e) {
+//				e.printStackTrace();
+//			}		
+//	}
 
 	/**
 	 * Save a list of Answer objects to the answer bank.
@@ -312,16 +318,17 @@ public class LocalDataManager implements iDataManager{
 
 	
 	
-	/***********************************PRIVATE METHODS*****************************************/
+	/***********************************PRIVATE METHODS
+	 * @param idList TODO*****************************************/
 	
 	
-	private void saveIds(String id) {
+	private void saveIds(ArrayList<String> idList) {
         try {
         	FileOutputStream fileOutputStream = context.openFileOutput(SAVE_FILE, Context.MODE_APPEND);
         	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);      	
         	GsonBuilder builder = new GsonBuilder();
         	Gson gson = builder.create();
-        	gson.toJson(id, outputStreamWriter); //Serialize to Json
+        	gson.toJson(idList, outputStreamWriter); //Serialize to Json
         	outputStreamWriter.flush();
 	        outputStreamWriter.close();        
 		} catch (IOException e) {
@@ -333,23 +340,27 @@ public class LocalDataManager implements iDataManager{
 	 * Appends a single Question object to the question bank.
 	 * @param q A Question object
 	 */
-	private void saveQuestion(Question q) {
-		 try {
-	        	FileOutputStream fileOutputStream = context.openFileOutput(SAVE_FILE, Context.MODE_APPEND);
-	        	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
-	        	GsonBuilder builder = new GsonBuilder();
-
-	        	//Gson does not serialize/deserialize dates with milisecond precision unless specified
-	        	Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create();
-	        	builder.serializeNulls(); //Show fields with null values
-	        	
-	        	gson.toJson(q, outputStreamWriter); //Serialize to Json
-	        	outputStreamWriter.flush();
-		        outputStreamWriter.close();   
-	        } catch (IOException e) {
-				e.printStackTrace();
-			}		
-	}
+//	private void saveQuestion(Question q) {
+//		 try {
+//	        	FileOutputStream fileOutputStream = context.openFileOutput(SAVE_FILE, Context.MODE_APPEND);
+//	        	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
+//	        	GsonBuilder builder = new GsonBuilder();
+//
+//	        	//Gson does not serialize/deserialize dates with milisecond precision unless specified
+//	        	Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create();
+//	        	builder.serializeNulls(); //Show fields with null values
+//	        	
+//	        	File file = context.getFileStreamPath(SAVE_FILE);
+//	        	if (file.length() != 0) {
+//	        		outputStreamWriter.write(",");
+//	        	}
+//	        	gson.toJson(q, outputStreamWriter); //Serialize to Json
+//	        	outputStreamWriter.flush();
+//		        outputStreamWriter.close();   
+//	        } catch (IOException e) {
+//				e.printStackTrace();
+//			}		
+//	}
 	
 	/**
 	 * Saves a list of Question objects to the question bank.
