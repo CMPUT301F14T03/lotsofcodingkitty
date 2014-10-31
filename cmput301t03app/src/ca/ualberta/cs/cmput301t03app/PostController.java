@@ -241,11 +241,22 @@ public class PostController{
 		ArrayList<Question> questionArray = local.loadQuestions();
 		ArrayList<String> idArray = local.loadFavorites();
 		
+		/* I don't why this is written this way.  The comparison method is wrong, and you're assigning the question every time before you even
+		 * check if the ID is correct.
 		for (String id : idArray) {
 			for (int i = 0; i<questionArray.size(); i++) {
 				Question question = questionArray.get(i);
 				if (id == question.getId()) {
 					favoriteArray.add(question);
+				}
+			}
+		} */
+		
+		// This works
+		for (int i = 0; i < idArray.size(); i++) {
+			for(int j = 0; j < questionArray.size(); j++) {
+				if (idArray.get(i).equals(questionArray.get(j).getId())) {
+					favoriteArray.add(questionArray.get(j));
 				}
 			}
 		}
