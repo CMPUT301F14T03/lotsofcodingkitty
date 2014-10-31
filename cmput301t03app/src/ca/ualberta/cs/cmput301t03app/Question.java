@@ -34,6 +34,10 @@ public class Question{
 		return this.answers.size();
 	}
 	
+	public int countComments() {
+		return this.comments.size();
+	}
+	
 	public ArrayList<Comment> getComments() {
 		return this.comments;
 	}

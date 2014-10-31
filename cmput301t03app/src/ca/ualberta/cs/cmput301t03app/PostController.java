@@ -52,6 +52,10 @@ public class PostController{
 	public int countAnswers(Question q){
 		return q.countAnswers();
 	}
+	
+	public int countComments(Question q) {
+		return q.countComments();
+	}
 
 	public Answer getAnswer(String answerId,String questionId){
 		Question q = getQuestion(questionId);

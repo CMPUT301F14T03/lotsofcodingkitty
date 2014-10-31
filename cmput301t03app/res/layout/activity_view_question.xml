@@ -139,7 +139,7 @@
         android:textStyle="bold"/>
     
     <TextView
-        android:id="@+id/comment_count"
+        android:id="@+id/question_comment_count"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_alignBottom="@+id/answer_count"
@@ -147,7 +147,6 @@
         android:background="#eeeeee"
         android:gravity="center_vertical|left"
         android:paddingLeft="10dp"
-        android:text="Comments: 4"
         android:textStyle="bold"
         android:onClick="toCommentActivityQuestion" />
     
@@ -158,8 +157,8 @@
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
         
-        android:layout_toRightOf="@+id/comment_count"
-        android:layout_alignBottom="@+id/comment_count"
+        android:layout_toRightOf="@+id/question_comment_count"
+        android:layout_alignBottom="@+id/question_comment_count"
         android:background="#eeeeee"
         android:paddingRight="10dp"
         android:gravity="center_vertical|right"
