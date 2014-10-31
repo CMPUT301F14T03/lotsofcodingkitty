@@ -53,7 +53,7 @@ public class LocalDataManager implements iDataManager{
 	 */
 	public void saveFavoritesID(ArrayList<String> idList) {
 		SAVE_FILE = FAVORITE_FILE;
-		saveIds(null);
+		saveIds(idList);
 	}
 	
 	/**
@@ -324,7 +324,7 @@ public class LocalDataManager implements iDataManager{
 	
 	private void saveIds(ArrayList<String> idList) {
         try {
-        	FileOutputStream fileOutputStream = context.openFileOutput(SAVE_FILE, Context.MODE_APPEND);
+        	FileOutputStream fileOutputStream = context.openFileOutput(SAVE_FILE, Context.MODE_PRIVATE);
         	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);      	
         	GsonBuilder builder = new GsonBuilder();
         	Gson gson = builder.create();
