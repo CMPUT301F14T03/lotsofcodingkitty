@@ -207,6 +207,12 @@ public class PostController{
 		local.appendToQuestionBank(q);
 	}
 	
+	/**
+	 * Returns the list of favorite questions.
+	 * This method only pulls from the question bank the questions 
+	 * whose IDs are in the favorite ID's list .
+	 * @return favoriteArray A list of Question objects.
+	 */
 	public ArrayList<Question> getFavoriteQuestions() {
 		LocalDataManager local = new LocalDataManager(context);
 		ArrayList<Question> favoriteArray = new ArrayList<Question>();
