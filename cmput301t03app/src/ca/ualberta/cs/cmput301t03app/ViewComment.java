@@ -12,7 +12,7 @@ public class ViewComment extends Activity {
 	String questionID;
 	String answerID;
 	ArrayList<Comment> comments = new ArrayList<Comment>();
-	PostController pc = new PostController();
+	PostController pc = new PostController(this);
 	
 	/** Called when the activity is first created. */
 	@Override
