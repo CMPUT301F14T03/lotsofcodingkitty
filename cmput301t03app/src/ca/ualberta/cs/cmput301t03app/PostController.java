@@ -229,40 +229,6 @@ public class PostController{
 		}
 	}
 
-	/**
-	 * Returns the list of favorite questions.
-	 * This method only pulls from the question bank the questions 
-	 * whose IDs are in the favorite ID's list .
-	 * @return favoriteArray A list of Question objects.
-	 */
-	public ArrayList<Question> getFavoriteQuestions() {
-		LocalDataManager local = new LocalDataManager(getContext());
-		ArrayList<Question> favoriteArray = new ArrayList<Question>();
-		ArrayList<Question> questionArray = local.loadQuestions();
-		ArrayList<String> idArray = local.loadFavorites();
-		
-		/* I don't why this is written this way.  The comparison method is wrong, and you're assigning the question every time before you even
-		 * check if the ID is correct.
-		for (String id : idArray) {
-			for (int i = 0; i<questionArray.size(); i++) {
-				Question question = questionArray.get(i);
-				if (id == question.getId()) {
-					favoriteArray.add(question);
-				}
-			}
-		} */
-		
-		// This works
-		for (int i = 0; i < idArray.size(); i++) {
-			for(int j = 0; j < questionArray.size(); j++) {
-				if (idArray.get(i).equals(questionArray.get(j).getId())) {
-					favoriteArray.add(questionArray.get(j));
-				}
-			}
-		}
-		return favoriteArray;
-	}
-	
 	// This should not be needed anymore.  Unless we're saving answers independent of questions.
 	public void addFavoriteAnswer(Answer a) {
 		LocalDataManager local = new LocalDataManager(getContext());
@@ -332,6 +298,55 @@ public class PostController{
 		local.saveAnswer(a);
 	}
 	*/
+
+	/**
+	 * Returns the list of favorite questions.
+	 * This method only pulls from the question bank the questions 
+	 * whose IDs are in the favorite ID's list .
+	 * @return favoriteArray A list of Question objects.
+	 */
+	public ArrayList<Question> getFavoriteQuestions() {
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idArray = local.loadFavorites();
+		ArrayList<Question> favoriteArray = getQuestionsFromID(idArray, local);
+		return favoriteArray;
+	}
+	
+	public ArrayList<Question> getReadQuestions() {
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idArray = local.loadRead();
+		ArrayList<Question> readArray = getQuestionsFromID(idArray, local);
+		return readArray;
+	}
+	
+	public ArrayList<Question> getToReadQuestions() {
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idArray = local.loadToRead();
+		ArrayList<Question> toReadArray = getQuestionsFromID(idArray, local);
+		return toReadArray;
+	}
+	
+	public ArrayList<Question> getUserPostedQuestions() {
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idArray = local.loadToRead();
+		ArrayList<Question> postedArray = getQuestionsFromID(idArray, local);
+		return postedArray;
+	}
+	
+	private ArrayList<Question> getQuestionsFromID(ArrayList<String> idArray, LocalDataManager local) {
+		ArrayList<Question> returnedArray = new ArrayList<Question>();
+		ArrayList<Question> questionArray = local.loadQuestions();
+		
+		for (int i = 0; i < idArray.size(); i++) {
+			for(int j = 0; j < questionArray.size(); j++) {
+				if (idArray.get(i).equals(questionArray.get(j).getId())) {
+					returnedArray.add(questionArray.get(j));
+				}
+			}
+		}
+		
+		return returnedArray;
+	}
 	
 	/**
 	 * End of what Eric wrote
