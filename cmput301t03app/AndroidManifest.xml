@@ -34,6 +34,7 @@
             android:name=".DisplayPicture"
             android:label="@string/title_activity_display_picture" >
         </activity>
+        <activity android:name="ViewComment"></activity>
     </application>
 
 </manifest>

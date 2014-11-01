@@ -6,5 +6,3 @@ This is a mobile question and answer application. A user can browse questions an
 
 This Android application is licensed under the Apache 2.0 License
 
-User Manual
------------

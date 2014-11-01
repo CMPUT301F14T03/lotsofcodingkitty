@@ -1,3 +1,4 @@
+
 package ca.ualberta.cs.cmput301t03app;
 
 import java.util.ArrayList;
@@ -7,6 +8,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,15 +17,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+/*
+ * This class is the main access point to the application. 
+ * 
+ * @author
+ * 
+ * */
+
+
 public class MainActivity extends Activity {
 	ListView lv;
 	MainListAdapter mla;
-	public ArrayList<Question> questions = new ArrayList<Question>();
-	PostController pc = new PostController();
+	PostController pc = new PostController(this);
 	
 
 	@Override
@@ -46,7 +57,6 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		populatequestions();
 		setupAdapter();
 
 	}
@@ -58,82 +68,6 @@ public class MainActivity extends Activity {
 		
 	}
 
-	public void populatequestions() {
-		// This is a temporary method that hardcodes some questions for testing.
-
-		PostController pc = new PostController();
-		
-		Question q = new Question(
-				"Test question 0: What does this question ask?",
-				"Said groove sucka", "Test Author 0");
-		Question q1 = new Question(
-				"Test question 1: This is a longer test question to see how it will look when wrapped on multiple lines. How do I post question?",
-				"What about the body", "Test Author 1");
-		Question q2 = new Question(
-				"Test question 2: What does this question ask? This is slightly longer",
-				"Said groove sucka", "Test Author 2");
-		Question q3 = new Question(
-				"Test question 3: What does this question ask? Some variety",
-				"Said groove sucka", "Test Author 3");
-		Question q4 = new Question(
-				"Test question 4: What does this question ask? How about this one?",
-				"Said groove sucka", "Test Author 4");
-		Question q5 = new Question("Test question 5: Boolean?",
-				"Said groove sucka", "Test Author 5");
-		Question q6 = new Question("Test question 6: How are you?",
-				"Said groove sucka", "Test Author 6");
-		Question q7 = new Question("Test question 7: Boolean == Boolean?",
-				"Said groove sucka", "Test Author 7");
-
-		for (int i = 0; i < 130; i++) {
-			q.upRating();
-		}
-
-		for (int i = 0; i < 97; i++) {
-			q1.upRating();
-		}
-
-		for (int i = 0; i < 98; i++) {
-			q2.upRating();
-		}
-
-		for (int i = 0; i < 99; i++) {
-			q3.upRating();
-		}
-		for (int i = 0; i < 200; i++) {
-			q4.upRating();
-		}
-		for (int i = 0; i < 201; i++) {
-			q5.upRating();
-		}
-		for (int i = 0; i < 17; i++) {
-			q6.upRating();
-		}
-
-		for (int i = 0; i < 209; i++) {
-			q7.upRating();
-		}
-
-		//pc.addQuestion(q);
-		
-//		pc.addQuestion(q1);
-//		pc.addQuestion(q2);
-//		pc.addQuestion(q3);
-//		pc.addQuestion(q4);
-//		pc.addQuestion(q5);
-//		pc.addQuestion(q6);
-//		pc.addQuestion(q7);
-		
-		questions.add(q);
-		questions.add(q1);
-		questions.add(q2);
-		questions.add(q3);
-		questions.add(q4);
-		questions.add(q5);
-		questions.add(q6);
-		questions.add(q7);
-
-	}
 
 	public void setupAdapter() {
 		lv = (ListView) findViewById(R.id.activity_main_question_list);
@@ -189,7 +123,7 @@ public class MainActivity extends Activity {
 		// startActivity(intent);
 
 		// Create a new AlertDialog
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
 		// Link the alertdialog to the XML
 		alertDialogBuilder.setView(promptsView);
@@ -197,7 +131,6 @@ public class MainActivity extends Activity {
 		// Building the dialog for adding
 		alertDialogBuilder.setPositiveButton("Ask!",
 				new DialogInterface.OnClickListener() {
-
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 
@@ -222,12 +155,58 @@ public class MainActivity extends Activity {
 						dialog.cancel();
 					}
 				});
+		
+				
 
-		AlertDialog alertDialog = alertDialogBuilder.create();
+		final AlertDialog alertDialog = alertDialogBuilder.create();
 
 		alertDialog.show();
-
+		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
+		
+		TextWatcher textwatcher = new TextWatcher(){
+			private void handleText(){
+				final Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+				if(questionTitle.getText().length() == 0){
+					button.setEnabled(false);
+				}
+				else if(questionBody.getText().length() == 0){
+					button.setEnabled(false);
+				}
+				else if(userName.getText().length() == 0){
+					button.setEnabled(false);
+				}
+				else{
+					button.setEnabled(true);
+				}	
+			}
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				handleText();
+			}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start,
+					int count, int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void onTextChanged(CharSequence s, int start,
+					int before, int count) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+			
+		
+				questionTitle.addTextChangedListener(textwatcher);
+				questionBody.addTextChangedListener(textwatcher);
+				userName.addTextChangedListener(textwatcher);
+				
+				
 		Toast.makeText(this, "Please write your question", Toast.LENGTH_SHORT)
 				.show();
 	}
 }
+
+

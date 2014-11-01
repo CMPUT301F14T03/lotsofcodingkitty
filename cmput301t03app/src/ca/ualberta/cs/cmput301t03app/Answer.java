@@ -13,7 +13,6 @@ public class Answer {
 	private Date date;
 	private File picture;
 	private int rating;
-	private String parentID;
 	
 	/** This constructor should not exist.  We should not allow the author to set the timestamp
 	public Answer(String answer, Date date){
@@ -30,7 +29,6 @@ public class Answer {
 		this.author = author; // Added author to constructor (Added by Eric)
 		this.rating = 0;
 		this.comments = new ArrayList<Comment>(); // Need to initialize the list (Added by Eric)
-		this.parentID=parentID;
 	}
 	
 	/**  This constructor should not exists.  Answers should not have NULL attributes
@@ -46,7 +44,7 @@ public class Answer {
 		return this.comments;
 	}
 	
-	public void addComments(Comment comment) {
+	public void addComment(Comment comment) {
 		this.comments.add(comment);
 	}
 	
@@ -54,31 +52,17 @@ public class Answer {
 		return this.answer;
 	}
 	
-	/** Already being set in the constructor
-	public void setAnswer(String answer) {
-		this.answer = answer;
-	}
-	**/
 	
 	public String getAuthor() {
 		return this.author;
 	}
 	
-	/** Already being set in the constructor
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-	**/
 	
 	public Date getDate() {
 		return this.date;
 	}
 	
-	/** Already being set in the constructor
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	**/
+
 	
 	public int getRating() {
 		return this.rating;
@@ -99,8 +83,6 @@ public class Answer {
 	public String getId(){
 		return this.id;
 	}
-	public String getParentID(){
-		return this.parentID;
-	}
+
 	
 }

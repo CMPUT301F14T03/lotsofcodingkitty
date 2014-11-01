@@ -22,21 +22,26 @@ public class FavoritesTest extends ActivityInstrumentationTestCase2<MainActivity
 	// assert that the initialized array is the same as the array
 	// returned by get favourites
 	
-	public void testSaveFavorites() {
-		
-		ArrayList<Question> questionArray;
-		UserPostCollector userCollect = new UserPostCollector(getInstrumentation().getTargetContext());
-		ArrayList<Question> ql = new ArrayList<Question>();
-		
-		Question q = new Question("Title1","TextBody1", "author");
-		
-		ql.add(q);
-		
-		userCollect.addFavoriteQuestions(q);
-		
-		questionArray = userCollect.getFavoriteQuestions();
-		
-		assertEquals("Questions saved not same as questions retrieved.", ql, questionArray);
-		
-	}
+	/*
+	 * We probably don't need this test since it's tested in DataManagerTest.
+	 * Instead we can test if the question was properly marked as a favorite?
+	 */
+//	public void testSaveFavorites() {
+//		
+//		ArrayList<Question> questionArray;
+//		PostController postController = new PostController(getInstrumentation().getTargetContext());
+//		UserPostCollector userPostCollector = postController.getUPCInstance();
+//		ArrayList<Question> ql = new ArrayList<Question>();
+//		
+//		Question q = new Question("Title1","TextBody1", "author");
+//		
+//		ql.add(q);
+//		
+//		userPostCollector.addFavoriteQuestions(q);
+//		
+//		questionArray = userPostCollector.getFavoriteQuestions();
+//		
+//		assertEquals("Questions saved not same as questions retrieved.", ql, questionArray);
+//		
+//	}
 }
