@@ -337,7 +337,7 @@ public class PostController{
 	
 	public ArrayList<Question> getUserPostedQuestions() {
 		LocalDataManager local = new LocalDataManager(getContext());
-		ArrayList<String> idArray = local.loadToRead();
+		ArrayList<String> idArray = local.loadPostedQuestions();
 		ArrayList<Question> postedArray = getQuestionsFromID(idArray, local);
 		return postedArray;
 	}
