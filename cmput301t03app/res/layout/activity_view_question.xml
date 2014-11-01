@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context="ca.ualberta.cs.cmput301t03app.ViewQuestion" >
 
     
@@ -13,23 +14,11 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         
-        android:text="A N S W E R"
+        android:text="+ A N S W E R"
         android:background="#000000"
         android:textColor="#ffffff" />
      
      
-     <TextView
-         android:id="@+id/answer_count"
-         android:layout_below="@+id/question_answer_button"
-         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginBottom="5dp"
-        android:gravity="center_vertical|center_horizontal"
-        android:background="#eeeeee"
-        android:text="Answers: 24"
-         />
     
     <!-- This is the Score/upvote part on the left -->
 
@@ -38,15 +27,16 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/question_upvote_button"
-        android:layout_below="@+id/answer_count"
+        android:layout_below="@+id/question_answer_button"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:clickable="false"
+        android:layout_marginTop="5dp"
+        android:clickable="true"
         android:focusable="false"
         android:text="This is the question title. This is the Question"
         android:textAlignment="center"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:onClick="toCommentActivityQuestion" />
     
      <TextView
         android:id="@+id/question_text_body"
@@ -57,12 +47,13 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="8dp"
          android:layout_marginRight="10dp"
-        android:clickable="false"
+        android:clickable="true"
         android:focusable="false"
         android:text="Question activity question textbody. This is the text body of my question. What is the body of a question?"
         android:textAlignment="center"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000000" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#000000"
+        android:onClick="toCommentActivityQuestion" />
 
     
     <TextView
@@ -70,8 +61,7 @@
         android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/question_upvote_button"
-        
-        android:gravity="center"
+        android:gravity="top|center_horizontal"
         android:text="0"
         android:textSize="30dp"
        />
@@ -79,13 +69,13 @@
     <ImageButton
         android:id="@+id/question_upvote_button"
         android:layout_width="75dp"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/answer_count"
+        android:layout_below="@+id/question_answer_button"
         android:layout_marginTop="5dp"
         android:background="@null"
         android:clickable="true"
-        android:gravity="center"
+        android:gravity="bottom"
         android:src="@drawable/ic_upvote" />
 
    
@@ -93,7 +83,7 @@
         android:id="@+id/question_fav_icon"
         android:layout_width="75dp"
         android:layout_height="30dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="0dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/question_upvote_score"
         android:background="@null"
@@ -115,6 +105,7 @@
         android:text="Posted: Oct 31, 2014"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="11dp"
         android:textColor="#000000"
          />
 
@@ -131,10 +122,51 @@
         android:gravity="right"
         android:text="by: Lotso CodingKitty"
         android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="11dp"
         android:textColor="#000000"
         />
-
-
+    
+    <TextView
+        android:id="@+id/answer_count"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:paddingLeft="10dp"
+        android:layout_below="@+id/question_author"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="5dp"
+        android:background="#eeeeee"
+        android:gravity="center_vertical|left"
+        android:textStyle="bold"/>
+    
+    <TextView
+        android:id="@+id/question_comment_count"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/answer_count"
+        android:layout_toRightOf="@+id/answer_count"
+        android:background="#eeeeee"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="10dp"
+        android:textStyle="bold"
+        android:onClick="toCommentActivityQuestion" />
+    
+    
+    <TextView
+        android:id="@+id/question_options"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        
+        android:layout_toRightOf="@+id/question_comment_count"
+        android:layout_alignBottom="@+id/question_comment_count"
+        android:background="#eeeeee"
+        android:paddingRight="10dp"
+        android:gravity="center_vertical|right"
+        android:layout_marginTop="5dp"
+        android:text="Fav   Comment" />
+    
+    
+    
     
     <!-- The answer list -->
 
@@ -142,8 +174,10 @@
         android:id="@+id/answerListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/post_timestamp"
+        android:layout_below="@+id/question_options"
+        
         tools:listitem="@layout/activity_view_question_answer_entity" >
     </ListView>
 
+    
 </RelativeLayout>

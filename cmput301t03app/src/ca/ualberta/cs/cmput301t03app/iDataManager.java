@@ -4,9 +4,13 @@ import java.util.ArrayList;
 
 public interface iDataManager {
 
-
-	void save(ArrayList<Question> list);
-	ArrayList<Question> load();
+//	public void appendToQuestionBank(Question q);
+	public void saveToQuestionBank(ArrayList<Question> list);
+	public ArrayList<Question> loadQuestions();
+	
+//	public void saveAnswer(Answer a);
+	public void saveAnswers(ArrayList<Answer> list);
+	
 //	void saveAnswers(ArrayList<Answer> list);
 //	ArrayList<Answer> loadAnswers();
 

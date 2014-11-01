@@ -7,12 +7,11 @@ import android.content.Context;
 public class PostController{
 
 	private static ArrayList<Question> subQuestions = null;
-	private static ArrayList<Answer> subAnswers = null;
 	private ArrayList<Question> pushQuestions = new ArrayList<Question>();
 	private ArrayList<Answer> pushAnswers = new ArrayList<Answer>();
-	UserPostCollector upc = new UserPostCollector();
-	iDataManager dm;
-	QuestionFilter qf = new QuestionFilter();
+	private static UserPostCollector upc = new UserPostCollector();
+	private iDataManager dm;
+	private QuestionFilter qf = new QuestionFilter();
 	private String username;
 	private Context context; // THIS IS SOLELY FOR TESTING PURPOSES -Carly
 
@@ -21,7 +20,9 @@ public class PostController{
 		this.context = context;
 	}
 	
-	public PostController(){}
+	public Context getContext() {
+		return this.context;
+	}
 	
 	public void setUsername(String name){
 		this.username = name;
@@ -30,11 +31,14 @@ public class PostController{
 	public String getUsername(){
 		return username;
 	}
-
-	public UserPostCollector getUPCInstance(){
-		if (upc == null){
-			upc = new UserPostCollector();
-		}
+	
+	/*
+	 * The upc is never null, you instantiated it up there.
+	 */
+	public UserPostCollector getUPC(){
+	//	if (upc == null){
+	//		upc = new UserPostCollector();
+	//	}
 		return upc;
 	}
 
@@ -45,23 +49,20 @@ public class PostController{
 		return subQuestions;
 	}
 
-	public ArrayList<Answer> getAnswersInstance(){
-		if (subAnswers == null){
-			subAnswers = new ArrayList<Answer>();
-		}
-		return subAnswers;
-	}
-
 	public int countAnswers(Question q){
 		return q.countAnswers();
 	}
+	
+	public int countComments(Question q) {
+		return q.countComments();
+	}
 
-	public Answer getAnswer(String Id){
-
-		for (int i = 0; i < subAnswers.size(); i++){
-			if (subAnswers.get(i).getId() == Id){
-				return subAnswers.get(i);
-			}
+	public Answer getAnswer(String answerId,String questionId){
+		Question q = getQuestion(questionId);
+		ArrayList<Answer> a = q.getAnswers();
+		for (int i = 0; i < a.size(); i++){
+				if (a.get(i).getId().equals(answerId))
+					return a.get(i);
 		}
 		return null;
 	}
@@ -88,7 +89,7 @@ public class PostController{
 
 		if (checkConnectivity()){
 			dm = new ServerDataManager();
-			dm.save(pushQuestions);
+			//dm.save(pushQuestions);
 
 			// need a method for saving new to be pushed answers to server
 			// dm.saveAnswers(pushAnswers);
@@ -102,18 +103,18 @@ public class PostController{
 
 	// Creates a LocalDataManager and then calls all the saving methods
 	// on each of the UPC's arrays.
-
+	// I don't understand why this exists --- Eric
+	//This is for updating the lists in the data manager --Carly
 	public void saveUserPosts(){
 
 		dm = new LocalDataManager(context);
-		((LocalDataManager) dm).saveFavorites(upc.getFavoriteQuestions());
-		((LocalDataManager) dm).savePostedQuestions(upc.getPostedQuestions());
-		((LocalDataManager) dm).saveRead(upc.getReadQuestions());
-		((LocalDataManager) dm).saveToRead(upc.getToReadQuestions());
+		((LocalDataManager) dm).saveFavoritesID(upc.getFavoriteQuestions());
+		((LocalDataManager) dm).savePostedQuestionsID(upc.getPostedQuestions());
+		((LocalDataManager) dm).saveReadID(upc.getReadQuestions());
+		((LocalDataManager) dm).saveToReadID(upc.getToReadQuestions());
 	}
 
-	// Creates a LocalDataManager and then populates the UPC
-	// with arrays loaded from the local cache.
+
 
 	public void loadUserPosts(){
 
@@ -136,7 +137,7 @@ public class PostController{
 
 		if (!checkConnectivity()) return false;
 		dm = new ServerDataManager();
-		subQuestions = dm.load();
+		//subQuestions = dm.load();
 		// subAnswers = dm.loadAnswers()
 		// this answers will be all of the children of the
 		// questions we just loaded
@@ -150,12 +151,8 @@ public class PostController{
 	// When an answer is added it is added to the subAnswers list,
 	// the pushAnswers list, and then the UPC.
 
-	public void addAnswer(Answer answer){
-
-		subAnswers.add(answer);
-	//	pushAnswers.add(answer);
-	//	upc.addUserAnswer(answer);
-	//	pushNewPosts();
+	public void addAnswer(Answer answer,String questionID){
+		getQuestion(questionID).addAnswer(answer);
 	}
 
 	// When an question is added it is added to the subQuestions list,
@@ -179,13 +176,188 @@ public class PostController{
 			}
 		}
 	}
+	public ArrayList<Comment> getCommentsToQuestion(String questionID){
 
-	public void addCommentToAnswer(Comment comment, String parentId){
+		for (int i = 0; i < subQuestions.size(); i++){
+			if (subQuestions.get(i).getId().equals(questionID)){
+				return subQuestions.get(i).getComments();
+			}
+		}
+		return null;
+	}
 
-		for (int i = 0; i < subAnswers.size(); i++){
-			if (subAnswers.get(i).getId().equals(parentId)){
-				subAnswers.get(i).addComment(comment);
+	public void addCommentToAnswer(Comment comment, String questionID,String answerID){
+		Question q = getQuestion(questionID);
+		ArrayList<Answer> a = q.getAnswers();
+		for (int i = 0; i < a.size(); i++){
+			if (a.get(i).getId().equals(questionID)){
+				a.get(i).addComment(comment);
 			}
 		}
 	}
+	public ArrayList<Comment> getCommentsToAnswer(String questionID,String answerID){
+		Question q = getQuestion(questionID);
+		ArrayList<Answer> a = q.getAnswers();
+		for (int i = 0; i < a.size(); i++){
+			if (a.get(i).getId().equals(questionID)){
+				return a.get(i).getComments();
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * These are all communicating with the UPC to tell it to save stuff
+	 * Please pass in the context, because it is needed for saving (Json DEMANDS IT!)
+	 * Direct questions on these to Eric
+	 */
+	public void addFavoriteQuestion(Question q) {
+		upc.initFavoriteID(getContext());  // I need to load the lists if they haven't been loaded yet.
+		upc.initQuestionBank(getContext());
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idList = upc.getFavoriteQuestions();
+		String id = q.getId();
+		
+		if (!idList.contains(id)) {
+			idList.add(id);
+			local.saveFavoritesID(idList);
+			checkExistanceOfQuestion(q, local);
+		}
+	}
+
+	private void checkExistanceOfQuestion(Question q, LocalDataManager local) {
+		boolean found = false;
+		
+		for (int i = 0; i < upc.getQuestionBank().size(); i++) {
+			if (upc.getQuestionBank().get(i).getId().equals(q.getId())) {
+				found = true;
+				break;
+			}
+		}
+		
+		if (!found) {
+			ArrayList<Question> questionList = upc.getQuestionBank();
+			questionList.add(q);
+			local.saveToQuestionBank(questionList);
+		}
+	}
+	
+	// This should not be needed anymore.  Unless we're saving answers independent of questions.
+	public void addFavoriteAnswer(Answer a) {
+		LocalDataManager local = new LocalDataManager(getContext());
+		String id = a.getId();
+	//	local.saveFavoriteAnswerID(id);
+	//	local.saveAnswer(a);
+	}
+	
+	public void addReadQuestion(Question q) {
+		upc.initReadID(getContext());  // I need to load the lists if they haven't been loaded yet.
+		upc.initQuestionBank(getContext());
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idList = upc.getReadQuestions();
+		String id = q.getId();
+		
+		if (!idList.contains(id)) {
+			idList.add(id);
+			local.saveReadID(idList);
+			checkExistanceOfQuestion(q, local);
+		}
+	}
+	
+	public void addToRead(Question q) {
+		upc.initToReadID(getContext());  // I need to load the lists if they haven't been loaded yet.
+		upc.initQuestionBank(getContext());
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idList = upc.getToReadQuestions();
+		String id = q.getId();
+		
+		if (!idList.contains(id)) {
+			idList.add(id);
+			local.saveToReadID(idList);
+			checkExistanceOfQuestion(q, local);
+		}
+	}
+	
+	/**
+	 * addUserPost() is overloaded.  Pass in the correct object and it'll do the rest.
+	 * @param q
+	 */
+	public void addUserPost(Question q) {
+		upc.initPostedQuestionID(getContext());  // I need to load the lists if they haven't been loaded yet.
+		upc.initQuestionBank(getContext());
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idList = upc.getPostedQuestions();
+		String id = q.getId();
+		
+		if (!idList.contains(id)) {
+			idList.add(id);
+			local.savePostedQuestionsID(idList);
+			checkExistanceOfQuestion(q, local);
+		}
+	}
+	
+	/*
+	 * This method is not needed, but if we decide to need to save user posted answers
+	 * then just uncomment.
+	 * 
+	public void addUserPost(Answer a, Context context) {
+		LocalDataManager local = new LocalDataManager(context);
+		String id = a.getId();
+		local.savePostedAnswersID(id);
+		local.saveAnswer(a);
+	}
+	*/
+
+	/**
+	 * Returns the list of favorite questions.
+	 * This method only pulls from the question bank the questions 
+	 * whose IDs are in the favorite ID's list .
+	 * @return favoriteArray A list of Question objects.
+	 */
+	public ArrayList<Question> getFavoriteQuestions() {
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idArray = local.loadFavorites();
+		ArrayList<Question> favoriteArray = getQuestionsFromID(idArray, local);
+		return favoriteArray;
+	}
+	
+	public ArrayList<Question> getReadQuestions() {
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idArray = local.loadRead();
+		ArrayList<Question> readArray = getQuestionsFromID(idArray, local);
+		return readArray;
+	}
+	
+	public ArrayList<Question> getToReadQuestions() {
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idArray = local.loadToRead();
+		ArrayList<Question> toReadArray = getQuestionsFromID(idArray, local);
+		return toReadArray;
+	}
+	
+	public ArrayList<Question> getUserPostedQuestions() {
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idArray = local.loadPostedQuestions();
+		ArrayList<Question> postedArray = getQuestionsFromID(idArray, local);
+		return postedArray;
+	}
+	
+	private ArrayList<Question> getQuestionsFromID(ArrayList<String> idArray, LocalDataManager local) {
+		ArrayList<Question> returnedArray = new ArrayList<Question>();
+		ArrayList<Question> questionArray = local.loadQuestions();
+		
+		for (int i = 0; i < idArray.size(); i++) {
+			for(int j = 0; j < questionArray.size(); j++) {
+				if (idArray.get(i).equals(questionArray.get(j).getId())) {
+					returnedArray.add(questionArray.get(j));
+				}
+			}
+		}
+		
+		return returnedArray;
+	}
+	
+	/**
+	 * End of what Eric wrote
+	 */
 }

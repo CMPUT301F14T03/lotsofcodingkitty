@@ -8,6 +8,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -30,7 +33,6 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 	ListView lv;
 	MainListAdapter mla;
-	public ArrayList<Question> questions = new ArrayList<Question>();
 	PostController pc = new PostController(this);
 	
 
@@ -121,7 +123,7 @@ public class MainActivity extends Activity {
 		// startActivity(intent);
 
 		// Create a new AlertDialog
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
 		// Link the alertdialog to the XML
 		alertDialogBuilder.setView(promptsView);
@@ -129,7 +131,6 @@ public class MainActivity extends Activity {
 		// Building the dialog for adding
 		alertDialogBuilder.setPositiveButton("Ask!",
 				new DialogInterface.OnClickListener() {
-
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 
@@ -154,12 +155,58 @@ public class MainActivity extends Activity {
 						dialog.cancel();
 					}
 				});
+		
+				
 
-		AlertDialog alertDialog = alertDialogBuilder.create();
+		final AlertDialog alertDialog = alertDialogBuilder.create();
 
 		alertDialog.show();
-
+		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
+		
+		TextWatcher textwatcher = new TextWatcher(){
+			private void handleText(){
+				final Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+				if(questionTitle.getText().length() == 0){
+					button.setEnabled(false);
+				}
+				else if(questionBody.getText().length() == 0){
+					button.setEnabled(false);
+				}
+				else if(userName.getText().length() == 0){
+					button.setEnabled(false);
+				}
+				else{
+					button.setEnabled(true);
+				}	
+			}
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				handleText();
+			}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start,
+					int count, int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void onTextChanged(CharSequence s, int start,
+					int before, int count) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+			
+		
+				questionTitle.addTextChangedListener(textwatcher);
+				questionBody.addTextChangedListener(textwatcher);
+				userName.addTextChangedListener(textwatcher);
+				
+				
 		Toast.makeText(this, "Please write your question", Toast.LENGTH_SHORT)
 				.show();
 	}
 }
+
+
