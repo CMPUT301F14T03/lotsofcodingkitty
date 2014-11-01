@@ -15,8 +15,8 @@ public class CommentModelTest extends ActivityInstrumentationTestCase2<MainActiv
 
 	// Checks to ensure that the constructor sets attributes correctly by using the retrieval methods
 	public void testCommentConstructor()  {
-		Comment c1 = new Comment("a comment");
-		assertEquals("comment is 'a comment'",  "a comment", c1.getComment());
+		Comment c1 = new Comment("a comment", "author");
+		assertEquals("Comment made is not the expected string",  "a comment", c1.getCommentBody());
 	}
 	
 }
