@@ -104,20 +104,17 @@ public class PostController{
 	// Creates a LocalDataManager and then calls all the saving methods
 	// on each of the UPC's arrays.
 	// I don't understand why this exists --- Eric
-	/**
+	//This is for updating the lists in the data manager --Carly
 	public void saveUserPosts(){
 
 		dm = new LocalDataManager(context);
-		((LocalDataManager) dm).saveFavorites(upc.getFavoriteQuestions());
-		((LocalDataManager) dm).savePostedQuestions(upc.getPostedQuestions());
-		((LocalDataManager) dm).saveRead(upc.getReadQuestions());
-		((LocalDataManager) dm).saveToRead(upc.getToReadQuestions());
+		((LocalDataManager) dm).saveFavoritesID(upc.getFavoriteQuestions());
+		((LocalDataManager) dm).savePostedQuestionsID(upc.getPostedQuestions());
+		((LocalDataManager) dm).saveReadID(upc.getReadQuestions());
+		((LocalDataManager) dm).saveToReadID(upc.getToReadQuestions());
 	}
 
-	// Creates a LocalDataManager and then populates the UPC
-	// with arrays loaded from the local cache.
-	 * 
-	 */
+
 
 	public void loadUserPosts(){
 
@@ -214,10 +211,11 @@ public class PostController{
 	 * Please pass in the context, because it is needed for saving (Json DEMANDS IT!)
 	 * Direct questions on these to Eric
 	 */
-	public void addFavoriteQuestion(Question q, ArrayList<String> idList) {
+	public void addFavoriteQuestion(Question q) {
 		upc.initFavoriteID(getContext());  // I need to load the lists if they haven't been loaded yet.
 		upc.initQuestionBank(getContext());
 		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idList = upc.getFavoriteQuestions();
 		String id = q.getId();
 		
 		if (!idList.contains(id)) {
@@ -252,10 +250,11 @@ public class PostController{
 	//	local.saveAnswer(a);
 	}
 	
-	public void addReadQuestion(Question q, ArrayList<String> idList) {
+	public void addReadQuestion(Question q) {
 		upc.initReadID(getContext());  // I need to load the lists if they haven't been loaded yet.
 		upc.initQuestionBank(getContext());
 		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idList = upc.getReadQuestions();
 		String id = q.getId();
 		
 		if (!idList.contains(id)) {
@@ -265,10 +264,11 @@ public class PostController{
 		}
 	}
 	
-	public void addToRead(Question q, ArrayList<String> idList) {
+	public void addToRead(Question q) {
 		upc.initToReadID(getContext());  // I need to load the lists if they haven't been loaded yet.
 		upc.initQuestionBank(getContext());
 		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idList = upc.getToReadQuestions();
 		String id = q.getId();
 		
 		if (!idList.contains(id)) {
@@ -282,10 +282,11 @@ public class PostController{
 	 * addUserPost() is overloaded.  Pass in the correct object and it'll do the rest.
 	 * @param q
 	 */
-	public void addUserPost(Question q, ArrayList<String> idList) {
+	public void addUserPost(Question q) {
 		upc.initPostedQuestionID(getContext());  // I need to load the lists if they haven't been loaded yet.
 		upc.initQuestionBank(getContext());
 		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idList = upc.getPostedQuestions();
 		String id = q.getId();
 		
 		if (!idList.contains(id)) {

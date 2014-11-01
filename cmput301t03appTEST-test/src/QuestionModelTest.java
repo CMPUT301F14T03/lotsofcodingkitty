@@ -36,16 +36,16 @@ public class QuestionModelTest extends ActivityInstrumentationTestCase2<MainActi
 	public void testAddAnswer() {
 		Question q1 = new Question("a subject", "a body", "a author");
 		Answer a1 = new Answer("a body", "a author","1");
-		q1.addAnswer(a1);
+		q1.addAnswer("1");
 		assertSame("answer object is the same", a1, q1.getAnswers().get(0));
 		
 		Answer a2 = new Answer("a body", "a author","2");
-		q1.addAnswer(a2);
+		q1.addAnswer("2");
 		assertNotSame("a1 is not a2", a1, a2); // Checks to ensure a1 is not a2
 		assertNotSame("a1 is not a2", q1.getAnswers().get(0), q1.getAnswers().get(1)); // Now checks to ensure this is also the case for the
 																					   // answers added.
 		
-		q1.addAnswer(a2);
+		q1.addAnswer("2");
 		assertSame("index 1 and 2 have the same answer object", q1.getAnswers().get(1), q1.getAnswers().get(2));
 	}
 	
@@ -53,21 +53,21 @@ public class QuestionModelTest extends ActivityInstrumentationTestCase2<MainActi
 	public void testAnswerCount() {
 		Question q1 = new Question("a subject", "a body", "a author");
 		Answer a1 = new Answer("a body", "a author","1");
-		q1.addAnswer(a1);
+		q1.addAnswer("1");
 		assertEquals("Answer count  is 1", 1, q1.countAnswers());
 		Answer a2 = new Answer("a body", "a author","1");
-		q1.addAnswer(a2);
+		q1.addAnswer("2");
 		assertEquals("Answer count is 2", 2, q1.countAnswers());
 	}
 	
 	// Same conditions as testAddAnswer()
 	public void testAddComment() {
 		Question q1 = new Question("a subject", "a body", "a author");
-		Comment c1 = new Comment("a comment", "comment author");
+		Comment c1 = new Comment("a comment");
 		q1.addComment(c1);
 		assertSame("comment object is the same", c1, q1.getComments().get(0));
 		
-		Comment c2 = new Comment("a comment", "another author");
+		Comment c2 = new Comment("a comment");
 		q1.addComment(c2);
 		assertNotSame("c1 is not c2", c1, c2);
 		assertNotSame("c1 is not c2", q1.getComments().get(0), q1.getComments().get(1));
