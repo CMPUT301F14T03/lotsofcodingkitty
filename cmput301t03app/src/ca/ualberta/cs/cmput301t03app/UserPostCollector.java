@@ -155,11 +155,12 @@ public class UserPostCollector {
 
 	//This method is for testing since each test needs to start with a fresh list
 	//TODO: Delete this later
-//	public void clearLists() {
-//		favoriteQuestions.clear();
-//		readQuestions.clear();
-//		toReadQuestions.clear();
-//		postedQuestions.clear();
-//	}
+	public void clearLists() {
+		favoriteQuestions.clear();
+		readQuestions.clear();
+		toReadQuestions.clear();
+		postedQuestions.clear();
+		questionBank.clear();
+	}
 }
 

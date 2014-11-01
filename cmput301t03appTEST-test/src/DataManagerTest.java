@@ -38,6 +38,7 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		
 		postController.addFavoriteQuestion(q);
 		postController.addFavoriteQuestion(q2);
+		postController.addFavoriteQuestion(q3);
 		questionArray = postController.getFavoriteQuestions();
 		
 		checkCorrect();
@@ -53,6 +54,7 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		
 		postController.addReadQuestion(q);
 		postController.addReadQuestion(q2);
+		postController.addReadQuestion(q3);
 		questionArray = postController.getReadQuestions();
 		
 		checkCorrect();
@@ -68,6 +70,7 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		
 		postController.addToRead(q);
 		postController.addToRead(q2);
+		postController.addToRead(q3);
 		questionArray = postController.getToReadQuestions();
 		
 		checkCorrect();
@@ -83,6 +86,7 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		
 		postController.addUserPost(q);
 		postController.addUserPost(q2);
+		postController.addUserPost(q3);
 		questionArray = postController.getUserPostedQuestions();
 		
 		checkCorrect();
@@ -152,7 +156,7 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	
 	private void cleanUp() {
 		UserPostCollector upc = postController.getUPC();
-//		upc.clearLists();		
+		upc.clearLists();		
 		postController.saveUserPosts();
 	}
 }
