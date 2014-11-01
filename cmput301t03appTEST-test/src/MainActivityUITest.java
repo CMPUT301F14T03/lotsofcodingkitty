@@ -1,11 +1,9 @@
 /*this test tests our main activity UI functionality*/
 
 import ca.ualberta.cs.cmput301t03app.MainActivity;
-import ca.ualberta.cs.cmput301t03app.Question;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
