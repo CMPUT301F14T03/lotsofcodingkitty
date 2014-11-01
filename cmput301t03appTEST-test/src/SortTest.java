@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.sql.Date;
 
 import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.cmput301t03app.Answer;

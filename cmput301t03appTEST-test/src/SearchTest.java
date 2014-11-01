@@ -1,6 +1,4 @@
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.List;
 
 import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.Question;
