@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * Represents an Answer to a Question.
+ * A Question object can have multiple Answers.
+ * 
+ * @since 2013-11-2
+ */
 public class Answer {
 	private String id;
 	private ArrayList<Comment> comments;
@@ -14,13 +20,6 @@ public class Answer {
 	private File picture;
 	private int rating;
 	
-	/** This constructor should not exist.  We should not allow the author to set the timestamp
-	public Answer(String answer, Date date){
-		this.date = date;
-		this.answer = answer;
-		this.rating = 0;
-	}
-	**/
 	
 	public Answer(String answer, String author,String parentID){
 		this.id = UUID.randomUUID().toString();
@@ -31,19 +30,18 @@ public class Answer {
 		this.comments = new ArrayList<Comment>(); // Need to initialize the list (Added by Eric)
 	}
 	
-	/**  This constructor should not exists.  Answers should not have NULL attributes
-	public Answer()
-	{
-		this.author = null;
-		this.answer = null;
-		this.rating = 0;
-	}
-	**/
-	
+	/**
+	 * Returns a list of Comment objects
+	 * @return comments A list of Comment objects
+	 */
 	public ArrayList<Comment> getComments() {
 		return this.comments;
 	}
 	
+	/**
+	 * Returns the number of Comment objects to the answer
+	 * @return int The count of Comment objects.
+	 */
 	public int countAnswerComments() {
 		if (comments == null) {
 			return 0;
@@ -51,7 +49,10 @@ public class Answer {
 			return comments.size();
 	}
 	
-	
+	/**
+	 * Adds a Comment object to the list of comments
+	 * @param comment A Comment object
+	 */
 	public void addComment(Comment comment) {
 		this.comments.add(comment);
 	}
@@ -70,12 +71,13 @@ public class Answer {
 		return this.date;
 	}
 	
-
-	
 	public int getRating() {
 		return this.rating;
 	}
 	
+	/**
+	 * Increments the score of the answer.
+	 */
 	public void upRating() {
 		this.rating++; // This should be incremented, not manually set.
 	
@@ -91,6 +93,4 @@ public class Answer {
 	public String getId(){
 		return this.id;
 	}
-
-	
 }
