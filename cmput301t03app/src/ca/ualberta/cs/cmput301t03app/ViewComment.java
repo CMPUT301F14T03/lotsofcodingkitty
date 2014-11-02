@@ -96,12 +96,12 @@ public class ViewComment extends Activity {
 		// Set the Title (question or answer)
 		TextView commentTitle = (TextView) findViewById(R.id.comment_title);
 		if (commentType == 1) {
-			commentTitle.setText(pc.getQuestion(questionID).getSubject());
+			commentTitle.setText("Q: " + pc.getQuestion(questionID).getSubject());
 			timeStamp.setText("Posted: " + pc.getQuestion(questionID).getDate());
 			author.setText("By" + pc.getQuestion(questionID).getAuthor());
 		} else if (commentType == 2) {
 			commentTitle
-					.setText(pc.getAnswer(answerID, questionID).getAnswer());
+					.setText("Q: " + pc.getQuestion(questionID).getSubject() +System.getProperty("line.separator")+  "A: " + pc.getAnswer(answerID, questionID).getAnswer());
 			timeStamp.setText("Posted: " + pc.getQuestion(questionID).getAnswerByID(answerID).getDate());
 			author.setText("By: " + pc.getQuestion(questionID).getAnswerByID(answerID).getAuthor());
 		}

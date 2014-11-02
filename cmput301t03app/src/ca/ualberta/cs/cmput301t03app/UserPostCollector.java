@@ -153,6 +153,49 @@ public class UserPostCollector {
 		postedAnswers.add(qId);
 	}
 
+	
+	/*--------------------------------------------------------*/
+
+	/*==================== Checking =====================*/	
+	/**
+	 * This method checks if a question is in favorites
+	 * @author joshnguyen
+	 * */
+	public Boolean isQuestionInFavByID(String questionID) {
+		for (int i = 0; i<favoriteQuestions.size();i++) {
+			if (this.favoriteQuestions.get(i).equals(questionID))
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * This method checks if a question is in 
+	 * @author joshnguyen
+	 * */
+	public Boolean isQuestionInReadByID(String questionID) {
+		for (int i = 0; i<favoriteQuestions.size();i++) {
+			if (this.readQuestions.get(i).equals(questionID))
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * This method checks if a question is in 
+	 * @author joshnguyen
+	 * */
+	public Boolean isQuestionInToReadByID(String questionID) {
+		for (int i = 0; i<favoriteQuestions.size();i++) {
+			if (this.toReadQuestions.get(i).equals(questionID))
+				return true;
+		}
+		return false;
+	}
+	
+	
+	
+	
 	//This method is for testing since each test needs to start with a fresh list
 	//TODO: Delete this later
 	public void clearLists() {
