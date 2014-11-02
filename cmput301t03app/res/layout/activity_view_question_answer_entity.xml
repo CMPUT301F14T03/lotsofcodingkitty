@@ -15,6 +15,7 @@
                     android:layout_below="@+id/answer_upvote_button"
                     android:gravity="center"
                     android:text="000"
+                    android:textColor="#2DAD98"
                     android:background="#ffffff"
                     android:textSize="30dp"
                     />

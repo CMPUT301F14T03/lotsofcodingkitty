@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#555555" >
+    
+    
+    <TextView 
+        android:id="@+id/user_home_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#dddddd"
+        android:text="@string/user_home_title"
+        android:textSize="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="5dp"/>
+
+    
+     <TextView 
+        android:id="@+id/user_home_description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#cccccc"
+        android:text="@string/user_home_description"
+        android:textSize="12dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+     
+     
+     <Button
+        android:id="@+id/user_fav_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="#000000"
+        android:text="F A V O R I T E S"
+        android:textColor="#ffffff"
+        android:layout_marginTop="20dp"
+         />
+     
+      <Button
+        android:id="@+id/user_cached_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="#000000"
+        android:text="C A C H E D"
+        android:textColor="#ffffff"
+        android:layout_marginTop="10dp"
+         />
+      
+       <Button
+        android:id="@+id/user_toRead_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="#000000"
+        android:text="T O  R E A D"
+        android:textColor="#ffffff"
+        android:layout_marginTop="10dp"
+         />
+       
+        <Button
+        android:id="@+id/user_questions_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="#000000"
+        android:text="M Y  Q U E S T I O N S"
+        android:textColor="#ffffff"
+        android:layout_marginTop="10dp"
+         />
+        
+         <Button
+        android:id="@+id/user_answered_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="#000000"
+        android:text="M Y  A N S W E R S"
+        android:textColor="#ffffff"
+        android:layout_marginTop="10dp"
+         />
+     
+
+</LinearLayout>

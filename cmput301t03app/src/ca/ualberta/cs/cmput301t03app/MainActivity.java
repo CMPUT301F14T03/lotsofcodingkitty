@@ -111,6 +111,12 @@ public class MainActivity extends Activity {
 		if (id == R.id.action_settings) {
 			return true;
 		}
+		
+		if (id == R.id.user_home) {
+			Intent intent = new Intent(this, UserHome.class);
+			startActivity(intent);
+		}
+		
 		return super.onOptionsItemSelected(item);
 	}
 
