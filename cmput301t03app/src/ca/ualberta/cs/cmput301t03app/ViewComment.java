@@ -29,6 +29,8 @@ public class ViewComment extends Activity {
 	ListView commentListView;
 	Button commentButton;
 	TextView commentCount;
+	TextView timeStamp;
+	TextView author;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -41,40 +43,32 @@ public class ViewComment extends Activity {
 		// This is used to find which mode this is set to. Either Answer
 		// comments
 		// or Question comments.
-		
+
 		Log.d("click", "Comment type: " + commentType);
 		questionID = extras.getString(ViewQuestion.QUESTION_ID_KEY);
-		
-		
+
 		switch (commentType) {
 		case 1:
 			comments = pc.getCommentsToQuestion(questionID);
-			
+
 		case 2:
 			answerID = extras.getString(ViewQuestion.ANSWER_ID_KEY);
 			comments = pc.getCommentsToAnswer(questionID, answerID);
-			
-		}
-		
-		// Set the Title (question or answer)
-				TextView commentTitle = (TextView) findViewById(R.id.comment_title);
-		if (commentType == 1) {
-			commentTitle.setText(pc.getQuestion(questionID).getSubject());
-		} else if (commentType == 2) {
-			commentTitle.setText(pc.getAnswer(answerID, questionID).getAnswer());
+
 		}
 
-		
 		instantiateViews();
 		setListeners();
+		setPostDetails();
 		setCommentAdapter();
 		updateCommentCount();
 	}
-	
 
 	public void instantiateViews() {
 		commentButton = (Button) findViewById(R.id.comment_button);
 		commentCount = (TextView) findViewById(R.id.comment_count);
+		timeStamp = (TextView) findViewById(R.id.comment_post_timestamp);
+		author = (TextView) findViewById(R.id.comment_post_author);
 		commentListView = (ListView) findViewById(R.id.commentListView);
 		cla = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, commentBodyList);
@@ -90,13 +84,33 @@ public class ViewComment extends Activity {
 			}
 		});
 	}
+	
+	
+	/**
+     * utility method: void 
+     * 
+     * Sets the text for the question or answer
+     */
+	public void setPostDetails() {
+
+		// Set the Title (question or answer)
+		TextView commentTitle = (TextView) findViewById(R.id.comment_title);
+		if (commentType == 1) {
+			commentTitle.setText(pc.getQuestion(questionID).getSubject());
+			timeStamp.setText("Posted: " + pc.getQuestion(questionID).getDate());
+			author.setText("By" + pc.getQuestion(questionID).getAuthor());
+		} else if (commentType == 2) {
+			commentTitle
+					.setText(pc.getAnswer(answerID, questionID).getAnswer());
+			timeStamp.setText("Posted: " + pc.getQuestion(questionID).getAnswerByID(answerID).getDate());
+			author.setText("By: " + pc.getQuestion(questionID).getAnswerByID(answerID).getAuthor());
+		}
+	}
 
 	public void setCommentAdapter() {
 		getCommentBodiesFromComment();
 		commentListView.setAdapter(cla);
 	}
-
-
 
 	public void getCommentBodiesFromComment() {
 		if (comments != null) {
@@ -105,18 +119,19 @@ public class ViewComment extends Activity {
 				commentBodyList.add(comments.get(i).getCommentBody());
 		}
 	}
-	
+
 	public void updateCommentCount() {
-		if(commentType == 1){
-		commentCount.setText("Comments: "
-				+ String.valueOf(pc.getQuestion(questionID).countComments()));
-		} 
-		else if(commentType == 2) {
+		if (commentType == 1) {
+			commentCount
+					.setText("Comments: "
+							+ String.valueOf(pc.getQuestion(questionID)
+									.countComments()));
+		} else if (commentType == 2) {
 			commentCount.setText("Comments: "
-					+ String.valueOf(pc.getQuestion(questionID).getAnswerByID(answerID).countAnswerComments()));
+					+ String.valueOf(pc.getQuestion(questionID)
+							.getAnswerByID(answerID).countAnswerComments()));
 		}
 	}
-	
 
 	public void addComment() {
 
@@ -161,10 +176,10 @@ public class ViewComment extends Activity {
 									answerID);
 						}
 
-						//setCommentAdapter();
+						// setCommentAdapter();
 						commentBodyList.add(commentBodyString);
 						cla.notifyDataSetChanged();
-						updateCommentCount(); //<-- MIGHT NOT USE THIS
+						updateCommentCount(); // <-- MIGHT NOT USE THIS
 					}
 
 				}).setNegativeButton("Cancel",
