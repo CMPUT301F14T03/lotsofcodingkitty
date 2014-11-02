@@ -7,6 +7,11 @@
  * For now, please test populating the lists into the views with the data that is created within this
  * class.
  * 
+ * YOU DO NOT NEED TO CALL ANYTHING FROM THIS CLASS.  THE MAIN ACTIVITY HAS TEST CODE THAT WILL INITIALIZE
+ * THE QUESTION LIST.
+ * 
+ * Direct any questions to Eric.
+ * 
  */
 package ca.ualberta.cs.cmput301t03app;
 
@@ -40,10 +45,10 @@ public class mockServer {
 		if (fakeServer == null) {
 			fakeServer = new mockServer(context);
 			populateQuestions();
-			populateServer(context);
-			loadExisting(context);
+			populateServer();
+			loadExisting();
 		} else {
-			loadExisting(context);
+			loadExisting();
 		}
 	}
 	
@@ -67,9 +72,24 @@ public class mockServer {
 		return fakeServer; 
 	}
 	
-	private static void populateServer(Context context) {
+	public static void acceptPush(ArrayList<Question> qList) {
 		try {
-			FileOutputStream fOut = context.openFileOutput(mockSave, Context.MODE_PRIVATE);
+			FileOutputStream fOut = fakeServer.getContext().openFileOutput(mockSave, Context.MODE_PRIVATE);
+			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fOut);      	
+			GsonBuilder builder = new GsonBuilder();
+			Gson gson = builder.create();
+			
+			gson.toJson(qList, outputStreamWriter); //Serialize to Json
+			outputStreamWriter.flush();
+			outputStreamWriter.close();        
+		} catch (IOException e) {
+				e.printStackTrace();
+		}
+	}
+	
+	private static void populateServer() {
+		try {
+			FileOutputStream fOut = fakeServer.getContext().openFileOutput(mockSave, Context.MODE_PRIVATE);
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fOut);      	
 			GsonBuilder builder = new GsonBuilder();
 			Gson gson = builder.create();
@@ -82,9 +102,9 @@ public class mockServer {
 		}
 	}
 	
-	private static void loadExisting(Context context) {
+	private static void loadExisting() {
 		try {
-			FileInputStream fIn = context.openFileInput(mockSave);
+			FileInputStream fIn = fakeServer.getContext().openFileInput(mockSave);
 			InputStreamReader isr = new InputStreamReader(fIn);
 			Gson gson = new GsonBuilder().create();
 			questionList = gson.fromJson(isr, new TypeToken<ArrayList<Question>>() {}.getType());

@@ -68,7 +68,6 @@ public class ViewComment extends Activity {
 		instantiateViews();
 		setListeners();
 		setCommentAdapter();
-		
 		updateCommentCount();
 	}
 	
@@ -96,6 +95,8 @@ public class ViewComment extends Activity {
 		getCommentBodiesFromComment();
 		commentListView.setAdapter(cla);
 	}
+
+
 
 	public void getCommentBodiesFromComment() {
 		if (comments != null) {
