@@ -16,9 +16,10 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	Instrumentation instrumentation;
 	Activity activity;
 	ListView listview;
-	
+	Activity myactivity;
 	public MainActivityUITest() {
 		super(MainActivity.class);
+		this.myactivity = super.getActivity(); 
 	}
 	
 	
@@ -30,14 +31,12 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 		listview = ((ListView) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_list));
 		
 	}
-	public void testHello(){
-		assertTrue("","hello" == "hello");
-	}
 	public void testmakeQuestion(){
 		//testing to see if dialogbox opens up first
 		assertNotNull(listview);
 		((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
-		assertTrue((activity.getDialog().isShowing())); //issue here :(
+		instrumentation.waitForIdleSync();
+		assertTrue((myactivity.getDialog().isShowing())); //issue here :(
 		
 	}
 	

@@ -236,7 +236,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public AlertDialog getDialog(){
-		return alertDialog1;
+		return this.alertDialog1;
 	}
 }
 
