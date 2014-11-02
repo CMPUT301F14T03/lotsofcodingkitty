@@ -73,6 +73,11 @@ public class MainActivity extends Activity {
 		 */
 	}
 	
+	public AlertDialog getDialog(){		//this is for testing purposes
+		return alertDialog1;
+	}
+	
+	
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -186,7 +191,7 @@ public class MainActivity extends Activity {
 				
 
 		final AlertDialog alertDialog = alertDialogBuilder.create();
-		this.alertDialog1 = alertDialog;
+		alertDialog1 = alertDialog;
 		alertDialog.show();
 		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
 		
@@ -235,9 +240,7 @@ public class MainActivity extends Activity {
 				.show();
 	}
 	
-	public AlertDialog getDialog(){
-		return this.alertDialog1;
-	}
+
 }
 
 
