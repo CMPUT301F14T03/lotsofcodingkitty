@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
 	MainListAdapter mla;
 	PostController pc = new PostController(this);
 	public AlertDialog alertDialog1; //for testing purposes
-	private mockServerDataManager mockServerManage;
+	private mockServerDataManager mockServerManage; // FOR TESTING PURPOSES ONLY
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
