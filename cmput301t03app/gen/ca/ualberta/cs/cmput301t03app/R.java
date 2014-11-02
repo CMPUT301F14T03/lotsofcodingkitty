@@ -28,19 +28,20 @@ public final class R {
     public static final class drawable {
         public static final int camera_icon=0x7f020000;
         public static final int ic_action_search=0x7f020001;
-        public static final int ic_fav_no=0x7f020002;
-        public static final int ic_fav_no__blue_small=0x7f020003;
-        public static final int ic_fav_no_small=0x7f020004;
-        public static final int ic_fav_yes=0x7f020005;
-        public static final int ic_fav_yes_blue_small=0x7f020006;
-        public static final int ic_fav_yes_small=0x7f020007;
-        public static final int ic_filter=0x7f020008;
-        public static final int ic_launcher=0x7f020009;
-        public static final int ic_picture_no=0x7f02000a;
-        public static final int ic_picture_yes=0x7f02000b;
-        public static final int ic_sync=0x7f02000c;
-        public static final int ic_upvote=0x7f02000d;
-        public static final int ic_user=0x7f02000e;
+        public static final int ic_comment=0x7f020002;
+        public static final int ic_fav_no=0x7f020003;
+        public static final int ic_fav_no__blue_small=0x7f020004;
+        public static final int ic_fav_no_small=0x7f020005;
+        public static final int ic_fav_yes=0x7f020006;
+        public static final int ic_fav_yes_blue_small=0x7f020007;
+        public static final int ic_fav_yes_small=0x7f020008;
+        public static final int ic_filter=0x7f020009;
+        public static final int ic_launcher=0x7f02000a;
+        public static final int ic_picture_no=0x7f02000b;
+        public static final int ic_picture_yes=0x7f02000c;
+        public static final int ic_sync=0x7f02000d;
+        public static final int ic_upvote=0x7f02000e;
+        public static final int ic_user=0x7f02000f;
     }
     public static final class id {
         public static final int UsernameRespondTextView=0x7f08000c;
@@ -75,9 +76,9 @@ public final class R {
         public static final int questionTitle=0x7f08000f;
         public static final int question_answer_button=0x7f080017;
         public static final int question_author=0x7f08000a;
-        public static final int question_comment_count=0x7f08001b;
+        public static final int question_comment_count=0x7f08001c;
+        public static final int question_comment_icon=0x7f08001b;
         public static final int question_fav_icon=0x7f080006;
-        public static final int question_options=0x7f08001c;
         public static final int question_pic_icon=0x7f080007;
         public static final int question_text_body=0x7f080019;
         public static final int question_title=0x7f080008;

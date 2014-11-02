@@ -36,6 +36,7 @@ public class ViewQuestion extends Activity {
 	ListView answerListView;
 	ImageButton favIcon;
 	ImageButton upvoteButton;
+	ImageButton commentButton;
 	TextView upvote_score;
 	Button answerButton;
 	String question_id;
@@ -89,6 +90,15 @@ public class ViewQuestion extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				answerQuestion();
+			}
+		});
+		
+		commentButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				toCommentActivityQuestion(v);
 			}
 		});
 
@@ -154,6 +164,11 @@ public class ViewQuestion extends Activity {
 		// }
 
 	}
+	
+	public void setFavoriteResource() {
+		
+		
+	}
 
 	public void instantiateViews() {
 
@@ -161,6 +176,7 @@ public class ViewQuestion extends Activity {
 		answerListView = (ListView) findViewById(R.id.answerListView);
 		favIcon = (ImageButton) findViewById(R.id.question_fav_icon);
 		upvoteButton = (ImageButton) findViewById(R.id.question_upvote_button);
+		commentButton = (ImageButton) findViewById(R.id.question_comment_icon);
 		upvote_score = (TextView) findViewById(R.id.question_upvote_score);
 		answerButton = (Button) findViewById(R.id.question_answer_button);
 		answerCounter = (TextView) findViewById(R.id.answer_count);
@@ -267,8 +283,7 @@ public class ViewQuestion extends Activity {
 	}
 
 	public void updateCommentCount() {
-		commentCounter.setText("Comments: "
-				+ String.valueOf(pc.getQuestion(question_id).countComments()));
+		commentCounter.setText(String.valueOf(pc.getQuestion(question_id).countComments()));
 	}
 
 	@Override
