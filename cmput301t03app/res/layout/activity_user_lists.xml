@@ -2,13 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-	android:background="#aaaaaa"
+	android:background="#cccccc"
     tools:context="ca.ualberta.cs.cmput301t03app.MainActivity" >
 
     <TextView
         android:id="@+id/user_list_title"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="65dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
@@ -16,7 +16,7 @@
         android:gravity="left"
         android:background="#555555"
         android:textColor="#dddddd"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:paddingTop="20dp" 
         android:paddingLeft="20dp" />
     
