@@ -1,3 +1,5 @@
+// Taken from ElasticSearch Lab
+
 package ca.ualberta.cs.cmput301t03app;
 
 public class SimpleSearchCommand {
