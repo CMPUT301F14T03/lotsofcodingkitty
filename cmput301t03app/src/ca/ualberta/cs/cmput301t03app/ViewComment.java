@@ -24,7 +24,7 @@ public class ViewComment extends Activity {
 	ArrayList<Comment> comments = new ArrayList<Comment>();
 
 	PostController pc = new PostController(this);
-	ArrayList<String> commentBodyList = new ArrayList<String>();
+	private static ArrayList<String> commentBodyList = new ArrayList<String>();
 	ArrayAdapter<String> cla;
 	ListView commentListView;
 	Button commentButton;
@@ -71,6 +71,7 @@ public class ViewComment extends Activity {
 		
 		updateCommentCount();
 	}
+	
 
 	public void instantiateViews() {
 		commentButton = (Button) findViewById(R.id.comment_button);
@@ -92,32 +93,29 @@ public class ViewComment extends Activity {
 	}
 
 	public void setCommentAdapter() {
-		getCommentBodiesFromComment(comments);
-		
-		
+		getCommentBodiesFromComment();
 		commentListView.setAdapter(cla);
 	}
 
-	public ArrayList<String> getCommentBodiesFromComment(
-			ArrayList<Comment> comments) {
-		
-		if (comments == null) {
-			return null;
-		} else {
+	public void getCommentBodiesFromComment() {
+		if (comments != null) {
 			commentBodyList.clear();
 			for (int i = 0; i < comments.size(); i++)
 				commentBodyList.add(comments.get(i).getCommentBody());
-			Log.d("click", "comments size" + commentBodyList.size());
-			return commentBodyList;
 		}
-		
 	}
 	
 	public void updateCommentCount() {
-		//if (commentBodyList != null)
-			//commentCount.setText(commentBodyList.size());
-		
+		if(commentType == 1){
+		commentCount.setText("Comments: "
+				+ String.valueOf(pc.getQuestion(questionID).countComments()));
+		} 
+		else if(commentType == 2) {
+			commentCount.setText("Comments: "
+					+ String.valueOf(pc.getQuestion(questionID).getAnswerByID(answerID).countAnswerComments()));
+		}
 	}
+	
 
 	public void addComment() {
 
@@ -162,9 +160,10 @@ public class ViewComment extends Activity {
 									answerID);
 						}
 
-						setCommentAdapter();
+						//setCommentAdapter();
+						commentBodyList.add(commentBodyString);
 						cla.notifyDataSetChanged();
-						updateCommentCount();
+						updateCommentCount(); //<-- MIGHT NOT USE THIS
 					}
 
 				}).setNegativeButton("Cancel",

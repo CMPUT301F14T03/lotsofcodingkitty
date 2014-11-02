@@ -50,6 +50,17 @@ public class Question{
 		return this.answers;
 	}
 	
+	public Answer getAnswerByID(String answerID) {
+		/* Josh : This might not be needed */
+		for (int i = 0; i<answers.size(); i++) {
+			if(this.answers.get(i).getId().equals(answerID)) {
+				return answers.get(i);
+			}
+		}
+		return null;
+	}
+	
+	
 	public void addAnswer(Answer answer){
 		this.answers.add(answer);
 	}
