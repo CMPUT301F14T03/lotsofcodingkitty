@@ -56,9 +56,19 @@ public class MainActivity extends Activity {
 				
 			}
 		});
-
+		
 		setupAdapter();
-
+		
+		/* FOR TESTING PURPOSES ONLY
+		 */
+		mockServer.initServer(this);
+		ArrayList<Question> qList = mockServer.getMainList();
+		for (int i=0; i < qList.size(); i++) {
+			pc.getQuestionsInstance().add(qList.get(i));
+		}
+		mla.updateAdapter(pc.getQuestionsInstance());
+		/* END TEST BLOCK
+		 */
 	}
 	
 	@Override
@@ -80,6 +90,7 @@ public class MainActivity extends Activity {
 		
 		Intent i = new Intent( this, ViewQuestion.class );
 		i.putExtra("question_id", pc.getQuestionsInstance().get(position).getId());
+		pc.addReadQuestion(pc.getQuestionsInstance().get(position));
 		startActivity(i);
 	}
 
@@ -146,6 +157,7 @@ public class MainActivity extends Activity {
 						pc.getQuestionsInstance().add(q);
 
 						mla.updateAdapter(pc.getQuestionsInstance());
+						pc.addUserPost(q);
 					}
 
 				}).setNegativeButton("Cancel",
