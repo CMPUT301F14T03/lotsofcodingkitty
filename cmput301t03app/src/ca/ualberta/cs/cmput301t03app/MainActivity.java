@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
 	ListView lv;
 	MainListAdapter mla;
 	PostController pc = new PostController(this);
+	public AlertDialog alertDialog1; //for testing purposes
 	private mockServerDataManager mockServerManage;
 
 	@Override
@@ -179,7 +180,7 @@ public class MainActivity extends Activity {
 				
 
 		final AlertDialog alertDialog = alertDialogBuilder.create();
-
+		this.alertDialog1 = alertDialog;
 		alertDialog.show();
 		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
 		
@@ -226,6 +227,10 @@ public class MainActivity extends Activity {
 		userName.addTextChangedListener(textwatcher);
 		Toast.makeText(this, "Please write your question", Toast.LENGTH_SHORT)
 				.show();
+	}
+	
+	public AlertDialog getDialog(){
+		return alertDialog1;
 	}
 }
 
