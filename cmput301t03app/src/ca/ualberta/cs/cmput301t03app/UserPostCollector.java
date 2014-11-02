@@ -102,27 +102,27 @@ public class UserPostCollector {
 
 	/*=====================Getters=====================*/
 	public ArrayList<Question> getQuestionBank() {
-		return questionBank;
+		return this.questionBank;
 	}
 
 	public ArrayList<String> getFavoriteQuestions() {
-		return favoriteQuestions;
+		return this.favoriteQuestions;
 	}
 
 	public ArrayList<String> getReadQuestions() {
-		return readQuestions;
+		return this.readQuestions;
 	}
 
 	public ArrayList<String> getToReadQuestions() {
-		return toReadQuestions;
+		return this.toReadQuestions;
 	}
 
 	public ArrayList<String> getPostedQuestions() {
-		return postedQuestions;
+		return this.postedQuestions;
 	}
 
 	public ArrayList<String> getPostedAnswers() {
-		return postedAnswers;
+		return this.postedAnswers;
 	}	
 
 
@@ -153,45 +153,6 @@ public class UserPostCollector {
 		postedAnswers.add(qId);
 	}
 
-	
-	/*--------------------------------------------------------*/
-
-	/*==================== Checking =====================*/	
-	/**
-	 * This method checks if a question is in favorites
-	 * @author joshnguyen
-	 * */
-	public Boolean isQuestionInFavByID(String questionID) {
-		for (int i = 0; i<favoriteQuestions.size();i++) {
-			if (this.favoriteQuestions.get(i).equals(questionID))
-				return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * This method checks if a question is in 
-	 * @author joshnguyen
-	 * */
-	public Boolean isQuestionInReadByID(String questionID) {
-		for (int i = 0; i<favoriteQuestions.size();i++) {
-			if (this.readQuestions.get(i).equals(questionID))
-				return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * This method checks if a question is in 
-	 * @author joshnguyen
-	 * */
-	public Boolean isQuestionInToReadByID(String questionID) {
-		for (int i = 0; i<favoriteQuestions.size();i++) {
-			if (this.toReadQuestions.get(i).equals(questionID))
-				return true;
-		}
-		return false;
-	}
 	
 	
 	
