@@ -28,7 +28,6 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ViewQuestion extends Activity {
 	PostController pc = new PostController(this);
-	UserPostCollector upc = new UserPostCollector();
 	ArrayList<Answer> answerList = new ArrayList<Answer>();
 	public static final String SET_COMMENT_TYPE = "0";
 	public static final int COMMENT_ON_QUESTION_KEY = 1;
@@ -50,7 +49,6 @@ public class ViewQuestion extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_question);
-
 		Bundle extras = getIntent().getExtras();
 		question_id = extras.getString("question_id");
 
@@ -72,7 +70,7 @@ public class ViewQuestion extends Activity {
 		updateCommentCount();
 		
 		setFavoriteIcon();
-		Log.d("click", "is fav? : " + upc.isQuestionInFavByID(question_id));
+		Log.d("click", "is fav? : " + (pc.getUPC()).isQuestionInFavByID(question_id));
 	}
 
 	public void setListeners() {
@@ -114,7 +112,7 @@ public class ViewQuestion extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				upc.addFavoriteQuestion(question_id);
+				(pc.getUPC()).addFavoriteQuestion(question_id);
 				favIcon.setImageResource(R.drawable.ic_fav_yes);
 			}
 		});
@@ -173,8 +171,8 @@ public class ViewQuestion extends Activity {
 	}
 	
 	public void setFavoriteIcon() {
-		Log.d("click", "is fav? : " + upc.isQuestionInFavByID(question_id));
-		if (upc.isQuestionInFavByID(question_id)) {
+		Log.d("click", "is fav? : " + (pc.getUPC()).isQuestionInFavByID(question_id));
+		if ((pc.getUPC()).isQuestionInFavByID(question_id)) {
 			favIcon.setImageResource(R.drawable.ic_fav_yes);
 		}
 		
@@ -315,7 +313,7 @@ public class ViewQuestion extends Activity {
 	}
 
 	public void setFavorited() {
-		upc.addFavoriteQuestion(question_id);
+		(pc.getUPC()).addFavoriteQuestion(question_id);
 		// Log.d("click", "Favs: " + upc.getFavoriteQuestions());
 	}
 
