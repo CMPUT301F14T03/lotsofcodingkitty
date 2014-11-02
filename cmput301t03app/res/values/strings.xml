@@ -16,5 +16,7 @@
     <string name="title_activity_display_picture">DisplayPicture</string>
     <string name="title_activity_login">title</string>
     <string name="Username">Type a username</string>
+    <string name="user_home_title">User Home</string>
+    <string name="user_home_description">The User Home section allows you to view your favorited, recently viewed, \&quot;to read&quot; (saved questions), questions you've authored, and answers you're written.</string>
 
 </resources>

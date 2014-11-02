@@ -151,6 +151,7 @@
         android:layout_marginTop="0dp"
         android:layout_toLeftOf="@+id/question_comment_count"
         android:layout_alignBottom="@+id/answer_count"
+        android:layout_marginRight="-5dp"
         android:background="#eeeeee"
         android:clickable="false"
         android:focusable="false"

@@ -35,6 +35,7 @@
             android:label="@string/title_activity_display_picture" >
         </activity>
         <activity android:name="ViewComment"></activity>
+        <activity android:name="UserHome"></activity>
     </application>
 
 </manifest>
