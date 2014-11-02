@@ -35,7 +35,8 @@ public class MainActivity extends Activity {
 	ListView lv;
 	MainListAdapter mla;
 	PostController pc = new PostController(this);
-	public AlertDialog alertDialog1; //for testing purposes
+	public AlertDialog alertDialog1; //for testing the add question dialog
+	public AlertDialog alertDialog2;	//should be deleted once josh changes to an icon
 	private mockServerDataManager mockServerManage;
 
 	@Override
@@ -87,6 +88,9 @@ public class MainActivity extends Activity {
 	
 	public AlertDialog getDialog(){		//this is for testing purposes
 		return alertDialog1;
+	}
+	public AlertDialog getDialog2(){		//this is for testing purposes
+		return alertDialog2;
 	}
 	
 	
@@ -252,10 +256,6 @@ public class MainActivity extends Activity {
 				.show();
 	}
 	
-
-	public AlertDialog getDialog1(){
-		return alertDialog1;
-	}
 	
 	public MainListAdapter getAdapter(){
 		return mla;
@@ -291,6 +291,7 @@ public void addToToRead(final int position) {
 
 
 		AlertDialog alertDialog = editDialog.create();
+		alertDialog2 = alertDialog;
 		alertDialog.show();
 
 	}
