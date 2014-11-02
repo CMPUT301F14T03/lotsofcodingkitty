@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -55,6 +56,17 @@ public class MainActivity extends Activity {
 				
 				toQuestionActivity(position);
 				
+			}
+		});
+		
+		questionList.setOnItemLongClickListener(new OnItemLongClickListener() {
+			public boolean onItemLongClick(AdapterView<?> parent,
+					View view, int position, long id) {
+				{
+					// Task task = todoList.get(position);
+					addToToRead(position);
+				}
+				return true;
 			}
 		});
 		
@@ -238,6 +250,45 @@ public class MainActivity extends Activity {
 	public AlertDialog getDialog(){
 		return alertDialog1;
 	}
+	
+	
+public void addToToRead(final int position) {
+		
+		// Brings up DIalog window with options to Archive and Delete
+		
+		
+		// http://developer.android.com/reference/android/app/AlertDialog.Builder.html#setSingleChoiceItems(java.lang.CharSequence[],
+		// int, android.content.DialogInterface.OnClickListener)
+		// Edit existing todo with LONG CLICK
+
+		LayoutInflater inflator = LayoutInflater.from(this);
+
+		View editTodo = inflator.inflate(R.layout.dialog_to_read, null);
+
+		AlertDialog.Builder editDialog = new AlertDialog.Builder(this);
+
+		editDialog
+				.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						})
+				.setPositiveButton("Add to To-Read",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								pc.addToRead(pc.getQuestionsInstance().get(position));
+							}
+						});
+
+
+		AlertDialog alertDialog = editDialog.create();
+		alertDialog.show();
+
+	}
+	
+	
+	
 }
 
 

@@ -27,7 +27,7 @@ public class ViewComment extends Activity {
 	ArrayList<Comment> comments = new ArrayList<Comment>();
 
 	PostController pc = new PostController(this);
-	private static ArrayList<String> commentBodyList = new ArrayList<String>();
+	ArrayList<String> commentBodyList = new ArrayList<String>();
 	ArrayAdapter<String> cla;
 	ListView commentListView;
 	Button commentButton;
@@ -53,11 +53,11 @@ public class ViewComment extends Activity {
 		switch (commentType) {
 		case 1:
 			comments = pc.getCommentsToQuestion(questionID);
-
+			break;
 		case 2:
 			answerID = extras.getString(ViewQuestion.ANSWER_ID_KEY);
 			comments = pc.getCommentsToAnswer(questionID, answerID);
-
+			break;
 		}
 
 		instantiateViews();
@@ -111,8 +111,10 @@ public class ViewComment extends Activity {
 	}
 
 	public void setCommentAdapter() {
-		getCommentBodiesFromComment();
 		commentListView.setAdapter(cla);
+		getCommentBodiesFromComment();
+		cla.notifyDataSetChanged();
+		
 	}
 
 	public void getCommentBodiesFromComment() {
@@ -172,6 +174,7 @@ public class ViewComment extends Activity {
 
 						if (commentType == 1) {
 							pc.addCommentToQuestion(c, questionID);
+							Question testQ = pc.getQuestion(questionID);
 							comments = pc.getCommentsToQuestion(questionID);
 						} else if (commentType == 2) {
 							pc.addCommentToAnswer(c, questionID, answerID);
