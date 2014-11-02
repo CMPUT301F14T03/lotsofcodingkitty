@@ -9,6 +9,8 @@ import android.app.Fragment.SavedState;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ViewQuestion extends Activity {
@@ -263,9 +266,52 @@ public class ViewQuestion extends Activity {
 					}
 				});
 
-		AlertDialog alertDialog = alertDialogBuilder.create();
+		final AlertDialog alertDialog = alertDialogBuilder.create();
 
 		alertDialog.show();
+		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
+		
+		
+		//creating a listener to see if any changes to edit text in dialog
+		TextWatcher textwatcher = new TextWatcher(){
+			private void handleText(){
+				final Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+				if(answerBody.getText().length() == 0){	//these checks the edittext to make sure not empty edit text
+					button.setEnabled(false);
+				}
+
+				else if(userName.getText().length() == 0){
+					button.setEnabled(false);
+				}
+				else{
+					button.setEnabled(true);
+				}	
+			}
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				handleText();
+			}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start,
+					int count, int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void onTextChanged(CharSequence s, int start,
+					int before, int count) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+			
+		
+		answerBody.addTextChangedListener(textwatcher);	//adding listeners to the edittexts
+		userName.addTextChangedListener(textwatcher);
+		Toast.makeText(this, "Please write your answer", Toast.LENGTH_SHORT)
+			.show();	
+			
 	}
 
 	public void setFavorited() {
