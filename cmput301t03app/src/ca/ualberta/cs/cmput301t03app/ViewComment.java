@@ -70,6 +70,7 @@ public class ViewComment extends Activity {
 		setCommentAdapter();
 		updateCommentCount();
 	}
+	
 
 	public void instantiateViews() {
 		commentButton = (Button) findViewById(R.id.comment_button);
@@ -95,21 +96,34 @@ public class ViewComment extends Activity {
 		commentListView.setAdapter(cla);
 	}
 
+<<<<<<< HEAD
 	public void getCommentBodiesFromComment(){
 		
+=======
+	public void getCommentBodiesFromComment() {
+>>>>>>> upstream/master
 		if (comments != null) {
 			commentBodyList.clear();
 			for (int i = 0; i < comments.size(); i++)
 				commentBodyList.add(comments.get(i).getCommentBody());
+<<<<<<< HEAD
 			Log.d("click", "comments size" + commentBodyList.size());
+=======
+>>>>>>> upstream/master
 		}
 	}
 	
 	public void updateCommentCount() {
-		//if (commentBodyList != null)
-			//commentCount.setText(commentBodyList.size());
-		
+		if(commentType == 1){
+		commentCount.setText("Comments: "
+				+ String.valueOf(pc.getQuestion(questionID).countComments()));
+		} 
+		else if(commentType == 2) {
+			commentCount.setText("Comments: "
+					+ String.valueOf(pc.getQuestion(questionID).getAnswerByID(answerID).countAnswerComments()));
+		}
 	}
+	
 
 	public void addComment() {
 
@@ -154,9 +168,10 @@ public class ViewComment extends Activity {
 									answerID);
 						}
 
-						setCommentAdapter();
+						//setCommentAdapter();
+						commentBodyList.add(commentBodyString);
 						cla.notifyDataSetChanged();
-						updateCommentCount();
+						updateCommentCount(); //<-- MIGHT NOT USE THIS
 					}
 
 				}).setNegativeButton("Cancel",

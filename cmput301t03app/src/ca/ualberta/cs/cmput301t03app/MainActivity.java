@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
 	ListView lv;
 	MainListAdapter mla;
 	PostController pc = new PostController(this);
-	
+	private mockServerDataManager mockServerManage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,7 @@ public class MainActivity extends Activity {
 		
 		/* FOR TESTING PURPOSES ONLY
 		 */
+		mockServerManage = new mockServerDataManager(this);
 		mockServer.initServer(this);
 		ArrayList<Question> qList = mockServer.getMainList();
 		for (int i=0; i < qList.size(); i++) {
