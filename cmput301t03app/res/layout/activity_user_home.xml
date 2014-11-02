@@ -39,6 +39,7 @@
         android:text="F A V O R I T E S"
         android:textColor="#ffffff"
         android:layout_marginTop="20dp"
+        android:onClick="favorites"
          />
      
       <Button
@@ -51,6 +52,7 @@
         android:text="C A C H E D"
         android:textColor="#ffffff"
         android:layout_marginTop="10dp"
+        android:onClick="viewCached"
          />
       
        <Button
@@ -63,6 +65,7 @@
         android:text="T O  R E A D"
         android:textColor="#ffffff"
         android:layout_marginTop="10dp"
+        android:onClick="toRead"
          />
        
         <Button
@@ -75,19 +78,10 @@
         android:text="M Y  Q U E S T I O N S"
         android:textColor="#ffffff"
         android:layout_marginTop="10dp"
+        android:onClick="postedQuestions"
          />
         
-         <Button
-        android:id="@+id/user_answered_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:background="#000000"
-        android:text="M Y  A N S W E R S"
-        android:textColor="#ffffff"
-        android:layout_marginTop="10dp"
-         />
+
      
 
 </LinearLayout>
