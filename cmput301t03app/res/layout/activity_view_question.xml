@@ -124,7 +124,7 @@
         android:layout_below="@+id/question_author"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:background="#eeeeee"
         android:gravity="center_vertical|left"
         android:textStyle="bold"/>
