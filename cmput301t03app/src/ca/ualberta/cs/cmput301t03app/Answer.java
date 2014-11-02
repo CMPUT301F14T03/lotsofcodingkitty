@@ -44,6 +44,14 @@ public class Answer {
 		return this.comments;
 	}
 	
+	public int countAnswerComments() {
+		if (comments == null) {
+			return 0;
+		} else
+			return comments.size();
+	}
+	
+	
 	public void addComment(Comment comment) {
 		this.comments.add(comment);
 	}

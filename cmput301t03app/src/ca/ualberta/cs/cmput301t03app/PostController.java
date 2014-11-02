@@ -190,7 +190,7 @@ public class PostController{
 		Question q = getQuestion(questionID);
 		ArrayList<Answer> a = q.getAnswers();
 		for (int i = 0; i < a.size(); i++){
-			if (a.get(i).getId().equals(questionID)){
+			if (a.get(i).getId().equals(answerID)){
 				a.get(i).addComment(comment);
 			}
 		}
@@ -199,7 +199,7 @@ public class PostController{
 		Question q = getQuestion(questionID);
 		ArrayList<Answer> a = q.getAnswers();
 		for (int i = 0; i < a.size(); i++){
-			if (a.get(i).getId().equals(questionID)){
+			if (a.get(i).getId().equals(answerID)){
 				return a.get(i).getComments();
 			}
 		}
