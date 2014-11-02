@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class UserListsActivity extends Activity {
 	
@@ -51,9 +55,26 @@ public class UserListsActivity extends Activity {
 			break;
 		}
 		
-		Log.d("lotso", "question list:"+userQuestionList);
 		mla = new MainListAdapter(this, R.layout.activity_main_question_entity, userQuestionList);
 		userListView.setAdapter(mla);
+		
+		setListeners();
+		
+	}
+	
+	
+	public void setListeners() {
+		userListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					final int position, long id) {
+				// TODO Auto-generated method stub
+
+				toQuestionActivity(position);
+				
+			}
+		});		
 	}
 
 	@Override
@@ -62,5 +83,16 @@ public class UserListsActivity extends Activity {
 		getMenuInflater().inflate(R.menu.user_lists, menu);
 		return true;
 	}
+	
+	
+	public void toQuestionActivity(int position) {
+		
+		Intent i = new Intent( this, ViewQuestion.class );
+		i.putExtra("question_id", pc.getQuestionsInstance().get(position).getId());
+		pc.addReadQuestion(pc.getQuestionsInstance().get(position));
+		startActivity(i);
+		
+	}
+	
 
 }

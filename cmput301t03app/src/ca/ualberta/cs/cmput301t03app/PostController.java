@@ -3,6 +3,7 @@ package ca.ualberta.cs.cmput301t03app;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 
 public class PostController{
 
@@ -360,4 +361,37 @@ public class PostController{
 	/**
 	 * End of what Eric wrote
 	 */
+	
+	
+
+	/*--------------------------------------------------------*/
+
+	/*==================== Favorites =====================*/	
+	/**
+	 * This method checks if a question is in favorites
+	 * @author joshnguyen
+	 * */
+	public Boolean isQuestionInFavByID(String questionID) {
+		upc.initFavoriteID(getContext());
+		Log.d("click",  "Size of Fav array: "+ upc.getFavoriteQuestions().size());
+		for (int i = 0; i<upc.getFavoriteQuestions().size();i++) {
+			if (upc.getFavoriteQuestions().get(i).equals(questionID))
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * This method checks if a question is in Read/Cached
+	 * @author joshnguyen
+	 * */
+	public Boolean isQuestionInReadByID(String questionID) {
+		for (int i = 0; i<upc.getFavoriteQuestions().size();i++) {
+			if (upc.getFavoriteQuestions().get(i).equals(questionID))
+				return true;
+		}
+		return false;
+	}
+		
+	
 }
