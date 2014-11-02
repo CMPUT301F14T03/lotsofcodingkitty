@@ -110,6 +110,7 @@ public final class R {
         public static final int activity_view_question_answer_entity=0x7f030009;
         public static final int activity_view_question_entity=0x7f03000a;
         public static final int copy_of_activity_main_question_entity=0x7f03000b;
+        public static final int dialog_to_read=0x7f03000c;
     }
     public static final class menu {
         public static final int display_picture=0x7f070000;

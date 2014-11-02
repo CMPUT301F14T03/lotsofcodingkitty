@@ -160,7 +160,7 @@ public class PostController{
 
 	public void addQuestion(Question question){
 
-		subQuestions.add(question);
+		getQuestionsInstance().add(question);
 	//	pushQuestions.add(question);
 	//	upc.addPostedQuestion(question);
 	//	pushNewPosts();
