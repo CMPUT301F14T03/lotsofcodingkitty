@@ -110,10 +110,10 @@ public class ViewComment extends Activity {
 		commentCount.setText("Comments: "
 				+ String.valueOf(pc.getQuestion(questionID).countComments()));
 		} 
-//		else if(commentType == 2) {
-//			commentCount.setText("Comments: "
-//					+ String.valueOf(pc.getQuestion(questionID).getAnswers().get));
-//		}
+		else if(commentType == 2) {
+			commentCount.setText("Comments: "
+					+ String.valueOf(pc.getQuestion(questionID).getAnswerByID(answerID).countAnswerComments()));
+		}
 	}
 	
 
