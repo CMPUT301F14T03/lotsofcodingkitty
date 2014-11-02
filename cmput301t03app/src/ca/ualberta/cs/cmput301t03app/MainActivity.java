@@ -257,6 +257,10 @@ public class MainActivity extends Activity {
 		return alertDialog1;
 	}
 	
+	public MainListAdapter getAdapter(){
+		return mla;
+	}
+	
 	
 public void addToToRead(final int position) {
 		

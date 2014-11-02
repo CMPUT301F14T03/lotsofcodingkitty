@@ -1,11 +1,12 @@
 /*this test tests our main activity UI functionality*/
 
 import ca.ualberta.cs.cmput301t03app.MainActivity;
+import ca.ualberta.cs.cmput301t03app.MainListAdapter;
 import ca.ualberta.cs.cmput301t03app.R;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
@@ -47,6 +48,34 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 		//testing to see if dialogbox opens up
 	}
 	
+	@UiThreadTest
+	public void makeQuestion(String title, String body, String name){	//This is used for test that makes a question
+		((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
+	    AlertDialog dialog = activity.getDialog();
+		final EditText questionTitle = (EditText) 
+				activity.findViewById(R.id.questionTitle);
+		final EditText questionBody = (EditText) 
+				activity.findViewById(R.id.questionBody);
+		final EditText userName = (EditText) 
+				activity.findViewById(R.id.UsernameRespondTextView);
+		questionTitle.setText(title);
+		questionBody.setText(body);
+		userName.setText(name);
+		dialog.getButton(
+				 DialogInterface.BUTTON_POSITIVE).performClick();
+		
+		
+	}
+	
+	@UiThreadTest
+	public void testAddQuestion(){		//testing if adding a question works
+		assertNotNull(activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
+		MainListAdapter adapter = activity.getAdapter();
+		int oldCount = adapter.getCount();
+		makeQuestion("why?","why?","rjynn");
+		assertEquals("new question added", oldCount, oldCount+1); 
+
+	}
 	public void testListView(){
 		//testing that the listview is actually visible on the screen
 		Intent intent = new Intent();
@@ -55,6 +84,7 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 		ViewAsserts.assertOnScreen(view, listview);
 	
 	}
+
 	
 
 	
