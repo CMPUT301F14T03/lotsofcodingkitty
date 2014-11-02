@@ -162,6 +162,9 @@ public class MainActivity extends Activity {
 						
 						/* THIS IS FOR TESTING VIA MOCK SERVER
 						 */
+						mockServerManage.mockPushQuestionToServer(q);
+						/* END OF TEST MOCK SERVER TEST BLOCK
+						 */
 						
 					}
 

@@ -96,20 +96,13 @@ public class ViewComment extends Activity {
 		commentListView.setAdapter(cla);
 	}
 
-<<<<<<< HEAD
-	public void getCommentBodiesFromComment(){
-		
-=======
+
+
 	public void getCommentBodiesFromComment() {
->>>>>>> upstream/master
 		if (comments != null) {
 			commentBodyList.clear();
 			for (int i = 0; i < comments.size(); i++)
 				commentBodyList.add(comments.get(i).getCommentBody());
-<<<<<<< HEAD
-			Log.d("click", "comments size" + commentBodyList.size());
-=======
->>>>>>> upstream/master
 		}
 	}
 	
