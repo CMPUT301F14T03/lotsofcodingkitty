@@ -8,7 +8,8 @@
  * class.
  * 
  * YOU DO NOT NEED TO CALL ANYTHING FROM THIS CLASS.  THE MAIN ACTIVITY HAS TEST CODE THAT WILL INITIALIZE
- * THE QUESTION LIST.
+ * THE QUESTION LIST.  THIS CLASS CANNOT BE INSTANTIATED.  ALL I WANT TO DO IS CREATE AND POPULATE THE SAVE 
+ * FILE IF IT DOES NOT EXIST; LOAD THE SAVE FILE IF IT DOES!
  * 
  * Direct any questions to Eric.
  * 
@@ -33,23 +34,12 @@ public class mockServer {
 
 	private static ArrayList<Question> mockQuestionList = new ArrayList<Question>();
 	private static String mockSave = "fake.sav";
-	private static mockServer fakeServer;
-	private Context context;
+	private static Context serverContext;
 	private static ArrayList<Question> questionList = new ArrayList<Question>();
 	
-	public mockServer(Context context) {
-		this.context = context;
-	}
-	
 	public static void initServer(Context context) {
-		if (fakeServer == null) {
-			fakeServer = new mockServer(context);
-			populateQuestions();
-			populateServer();
-			loadExisting();
-		} else {
-			loadExisting();
-		}
+		serverContext = context;
+		loadExisting();
 	}
 	
 	private static void populateQuestions() {
@@ -68,13 +58,9 @@ public class mockServer {
 		return questionList;
 	}
 	
-	public static mockServer getServer() {
-		return fakeServer; 
-	}
-	
 	public static void acceptPush(ArrayList<Question> qList) {
 		try {
-			FileOutputStream fOut = fakeServer.getContext().openFileOutput(mockSave, Context.MODE_PRIVATE);
+			FileOutputStream fOut = serverContext.openFileOutput(mockSave, Context.MODE_PRIVATE);
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fOut);      	
 			GsonBuilder builder = new GsonBuilder();
 			Gson gson = builder.create();
@@ -89,7 +75,7 @@ public class mockServer {
 	
 	private static void populateServer() {
 		try {
-			FileOutputStream fOut = fakeServer.getContext().openFileOutput(mockSave, Context.MODE_PRIVATE);
+			FileOutputStream fOut = serverContext.openFileOutput(mockSave, Context.MODE_PRIVATE);
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fOut);      	
 			GsonBuilder builder = new GsonBuilder();
 			Gson gson = builder.create();
@@ -104,18 +90,15 @@ public class mockServer {
 	
 	private static void loadExisting() {
 		try {
-			FileInputStream fIn = fakeServer.getContext().openFileInput(mockSave);
+			FileInputStream fIn = serverContext.openFileInput(mockSave);
 			InputStreamReader isr = new InputStreamReader(fIn);
 			Gson gson = new GsonBuilder().create();
 			questionList = gson.fromJson(isr, new TypeToken<ArrayList<Question>>() {}.getType());
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			populateQuestions();
+			populateServer();
+			loadExisting();
 		}
-	}
-	
-	private Context getContext() {
-		return this.context;
-	}
-	
+	}	
 	
 }
