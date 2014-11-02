@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="#ffffff" >
 
     <Button
         android:id="@+id/comment_button"
@@ -74,7 +75,7 @@
 		 android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/comment_post_author"
-        android:background="#ededed"
+        android:background="#eeeeee"
         android:paddingRight="10dp"
         android:text="Comments: 5"
 		/>

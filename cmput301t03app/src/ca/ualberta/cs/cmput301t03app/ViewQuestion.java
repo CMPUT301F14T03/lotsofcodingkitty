@@ -55,6 +55,7 @@ public class ViewQuestion extends Activity {
 		setQuestionText(question_id);
 		updateAnswerCount();
 		setListeners();
+		setFavoriteIcon();
 		setAnswerAdapter();
 
 		// updates comments counter
@@ -66,6 +67,9 @@ public class ViewQuestion extends Activity {
 		super.onResume();
 		// updates comments counter
 		updateCommentCount();
+		
+		setFavoriteIcon();
+		Log.d("click", "is fav? : " + upc.isQuestionInFavByID(question_id));
 	}
 
 	public void setListeners() {
@@ -107,7 +111,7 @@ public class ViewQuestion extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				setFavorited();
+				upc.addFavoriteQuestion(question_id);
 				favIcon.setImageResource(R.drawable.ic_fav_yes);
 			}
 		});
@@ -165,8 +169,11 @@ public class ViewQuestion extends Activity {
 
 	}
 	
-	public void setFavoriteResource() {
-		
+	public void setFavoriteIcon() {
+		Log.d("click", "is fav? : " + upc.isQuestionInFavByID(question_id));
+		if (upc.isQuestionInFavByID(question_id)) {
+			favIcon.setImageResource(R.drawable.ic_fav_yes);
+		}
 		
 	}
 
