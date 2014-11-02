@@ -24,7 +24,7 @@ public class ViewComment extends Activity {
 	ArrayList<Comment> comments = new ArrayList<Comment>();
 
 	PostController pc = new PostController(this);
-	ArrayList<String> commentBodyList = new ArrayList<String>();
+	private static ArrayList<String> commentBodyList = new ArrayList<String>();
 	ArrayAdapter<String> cla;
 	ListView commentListView;
 	Button commentButton;
@@ -68,7 +68,6 @@ public class ViewComment extends Activity {
 		instantiateViews();
 		setListeners();
 		setCommentAdapter();
-		
 		updateCommentCount();
 	}
 
@@ -92,25 +91,18 @@ public class ViewComment extends Activity {
 	}
 
 	public void setCommentAdapter() {
-		getCommentBodiesFromComment(comments);
-		
-		
+		getCommentBodiesFromComment();
 		commentListView.setAdapter(cla);
 	}
 
-	public ArrayList<String> getCommentBodiesFromComment(
-			ArrayList<Comment> comments) {
+	public void getCommentBodiesFromComment(){
 		
-		if (comments == null) {
-			return null;
-		} else {
+		if (comments != null) {
 			commentBodyList.clear();
 			for (int i = 0; i < comments.size(); i++)
 				commentBodyList.add(comments.get(i).getCommentBody());
 			Log.d("click", "comments size" + commentBodyList.size());
-			return commentBodyList;
 		}
-		
 	}
 	
 	public void updateCommentCount() {

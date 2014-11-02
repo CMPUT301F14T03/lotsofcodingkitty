@@ -158,6 +158,10 @@ public class MainActivity extends Activity {
 
 						mla.updateAdapter(pc.getQuestionsInstance());
 						pc.addUserPost(q);
+						
+						/* THIS IS FOR TESTING VIA MOCK SERVER
+						 */
+						
 					}
 
 				}).setNegativeButton("Cancel",
