@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
 	ListView lv;
 	MainListAdapter mla;
 	PostController pc = new PostController(this);
+	public AlertDialog alertDialog1; //for testing purposes
 	private mockServerDataManager mockServerManage;
 
 	@Override
@@ -185,14 +186,16 @@ public class MainActivity extends Activity {
 				
 
 		final AlertDialog alertDialog = alertDialogBuilder.create();
-
+		this.alertDialog1 = alertDialog;
 		alertDialog.show();
 		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
 		
+		
+		//creating a listener to see if any changes to edit text in dialog
 		TextWatcher textwatcher = new TextWatcher(){
 			private void handleText(){
 				final Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-				if(questionTitle.getText().length() == 0){
+				if(questionTitle.getText().length() == 0){	//these checks the edittext to make sure not empty edit text
 					button.setEnabled(false);
 				}
 				else if(questionBody.getText().length() == 0){
@@ -225,13 +228,15 @@ public class MainActivity extends Activity {
 		};
 			
 		
-				questionTitle.addTextChangedListener(textwatcher);
-				questionBody.addTextChangedListener(textwatcher);
-				userName.addTextChangedListener(textwatcher);
-				
-				
+		questionTitle.addTextChangedListener(textwatcher);	//adding listeners to the edittexts
+		questionBody.addTextChangedListener(textwatcher);
+		userName.addTextChangedListener(textwatcher);
 		Toast.makeText(this, "Please write your question", Toast.LENGTH_SHORT)
 				.show();
+	}
+	
+	public AlertDialog getDialog(){
+		return alertDialog1;
 	}
 }
 

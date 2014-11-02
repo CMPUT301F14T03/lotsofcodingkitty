@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ViewComment extends Activity {
 
@@ -190,9 +193,51 @@ public class ViewComment extends Activity {
 					}
 				});
 
-		AlertDialog alertDialog = alertDialogBuilder.create();
+		final AlertDialog alertDialog = alertDialogBuilder.create();
 
 		alertDialog.show();
+		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
+		
+		
+		//creating a listener to see if any changes to edit text in dialog
+		TextWatcher textwatcher = new TextWatcher(){
+			private void handleText(){
+				final Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+				if(postBody.getText().length() == 0){	//these checks the edittext to make sure not empty edit text
+					button.setEnabled(false);
+				}
+
+				else if(userName.getText().length() == 0){
+					button.setEnabled(false);
+				}
+				else{
+					button.setEnabled(true);
+				}	
+			}
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				handleText();
+			}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start,
+					int count, int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void onTextChanged(CharSequence s, int start,
+					int before, int count) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+			
+		
+		postBody.addTextChangedListener(textwatcher);	//adding listeners to the edittexts
+		userName.addTextChangedListener(textwatcher);
+		Toast.makeText(this, "Please write your comment", Toast.LENGTH_SHORT)
+				.show();
 
 	}
 
