@@ -85,6 +85,11 @@ public class MainActivity extends Activity {
 		 */
 	}
 	
+	public AlertDialog getDialog(){		//this is for testing purposes
+		return alertDialog1;
+	}
+	
+	
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -198,7 +203,7 @@ public class MainActivity extends Activity {
 				
 
 		final AlertDialog alertDialog = alertDialogBuilder.create();
-		this.alertDialog1 = alertDialog;
+		alertDialog1 = alertDialog;
 		alertDialog.show();
 		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
 		
@@ -247,7 +252,8 @@ public class MainActivity extends Activity {
 				.show();
 	}
 	
-	public AlertDialog getDialog(){
+
+	public AlertDialog getDialog1(){
 		return alertDialog1;
 	}
 	
@@ -255,8 +261,6 @@ public class MainActivity extends Activity {
 public void addToToRead(final int position) {
 		
 		// Brings up DIalog window with options to Archive and Delete
-		
-		
 		// http://developer.android.com/reference/android/app/AlertDialog.Builder.html#setSingleChoiceItems(java.lang.CharSequence[],
 		// int, android.content.DialogInterface.OnClickListener)
 		// Edit existing todo with LONG CLICK
@@ -286,8 +290,6 @@ public void addToToRead(final int position) {
 		alertDialog.show();
 
 	}
-	
-	
 	
 }
 
