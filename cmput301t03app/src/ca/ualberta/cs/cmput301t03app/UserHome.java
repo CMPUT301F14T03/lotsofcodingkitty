@@ -1,7 +1,9 @@
 package ca.ualberta.cs.cmput301t03app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 public class UserHome extends Activity {
 
@@ -11,7 +13,28 @@ public class UserHome extends Activity {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_user_home);
 	
-	    // TODO Auto-generated method stub
 	}
 
+	public void favorites (View view) {
+		Intent intent = new Intent(this, UserListsActivity.class);
+		intent.putExtra("userListMode", 0);
+		startActivity(intent);
+	}
+	public void viewCached (View view) {
+		Intent intent = new Intent(this, UserListsActivity.class);
+		intent.putExtra("userListMode", 1);
+		startActivity(intent);
+	}
+
+	public void toRead (View view) {
+		Intent intent = new Intent(this, UserListsActivity.class);
+		intent.putExtra("userListMode", 2);
+		startActivity(intent);
+	}
+	
+	public void postedQuestions (View view) {
+		Intent intent = new Intent(this, UserListsActivity.class);
+		intent.putExtra("userListMode", 3);
+		startActivity(intent);
+	}
 }
