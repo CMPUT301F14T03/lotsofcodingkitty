@@ -123,14 +123,10 @@ public class ViewQuestion extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				pc.addFavoriteQuestion(pc.getQuestion(question_id));
-<<<<<<< HEAD
 				favIcon.setImageResource(R.drawable.ic_fav_yes);
-=======
-				
-				Log.d("click", "is fav? : " + pc.isQuestionInFavByID(question_id));
 				//favIcon.setImageResource(R.drawable.ic_fav_yes);
 				setFavoriteIcon();
->>>>>>> upstream/master
+
 			}
 		});
 
