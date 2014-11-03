@@ -34,6 +34,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+	
 	ListView lv;
 	MainListAdapter mla;
 	PostController pc = new PostController(this);
@@ -47,20 +48,14 @@ public class MainActivity extends Activity {
 		ListView questionList = (ListView) findViewById(R.id.activity_main_question_list);
 		questionList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					final int position, long id) {
-				// TODO Auto-generated method stub
-
+			public void onItemClick(AdapterView<?> parent, View view,final int position, long id) {
 				Log.d("click", "click " + position);
-				
 				toQuestionActivity(position);
 			}
 		});
 		
 		questionList.setOnItemLongClickListener(new OnItemLongClickListener() {
-			public boolean onItemLongClick(AdapterView<?> parent,
-					View view, int position, long id) {
-				{
+			public boolean onItemLongClick(AdapterView<?> parent,View view, int position, long id) {{
 					// Task task = todoList.get(position);
 					addToToRead(position);
 				}
@@ -70,8 +65,7 @@ public class MainActivity extends Activity {
 		
 		setupAdapter();
 		
-		/* FOR TESTING PURPOSES ONLY
-		 */
+		/* ----FOR TESTING PURPOSES ONLY-----*/
 		mockServerManage = new mockServerDataManager(this);
 		mockServer.initServer(this);
 		ArrayList<Question> qList = mockServer.getMainList();
@@ -79,35 +73,16 @@ public class MainActivity extends Activity {
 			pc.getQuestionsInstance().add(qList.get(i));
 		}
 		mla.updateAdapter(pc.getQuestionsInstance());
-		/* END TEST BLOCK
-		 */
+		/*----- END TEST BLOCK-------*/
+		 
 	}
-	
-	public AlertDialog getDialog(){		//this is for testing purposes
-		return alertDialog1;
-	}
-	
 	
 	@Override
 	public void onResume() {
 		super.onResume();
 		mla.updateAdapter(pc.getQuestionsInstance());
 	}
-
-	public void setupAdapter() {
-		lv = (ListView) findViewById(R.id.activity_main_question_list);
-		mla = new MainListAdapter(this, R.layout.activity_main_question_entity,
-				pc.getQuestionsInstance());
-		lv.setAdapter(mla);
-	}
-
-	public void toQuestionActivity(int position) {
-		Intent i = new Intent( this, ViewQuestion.class );
-		i.putExtra("question_id", pc.getQuestionsInstance().get(position).getId());
-		pc.addReadQuestion(pc.getQuestionsInstance().get(position));
-		startActivity(i);
-	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -226,16 +201,12 @@ public class MainActivity extends Activity {
 				.show();
 	}
 	
-	public MainListAdapter getAdapter(){
-		return mla;
-	}
-	
 	public void addToToRead(final int position) {
-		// Brings up DIalog window with options to Archive and Delete
-		// http://developer.android.com/reference/android/app/AlertDialog.Builder.html#setSingleChoiceItems(java.lang.CharSequence[],
-		// int, android.content.DialogInterface.OnClickListener)
-		// Edit existing todo with LONG CLICK
-
+		/**Brings up Dialog window with options to Archive and Delete
+		*http://developer.android.com/reference/android/app/AlertDialog.Builder.html#setSingleChoiceItems(java.lang.CharSequence[],
+		*int, android.content.DialogInterface.OnClickListener)
+		*Edit existing question with LONG CLICK
+		*/
 		AlertDialog.Builder editDialog = new AlertDialog.Builder(this);
 		editDialog
 			.setNegativeButton("Cancel",
@@ -253,9 +224,30 @@ public class MainActivity extends Activity {
 		
 		AlertDialog alertDialog = editDialog.create();
 		alertDialog.show();
-
 	}
 	
+	public AlertDialog getDialog(){		//this is for testing purposes
+		return alertDialog1;
+	}
+	
+	public MainListAdapter getAdapter(){
+		return mla;
+	}
+	
+	public void setupAdapter() {
+		lv = (ListView) findViewById(R.id.activity_main_question_list);
+		mla = new MainListAdapter(this, R.layout.activity_main_question_entity,
+				pc.getQuestionsInstance());
+		lv.setAdapter(mla);
+	}
+
+	public void toQuestionActivity(int position) {
+		Intent i = new Intent( this, ViewQuestion.class );
+		i.putExtra("question_id", pc.getQuestionsInstance().get(position).getId());
+		pc.addReadQuestion(pc.getQuestionsInstance().get(position));
+		startActivity(i);
+	}
+
 }
 
 
