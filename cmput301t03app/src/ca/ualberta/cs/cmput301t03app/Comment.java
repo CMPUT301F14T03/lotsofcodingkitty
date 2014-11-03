@@ -2,9 +2,15 @@ package ca.ualberta.cs.cmput301t03app;
 
 import java.util.Date;
 
+/**
+ * Represents a comment or reply that is added to
+ * Answer or Question objects. Answer and Question objects 
+ * can have multiple comments.
+ * 
+ * @since 2014-10-28
+ */
+
 public class Comment {
-	/*
-	 * This is the comment class. It allows users to set the text of a comment*/
 		
 	private Date date;
 	private String comment;
@@ -20,27 +26,11 @@ public class Comment {
 		return this.date;
 	}
 	
-	/** We should not be allowing anyone to tamper with timestamps!
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	**/
-	
 	public String getCommentBody() {
 		return this.comment;
 	}
 	
-	/** This is already set in the constructor!
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-	**/
-	
 	public String getAuthor() {
 		return this.author;
 	}
-	
-
-			
-	
 }

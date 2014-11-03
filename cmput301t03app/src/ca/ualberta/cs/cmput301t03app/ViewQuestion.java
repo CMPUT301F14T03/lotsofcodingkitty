@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -36,7 +37,7 @@ public class ViewQuestion extends Activity {
 	public static final String ANSWER_ID_KEY = "4";
 	AnswerListAdapter ala;
 	ListView answerListView;
-	ImageButton favIcon;
+	private static ImageButton favIcon;
 	ImageButton upvoteButton;
 	ImageButton commentButton;
 	TextView upvote_score;
@@ -79,7 +80,6 @@ public class ViewQuestion extends Activity {
 		updateCommentCount();
 		
 		setFavoriteIcon();
-		Log.d("click", "is fav? : " + (pc.getUPC()).isQuestionInFavByID(question_id));
 	}
 
 	public void setListeners() {
@@ -97,7 +97,8 @@ public class ViewQuestion extends Activity {
 
 			}
 		});
-
+		
+		
 		answerButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -122,7 +123,14 @@ public class ViewQuestion extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				pc.addFavoriteQuestion(pc.getQuestion(question_id));
+<<<<<<< HEAD
 				favIcon.setImageResource(R.drawable.ic_fav_yes);
+=======
+				
+				Log.d("click", "is fav? : " + pc.isQuestionInFavByID(question_id));
+				//favIcon.setImageResource(R.drawable.ic_fav_yes);
+				setFavoriteIcon();
+>>>>>>> upstream/master
 			}
 		});
 
@@ -180,8 +188,8 @@ public class ViewQuestion extends Activity {
 	}
 	
 	public void setFavoriteIcon() {
-		Log.d("click", "is fav? : " + (pc.getUPC()).isQuestionInFavByID(question_id));
-		if ((pc.getUPC()).isQuestionInFavByID(question_id)) {
+		Log.d("click", "is fav? : " + pc.isQuestionInFavByID(question_id));
+		if (pc.isQuestionInFavByID(question_id)) {
 			favIcon.setImageResource(R.drawable.ic_fav_yes);
 		}
 		

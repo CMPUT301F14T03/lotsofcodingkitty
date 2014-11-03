@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * Represents a Question the user posts to the app.
+ * The app will handle lists of questions.
+ */
+
 public class Question{
 	private String id;
 	private ArrayList<Comment> comments;
@@ -28,8 +33,6 @@ public class Question{
 		this.answers = new ArrayList<Answer>();
 	}
 	
-
-
 	public int countAnswers() {
 		return this.answers.size();
 	}
@@ -58,8 +61,7 @@ public class Question{
 			}
 		}
 		return null;
-	}
-	
+	}	
 	
 	public void addAnswer(Answer answer){
 		this.answers.add(answer);
@@ -68,19 +70,14 @@ public class Question{
 	public String getSubject() {
 		return this.subject;
 	}
-	
-
-	
+		
 	public String getBody() {
 		return this.body;
 	}
 	
-
-	
 	public Date getDate() {
 		return this.date;
 	}
-	
 	
 	public int getRating() {
 		return this.rating;
@@ -104,5 +101,4 @@ public class Question{
 	public String getId(){
 		return this.id;
 	}
-	
 }

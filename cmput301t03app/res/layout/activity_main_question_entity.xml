@@ -17,7 +17,7 @@
 
      <ImageView
         android:id="@+id/question_fav_icon"
-        android:layout_width="35dp"
+        android:layout_width="42dp"
         android:layout_height="30dp"
         android:layout_below="@+id/question_upvote_score"
         android:background="@null"
@@ -27,7 +27,7 @@
         
       <ImageView
         android:id="@+id/question_pic_icon"
-        android:layout_width="25dp"
+        android:layout_width="20dp"
         android:layout_height="30dp"
         android:layout_below="@+id/question_upvote_score"
         android:layout_toRightOf="@+id/question_fav_icon"

@@ -23,7 +23,6 @@ import android.content.Context;
  * @author ckchan
  * @since 2014-10-28
  *  
- *  
  */
 
 public class LocalDataManager implements iDataManager{
@@ -126,15 +125,6 @@ public class LocalDataManager implements iDataManager{
 	}
 	
 	/**
-	 * Saves a single question to the bank of questions.
-	 * @param Question object
-	 */
-//	public void appendToQuestionBank(Question q) {
-//		SAVE_FILE = QUESTION_BANK;
-//		saveQuestion(q);
-//	}
-	
-	/**
 	 * Saves
 	 * @param list
 	 */
@@ -142,59 +132,7 @@ public class LocalDataManager implements iDataManager{
 		SAVE_FILE = QUESTION_BANK;
 		saveQuestions(list);
 	}
-	
-	/**
-	 * Saves an answer to the bank of answers.
-	 * @param Answer object
-	 */
-//	public void saveToAnswerBank(Answer a) {
-//		SAVE_FILE = ANSWER_BANK;
-//		saveAnswer(a);
-//	}
-	
-	/**
-	 * Appends a single Answer object to the answer bank.
-	 * @param a An Answer object.
-	 */
-//	public void saveAnswer(Answer a) {
-//		 try {
-//	        	FileOutputStream fileOutputStream = context.openFileOutput(SAVE_FILE, Context.MODE_APPEND);
-//	        	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
-//	        	GsonBuilder builder = new GsonBuilder();
-//
-//	        	//Gson does not serialize/deserialize dates with milisecond precision unless specified
-//	        	Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create();
-//	        	builder.serializeNulls(); //Show fields with null values
-//	        	gson.toJson(a, outputStreamWriter); //Serialize to Json
-//	        	outputStreamWriter.flush();
-//		        outputStreamWriter.close();   
-//	        } catch (IOException e) {
-//				e.printStackTrace();
-//			}		
-//	}
-
-	/**
-	 * Save a list of Answer objects to the answer bank.
-	 * @param list A list of Answer Objects.
-	 */
-	public void saveAnswers(ArrayList<Answer> list) {
-        try {
-        	FileOutputStream fileOutputStream = context.openFileOutput(SAVE_FILE, Context.MODE_PRIVATE);
-        	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
-        	GsonBuilder builder = new GsonBuilder();
-
-        	//Gson does not serialize/deserialize dates with milisecond precision unless specified
-        	Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create();
-        	builder.serializeNulls(); //Show fields with null values
-        	gson.toJson(list, outputStreamWriter); //Serialize to Json
-        	outputStreamWriter.flush();
-	        outputStreamWriter.close();   
-        } catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-		
-	
+			
 	/***********************************LOAD METHODS**************************************/
 	
 	
@@ -318,8 +256,7 @@ public class LocalDataManager implements iDataManager{
 
 	
 	
-	/***********************************PRIVATE METHODS
-	 * @param idList TODO*****************************************/
+	/***********************************PRIVATE METHODS*****************************************/
 	
 	
 	private void saveIds(ArrayList<String> idList) {
@@ -335,32 +272,6 @@ public class LocalDataManager implements iDataManager{
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * Appends a single Question object to the question bank.
-	 * @param q A Question object
-	 */
-//	private void saveQuestion(Question q) {
-//		 try {
-//	        	FileOutputStream fileOutputStream = context.openFileOutput(SAVE_FILE, Context.MODE_APPEND);
-//	        	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
-//	        	GsonBuilder builder = new GsonBuilder();
-//
-//	        	//Gson does not serialize/deserialize dates with milisecond precision unless specified
-//	        	Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create();
-//	        	builder.serializeNulls(); //Show fields with null values
-//	        	
-//	        	File file = context.getFileStreamPath(SAVE_FILE);
-//	        	if (file.length() != 0) {
-//	        		outputStreamWriter.write(",");
-//	        	}
-//	        	gson.toJson(q, outputStreamWriter); //Serialize to Json
-//	        	outputStreamWriter.flush();
-//		        outputStreamWriter.close();   
-//	        } catch (IOException e) {
-//				e.printStackTrace();
-//			}		
-//	}
 	
 	/**
 	 * Saves a list of Question objects to the question bank.
