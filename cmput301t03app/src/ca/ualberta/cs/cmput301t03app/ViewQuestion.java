@@ -331,15 +331,22 @@ public class ViewQuestion extends Activity {
 			.show();	
 			
 	}
-
-	public void setFavorited() {
-		pc.addFavoriteQuestion(pc.getQuestion(question_id));
+	
+// DECREPIATE
+//	public void setFavorited() {
+//		pc.addFavoriteQuestion(pc.getQuestion(question_id));
 		// Log.d("click", "Favs: " + upc.getFavoriteQuestions());
-	}
+//	}
 
 	public void increment_upvote() {
 		pc.getQuestion(question_id).upRating();
-		mockDataManage.mockPushQuestionToServer(pc.getQuestion(question_id));
+		
+		/*THIS BLOCK IS PURELY FOR TESTING
+		 */
+		mockDataManage.mockUpdateList(pc.getQuestionsInstance());
+		/* END OF TEST BLOCK
+		 */
+		
 		TextView upvote_score = (TextView) findViewById(R.id.question_upvote_score);
 		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
 				.getRating()));
@@ -382,9 +389,10 @@ public class ViewQuestion extends Activity {
 	// This on upvotes an answer
 	public void answerUpvote(View v) {
 		Answer answer = (Answer) v.getTag();
+		
 		/* THIS BLOCK IS FOR TEST PURPOSES ONLY
 		 */
-		mockDataManage.mockPushQuestionToServer(pc.getQuestion(question_id));
+		mockDataManage.mockUpdateList(pc.getQuestionsInstance());
 		/* END OF TEST BLOCK
 		*/
 		answer.upRating();
