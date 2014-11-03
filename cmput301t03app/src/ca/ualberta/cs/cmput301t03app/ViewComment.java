@@ -34,6 +34,7 @@ public class ViewComment extends Activity {
 	TextView commentCount;
 	TextView timeStamp;
 	TextView author;
+	mockServerDataManager mockDataManage; // FOR TESTING PURPOSES ONLY
 
 	/** Called when the activity is first created. */
 	@Override
@@ -49,7 +50,13 @@ public class ViewComment extends Activity {
 
 		Log.d("click", "Comment type: " + commentType);
 		questionID = extras.getString(ViewQuestion.QUESTION_ID_KEY);
-
+		
+		/* FOR TESTING PURPOSES ONLY
+		 */
+		mockDataManage = new mockServerDataManager(this);
+		/* END TESTING BLOCK
+		 */
+		
 		switch (commentType) {
 		case 1:
 			comments = pc.getCommentsToQuestion(questionID);
@@ -59,7 +66,7 @@ public class ViewComment extends Activity {
 			comments = pc.getCommentsToAnswer(questionID, answerID);
 			break;
 		}
-
+		
 		instantiateViews();
 		setListeners();
 		setPostDetails();
@@ -186,6 +193,11 @@ public class ViewComment extends Activity {
 						commentBodyList.add(commentBodyString);
 						cla.notifyDataSetChanged();
 						updateCommentCount(); // <-- MIGHT NOT USE THIS
+						
+						/* THIS BLOCK OF CODE IS FOR MOCK SERVER TESTING ONLY
+						 */
+						mockDataManage.mockPushQuestionToServer(pc.getQuestion(questionID));
+						
 					}
 
 				}).setNegativeButton("Cancel",
