@@ -252,10 +252,6 @@ public class MainActivity extends Activity {
 				.show();
 	}
 	
-
-	public AlertDialog getDialog1(){
-		return alertDialog1;
-	}
 	
 	public MainListAdapter getAdapter(){
 		return mla;
