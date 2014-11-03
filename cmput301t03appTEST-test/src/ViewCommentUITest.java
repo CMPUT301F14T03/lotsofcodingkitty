@@ -1,9 +1,15 @@
+
 import java.util.Date;
 
+import android.app.AlertDialog;
+import android.app.Instrumentation;
+import android.app.Instrumentation.ActivityMonitor;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import ca.ualberta.cs.cmput301t03app.Comment;
@@ -18,9 +24,18 @@ import ca.ualberta.cs.cmput301t03app.ViewQuestion;
  * @author Dominik Pachala
  */
 public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComment>{
+	Instrumentation instrumentation;
+	ActivityMonitor monitor;
 
 	public ViewCommentUITest(){
 		super(ViewComment.class);
+	}
+	
+	public void setUp() throws Exception{
+		//just setting up the things for tests
+		super.setUp();
+		this.instrumentation = getInstrumentation();
+		
 	}
 	// The following tests focus when the mode is set to Question comments.
 	// This tests make sure that the view displays the correct
@@ -72,7 +87,7 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 	// Tests if the Comment Count is one.
 	public void testDisplayQuestionCommentCountOne(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
-		String qTitle = "Title";"The comment body is not the same",lv.getItemAtPosition(0).equals("String1")
+		String qTitle = "Title";
 		String qBody = "Body";
 		String qAuthor = "Author";
 		Question q = new Question(qTitle,qBody,qAuthor);
@@ -113,7 +128,8 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		TextView author = 
 				(TextView) vc.findViewById(R.id.comment_post_author);
 		ListView lv = 
-				(ListView)vc.findViewById(R.id.commentListView);
+				(ListView) vc.findViewById(R.id.commentListView);
+
 		Button b =
 				(Button)vc.findViewById(R.id.comment_button);
 		ViewAsserts.assertOnScreen(vc.getWindow().getDecorView(), lv);
@@ -140,9 +156,8 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		
 		setActivityIntent(intent);
 		ViewComment vc = getActivity();
-		
 		ListView lv = 
-				(ListView)vc.findViewById(R.id.commentListView);
+				(ListView) vc.findViewById(R.id.commentListView);
 		
 		assertTrue("The comment body is not the same",lv.getItemAtPosition(0).equals("String"));	
 	}
@@ -167,13 +182,47 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		ViewComment vc = getActivity();
 		
 		ListView lv = 
-				(ListView)vc.findViewById(R.id.commentListView);
+				(ListView) vc.findViewById(R.id.commentListView);
+
 		assertTrue("The comment body is not the same at position 0",lv.getItemAtPosition(0).equals("String"));
 		assertTrue("The comment body is not the same at position 1",lv.getItemAtPosition(1).equals("String1"));	
 	}
+	
 	// This adds a comment to a question and tests to see if it is shown.
+	// Also tests the dialog box.
+	
+	// THIS IS BREAKING NEED SOLVING. CANT GET THE DIALOG TO SHOW AND ADD A COMMENT.
 	public void testCommentIsAddedAndShown(){
+		PostController pc = new PostController(getInstrumentation().getTargetContext());
+		String qTitle = "Title";
+		String qBody = "Body";
+		String qAuthor = "Author";
+		Question q = new Question(qTitle,qBody,qAuthor);
+		pc.addQuestion(q);
 		
+		Intent intent = new Intent();
+		intent.putExtra(ViewQuestion.SET_COMMENT_TYPE,ViewQuestion.COMMENT_ON_QUESTION_KEY);
+		intent.putExtra(ViewQuestion.QUESTION_ID_KEY, q.getId());
+		
+		setActivityIntent(intent);
+		ViewComment vc = getActivity();
+		
+		assertNotNull(((Button) vc.findViewById(R.id.comment_button)));
+//		((Button) vc.findViewById(R.id.comment_button)).performClick();
+//		AlertDialog dialog = vc.getDialog();
+//	    EditText commentBody = (EditText) 
+//				dialog.findViewById(R.id.postBody);
+//		EditText commentAuthor = (EditText) 
+//				dialog.findViewById(R.id.UsernameRespondTextView);
+		 
+//		commentBody.setText("CommentBody");
+//		commentAuthor.setText("CommentAuthor");
+//		dialog.getButton(
+//				DialogInterface.BUTTON_POSITIVE).performClick();
+		ListView lv = 
+				(ListView)vc.findViewById(R.id.commentListView);
+		assertEquals("New comment is not added to ListView", lv.getItemAtPosition(0),"CommentBody");
+		 
 	}
 
 }
