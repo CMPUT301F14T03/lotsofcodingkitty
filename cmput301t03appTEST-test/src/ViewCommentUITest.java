@@ -161,7 +161,7 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		
 		assertTrue("The comment body is not the same",lv.getItemAtPosition(0).equals("String"));	
 	}
-	
+	// Tests if the view shows two comments correctly.
 	public void testCommentBodyIsCorretWithTwoComments(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		String qTitle = "Title";
