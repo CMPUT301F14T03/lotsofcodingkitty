@@ -339,6 +339,7 @@ public class ViewQuestion extends Activity {
 
 	public void increment_upvote() {
 		pc.getQuestion(question_id).upRating();
+		mockDataManage.mockPushQuestionToServer(pc.getQuestion(question_id));
 		TextView upvote_score = (TextView) findViewById(R.id.question_upvote_score);
 		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
 				.getRating()));
@@ -381,6 +382,11 @@ public class ViewQuestion extends Activity {
 	// This on upvotes an answer
 	public void answerUpvote(View v) {
 		Answer answer = (Answer) v.getTag();
+		/* THIS BLOCK IS FOR TEST PURPOSES ONLY
+		 */
+		mockDataManage.mockPushQuestionToServer(pc.getQuestion(question_id));
+		/* END OF TEST BLOCK
+		*/
 		answer.upRating();
 		ala.notifyChange();
 
