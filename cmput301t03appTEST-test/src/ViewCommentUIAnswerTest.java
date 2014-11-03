@@ -1,18 +1,18 @@
 import java.util.Date;
 
-import ca.ualberta.cs.cmput301t03app.Answer;
-import ca.ualberta.cs.cmput301t03app.Comment;
-import ca.ualberta.cs.cmput301t03app.PostController;
-import ca.ualberta.cs.cmput301t03app.Question;
-import ca.ualberta.cs.cmput301t03app.R;
-import ca.ualberta.cs.cmput301t03app.ViewComment;
-import ca.ualberta.cs.cmput301t03app.ViewQuestion;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 import android.widget.TextView;
+import ca.ualberta.cs.cmput301t03app.R;
+import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.models.Answer;
+import ca.ualberta.cs.cmput301t03app.models.Comment;
+import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.views.ViewComment;
+import ca.ualberta.cs.cmput301t03app.views.ViewQuestion;
 
 // This tests the Answer mode in View comment.
 

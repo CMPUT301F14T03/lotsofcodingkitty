@@ -1,25 +1,22 @@
 import java.util.ArrayList;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import ca.ualberta.cs.cmput301t03app.Answer;
-import ca.ualberta.cs.cmput301t03app.AnswerListAdapter;
-import ca.ualberta.cs.cmput301t03app.Comment;
-import ca.ualberta.cs.cmput301t03app.PostController;
-import ca.ualberta.cs.cmput301t03app.Question;
 import ca.ualberta.cs.cmput301t03app.R;
-import ca.ualberta.cs.cmput301t03app.ViewQuestion;
+import ca.ualberta.cs.cmput301t03app.adapters.AnswerListAdapter;
+import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.models.Answer;
+import ca.ualberta.cs.cmput301t03app.models.Comment;
+import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.views.ViewQuestion;
 
 /**
  * 
