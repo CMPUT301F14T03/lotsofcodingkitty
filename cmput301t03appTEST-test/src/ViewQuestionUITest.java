@@ -19,7 +19,7 @@ import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.views.ViewQuestion;
 
 /**
- * 
+ * This test unit is used for testing the View Questions view and all the functionalities within it.
  * @author tbrockma
  * 
  */
@@ -42,6 +42,19 @@ public class ViewQuestionUITest extends
 	/**
 	 * Tests that all the objects that should exist in the view do exist in the
 	 * view
+	 * 
+	 * Part of UC2: View Question details
+	 * Part of UC3: View answers
+	 * Part of UC5: View number of answers to a question
+	 * Part of UC6: Upvote questions
+	 * Part of UC7: Upvote answers
+	 * Part of UC12: Post answers
+	 * Part of UC13: Comment on a question
+	 * Part of UC14: Comment on an answer
+	 * Part of UC15: Mark questions as favorite
+	 * Part of UC16: Save favorited questions to local drive
+	 * Part of UC17: Set user name
+	 * 
 	 */
 
 	public void testViewObjectsExist()
@@ -111,6 +124,8 @@ public class ViewQuestionUITest extends
 	/**
 	 * Adds an answers to a question, tests that the objects in the view change
 	 * properly
+	 * 
+	 * Part of UC12: Post answers
 	 */
 
 	public void testAddAnswer()
@@ -224,6 +239,9 @@ public class ViewQuestionUITest extends
 
 	/**
 	 * Tests the questions upvote button
+	 * 
+	 * Part of UC6: Upvote questions
+	 * 
 	 */
 
 	public void testViewQuestionUIQuestionUpvote() {
@@ -270,6 +288,9 @@ public class ViewQuestionUITest extends
 
 	/**
 	 * Tests the answer upvote button in the view
+	 * 
+	 * Part of UC7: Upvote answers
+	 * 
 	 */
 
 	public void testViewQuestionUIAnswerUpvote()
@@ -406,6 +427,10 @@ public class ViewQuestionUITest extends
 
 	/**
 	 * Tests favoriting a question
+	 * 
+	 * Part of UC15: Mark questions as favorite
+	 * Part of UC16: Save favorited questions to local drive
+	 * 
 	 */
 
 	public void testFavoriteAQuestion()
@@ -523,6 +548,9 @@ public class ViewQuestionUITest extends
 
 	/**
 	 * Tests the answer counter
+	 * 
+	 * Part of UC5: View number of answers to a question
+	 * 
 	 */
 
 	public void testAnswerCounter()
