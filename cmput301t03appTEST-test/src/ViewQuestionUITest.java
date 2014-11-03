@@ -43,17 +43,6 @@ public class ViewQuestionUITest extends
 	}
 
 	/**
-	 * Setup creates the activity with a question object that has no answers
-	 */
-
-	protected void setUp() throws Exception
-	{
-
-		super.setUp();
-
-	}
-
-	/**
 	 * Tests that all the objects that should exist in the view do exist in the
 	 * view
 	 */
