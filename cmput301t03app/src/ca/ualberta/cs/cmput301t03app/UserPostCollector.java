@@ -17,12 +17,12 @@ public class UserPostCollector {
 //	private LocalDataManager localDataManager;
 
 	public UserPostCollector() {
-		questionBank = new ArrayList<Question>();
-		favoriteQuestions = new ArrayList<String>();
-		readQuestions = new ArrayList<String>();
-		toReadQuestions = new ArrayList<String>();
-		postedQuestions = new ArrayList<String>();
-		postedAnswers = new ArrayList<String>();
+		questionBank = null;
+		favoriteQuestions = null;
+		readQuestions = null;
+		toReadQuestions = null;
+		postedQuestions = null;
+		postedAnswers = null;
 	}
 
 	// This is a constructor that is used when the UPC is created using the LocalDataManagers loading methods

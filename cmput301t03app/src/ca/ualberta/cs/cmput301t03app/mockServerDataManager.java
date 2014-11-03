@@ -27,5 +27,9 @@ public class mockServerDataManager {
 		 mockServerList.add(q);
 		 mockServer.acceptPush(mockServerList);
 	}
+	
+	public void mockUpdateList(ArrayList<Question> qList) {
+		mockServer.acceptPush(qList);
+	}
 
 }

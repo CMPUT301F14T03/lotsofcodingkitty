@@ -21,7 +21,7 @@ public class Answer {
 	private int rating;
 	
 	
-	public Answer(String answer, String author,String parentID){
+	public Answer(String answer, String author, String parentID){
 		this.id = UUID.randomUUID().toString();
 		this.date = new Date();
 		this.answer = answer;
