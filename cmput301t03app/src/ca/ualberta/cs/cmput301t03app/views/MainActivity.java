@@ -8,15 +8,11 @@ package ca.ualberta.cs.cmput301t03app.views;
 
 import java.util.ArrayList;
 import ca.ualberta.cs.cmput301t03app.R;
-import ca.ualberta.cs.cmput301t03app.R.id;
-import ca.ualberta.cs.cmput301t03app.R.layout;
-import ca.ualberta.cs.cmput301t03app.R.menu;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.mockserver.mockServer;
 import ca.ualberta.cs.cmput301t03app.mockserver.mockServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Question;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -133,6 +129,7 @@ public class MainActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void addQuestionButtonFunction(View view) {
 		// Pops up dialog box for adding a question
 		LayoutInflater li = LayoutInflater.from(this);
@@ -186,7 +183,7 @@ public class MainActivity extends Activity {
 		final AlertDialog alertDialog = alertDialogBuilder.create();
 		alertDialog1 = alertDialog;
 		alertDialog.show();
-		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
+		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);		
 		
 
 		TextWatcher textwatcher = new TextWatcher(){		
@@ -216,7 +213,7 @@ public class MainActivity extends Activity {
 				//do nothing
 			}
 			@Override
-			public void onTextChanged(CharSequence s, int start,
+			public void onTextChanged(CharSequence s, int start,		
 					int before, int count) {
 				//do nothing
 			}
