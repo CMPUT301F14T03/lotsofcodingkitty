@@ -287,14 +287,15 @@ public class PostController{
 		upc.initPostedQuestionID(getContext());  // I need to load the lists if they haven't been loaded yet.
 		upc.initQuestionBank(getContext());
 		LocalDataManager local = new LocalDataManager(getContext());
-		ArrayList<String> idList = upc.getPostedQuestions();
-		String id = q.getId();
 		
-		if (!idList.contains(id)) {
-			idList.add(id);
-			local.savePostedQuestionsID(idList);
-			checkExistanceOfQuestion(q, local);
-		}
+		ArrayList<String> idList = upc.getPostedQuestions();
+		ArrayList<Question> qList = upc.getQuestionBank();
+		
+		String id = q.getId();
+		idList.add(id);
+		qList.add(q);
+		local.savePostedQuestionsID(idList);
+		local.saveToQuestionBank(qList);
 	}
 	
 	/*
