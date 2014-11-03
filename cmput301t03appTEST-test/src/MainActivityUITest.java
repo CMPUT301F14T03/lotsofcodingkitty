@@ -2,8 +2,8 @@
 
 import ca.ualberta.cs.cmput301t03app.MainActivity;
 import ca.ualberta.cs.cmput301t03app.MainListAdapter;
-import ca.ualberta.cs.cmput301t03app.PostController;
 import ca.ualberta.cs.cmput301t03app.R;
+import ca.ualberta.cs.cmput301t03app.ViewQuestion;
 import android.app.AlertDialog;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
@@ -23,7 +23,7 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	Instrumentation instrumentation;
 	MainActivity activity;
 	ListView listview;
-	ActivityMonitor monitor;
+	ActivityMonitor monitor;	//this monitors any newly opened activities
 	
 	
 	public MainActivityUITest() {
@@ -103,8 +103,29 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 		//int newSize = pc.getToReadQuestions().size();
 		//assertEquals("added to read question", oldSize+1, newSize);
 	}*/
+	public void testEmptyServer(){
+		//TODO: create test to see if empty server is being dealt with correctly
+	}
+	public void testzQuestionDetailClick(){
+		
+		//this tests that if you click on an item a new activity opens up that is ViewQuestion activiy
+		 ActivityMonitor activityMonitor = getInstrumentation().addMonitor(ViewQuestion.class.getName(), null, false);
+		assertNotNull(listview);
+		getInstrumentation().runOnMainSync(new Runnable(){	//clicking on an item automatically
+			@Override
+			public void run() {
+				listview.performItemClick(listview.getAdapter().getView(1,null,null),
+						1, listview.getAdapter().getItemId(1));		//clicking on second item on list
+			}
+			});
+	instrumentation.waitForIdleSync();
+	  ViewQuestion newActivity = (ViewQuestion) instrumentation.waitForMonitorWithTimeout(activityMonitor, 5);
+	  assertNotNull(newActivity);	//check that new activity has been opened
+	  newActivity.finish();	//close activity
+	  //viewActivityUItest should be testing that the intent that has been passed to this new activity is correct
+		
+	}
 	
-
 	
 	
 }
