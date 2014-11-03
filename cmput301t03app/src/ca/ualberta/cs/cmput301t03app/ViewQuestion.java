@@ -45,6 +45,9 @@ public class ViewQuestion extends Activity {
 	String question_id;
 	TextView answerCounter;
 	TextView commentCounter;
+	mockServerDataManager mockDataManage;
+	
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,12 @@ public class ViewQuestion extends Activity {
 
 		// updates comments counter
 		updateCommentCount();
+		
+		/* THIS BLOCK OF CODE IS FOR TESTING PURPOSES ONLY
+		 */
+		mockDataManage = new mockServerDataManager(this);
+		/* END OF TEST BLOCK
+		 */
 	}
 
 	@Override
@@ -114,10 +123,10 @@ public class ViewQuestion extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				pc.addFavoriteQuestion(pc.getQuestion(question_id));
-				
-				Log.d("click", "is fav? : " + pc.isQuestionInFavByID(question_id));
+				favIcon.setImageResource(R.drawable.ic_fav_yes);
 				//favIcon.setImageResource(R.drawable.ic_fav_yes);
 				setFavoriteIcon();
+
 			}
 		});
 
@@ -258,6 +267,13 @@ public class ViewQuestion extends Activity {
 
 						ala.updateAdapter(answerList);
 						updateAnswerCount();
+						
+						/* THIS BLOCK OF CODE IS FOR TESTING PURPOSES ONLY
+						 */
+						mockDataManage.mockPushQuestionToServer(pc.getQuestion(question_id));
+						/* END OF TESTING BLOCK
+						 */
+						
 					}
 
 				}).setNegativeButton("Cancel",
@@ -317,7 +333,7 @@ public class ViewQuestion extends Activity {
 	}
 
 	public void setFavorited() {
-		(pc.getUPC()).addFavoriteQuestion(question_id);
+		pc.addFavoriteQuestion(pc.getQuestion(question_id));
 		// Log.d("click", "Favs: " + upc.getFavoriteQuestions());
 	}
 
