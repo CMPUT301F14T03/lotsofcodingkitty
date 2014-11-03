@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.Light" >
         <activity
-            android:name="ca.ualberta.cs.cmput301t03app.MainActivity"
+            android:name="ca.ualberta.cs.cmput301t03app.views.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,23 +23,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="ca.ualberta.cs.cmput301t03app.LoginActivity"
+            android:name="ca.ualberta.cs.cmput301t03app.incomplete.LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name="ca.ualberta.cs.cmput301t03app.ViewQuestion"
+            android:name="ca.ualberta.cs.cmput301t03app.views.ViewQuestion"
             android:label="@string/title_activity_view_question" >
         </activity>
         <activity
-            android:name="ca.ualberta.cs.cmput301t03app.DisplayPicture"
+            android:name="ca.ualberta.cs.cmput301t03app.incomplete.DisplayPicture"
             android:label="@string/title_activity_display_picture" >
         </activity>
-        <activity android:name="ca.ualberta.cs.cmput301t03app.ViewComment" >
+        <activity android:name="ca.ualberta.cs.cmput301t03app.views.ViewComment" >
         </activity>
-        <activity android:name="ca.ualberta.cs.cmput301t03app.UserHome" >
+        <activity android:name="ca.ualberta.cs.cmput301t03app.views.UserHome" >
         </activity>
         <activity
-            android:name="ca.ualberta.cs.cmput301t03app.UserListsActivity"
+            android:name="ca.ualberta.cs.cmput301t03app.views.UserListsActivity"
             android:label="@string/title_activity_user_lists" >
         </activity>
     </application>

@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
-import ca.ualberta.cs.cmput301t03app.MainActivity;
-import ca.ualberta.cs.cmput301t03app.PostController;
-import ca.ualberta.cs.cmput301t03app.Question;
-import ca.ualberta.cs.cmput301t03app.ServerDataManager;
-import ca.ualberta.cs.cmput301t03app.UserPostCollector;
-import ca.ualberta.cs.cmput301t03app.iDataManager;
+import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.controllers.UserPostCollector;
+import ca.ualberta.cs.cmput301t03app.incomplete.ServerDataManager;
+import ca.ualberta.cs.cmput301t03app.interfaces.iDataManager;
+import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 
 /**
  * Tests all saving and loading methods in both the LocalDataManager

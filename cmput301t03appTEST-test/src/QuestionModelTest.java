@@ -1,8 +1,8 @@
 import android.test.ActivityInstrumentationTestCase2;
-import ca.ualberta.cs.cmput301t03app.Answer;
-import ca.ualberta.cs.cmput301t03app.Comment;
-import ca.ualberta.cs.cmput301t03app.MainActivity;
-import ca.ualberta.cs.cmput301t03app.Question;
+import ca.ualberta.cs.cmput301t03app.models.Answer;
+import ca.ualberta.cs.cmput301t03app.models.Comment;
+import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 
 /** 
  * This test suite is used to test the functionality of the Question model

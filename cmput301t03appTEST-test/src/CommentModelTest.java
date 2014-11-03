@@ -1,5 +1,5 @@
-import ca.ualberta.cs.cmput301t03app.Comment;
-import ca.ualberta.cs.cmput301t03app.MainActivity;
+import ca.ualberta.cs.cmput301t03app.models.Comment;
+import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 import android.test.ActivityInstrumentationTestCase2;
 
 /**
