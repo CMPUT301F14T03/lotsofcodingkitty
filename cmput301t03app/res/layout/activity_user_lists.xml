@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 	android:background="#cccccc"
-    tools:context="ca.ualberta.cs.cmput301t03app.MainActivity" >
+    tools:context="ca.ualberta.cs.cmput301t03app.views.MainActivity" >
 
     <TextView
         android:id="@+id/user_list_title"

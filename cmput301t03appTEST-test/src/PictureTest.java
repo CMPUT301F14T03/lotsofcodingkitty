@@ -1,9 +1,9 @@
 import java.io.File;
 
 import android.test.ActivityInstrumentationTestCase2;
-import ca.ualberta.cs.cmput301t03app.Answer;
-import ca.ualberta.cs.cmput301t03app.MainActivity;
-import ca.ualberta.cs.cmput301t03app.Question;
+import ca.ualberta.cs.cmput301t03app.models.Answer;
+import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 
 
 public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> {

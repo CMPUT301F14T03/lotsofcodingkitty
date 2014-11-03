@@ -1,6 +1,6 @@
 import android.test.ActivityInstrumentationTestCase2;
-import ca.ualberta.cs.cmput301t03app.MainActivity;
-import ca.ualberta.cs.cmput301t03app.PostController;
+import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 
 
 public class SetAuthorNameTest extends ActivityInstrumentationTestCase2<MainActivity> {

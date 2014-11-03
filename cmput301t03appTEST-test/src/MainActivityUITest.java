@@ -1,9 +1,9 @@
 /*this test tests our main activity UI functionality*/
 
-import ca.ualberta.cs.cmput301t03app.MainActivity;
-import ca.ualberta.cs.cmput301t03app.MainListAdapter;
 import ca.ualberta.cs.cmput301t03app.R;
-import ca.ualberta.cs.cmput301t03app.ViewQuestion;
+import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
+import ca.ualberta.cs.cmput301t03app.views.MainActivity;
+import ca.ualberta.cs.cmput301t03app.views.ViewQuestion;
 import android.app.AlertDialog;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
