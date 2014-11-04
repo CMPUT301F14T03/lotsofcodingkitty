@@ -34,9 +34,11 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		this.instrumentation = getInstrumentation();
 		
 	}
-	// The following tests focus when the mode is set to Question comments.
-	// This tests make sure that the view displays the correct
-	// information from a question. Checks the Title,Date,Author.
+	
+	/** The following tests focus when the mode is set to Question comments.
+	* This tests make sure that the view displays the correct
+	* information from a question. Checks the Title,Date,Author.
+	*/
 	public void testDisplayQuestionInfo(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		String qTitle = "Title";
@@ -103,7 +105,10 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		assertTrue("Comment count is not 1.",cc.getText().equals("Comments: 1"));
 	}
 	
-	// This test sees if the items are on screen.
+	/** This test sees if the items are on screen.
+	 * 
+	 * Part of UC13: Comment on a question
+	 */
 	
 	public void testView(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
@@ -185,10 +190,14 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		assertTrue("The comment body is not the same at position 1",lv.getItemAtPosition(1).equals("String1"));	
 	}
 	
-	// This adds a comment to a question and tests to see if it is shown.
-	// Also tests the dialog box.
-	
-	// THIS IS BREAKING NEED SOLVING. CANT GET THE DIALOG TO SHOW AND ADD A COMMENT.
+	/** This adds a comment to a question and tests to see if it is shown.
+	* 
+	* Also tests the dialog box.
+	* 
+	* Part of UC13: Comment on a question.
+	* 
+	* THIS IS BREAKING NEED SOLVING. CANT GET THE DIALOG TO SHOW AND ADD A COMMENT.
+	*/
 	public void testCommentIsAddedAndShown(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		String qTitle = "Title";
