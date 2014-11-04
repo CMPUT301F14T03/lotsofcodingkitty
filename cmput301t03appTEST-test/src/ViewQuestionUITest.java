@@ -1,9 +1,13 @@
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.UiThreadTest;
 import android.test.ViewAsserts;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -28,7 +32,10 @@ public class ViewQuestionUITest extends
 		ActivityInstrumentationTestCase2<ViewQuestion>
 {
 
+	private static final String TAG = "1234";
 	ViewQuestion activity;
+	PostController pc;
+	ArrayList<Answer> answers;
 	Question q;
 	String qId;
 
@@ -38,6 +45,27 @@ public class ViewQuestionUITest extends
 		super(ViewQuestion.class);
 		// TODO Auto-generated constructor stub
 	}
+	
+    @Override
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+		PostController pc = new PostController(getInstrumentation()
+				.getContext());
+		q = new Question("Test subject", "Body", "Author");
+		qId = q.getId();
+		pc.addQuestion(q);
+		Comment comment = new Comment("Test", "test");
+		q.addComment(comment);
+		Answer a = new Answer("test", "test", qId);
+		answers = new ArrayList<Answer>();
+		answers.add(a);
+		Intent intent = new Intent();
+		intent.putExtra("question_id", qId);
+		setActivityIntent(intent);
+		activity = (ViewQuestion) getActivity();
+        
+    }
 
 	/**
 	 * Tests that all the objects that should exist in the view do exist in the
@@ -59,17 +87,6 @@ public class ViewQuestionUITest extends
 
 	public void testViewObjectsExist()
 	{
-
-		PostController pc = new PostController(getInstrumentation()
-				.getContext());
-		q = new Question("Test subject", "Body", "Author");
-		qId = q.getId();
-		pc.addQuestion(q);
-		Intent intent = new Intent();
-		intent.putExtra("question_id", qId);
-		setActivityIntent(intent);
-		activity = (ViewQuestion) getActivity();
-
 		ListView answerListView;
 		ImageButton favIcon;
 		ImageButton upvoteButton;
@@ -127,114 +144,82 @@ public class ViewQuestionUITest extends
 	 * 
 	 * Part of UC12: Post answers
 	 */
-
+	
+	@UiThreadTest
 	public void testAddAnswer()
 	{
-		PostController pc = new PostController(getInstrumentation()
-				.getContext());
-		q = new Question("Test subject", "Body", "Author");
-		qId = q.getId();
-		pc.addQuestion(q);
-		Intent intent = new Intent();
-		intent.putExtra("question_id", qId);
-		setActivityIntent(intent);
-		final ViewQuestion activity = (ViewQuestion) getActivity();
+		ListView answerListView = (ListView) activity
+				.findViewById(R.id.answerListView);
+		AnswerListAdapter ala = (AnswerListAdapter) answerListView
+				.getAdapter();
+		
+		ala.updateAdapter(answers);
+		activity.updateAnswerCount();
 
-		try {
-			runTestOnUiThread(new Runnable() {
+		// Assert that the added answer exists
 
-				@Override
-				public void run() {
+		assertEquals("Answer not added correctly to adapter", 1, ala.getCount());
 
-					ListView answerListView = (ListView) activity
-							.findViewById(R.id.answerListView);
-					AnswerListAdapter ala = (AnswerListAdapter) answerListView
-							.getAdapter();
-					ArrayList<Answer> answers = new ArrayList<Answer>();
-					Answer answer = new Answer("test", "test", qId);
-					answers.add(answer);
-					ala.updateAdapter(answers);
-					activity.updateAnswerCount();
+		// Assert that the item and the listview is on screen
 
-					// Assert that the added answer exists
+		View mainView = (View) activity.getWindow().getDecorView()
+				.findViewById(android.R.id.content);
 
-					assertNotNull("Answer not added correctly to adapter",
-							ala.getItem(0));
+		ViewAsserts.assertOnScreen(mainView, answerListView);
 
-					// Assert that the item and the listview is on screen
+		View answerItem = (View) answerListView.getChildAt(answerListView
+				.getFirstVisiblePosition());
 
-					View mainView = (View) activity.getWindow().getDecorView()
-							.findViewById(android.R.id.content);
+		// Assert that the view is not null
 
-					ViewAsserts.assertOnScreen(mainView, answerListView);
+		assertNotNull("Answer does not exist in listview", answerItem);
 
-					View answerItem = (View) answerListView
-							.getChildAt(answerListView
-									.getFirstVisiblePosition());
+		// Assert that the view is in the main window
 
-					// Assert that the view is not null
+		ViewAsserts.assertOnScreen(mainView, answerItem);
 
-					assertNotNull("Answer does not exist in listview",
-							answerItem);
+		// Assert that all of the items in the view are in the main
+		// window
 
-					// Assert that the view is in the main window
+		ImageButton answer_upvote_button = (ImageButton) answerItem
+				.findViewById(R.id.answer_upvote_button);
+		TextView answer_upvote_score = (TextView) answerItem
+				.findViewById(R.id.answer_upvote_score);
+		ImageView answer_fav_icon = (ImageView) answerItem
+				.findViewById(R.id.answer_fav_icon);
+		TextView answer_text_body = (TextView) answerItem
+				.findViewById(R.id.answer_text_body);
+		TextView post_timestamp = (TextView) answerItem
+				.findViewById(R.id.post_timestamp);
+		TextView answer_author = (TextView) answerItem
+				.findViewById(R.id.answer_author);
 
-					ViewAsserts.assertOnScreen(mainView, answerItem);
+		ViewAsserts.assertOnScreen(mainView, answer_upvote_button);
+		ViewAsserts.assertOnScreen(mainView, answer_upvote_score);
+		ViewAsserts.assertOnScreen(mainView, answer_fav_icon);
+		ViewAsserts.assertOnScreen(mainView, answer_text_body);
+		ViewAsserts.assertOnScreen(mainView, post_timestamp);
+		ViewAsserts.assertOnScreen(mainView, answer_author);
 
-					// Assert that all of the items in the view are in the main
-					// window
-
-					ImageButton answer_upvote_button = (ImageButton) answerItem
-							.findViewById(R.id.answer_upvote_button);
-					TextView answer_upvote_score = (TextView) answerItem
-							.findViewById(R.id.answer_upvote_score);
-					ImageView answer_fav_icon = (ImageView) answerItem
-							.findViewById(R.id.answer_fav_icon);
-					TextView answer_text_body = (TextView) answerItem
-							.findViewById(R.id.answer_text_body);
-					TextView post_timestamp = (TextView) answerItem
-							.findViewById(R.id.post_timestamp);
-					TextView answer_author = (TextView) answerItem
-							.findViewById(R.id.answer_author);
-
-					ViewAsserts.assertOnScreen(mainView, answer_upvote_button);
-					ViewAsserts.assertOnScreen(mainView, answer_upvote_score);
-					ViewAsserts.assertOnScreen(mainView, answer_fav_icon);
-					ViewAsserts.assertOnScreen(mainView, answer_text_body);
-					ViewAsserts.assertOnScreen(mainView, post_timestamp);
-					ViewAsserts.assertOnScreen(mainView, answer_author);
-
-					// Assert that the answer count is equal to one
-
-					TextView answerCounter = (TextView) activity
-							.findViewById(R.id.answer_count);
-					// assertTrue(
-					// "Answer count not displaying one",
-					// ((String)answerCounter.getText()).equals("Answers: 1"));
-
-					// Answer adding stress test
-
-					for (int i = 0; i < 100; i++) {
-						Answer a = new Answer("test", "test", qId);
-						answers.add(a);
-						ala.updateAdapter(answers);
-						activity.updateAnswerCount();
-					}
-
-				}
-			});
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		getInstrumentation().waitForIdleSync();
+		// Assert that the answer count is equal to one
 
 		TextView answerCounter = (TextView) activity
 				.findViewById(R.id.answer_count);
+		assertTrue("Answer count not displaying one",
+				((String) answerCounter.getText()).equals("Answers: 1"));
 
-		// assertTrue("Answer count not correct",
-		// ((String)(answerCounter.getText())).equals("Answers: 101"));
+		// Answer adding stress test
+
+		for (int i = 0; i < 100; i++) {
+			Answer a = new Answer("test", "test", qId);
+			answers.add(a);
+			ala.updateAdapter(answers);
+			activity.updateAnswerCount();
+		}
+
+		Log.e(TAG, (String) answerCounter.getText());
+		assertTrue("Answer count not correct",
+				((String) (answerCounter.getText())).equals("Answers: 101"));
 	}
 
 	/**
@@ -243,47 +228,22 @@ public class ViewQuestionUITest extends
 	 * Part of UC6: Upvote questions
 	 * 
 	 */
-
+	
+	@UiThreadTest
 	public void testViewQuestionUIQuestionUpvote() {
+		ImageView upvote = (ImageView) activity
+				.findViewById(R.id.question_upvote_button);
+		upvote.performClick();
 
-		PostController pc = new PostController(getInstrumentation()
-				.getContext());
-		q = new Question("Test subject", "Body", "Author");
-		qId = q.getId();
-		pc.addQuestion(q);
-		Intent intent = new Intent();
-		intent.putExtra("question_id", qId);
-		setActivityIntent(intent);
-		final ViewQuestion activity = (ViewQuestion) getActivity();
-		try {
-			runTestOnUiThread(new Runnable() {
+		// Asserts that upvote clicks are correctly changing the
+		// questions rating
 
-				@Override
-				public void run()
-				{
-
-					ImageView upvote = (ImageView) activity
-							.findViewById(R.id.question_upvote_button);
-					upvote.performClick();
-
-					// Asserts that upvote clicks are correctly changing the
-					// questions rating
-
-					assertTrue("Question upvote not incrementing score",
-							q.getRating() == 1);
-					for (int i = 0; i < 1000; i++)
-					{
-						upvote.performClick();
-					}
-					assertTrue("Upvoting question 1000 times not working",
-							q.getRating() == 1001);
-				}
-			});
-		} catch (Throwable e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		assertTrue("Question upvote not incrementing score", q.getRating() == 1);
+		for (int i = 0; i < 1000; i++) {
+			upvote.performClick();
 		}
+		assertTrue("Upvoting question 1000 times not working",
+				q.getRating() == 1001);
 	}
 
 	/**
@@ -293,56 +253,30 @@ public class ViewQuestionUITest extends
 	 * 
 	 */
 
+	
+	@UiThreadTest
 	public void testViewQuestionUIAnswerUpvote()
 	{
-
-		PostController pc = new PostController(getInstrumentation()
-				.getContext());
-		q = new Question("Test subject", "Body", "Author");
-		qId = q.getId();
-		pc.addQuestion(q);
-		final Answer answer = new Answer("test", "test", qId);
+		Answer answer = new Answer("test", "test", qId);
 		pc.addAnswer(answer, qId);
-		Intent intent = new Intent();
-		intent.putExtra("question_id", qId);
-		setActivityIntent(intent);
-		final ViewQuestion activity = (ViewQuestion) getActivity();
-		try
-		{
-			runTestOnUiThread(new Runnable()
-			{
+		ListView answerListView = (ListView) activity
+				.findViewById(R.id.answerListView);
+		View answerItem = (View) answerListView.getChildAt(answerListView
+				.getFirstVisiblePosition());
+		ImageView upvote = (ImageView) answerItem
+				.findViewById(R.id.answer_upvote_button);
+		upvote.performClick();
 
-				@Override
-				public void run()
-				{
+		// Asserts that answer upvote clicks are correctly changing
+		// the answers rating
 
-					ListView answerListView = (ListView) activity
-							.findViewById(R.id.answerListView);
-					View answerItem = (View) answerListView
-							.getChildAt(answerListView
-									.getFirstVisiblePosition());
-					ImageView upvote = (ImageView) answerItem
-							.findViewById(R.id.answer_upvote_button);
-					upvote.performClick();
-
-					// Asserts that answer upvote clicks are correctly changing
-					// the answers rating
-
-					assertTrue("Answer upvote not incrementing score",
-							answer.getRating() == 1);
-					for (int i = 0; i < 1000; i++)
-					{
-						upvote.performClick();
-					}
-					assertTrue("Upvoting answer 1000 times not working",
-							answer.getRating() == 1001);
-				}
-			});
-		} catch (Throwable e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		assertTrue("Answer upvote not incrementing score",
+				answer.getRating() == 1);
+		for (int i = 0; i < 1000; i++) {
+			upvote.performClick();
 		}
+		assertTrue("Upvoting answer 1000 times not working",
+				answer.getRating() == 1001);
 	}
 
 	/**
@@ -433,54 +367,34 @@ public class ViewQuestionUITest extends
 	 * 
 	 */
 
+	
+	@UiThreadTest
 	public void testFavoriteAQuestion()
 	{
+		Drawable icon;
+		Drawable favUnfilled = activity.getResources().getDrawable(
+				R.drawable.ic_fav_no);
+		Drawable favFilled = activity.getResources().getDrawable(
+				R.drawable.ic_fav_yes);
+		ImageView favIcon = (ImageView) activity
+				.findViewById(R.id.question_fav_icon);
 
-		PostController pc = new PostController(getInstrumentation()
-				.getContext());
-		q = new Question("Test subject", "Body", "Author");
-		qId = q.getId();
-		pc.addQuestion(q);
-		Intent intent = new Intent();
-		intent.putExtra("question_id", qId);
-		setActivityIntent(intent);
-		final ViewQuestion activity = (ViewQuestion) getActivity();
-		try
-		{
-			runTestOnUiThread(new Runnable()
-			{
+		// Assert the questions favourite icon is unfilled
 
-				@Override
-				public void run()
-				{
+		icon = favIcon.getDrawable();
+		
+		Bitmap unfil = ((BitmapDrawable)favUnfilled).getBitmap();
+		Bitmap fill = ((BitmapDrawable)favFilled).getBitmap();
+		Bitmap ic = ((BitmapDrawable)icon).getBitmap();
+		assertEquals("Favorite icon not unfilled", unfil, ic);
 
-					Drawable icon;
-					Drawable favUnfilled = activity.getResources().getDrawable(
-							R.drawable.ic_fav_no);
-					Drawable favFilled = activity.getResources().getDrawable(
-							R.drawable.ic_fav_yes);
-					ImageView favIcon = (ImageView) activity
-							.findViewById(R.id.question_fav_icon);
+		favIcon.performClick();
 
-					// Assert the questions favourite icon is unfilled
+		ic = ((BitmapDrawable)(favIcon.getDrawable())).getBitmap();
 
-					icon = favIcon.getDrawable();
-					assertEquals("Icon not unfilled", icon, favUnfilled);
+		// Assert that the icon is now filled in icon
 
-					favIcon.performClick();
-					icon = favIcon.getDrawable();
-
-					// Assert that the icon is now filled in icon
-
-					assertEquals("Icon not filled", icon, favFilled);
-
-				}
-			});
-		} catch (Throwable e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		assertEquals("Icon not filled", ic, fill);
 
 		// Assert that the question is now in the favorites list
 
@@ -492,20 +406,9 @@ public class ViewQuestionUITest extends
 	 * Tests the comment counter
 	 */
 
+	@UiThreadTest
 	public void testCommentCounter()
-	{
-
-		PostController pc = new PostController(getInstrumentation()
-				.getContext());
-		Comment comment = new Comment("Test", "test");
-		q = new Question("Test subject", "Body", "Author");
-		q.addComment(comment);
-		qId = q.getId();
-		pc.addQuestion(q);
-		Intent intent = new Intent();
-		intent.putExtra("question_id", qId);
-		setActivityIntent(intent);
-		final ViewQuestion activity = (ViewQuestion) getActivity();
+ {
 		TextView commentCounter = (TextView) activity
 				.findViewById(R.id.question_comment_count);
 
@@ -513,36 +416,18 @@ public class ViewQuestionUITest extends
 		// comment count
 		assertEquals("Not correctly initializing comment count",
 				(String) (commentCounter.getText()), "1");
+		TextView newCount;
+		for (int i = 1; i < 100; i++) {
+			q.addComment(new Comment("this", "this"));
+			activity.updateCommentCount();
+			newCount = (TextView) activity
+					.findViewById(R.id.question_comment_count);
 
-		try
-		{
-			runTestOnUiThread(new Runnable(){
+			// Checks that the count updates properly for many
+			// comments added
 
-				@Override
-				public void run()
-				{
-
-					TextView newCount;
-					for (int i = 0; i < 100; i++)
-					{
-						q.addComment(new Comment("this", "this"));
-						activity.updateCommentCount();
-						newCount = (TextView) activity
-								.findViewById(R.id.question_comment_count);
-
-						// Checks that the count updates properly for many
-						// comments added
-
-						assertEquals("Not displaying correct comment cont",
-								(String) (newCount.getText()),
-								String.valueOf(i + 1));
-					}
-				}
-			});
-		} catch (Throwable e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			assertEquals("Not displaying correct comment cont",
+					(String) (newCount.getText()), String.valueOf(i + 1));
 		}
 	}
 
@@ -553,48 +438,20 @@ public class ViewQuestionUITest extends
 	 * 
 	 */
 
-	public void testAnswerCounter()
-	{
+	@UiThreadTest
+	public void testAnswerCounter() {
 
-		PostController pc = new PostController(getInstrumentation()
-				.getContext());
-		q = new Question("Test subject", "Body", "Author");
-		qId = q.getId();
-		pc.addQuestion(q);
-		Intent intent = new Intent();
-		intent.putExtra("question_id", qId);
-		setActivityIntent(intent);
+		TextView newCount;
+		for (int i = 0; i < 100; i++) {
+			q.addAnswer(new Answer("this", "this", "1"));
+			activity.updateAnswerCount();
+			newCount = (TextView) activity.findViewById(R.id.answer_count);
 
-		try
-		{
-			activity.runOnUiThread(new Runnable()
-			{
+			// Checks that the count updates properly for many
+			// comments added
 
-				@Override
-				public void run()
-				{
-					TextView newCount;
-					for (int i = 0; i < 100; i++)
-					{
-						q.addAnswer(new Answer("this", "this", "1"));
-						activity.updateAnswerCount();
-						newCount = (TextView) activity
-								.findViewById(R.id.answer_count);
-
-						// Checks that the count updates properly for many
-						// comments added
-
-						assertEquals(
-								"Answer counter not displaying correct count",
-								(String) (newCount.getText()),
-								"abcd");
-					}
-				}
-			});
-		} catch (Throwable e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			assertEquals("Answer counter not displaying correct count",
+					"Answers: " + String.valueOf(i + 1), (String) (newCount.getText()));
 		}
 	}
 }
