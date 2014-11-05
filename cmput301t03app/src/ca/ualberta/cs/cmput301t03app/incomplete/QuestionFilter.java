@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 
 public class QuestionFilter {
@@ -22,6 +23,12 @@ public class QuestionFilter {
 		Collections.sort(subQuestions,new picComparator());
 		return subQuestions;
 	}
+	
+	public ArrayList<Answer> sortByScore(ArrayList<Answer> subAnswers){
+		Collections.sort(subAnswers, new ansUpvoteComparator());
+		return subAnswers;
+	}
+	
 }
 
 class upvoteComparator implements Comparator<Question> {
@@ -31,6 +38,21 @@ class upvoteComparator implements Comparator<Question> {
             return 1;
         } 
         else if (q1.getRating() > q2.getRating()) {
+            return -1;
+        }
+        else {
+        	return 0;
+        }
+    }
+}
+
+class ansUpvoteComparator implements Comparator<Answer> {
+	@Override
+    public int compare(Answer a1, Answer a2) {
+        if(a1.getRating() < a2.getRating()) {
+            return 1;
+        } 
+        else if (a1.getRating() > a2.getRating()) {
             return -1;
         }
         else {

@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
-import ca.ualberta.cs.cmput301t03app.mockserver.mockServer;
-import ca.ualberta.cs.cmput301t03app.mockserver.mockServerDataManager;
+
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -39,7 +38,6 @@ public class MainActivity extends Activity {
 	MainListAdapter mla;
 	PostController pc = new PostController(this);
 	public AlertDialog alertDialog1; //for testing purposes
-	private mockServerDataManager mockServerManage; // FOR TESTING PURPOSES ONLY
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,16 +62,6 @@ public class MainActivity extends Activity {
 		});
 		
 		setupAdapter();
-		
-		/* ----FOR TESTING PURPOSES ONLY-----*/
-		mockServerManage = new mockServerDataManager(this);
-		mockServer.initServer(this);
-		ArrayList<Question> qList = mockServer.getMainList();
-		for (int i=0; i < qList.size(); i++) {
-			pc.getQuestionsInstance().add(qList.get(i));
-		}
-		mla.updateAdapter(pc.getQuestionsInstance());
-		/*----- END TEST BLOCK-------*/
 		 
 	}
 	
@@ -138,12 +126,6 @@ public class MainActivity extends Activity {
 
 						mla.updateAdapter(pc.getQuestionsInstance());
 						pc.addUserPost(q);
-						
-						/* THIS IS FOR TESTING VIA MOCK SERVER
-						 */
-						mockServerManage.mockPushQuestionToServer(q);
-						/* END OF TEST MOCK SERVER TEST BLOCK
-						 */
 						
 					}
 

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -38,6 +38,7 @@ public class ViewQuestionUITest extends
 	ViewQuestion activity;
 	PostController pc;
 	ArrayList<Answer> answers;
+	Answer a;
 	Question q;
 	String qId;
 
@@ -54,7 +55,7 @@ public class ViewQuestionUITest extends
 		pc.addQuestion(q);
 		Comment comment = new Comment("Test", "test");
 		q.addComment(comment);
-		Answer a = new Answer("test", "test", qId);
+		a = new Answer("test", "test", qId);
 		answers = new ArrayList<Answer>();
 		answers.add(a);
 		Intent intent = new Intent();
@@ -250,10 +251,11 @@ public class ViewQuestionUITest extends
 	@UiThreadTest
 	public void testViewQuestionUIAnswerUpvote()
 	{
-		Answer answer = new Answer("test", "test", qId);
-		pc.addAnswer(answer, qId);
+		
 		ListView answerListView = (ListView) activity
 				.findViewById(R.id.answerListView);
+		AnswerListAdapter ala = (AnswerListAdapter) answerListView.getAdapter();
+		ala.updateAdapter(answers);
 		View answerItem = (View) answerListView.getChildAt(answerListView
 				.getFirstVisiblePosition());
 		ImageView upvote = (ImageView) answerItem
@@ -264,12 +266,12 @@ public class ViewQuestionUITest extends
 		// the answers rating
 
 		assertTrue("Answer upvote not incrementing score",
-				answer.getRating() == 1);
+				a.getRating() == 1);
 		for (int i = 0; i < 1000; i++) {
 			upvote.performClick();
 		}
 		assertTrue("Upvoting answer 1000 times not working",
-				answer.getRating() == 1001);
+				a.getRating() == 1001);
 	}
 
 	/**
@@ -279,7 +281,8 @@ public class ViewQuestionUITest extends
 	
 	@UiThreadTest
 	public void testDialogActivity()
- {
+	{
+
 		((Button) activity.findViewById(R.id.question_answer_button))
 				.performClick();
 		AlertDialog dialog = activity.getDialog();
@@ -295,16 +298,20 @@ public class ViewQuestionUITest extends
 		answerBody.setText("test");
 		userName.setText("test");
 
-		dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+		dialog.getButton(Dialog.BUTTON_POSITIVE).performClick();
+		
 		TextView answerCount = (TextView) activity
 				.findViewById(R.id.answer_count);
 
 		// Assert that the answer counter incremented
 
 		assertEquals("Answers: 1", answerCount.getText());
-
 		ListView answerListView = (ListView) activity
 				.findViewById(R.id.answerListView);
+		
+//		Answer ans = (Answer) answerListView.getItemAtPosition(0);
+//		assertNotNull(ans);
+		
 		View answerItem = (View) answerListView.getChildAt(answerListView
 				.getFirstVisiblePosition());
 		View mainView = (View) activity.getWindow().getDecorView()
@@ -315,6 +322,7 @@ public class ViewQuestionUITest extends
 		ViewAsserts.assertOnScreen(mainView, answerItem);
 
 		assertNotNull(pc.getQuestion(qId).getAnswers());
+
 
 	}
 
