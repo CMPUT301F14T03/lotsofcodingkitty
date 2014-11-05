@@ -1,3 +1,5 @@
+import java.util.Date;
+
 import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
@@ -17,10 +19,12 @@ public class QuestionModelTest extends ActivityInstrumentationTestCase2<MainActi
 	//  Checks if all the attributes get set correctly by the constructor through use of retrieval methods
 	public void testQuestionConstructor() {
 		Question q1 = new Question("a subject", "a body", "a author");
-		assertEquals("Subject is 'a subject'", "a subject", q1.getSubject());
-		assertEquals("Body is 'a body'", "a body", q1.getBody());
-		assertEquals("author is 'a author'", "a author", q1.getAuthor());
-		assertEquals("Rating is 0", 0, q1.getRating());
+		Date date = new Date();
+		assertEquals("Subject is not 'a subject'", "a subject", q1.getSubject());
+		assertEquals("Body is not 'a body'", "a body", q1.getBody());
+		assertEquals("author is not 'a author'", "a author", q1.getAuthor());
+		assertEquals("Rating is not 0", 0, q1.getRating());
+		assertEquals("Date is not set correctly",date, q1.getDate());
 	}
 	
 	// Checks if incrementing the rating works
@@ -37,16 +41,16 @@ public class QuestionModelTest extends ActivityInstrumentationTestCase2<MainActi
 		Question q1 = new Question("a subject", "a body", "a author");
 		Answer a1 = new Answer("a body", "a author","1");
 		q1.addAnswer(a1);
-		assertSame("answer object is the same", a1, q1.getAnswers().get(0));
+		assertSame("answer object is not the same", a1, q1.getAnswers().get(0));
 		
 		Answer a2 = new Answer("a body", "a author","2");
 		q1.addAnswer(a2);
-		assertNotSame("a1 is not a2", a1, a2); // Checks to ensure a1 is not a2
-		assertNotSame("a1 is not a2", q1.getAnswers().get(0), q1.getAnswers().get(1)); // Now checks to ensure this is also the case for the
+		assertNotSame("a1 is a2", a1, a2); // Checks to ensure a1 is not a2
+		assertNotSame("a1 is a2", q1.getAnswers().get(0), q1.getAnswers().get(1)); // Now checks to ensure this is also the case for the
 																					   // answers added.
 		
 		q1.addAnswer(a1);
-		assertSame("index 1 and 2 have the same answer object", q1.getAnswers().get(1), q1.getAnswers().get(2));
+		assertSame("index 1 and 2 dont have the same answer object", q1.getAnswers().get(0), q1.getAnswers().get(2));
 	}
 	
 	// Check if the counting of questions works properly
@@ -74,5 +78,20 @@ public class QuestionModelTest extends ActivityInstrumentationTestCase2<MainActi
 		
 		q1.addComment(c2);
 		assertSame("index 1 and 2 have the same comment object", q1.getComments().get(1), q1.getComments().get(2));
+	}
+	// This tests the getAnserByIDmethod by making sure it returns the proper answers given the answer keys.
+	public void testGetAnswerByIDMethod(){
+		Question q1 = new Question("a subject", "a body", "a author");
+		Answer a1 = new Answer("a body", "a author","1");
+		Answer a2 = new Answer("Another body", "some other author","1");
+		
+		assertTrue("An empty list doesnt return null",q1.getAnswerByID("dummy")==null);
+		q1.addAnswer(a1);
+		assertTrue("Doesnt return null with something in the list",q1.getAnswerByID("dummy")==null);
+		assertSame("The answer returned is not the same that was added",q1.getAnswerByID(a1.getId()),a1);
+		
+		q1.addAnswer(a2);
+		assertNotSame("The answers are the same",q1.getAnswerByID(a1.getId()),q1.getAnswerByID(a2.getId()));
+		
 	}
 }
