@@ -65,7 +65,7 @@ public class PostController{
 	public int countComments(Question q) {
 		return q.countComments();
 	}
-
+	// Returns an answer from a question given the question id and answer id.
 	public Answer getAnswer(String answerId,String questionId){
 		Question q = getQuestion(questionId);
 		ArrayList<Answer> a = q.getAnswers();
@@ -75,7 +75,7 @@ public class PostController{
 		}
 		return null;
 	}
-
+	// Returns the question object given the question id.
 	public Question getQuestion(String qID){
 		for (int i = 0; i < subQuestions.size(); i++){
 			if (subQuestions.get(i).getId().equals(qID)){
