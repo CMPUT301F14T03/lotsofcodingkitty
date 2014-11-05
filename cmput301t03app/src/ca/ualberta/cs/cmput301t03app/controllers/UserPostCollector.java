@@ -29,7 +29,6 @@ public class UserPostCollector {
 	}
 
 	// This is a constructor that is used when the UPC is created using the LocalDataManagers loading methods
-	//
 	// Unsure about this constructor.....
 
 	public UserPostCollector(ArrayList<String> favoriteQuestions, ArrayList<String> readQuestions,
@@ -41,7 +40,6 @@ public class UserPostCollector {
 		this.postedAnswers = postedAnswers;
 	}
 	
-
 	/**
 	 * This method initializes the favorites id list
 	 * @param context
@@ -128,7 +126,6 @@ public class UserPostCollector {
 		return this.postedAnswers;
 	}	
 
-
 	/*--------------------------------------------------------*/
 
 	/*=====================Adding=====================*/
@@ -156,10 +153,6 @@ public class UserPostCollector {
 		postedAnswers.add(qId);
 	}
 
-	
-	
-	
-	
 	//This method is for testing since each test needs to start with a fresh list
 	//TODO: Delete this later
 	public void clearLists() {

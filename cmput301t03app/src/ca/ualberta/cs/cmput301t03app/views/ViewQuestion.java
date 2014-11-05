@@ -39,6 +39,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ViewQuestion extends Activity {
+	
 	PostController pc = new PostController(this);
 	ArrayList<Answer> answerList = new ArrayList<Answer>();
 	public AlertDialog dialog; // for testing
@@ -59,101 +60,74 @@ public class ViewQuestion extends Activity {
 	TextView commentCounter;
 	mockServerDataManager mockDataManage;
 	
-	
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_question);
 		Bundle extras = getIntent().getExtras();
-		question_id = extras.getString("question_id");
-
+		question_id = extras.getString("question_id");	//grabbing question to be displayed
 		instantiateViews();
 		setQuestionText(question_id);
 		updateAnswerCount();
 		setListeners();
 		setFavoriteIcon();
 		setAnswerAdapter();
-
-		// updates comments counter
-		updateCommentCount();
-		
-		/* THIS BLOCK OF CODE IS FOR TESTING PURPOSES ONLY
-		 */
+		updateCommentCount();		// updates comments counter
+		/* THIS BLOCK OF CODE IS FOR TESTING PURPOSES ONLY */
 		mockDataManage = new mockServerDataManager(this);
-		/* END OF TEST BLOCK
-		 */
+		/* END OF TEST BLOCK */
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		// updates comments counter
 		updateCommentCount();
-		
 		setFavoriteIcon();
 	}
 
 	public void setListeners() {
-
+		//listener to see if clicked on view to comment on an answer
 		answerListView.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					final int position, long id) {
-				// TODO Auto-generated method stub
-
 				Log.d("click", "click Answer" + position);
-
 				toCommentActivityAnswer(view);
-
 			}
 		});
-		
-		
+		//listener to answer a question icon
 		answerButton.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				answerQuestion();
 			}
 		});
-		
+		//listener to see if click on comment question
 		commentButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				toCommentActivityQuestion(v);
 			}
 		});
-
+		//listener to favorite a question
 		favIcon.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				pc.addFavoriteQuestion(pc.getQuestion(question_id));
 				favIcon.setImageResource(R.drawable.ic_fav_yes);
-				//favIcon.setImageResource(R.drawable.ic_fav_yes);
 				setFavoriteIcon();
-
 			}
 		});
-
+		//listener to upvote when clicked
 		upvoteButton.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				Integer.toString(pc.getQuestion(question_id).getRating());
 				increment_upvote();
 			}
 		});
-
 	}
 
-	@SuppressWarnings("unchecked")
 	public void setAnswerAdapter() {
 		answerListView = (ListView) findViewById(R.id.answerListView);
 		populateThisQuestionsAnswers(question_id);
@@ -164,7 +138,6 @@ public class ViewQuestion extends Activity {
 	public void populateThisQuestionsAnswers(String question_id) {
 		answerList.clear();
 		answerList.addAll(pc.getQuestion(question_id).getAnswers());
-
 	}
 
 	public void setQuestionText(String ID) {
@@ -179,12 +152,9 @@ public class ViewQuestion extends Activity {
 		q_title.setText(q.getSubject());
 		q_body.setText(q.getBody());
 		q_author.setText("By: " + q.getAuthor());
-		// Date to string
-		// http://javarevisited.blogspot.ca/2011/09/convert-date-to-string-simpledateformat.html
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String date_to_string = sdf.format(q.getDate());
 		q_date.setText("Posted: " + date_to_string);
-
 		// Log.d("click", "Contains? " +
 		// upc.getFavoriteQuestions().contains(pc.getQuestion(question_id)));
 		//
@@ -192,7 +162,6 @@ public class ViewQuestion extends Activity {
 		// {
 		// favIcon.setImageResource(R.drawable.ic_fav_yes);
 		// }
-
 	}
 	
 	public void setFavoriteIcon() {
@@ -200,11 +169,9 @@ public class ViewQuestion extends Activity {
 		if (pc.isQuestionInFavByID(question_id)) {
 			favIcon.setImageResource(R.drawable.ic_fav_yes);
 		}
-		
 	}
 
 	public void instantiateViews() {
-
 		// thisQuestion = (TextView) findViewById(R.id.question_title);
 		answerListView = (ListView) findViewById(R.id.answerListView);
 		favIcon = (ImageButton) findViewById(R.id.question_fav_icon);
@@ -217,77 +184,52 @@ public class ViewQuestion extends Activity {
 		answerListView = (ListView) findViewById(R.id.answerListView);
 	}
 
-	// This function sends the user the view comment activity to comment on a
-	// question
 	public void toCommentActivityQuestion(View v) {
-		/* This method takes user to ViewComment activity */
+		/* This method takes user to ViewComment activity for questions*/
 		Intent i = new Intent(this, ViewComment.class);
 		i.putExtra(SET_COMMENT_TYPE, COMMENT_ON_QUESTION_KEY);
 		i.putExtra(QUESTION_ID_KEY, question_id);
 		startActivity(i);
 	}
 
-	// This function sends the user the view comment activity to comment on an
-	// answer
 	public void toCommentActivityAnswer(View v) {
-		/* This method takes user to ViewComment activity */
+		/* This method takes user to ViewComment activity for answers*/
 		Answer answer = (Answer) v.getTag();
 		Intent i = new Intent(this, ViewComment.class);
 		i.putExtra(SET_COMMENT_TYPE, COMMENT_ON_ANSWER_KEY);
 		i.putExtra(QUESTION_ID_KEY, question_id);
 		i.putExtra(ANSWER_ID_KEY, answer.getId());
-
 		startActivity(i);
 	}
 
 	public void answerQuestion() {
-
+		/*when clicked answer question dialog box pops up here*/
 		LayoutInflater li = LayoutInflater.from(this);
-
-		// Get XML file to view
 		View promptsView = li.inflate(R.layout.activity_post_dialog, null);
-
 		final EditText answerBody = (EditText) promptsView
 				.findViewById(R.id.postBody);
-
 		final EditText userName = (EditText) promptsView
 				.findViewById(R.id.UsernameRespondTextView);
-
-		// Create a new AlertDialog
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-		// Link the alertdialog to the XML
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);		// Create a new AlertDialog
 		alertDialogBuilder.setView(promptsView);
-
-		// Building the dialog for adding
 		alertDialogBuilder.setPositiveButton("Answer",
 				new DialogInterface.OnClickListener() {
-
-					@Override
+					@Override		// Building the dialog for adding
 					public void onClick(DialogInterface dialog, int which) {
-
 						String answerBodyString = (String) answerBody.getText()
 								.toString();
 						String userNameString = (String) userName.getText()
 								.toString();
-
 						Answer a = new Answer(answerBodyString, userNameString,
 								question_id);
-
 						pc.getQuestion(question_id).addAnswer(a);
 						populateThisQuestionsAnswers(question_id);
-
 						ala.updateAdapter(answerList);
 						updateAnswerCount();
-						
-						/* THIS BLOCK OF CODE IS FOR TESTING PURPOSES ONLY
-						 */
+						/* THIS BLOCK OF CODE IS FOR TESTING PURPOSES ONLY */
 						mockDataManage.mockPushQuestionToServer(pc.getQuestion(question_id));
-						/* END OF TESTING BLOCK
-						 */
-						
+						/* END OF TESTING BLOCK */
 					}
-
 				}).setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
@@ -301,7 +243,6 @@ public class ViewQuestion extends Activity {
 		alertDialog.show();
 		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
 		
-		
 		//creating a listener to see if any changes to edit text in dialog
 		TextWatcher textwatcher = new TextWatcher(){
 			private void handleText(){
@@ -309,7 +250,6 @@ public class ViewQuestion extends Activity {
 				if(answerBody.getText().length() == 0){	//these checks the edittext to make sure not empty edit text
 					button.setEnabled(false);
 				}
-
 				else if(userName.getText().length() == 0){
 					button.setEnabled(false);
 				}
@@ -319,29 +259,24 @@ public class ViewQuestion extends Activity {
 			}
 			@Override
 			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
 				handleText();
 			}
 			@Override
 			public void beforeTextChanged(CharSequence s, int start,
 					int count, int after) {
-				// TODO Auto-generated method stub
-				
+				//do nothing
 			}
 			@Override
 			public void onTextChanged(CharSequence s, int start,
 					int before, int count) {
-				// TODO Auto-generated method stub
-				
+				//do nothing
 			}
 		};
 			
-		
 		answerBody.addTextChangedListener(textwatcher);	//adding listeners to the edittexts
 		userName.addTextChangedListener(textwatcher);
 		Toast.makeText(this, "Please write your answer", Toast.LENGTH_SHORT)
 			.show();	
-			
 	}
 	
 // DECREPIATE
@@ -352,22 +287,15 @@ public class ViewQuestion extends Activity {
 
 	public void increment_upvote() {
 		pc.getQuestion(question_id).upRating();
-		
-		/*THIS BLOCK IS PURELY FOR TESTING
-		 */
+		/*THIS BLOCK IS PURELY FOR TESTING */
 		mockDataManage.mockUpdateList(pc.getQuestionsInstance());
-		/* END OF TEST BLOCK
-		 */
-		
-		TextView upvote_score = (TextView) findViewById(R.id.question_upvote_score);
+		/* END OF TEST BLOCK*/
 		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
 				.getRating()));
 	}
 
 	public void updateAnswerCount() {
-		Log.d("click",
-				"Count"
-						+ String.valueOf(pc.getQuestion(question_id)
+		Log.d("click","Count"+ String.valueOf(pc.getQuestion(question_id)
 								.countAnswers()));
 		answerCounter.setText("Answers: "
 				+ String.valueOf(pc.getQuestion(question_id).countAnswers()));
@@ -379,7 +307,6 @@ public class ViewQuestion extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.view_question, menu);
 		return true;
 	}
@@ -396,24 +323,17 @@ public class ViewQuestion extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	// These button listeners are for the answers
-
 	// This on upvotes an answer
 	public void answerUpvote(View v) {
 		Answer answer = (Answer) v.getTag();
-		
-		/* THIS BLOCK IS FOR TEST PURPOSES ONLY
-		 */
+		/* THIS BLOCK IS FOR TEST PURPOSES ONLY		 */
 		mockDataManage.mockUpdateList(pc.getQuestionsInstance());
-		/* END OF TEST BLOCK
-		*/
+		/* END OF TEST BLOCK		*/
 		answer.upRating();
 		ala.notifyChange();
-
 	}
 	
 	public AlertDialog getDialog() {
 		return this.dialog;
 	}
-
 }

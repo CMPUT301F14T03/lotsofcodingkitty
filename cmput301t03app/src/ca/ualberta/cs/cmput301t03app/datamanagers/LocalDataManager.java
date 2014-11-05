@@ -242,7 +242,6 @@ public class LocalDataManager implements iDataManager{
 	public ArrayList<Answer> loadAnswers() {
 		ArrayList<Answer> answerArray = new ArrayList<Answer>();
 		try {			
-	
 				FileInputStream fileInputStream = context.openFileInput(ANSWER_BANK);	
 				InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
 				Type listType = new TypeToken<ArrayList<Answer>>(){}.getType();
@@ -259,10 +258,7 @@ public class LocalDataManager implements iDataManager{
 		return answerArray;
 	}
 
-	
-	
 	/***********************************PRIVATE METHODS*****************************************/
-	
 	
 	private void saveIds(ArrayList<String> idList) {
         try {

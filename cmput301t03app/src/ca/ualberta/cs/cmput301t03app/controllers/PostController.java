@@ -1,7 +1,6 @@
 package ca.ualberta.cs.cmput301t03app.controllers;
 
 import java.util.ArrayList;
-
 import ca.ualberta.cs.cmput301t03app.datamanagers.LocalDataManager;
 import ca.ualberta.cs.cmput301t03app.incomplete.QuestionFilter;
 import ca.ualberta.cs.cmput301t03app.incomplete.ServerDataManager;
@@ -24,7 +23,6 @@ public class PostController{
 	private String username;
 	private Context context; // THIS IS SOLELY FOR TESTING PURPOSES -Carly
 
-	// THIS IS SOLELY FOR TESTING PURPOSES -Carly
 	public PostController(Context context) {
 		this.context = context;
 	}
@@ -41,13 +39,7 @@ public class PostController{
 		return username;
 	}
 	
-	/*
-	 * The upc is never null, you instantiated it up there.
-	 */
 	public UserPostCollector getUPC(){
-	//	if (upc == null){
-	//		upc = new UserPostCollector();
-	//	}
 		return upc;
 	}
 
@@ -95,7 +87,6 @@ public class PostController{
 	// This makes testing easier
 
 	public Boolean pushNewPosts(){
-
 		if (checkConnectivity()){
 			dm = new ServerDataManager();
 			//dm.save(pushQuestions);
@@ -115,7 +106,6 @@ public class PostController{
 	// I don't understand why this exists --- Eric
 	//This is for updating the lists in the data manager --Carly
 	public void saveUserPosts(){
-
 		dm = new LocalDataManager(context);
 		((LocalDataManager) dm).saveFavoritesID(upc.getFavoriteQuestions());
 		((LocalDataManager) dm).savePostedQuestionsID(upc.getPostedQuestions());
@@ -123,10 +113,7 @@ public class PostController{
 		((LocalDataManager) dm).saveToReadID(upc.getToReadQuestions());
 	}
 
-
-
 	public void loadUserPosts(){
-
 		dm = new LocalDataManager(context);
 		upc = new UserPostCollector(((LocalDataManager) dm).loadFavorites(),
 				((LocalDataManager) dm).loadRead(),
@@ -143,16 +130,13 @@ public class PostController{
 	// This makes testing easier
 
 	public Boolean loadServerPosts(){
-
 		if (!checkConnectivity()) return false;
 		dm = new ServerDataManager();
 		//subQuestions = dm.load();
 		// subAnswers = dm.loadAnswers()
 		// this answers will be all of the children of the
 		// questions we just loaded
-
 		if (subQuestions == null) return false;
-		
 		return true;
 
 	}
@@ -168,7 +152,6 @@ public class PostController{
 	// the pushQuestions list, and then the UPC.
 
 	public void addQuestion(Question question){
-
 		getQuestionsInstance().add(question);
 	//	pushQuestions.add(question);
 	//	upc.addPostedQuestion(question);
@@ -178,7 +161,6 @@ public class PostController{
 	// Add a comment when you only know the Question or Answer parentId
 
 	public void addCommentToQuestion(Comment comment, String parentId){
-
 		for (int i = 0; i < subQuestions.size(); i++){
 			if (subQuestions.get(i).getId().equals(parentId)){
 				subQuestions.get(i).addComment(comment);
@@ -186,7 +168,6 @@ public class PostController{
 		}
 	}
 	public ArrayList<Comment> getCommentsToQuestion(String questionID){
-
 		for (int i = 0; i < subQuestions.size(); i++){
 			if (subQuestions.get(i).getId().equals(questionID)){
 				return subQuestions.get(i).getComments();
@@ -236,14 +217,12 @@ public class PostController{
 
 	private void checkExistanceOfQuestion(Question q, LocalDataManager local) {
 		boolean found = false;
-		
 		for (int i = 0; i < upc.getQuestionBank().size(); i++) {
 			if (upc.getQuestionBank().get(i).getId().equals(q.getId())) {
 				found = true;
 				break;
 			}
 		}
-		
 		if (!found) {
 			ArrayList<Question> questionList = upc.getQuestionBank();
 			questionList.add(q);
@@ -363,7 +342,6 @@ public class PostController{
 				}
 			}
 		}
-		
 		return returnedArray;
 	}
 	
