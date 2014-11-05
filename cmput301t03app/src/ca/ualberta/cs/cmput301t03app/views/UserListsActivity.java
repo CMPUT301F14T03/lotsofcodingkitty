@@ -88,6 +88,9 @@ public class UserListsActivity extends Activity {
 	public void toQuestionActivity(int position) {
 		Intent i = new Intent( this, ViewQuestion.class );
 		i.putExtra("question_id", userQuestionList.get(position).getId());
+		if (pc.getQuestion(userQuestionList.get(position).getId()) == null) {
+			pc.addQuestion(userQuestionList.get(position));
+		}
 		pc.addReadQuestion(userQuestionList.get(position));
 		startActivity(i);
 		

@@ -20,7 +20,7 @@ public class PostController{
 	private static UserPostCollector upc = new UserPostCollector();
 	private iDataManager dm;
 	private QuestionFilter qf = new QuestionFilter();
-	private String username;
+	//private String username;
 	private Context context; // THIS IS SOLELY FOR TESTING PURPOSES -Carly
 
 	public PostController(Context context) {
@@ -29,14 +29,6 @@ public class PostController{
 	
 	public Context getContext() {
 		return this.context;
-	}
-	
-	public void setUsername(String name){
-		this.username = name;
-	}
-
-	public String getUsername(){
-		return username;
 	}
 	
 	public UserPostCollector getUPC(){
@@ -67,6 +59,7 @@ public class PostController{
 		}
 		return null;
 	}
+	
 	// Returns the question object given the question id.
 	public Question getQuestion(String qID){
 		for (int i = 0; i < getQuestionsInstance().size(); i++){
@@ -76,81 +69,15 @@ public class PostController{
 		}
 		return null;
 	}
-
-	public Boolean checkConnectivity(){
-		return null;
-	}
-
-	// Pushes new posts to server, returns true if connectivity attained and
-	// pushed
-	// returns false otherwise
-	// This makes testing easier
-
-	public Boolean pushNewPosts(){
-		if (checkConnectivity()){
-			dm = new ServerDataManager();
-			//dm.save(pushQuestions);
-
-			// need a method for saving new to be pushed answers to server
-			// dm.saveAnswers(pushAnswers);
-
-			pushQuestions.clear();
-			pushAnswers.clear();
-			return true;
-		}
-		return false;
-	}
-
-	// Creates a LocalDataManager and then calls all the saving methods
-	// on each of the UPC's arrays.
-	// I don't understand why this exists --- Eric
-	//This is for updating the lists in the data manager --Carly
-	public void saveUserPosts(){
-		dm = new LocalDataManager(context);
-		((LocalDataManager) dm).saveFavoritesID(upc.getFavoriteQuestions());
-		((LocalDataManager) dm).savePostedQuestionsID(upc.getPostedQuestions());
-		((LocalDataManager) dm).saveReadID(upc.getReadQuestions());
-		((LocalDataManager) dm).saveToReadID(upc.getToReadQuestions());
-	}
-
-	public void loadUserPosts(){
-		dm = new LocalDataManager(context);
-		upc = new UserPostCollector(((LocalDataManager) dm).loadFavorites(),
-				((LocalDataManager) dm).loadRead(),
-				((LocalDataManager) dm).loadToRead(),
-				((LocalDataManager) dm).loadPostedQuestions(),
-				((LocalDataManager) dm).loadPostedAnswers());
-	}
-
-	// when we load server posts, it should be based on a query
-	// add code to reflect this later
-
-	// Returns false if no questions loaded
-	// Returns true otherwise
-	// This makes testing easier
-
-	public Boolean loadServerPosts(){
-		if (!checkConnectivity()) return false;
-		dm = new ServerDataManager();
-		//subQuestions = dm.load();
-		// subAnswers = dm.loadAnswers()
-		// this answers will be all of the children of the
-		// questions we just loaded
-		if (subQuestions == null) return false;
-		return true;
-
-	}
-
+	
 	// When an answer is added it is added to the subAnswers list,
 	// the pushAnswers list, and then the UPC.
-
 	public void addAnswer(Answer answer,String questionID){
 		getQuestion(questionID).addAnswer(answer);
 	}
 
 	// When an question is added it is added to the subQuestions list,
 	// the pushQuestions list, and then the UPC.
-
 	public void addQuestion(Question question){
 		getQuestionsInstance().add(question);
 	//	pushQuestions.add(question);
@@ -185,6 +112,7 @@ public class PostController{
 			}
 		}
 	}
+	
 	public ArrayList<Comment> getCommentsToAnswer(String questionID,String answerID){
 		Question q = getQuestion(questionID);
 		ArrayList<Answer> a = q.getAnswers();
@@ -379,6 +307,77 @@ public class PostController{
 		}
 		return false;
 	}
-		
+	
+	/* These methods are currently not being used and are commented out
+	 * We may want to re-implement them later so they are saved down here.
+	 * Not revised for style or correctness.
+	 */
+	
+	/*
+	public void setUsername(String name){
+		this.username = name;
+	}*/
+	
+	/*
+	public String getUsername(){
+		return username;
+	}*/
+	
+	/*
+	public Boolean checkConnectivity(){
+		return null;
+	}*/
+	
+	/*
+	// Pushes new posts to server, returns true if connectivity attained and
+	// pushed
+	// returns false otherwise
+	// This makes testing easier
+
+	public Boolean pushNewPosts(){
+		if (checkConnectivity()){
+			dm = new ServerDataManager();
+			//dm.save(pushQuestions);
+
+			// need a method for saving new to be pushed answers to server
+			// dm.saveAnswers(pushAnswers);
+
+			pushQuestions.clear();
+			pushAnswers.clear();
+			return true;
+		}
+		return false;
+	}*/
+	
+	/*
+	// Creates a LocalDataManager and then calls all the saving methods
+	// on each of the UPC's arrays.
+	// I don't understand why this exists --- Eric
+	//This is for updating the lists in the data manager --Carly
+	public void saveUserPosts(){
+		dm = new LocalDataManager(context);
+		((LocalDataManager) dm).saveFavoritesID(upc.getFavoriteQuestions());
+		((LocalDataManager) dm).savePostedQuestionsID(upc.getPostedQuestions());
+		((LocalDataManager) dm).saveReadID(upc.getReadQuestions());
+		((LocalDataManager) dm).saveToReadID(upc.getToReadQuestions());
+	}*/
+	
+	/*
+	// when we load server posts, it should be based on a query
+	// add code to reflect this later
+	// Returns false if no questions loaded
+	// Returns true otherwise
+	// This makes testing easier
+	public Boolean loadServerPosts(){
+		if (!checkConnectivity()) return false;
+		dm = new ServerDataManager();
+		//subQuestions = dm.load();
+		// subAnswers = dm.loadAnswers()
+		// this answers will be all of the children of the
+		// questions we just loaded
+		if (subQuestions == null) return false;
+		return true;
+
+	}*/
 	
 }
