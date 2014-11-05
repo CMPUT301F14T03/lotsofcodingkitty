@@ -45,8 +45,14 @@ public class AnswerModelTest extends ActivityInstrumentationTestCase2<MainActivi
 		
 		a1.addComment(c2);
 		assertSame("index 1 and 2 don't have the same comment object", a1.getComments().get(1), a1.getComments().get(2));
-		
-		
+	}
+	// This test makes sure the comment count gets the correct amount of comments in the answer list.
+	public void testGetCommentCount(){
+		Answer a1 = new Answer("a body", "an author", "1");
+		Comment c1 = new Comment("a comment", "Some author");
+		assertTrue("Answers contain comments",a1.countAnswerComments()==0);
+		a1.addComment(c1);
+		assertTrue("There isn't one comment in the answer",a1.countAnswerComments()==1);
 	}
 	
 }
