@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,6 +12,7 @@ import android.test.ViewAsserts;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -282,82 +285,48 @@ public class ViewQuestionUITest extends
 	/**
 	 * Tests the dialog activity
 	 */
+	
+	
+	@UiThreadTest
+	public void testDialogActivity()
+ {
+		((Button) activity.findViewById(R.id.question_answer_button))
+				.performClick();
+		AlertDialog dialog = activity.getDialog();
+		EditText answerBody = (EditText) dialog.findViewById(R.id.postBody);
+		EditText userName = (EditText) dialog
+				.findViewById(R.id.UsernameRespondTextView);
 
-// 	Test commented out until we have a method of either getting a dialog object, 
-//	or we have switched to using Robotium
-//	
-//	public void testDialogActivity()
-//	{
-//
-//		PostController pc = new PostController(getInstrumentation()
-//				.getContext());
-//		q = new Question("Test subject", "Body", "Author");
-//		qId = q.getId();
-//		pc.addQuestion(q);
-//		Intent intent = new Intent();
-//		intent.putExtra("question_id", qId);
-//		setActivityIntent(intent);
-//		final ViewQuestion activity = (ViewQuestion) getActivity();
-//		try
-//		{
-//			runTestOnUiThread(new Runnable()
-//			{
-//
-//				@Override
-//				public void run()
-//				{
-//
-//					((Button) activity
-//							.findViewById(R.id.question_answer_button))
-//							.performClick();
-//					AlertDialog dialog = activity.getDialog();
-//					EditText answerBody = (EditText) dialog
-//							.findViewById(R.id.postBody);
-//					EditText userName = (EditText) dialog
-//							.findViewById(R.id.UsernameRespondTextView);
-//					
-//					// Asserts that the fields needed were created properly
-//					
-//					assertNotNull("Answer body EditText not found", answerBody);
-//					assertNotNull("Username EditText not found", userName);
-//					
-//					answerBody.setText("test");
-//					userName.setText("test");
-//					
-//					dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
-//					TextView answerCount = (TextView)activity.findViewById(R.id.answer_count);
-//					
-//					// Assert that the answer counter incremented
-//					
-//					assertEquals("Answers: 1",answerCount.getText());
-//					
-//					ListView answerListView = (ListView) activity
-//							.findViewById(R.id.answerListView);
-//					View answerItem = (View) answerListView
-//							.getChildAt(answerListView
-//									.getFirstVisiblePosition());
-//					View mainView = (View) activity.getWindow().getDecorView()
-//							.findViewById(android.R.id.content);
-//					
-//					// Assert the answer item appeared on the screen
-//					
-//					ViewAsserts.assertOnScreen(mainView, answerItem);
-//					
-//					
-//					
-//				}
-//			});
-//		} catch (Throwable e)
-//		{
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		// Assert that answers were correctly added
-//		
-//		assertNotNull(pc.getQuestion(qId).getAnswers());
-//
-//	}
+		// Asserts that the fields needed were created properly
+
+		assertNotNull("Answer body EditText not found", answerBody);
+		assertNotNull("Username EditText not found", userName);
+
+		answerBody.setText("test");
+		userName.setText("test");
+
+		dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+		TextView answerCount = (TextView) activity
+				.findViewById(R.id.answer_count);
+
+		// Assert that the answer counter incremented
+
+		assertEquals("Answers: 1", answerCount.getText());
+
+		ListView answerListView = (ListView) activity
+				.findViewById(R.id.answerListView);
+		View answerItem = (View) answerListView.getChildAt(answerListView
+				.getFirstVisiblePosition());
+		View mainView = (View) activity.getWindow().getDecorView()
+				.findViewById(android.R.id.content);
+
+		// Assert the answer item appeared on the screen
+
+		ViewAsserts.assertOnScreen(mainView, answerItem);
+
+		assertNotNull(pc.getQuestion(qId).getAnswers());
+
+	}
 
 	/**
 	 * Tests favoriting a question
@@ -398,8 +367,10 @@ public class ViewQuestionUITest extends
 
 		// Assert that the question is now in the favorites list
 
-		assertNotNull("Question not favorited properly",
-				pc.getFavoriteQuestions());
+//		assertNotNull("Question not favorited properly",
+//				pc.getFavoriteQuestions());
+		
+		assertTrue(pc.isQuestionInFavByID(qId));
 	}
 
 	/**
