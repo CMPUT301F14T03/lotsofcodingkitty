@@ -14,14 +14,14 @@ public class UserHome extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_user_home);
-	
 	}
-
+	/*these are the onClick methods called by the buttons on layout*/
 	public void favorites (View view) {
 		Intent intent = new Intent(this, UserListsActivity.class);
 		intent.putExtra("userListMode", 0);
 		startActivity(intent);
 	}
+	
 	public void viewCached (View view) {
 		Intent intent = new Intent(this, UserListsActivity.class);
 		intent.putExtra("userListMode", 1);

@@ -32,8 +32,7 @@ import ca.ualberta.cs.cmput301t03app.views.ViewQuestion;
  */
 
 public class ViewQuestionUITest extends
-		ActivityInstrumentationTestCase2<ViewQuestion>
-{
+		ActivityInstrumentationTestCase2<ViewQuestion>{
 
 	private static final String TAG = "1234";
 	ViewQuestion activity;
@@ -42,19 +41,14 @@ public class ViewQuestionUITest extends
 	Question q;
 	String qId;
 
-	public ViewQuestionUITest()
-	{
-
+	public ViewQuestionUITest(){
 		super(ViewQuestion.class);
-		// TODO Auto-generated constructor stub
 	}
 	
     @Override
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception{
         super.setUp();
-		PostController pc = new PostController(getInstrumentation()
-				.getContext());
+		PostController pc = new PostController(getInstrumentation().getContext());
 		q = new Question("Test subject", "Body", "Author");
 		qId = q.getId();
 		pc.addQuestion(q);
@@ -88,8 +82,8 @@ public class ViewQuestionUITest extends
 	 * 
 	 */
 
-	public void testViewObjectsExist()
-	{
+	public void testViewObjectsExist(){
+		
 		ListView answerListView;
 		ImageButton favIcon;
 		ImageButton upvoteButton;
@@ -149,13 +143,9 @@ public class ViewQuestionUITest extends
 	 */
 	
 	@UiThreadTest
-	public void testAddAnswer()
-	{
-		ListView answerListView = (ListView) activity
-				.findViewById(R.id.answerListView);
-		AnswerListAdapter ala = (AnswerListAdapter) answerListView
-				.getAdapter();
-		
+	public void testAddAnswer(){
+		ListView answerListView = (ListView) activity.findViewById(R.id.answerListView);
+		AnswerListAdapter ala = (AnswerListAdapter) answerListView.getAdapter();
 		ala.updateAdapter(answers);
 		activity.updateAnswerCount();
 

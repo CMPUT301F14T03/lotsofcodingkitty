@@ -25,12 +25,9 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	ListView listview;
 	ActivityMonitor monitor;	//this monitors any newly opened activities
 	
-	
 	public MainActivityUITest() {
 		super(MainActivity.class);
-
 	}
-	
 	
 	public void setUp() throws Exception{
 		//just setting up the things for tests
@@ -38,8 +35,8 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 		this.activity = (MainActivity) getActivity();
 		this.instrumentation = getInstrumentation();
 		this.listview = ((ListView) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_list));
-		
 	}
+	
 	@UiThreadTest
 	public void testmakeQuestionDialogBox(){
 		assertNotNull(activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));//making sure that button is visible on screen
@@ -65,8 +62,6 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 		userName.setText(name);
 		dialog.getButton(
 				 DialogInterface.BUTTON_POSITIVE).performClick();	//clicking to add the question
-		
-	
 	}
 	
 	@UiThreadTest
@@ -87,27 +82,12 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 		ViewAsserts.assertOnScreen(view, listview);
 	
 	}
-	//this is commented out because josh should change it from long click to icon::
-	
-	/*public void testAddReadLater(){
-		//testing the functionality of longclicking on an item
-		assertNotNull(listview);
-		PostController pc = new PostController(activity);
-		int oldSize = pc.getToReadQuestions().size();
-		assertNotNull(pc.getToReadQuestions());
-		listview.performLongClick();
-		AlertDialog dialog = activity.getDialog2();
-		assertNotNull(dialog);
-		//dialog.getButton(
-			//DialogInterface.BUTTON_POSITIVE).performClick();
-		//int newSize = pc.getToReadQuestions().size();
-		//assertEquals("added to read question", oldSize+1, newSize);
-	}*/
+
 	public void testEmptyServer(){
 		//TODO: create test to see if empty server is being dealt with correctly
 	}
+	
 	public void testzQuestionDetailClick(){
-		
 		//this tests that if you click on an item a new activity opens up that is ViewQuestion activiy
 		 ActivityMonitor activityMonitor = getInstrumentation().addMonitor(ViewQuestion.class.getName(), null, false);
 		assertNotNull(listview);
@@ -123,7 +103,6 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	  assertNotNull(newActivity);	//check that new activity has been opened
 	  newActivity.finish();	//close activity
 	  //viewActivityUItest should be testing that the intent that has been passed to this new activity is correct
-		
 	}
 	
 	

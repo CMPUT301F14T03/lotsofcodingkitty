@@ -34,7 +34,6 @@ public class UserListsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_lists);
-		
 		Bundle extras = getIntent().getExtras();
 		userListMode = extras.getInt("userListMode");
 		user_list_title = (TextView) findViewById(R.id.user_list_title);
@@ -65,22 +64,15 @@ public class UserListsActivity extends Activity {
 		
 		mla = new MainListAdapter(this, R.layout.activity_main_question_entity, userQuestionList);
 		userListView.setAdapter(mla);
-		
 		setListeners();
-		
 	}
-	
 	
 	public void setListeners() {
 		userListView.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					final int position, long id) {
-				// TODO Auto-generated method stub
-
 				toQuestionActivity(position);
-				
 			}
 		});		
 	}
@@ -94,7 +86,6 @@ public class UserListsActivity extends Activity {
 	
 	
 	public void toQuestionActivity(int position) {
-		
 		Intent i = new Intent( this, ViewQuestion.class );
 		i.putExtra("question_id", userQuestionList.get(position).getId());
 		pc.addReadQuestion(userQuestionList.get(position));

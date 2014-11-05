@@ -160,7 +160,6 @@ public class MainActivity extends Activity {
 		alertDialog.show();
 		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);		
 		
-
 		TextWatcher textwatcher = new TextWatcher(){		
 			//creating a listener to see if any changes to edit text in dialog
 			private void handleText(){
