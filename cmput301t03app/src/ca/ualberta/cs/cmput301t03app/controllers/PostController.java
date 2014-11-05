@@ -77,7 +77,7 @@ public class PostController{
 	}
 	// Returns the question object given the question id.
 	public Question getQuestion(String qID){
-		for (int i = 0; i < subQuestions.size(); i++){
+		for (int i = 0; i < getQuestionsInstance().size(); i++){
 			if (subQuestions.get(i).getId().equals(qID)){
 				return subQuestions.get(i);
 			}
