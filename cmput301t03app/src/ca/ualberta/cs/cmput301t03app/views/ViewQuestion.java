@@ -41,6 +41,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ViewQuestion extends Activity {
 	PostController pc = new PostController(this);
 	ArrayList<Answer> answerList = new ArrayList<Answer>();
+	public AlertDialog dialog; // for testing
 	public static final String SET_COMMENT_TYPE = "0";
 	public static final int COMMENT_ON_QUESTION_KEY = 1;
 	public static final int COMMENT_ON_ANSWER_KEY = 2;
@@ -296,7 +297,7 @@ public class ViewQuestion extends Activity {
 				});
 
 		final AlertDialog alertDialog = alertDialogBuilder.create();
-
+		dialog = alertDialog;
 		alertDialog.show();
 		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
 		
@@ -409,6 +410,10 @@ public class ViewQuestion extends Activity {
 		answer.upRating();
 		ala.notifyChange();
 
+	}
+	
+	public AlertDialog getDialog() {
+		return this.dialog;
 	}
 
 }
