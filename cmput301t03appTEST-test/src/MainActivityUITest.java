@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainActivity>{
@@ -190,6 +191,9 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	
 	public void testListView(){
 		//testing that the listview is actually visible on the screen
+		ListView questionList;
+		questionList = (ListView) activity.findViewById(R.id.activity_main_question_list);
+		assertNotNull("Item not created for question view", questionList);
 		Intent intent = new Intent();
 		setActivityIntent(intent);
 		View view = (View) this.activity.getWindow().getDecorView();
