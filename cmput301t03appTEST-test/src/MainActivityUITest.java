@@ -150,7 +150,7 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 
 	}
 	
-	public void testAdd3Question(){		//testing if adding 1 question works
+	public void testAdd30Question(){		//testing if adding 1 question works
 		activity = (MainActivity) getActivity();
 		assertNotNull("button not null",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
 		MainListAdapter adapter = activity.getAdapter();
@@ -172,6 +172,7 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 					userName.setText("me");
 					dialog.getButton(
 							 DialogInterface.BUTTON_POSITIVE).performClick();
+					for(int i=1; i <= 29; i++){
 					assertNotNull("this should be a button",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
 					((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
 					questionTitle.setText("poopoo");	//setting them up with arguments
@@ -179,19 +180,12 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 					userName.setText("me");
 					dialog.getButton(
 							 DialogInterface.BUTTON_POSITIVE).performClick();
-					assertNotNull("this should be a button",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
-					((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
-					questionTitle.setText("poopoo");	//setting them up with arguments
-					questionBody.setText("1newQuestion");
-					userName.setText("me");
-					dialog.getButton(
-							 DialogInterface.BUTTON_POSITIVE).performClick();
-				}
+				}}
 				});
 		instrumentation.waitForIdleSync();
 		MainListAdapter adapter1 = activity.getAdapter();
 		int newCount = adapter1.getCount();
-		assertEquals("new question added", oldCount+3, newCount); 
+		assertEquals("new question added", oldCount+30, newCount); 
 
 	}
 	
