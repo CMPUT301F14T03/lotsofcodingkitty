@@ -35,6 +35,9 @@ public class PostController{
 		return upc;
 	}
 
+	public Boolean checkConnectivity(){
+		return false;
+	}
 	public ArrayList<Question> getQuestionsInstance(){
 		if (subQuestions == null){
 			subQuestions = new ArrayList<Question>();
@@ -324,9 +327,7 @@ public class PostController{
 	}*/
 	
 	/*
-	public Boolean checkConnectivity(){
-		return null;
-	}*/
+	*/
 	
 	/*
 	// Pushes new posts to server, returns true if connectivity attained and

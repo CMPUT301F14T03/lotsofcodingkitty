@@ -28,12 +28,12 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 	private ArrayList<Question> questionList;
 	
 	public MainListAdapter(Context context, int layoutResourceId,
-			ArrayList<Question> questionList) {
-		super(context, layoutResourceId, questionList );
+			ArrayList<Question> incQuestionList) {
+		super(context, layoutResourceId, incQuestionList );
 		this.layoutResourceId = layoutResourceId;
 		this.context = context;
 		this.questionList = new ArrayList<Question>();
-		this.questionList.addAll(questionList);
+		this.questionList.addAll(incQuestionList);
 	}
 	
 	public static class questionListHolder {
