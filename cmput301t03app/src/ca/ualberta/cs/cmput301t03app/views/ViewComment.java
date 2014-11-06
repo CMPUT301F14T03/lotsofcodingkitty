@@ -35,6 +35,7 @@ public class ViewComment extends Activity {
 	TextView commentCount;
 	TextView timeStamp;
 	TextView author;
+	AlertDialog dialog;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -169,6 +170,7 @@ public class ViewComment extends Activity {
 				});
 
 		final AlertDialog alertDialog = alertDialogBuilder.create();
+		dialog = alertDialog;
 		alertDialog.show();
 		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
 
@@ -205,5 +207,9 @@ public class ViewComment extends Activity {
 		userName.addTextChangedListener(textwatcher);
 		Toast.makeText(this, "Please write your comment", Toast.LENGTH_SHORT)
 				.show();
+	}
+
+	public AlertDialog getDialog() {
+		return dialog;
 	}
 }

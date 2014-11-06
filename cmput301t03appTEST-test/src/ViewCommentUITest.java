@@ -1,12 +1,15 @@
 
 import java.util.Date;
 
+import android.app.AlertDialog;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import ca.ualberta.cs.cmput301t03app.R;
@@ -211,20 +214,25 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		intent.putExtra(ViewQuestion.QUESTION_ID_KEY, q.getId());
 		
 		setActivityIntent(intent);
-		ViewComment vc = getActivity();
-		
-		assertNotNull(((Button) vc.findViewById(R.id.comment_button)));
-//		((Button) vc.findViewById(R.id.comment_button)).performClick();
-//		AlertDialog dialog = vc.getDialog();
-//	    EditText commentBody = (EditText) 
-//				dialog.findViewById(R.id.postBody);
-//		EditText commentAuthor = (EditText) 
-//				dialog.findViewById(R.id.UsernameRespondTextView);
-		 
-//		commentBody.setText("CommentBody");
-//		commentAuthor.setText("CommentAuthor");
-//		dialog.getButton(
-//				DialogInterface.BUTTON_POSITIVE).performClick();
+		final ViewComment vc = getActivity();
+		getInstrumentation().runOnMainSync(new Runnable(){	//clicking on an item automatically
+			@Override
+			public void run() {
+				assertNotNull(((Button) vc.findViewById(R.id.comment_button)));
+				((Button) vc.findViewById(R.id.comment_button)).performClick();
+				AlertDialog dialog = vc.getDialog();
+			    EditText commentBody = (EditText) 
+						dialog.findViewById(R.id.postBody);
+				EditText commentAuthor = (EditText) 
+						dialog.findViewById(R.id.UsernameRespondTextView);
+				 
+				commentBody.setText("CommentBody");
+				commentAuthor.setText("CommentAuthor");
+				dialog.getButton(
+						DialogInterface.BUTTON_POSITIVE).performClick();
+			}
+			});
+	instrumentation.waitForIdleSync();
 		ListView lv = 
 				(ListView)vc.findViewById(R.id.commentListView);
 		assertEquals("New comment is not added to ListView", lv.getItemAtPosition(0),"CommentBody");
