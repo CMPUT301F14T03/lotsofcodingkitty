@@ -82,4 +82,8 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		holder.answer_upvote_button = (ImageButton) row.findViewById(R.id.answer_upvote_button);
 		return holder;
 	}
+	// This is for testing.
+	public int getCount(){
+		return answerList.size();
+	}
 }
