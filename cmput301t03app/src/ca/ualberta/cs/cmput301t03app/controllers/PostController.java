@@ -19,7 +19,7 @@ public class PostController{
 	private static UserPostCollector upc = new UserPostCollector();
 	private iDataManager dm;
 	private QuestionFilter qf = new QuestionFilter();
-	private Context context; // THIS IS SOLELY FOR TESTING PURPOSES -Carly
+	private Context context;
 
 	public PostController(Context context) {
 		this.context = context;
@@ -47,7 +47,7 @@ public class PostController{
 	 * */
 	public Boolean isQuestionInFavByID(String questionID) {
 		upc.initFavoriteID(getContext());
-		Log.d("click",  "Size of Fav array: "+ upc.getFavoriteQuestions().size());
+//		Log.d("click",  "Size of Fav array: "+ upc.getFavoriteQuestions().size());
 		for (int i = 0; i<upc.getFavoriteQuestions().size();i++) {
 			if (upc.getFavoriteQuestions().get(i).equals(questionID))
 				return true;
@@ -75,7 +75,7 @@ public class PostController{
 	 * @param q A Question Object
 	 */
 	public void addFavoriteQuestion(Question q) {
-		upc.initFavoriteID(getContext());  // I need to load the lists if they haven't been loaded yet.
+		upc.initFavoriteID(getContext()); 
 		upc.initQuestionBank(getContext());
 		LocalDataManager local = new LocalDataManager(getContext());
 		ArrayList<String> idList = upc.getFavoriteQuestions();
@@ -168,7 +168,7 @@ public class PostController{
 	/**
 	 * Adds a comment object to a question object.
 	 * @param comment A comment object
-	 * @param parentId A string represeting an ID
+	 * @param parentId A string representing an ID
 	 */
 	public void addCommentToQuestion(Comment comment, String parentId){
 		for (int i = 0; i < subQuestions.size(); i++){
@@ -181,7 +181,7 @@ public class PostController{
 	/**
 	 * Adds a comment object to a answer object.
 	 * @param comment A comment object
-	 * @param parentId A string represeting an ID
+	 * @param parentId A string representing an ID
 	 */
 	public void addCommentToAnswer(Comment comment, String questionID,String answerID){
 		Question q = getQuestion(questionID);
