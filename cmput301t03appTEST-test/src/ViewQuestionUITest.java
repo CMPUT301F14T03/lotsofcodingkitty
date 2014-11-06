@@ -49,7 +49,7 @@ public class ViewQuestionUITest extends
     @Override
     protected void setUp() throws Exception{
         super.setUp();
-		PostController pc = new PostController(getInstrumentation().getContext());
+		pc = new PostController(getInstrumentation().getContext());
 		q = new Question("Test subject", "Body", "Author");
 		qId = q.getId();
 		Comment comment = new Comment("Test", "test");
@@ -161,8 +161,7 @@ public class ViewQuestionUITest extends
 
 		ViewAsserts.assertOnScreen(mainView, answerListView);
 
-		View answerItem = (View) answerListView.getChildAt(answerListView
-				.getFirstVisiblePosition());
+		View answerItem = (View) answerListView.getChildAt(0);
 
 		// Assert that the view is not null
 
@@ -251,16 +250,15 @@ public class ViewQuestionUITest extends
 	@UiThreadTest
 	public void testViewQuestionUIAnswerUpvote()
 	{
-		
 		ListView answerListView = (ListView) activity
 				.findViewById(R.id.answerListView);
 		AnswerListAdapter ala = (AnswerListAdapter) answerListView.getAdapter();
 		ala.updateAdapter(answers);
-		View answerItem = (View) answerListView.getChildAt(answerListView
-				.getFirstVisiblePosition());
-		ImageView upvote = (ImageView) answerItem
-				.findViewById(R.id.answer_upvote_button);
-		upvote.performClick();
+		View answerItem = (View) answerListView.getChildAt(0);
+//		ImageView upvote = (ImageView) answerItem
+//				.findViewById(R.id.answer_upvote_button);
+		answerListView.performItemClick(answerListView.getAdapter().getView(0,null, null), 0, answerListView.getItemIdAtPosition(0));
+		//upvote.performClick();
 
 		// Asserts that answer upvote clicks are correctly changing
 		// the answers rating
@@ -268,7 +266,7 @@ public class ViewQuestionUITest extends
 		assertTrue("Answer upvote not incrementing score",
 				a.getRating() == 1);
 		for (int i = 0; i < 1000; i++) {
-			upvote.performClick();
+			//upvote.performClick();
 		}
 		assertTrue("Upvoting answer 1000 times not working",
 				a.getRating() == 1001);
@@ -338,6 +336,7 @@ public class ViewQuestionUITest extends
 	@UiThreadTest
 	public void testFavoriteAQuestion()
 	{
+
 		Drawable icon;
 		Drawable favUnfilled = activity.getResources().getDrawable(
 				R.drawable.ic_fav_no);

@@ -318,7 +318,7 @@ public class ViewQuestion extends Activity {
 		answer.upRating();
 		ala.notifyChange();
 	}
-	
+	// Used for testing
 	public AlertDialog getDialog() {
 		return this.dialog;
 	}
