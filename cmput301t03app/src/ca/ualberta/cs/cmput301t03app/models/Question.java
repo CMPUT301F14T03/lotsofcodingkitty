@@ -34,6 +34,22 @@ public class Question{
 		this.comments = new ArrayList<Comment>(); // Same as above
 		this.answers = new ArrayList<Answer>();
 	}
+	
+	/** This is for testing sorting by dates
+	 * 	@author tbrockma
+	 */
+	
+	public Question(String subject, String body, String author, Date date) {
+		this.id = UUID.randomUUID().toString();
+		this.date = date;
+		this.subject = subject;
+		this.body = body;
+		this.author = author; // Added author to constructor (Added by Eric)
+		this.rating = 0;
+		this.comments = new ArrayList<Comment>(); // Same as above
+		this.answers = new ArrayList<Answer>();
+	}
+	
 
 	/**
 	 * Adds an Answer object to the list of answers.

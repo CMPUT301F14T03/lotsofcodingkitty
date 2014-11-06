@@ -24,8 +24,7 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 	
 	public void testEmptyQuestions(){
 		PostController controller = new PostController(getInstrumentation().getTargetContext());
-		ArrayList<Question> listofquestions = controller.getQuestionsInstance();
-		assertTrue("Question list should be empty.", listofquestions.size() == 0);
+		assertTrue("Question list should be empty.", controller.getQuestionsInstance().size() == 0);
 	}
 	
 	// Creates a new postcontroller and a new Question, then adds the question to
