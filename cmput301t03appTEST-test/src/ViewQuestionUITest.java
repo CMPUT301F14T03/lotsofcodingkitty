@@ -276,28 +276,33 @@ public class ViewQuestionUITest extends
 	 */
 	
 	
-	@UiThreadTest
 	public void testDialogActivity()
 	{
+		activity.runOnUiThread(new Runnable() {
+	          public void run() {
+				((Button) activity.findViewById(R.id.question_answer_button))
+						.performClick();
+				AlertDialog dialog = activity.getDialog();
+				EditText answerBody = (EditText) dialog
+						.findViewById(R.id.postBody);
+				EditText userName = (EditText) dialog
+						.findViewById(R.id.UsernameRespondTextView);
 
-		((Button) activity.findViewById(R.id.question_answer_button))
-				.performClick();
-		AlertDialog dialog = activity.getDialog();
-		EditText answerBody = (EditText) dialog.findViewById(R.id.postBody);
-		EditText userName = (EditText) dialog
-				.findViewById(R.id.UsernameRespondTextView);
+				// Asserts that the fields needed were created properly
 
-		// Asserts that the fields needed were created properly
+				assertNotNull("Answer body EditText not found", answerBody);
+				assertNotNull("Username EditText not found", userName);
 
-		assertNotNull("Answer body EditText not found", answerBody);
-		assertNotNull("Username EditText not found", userName);
+				answerBody.setText("test");
+				userName.setText("test");
 
-		answerBody.setText("test");
-		userName.setText("test");
-		
-		assertEquals(String.valueOf(answerBody.getText()), "test");
-		assertEquals(String.valueOf(userName.getText()), "test");
-		dialog.getButton(Dialog.BUTTON_POSITIVE).callOnClick();
+				assertEquals(String.valueOf(answerBody.getText()), "test");
+				assertEquals(String.valueOf(userName.getText()), "test");
+				dialog.getButton(Dialog.BUTTON_POSITIVE).callOnClick();
+	          }
+	      });
+
+		getInstrumentation().waitForIdleSync();
 		
 		TextView answerCount = (TextView) activity
 				.findViewById(R.id.answer_count);
