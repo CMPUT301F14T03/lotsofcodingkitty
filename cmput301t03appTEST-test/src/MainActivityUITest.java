@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.test.ViewAsserts;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
