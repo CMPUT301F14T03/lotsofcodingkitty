@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -38,6 +38,7 @@ public class ViewQuestionUITest extends
 	ViewQuestion activity;
 	PostController pc;
 	ArrayList<Answer> answers;
+	Answer a;
 	Question q;
 	String qId;
 
@@ -48,12 +49,12 @@ public class ViewQuestionUITest extends
     @Override
     protected void setUp() throws Exception{
         super.setUp();
-		PostController pc = new PostController(getInstrumentation().getContext());
+		pc = new PostController(getInstrumentation().getContext());
 		q = new Question("Test subject", "Body", "Author");
 		qId = q.getId();
 		Comment comment = new Comment("Test", "test");
 		q.addComment(comment);
-		Answer a = new Answer("test", "test", qId);
+		a = new Answer("test", "test", qId);
 		answers = new ArrayList<Answer>();
 		answers.add(a);
 		q.add(a);
@@ -161,8 +162,7 @@ public class ViewQuestionUITest extends
 
 		ViewAsserts.assertOnScreen(mainView, answerListView);
 
-		View answerItem = (View) answerListView.getChildAt(answerListView
-				.getFirstVisiblePosition());
+		View answerItem = (View) answerListView.getChildAt(0);
 
 		// Assert that the view is not null
 
@@ -251,26 +251,26 @@ public class ViewQuestionUITest extends
 	@UiThreadTest
 	public void testViewQuestionUIAnswerUpvote()
 	{
-		Answer answer = new Answer("test", "test", qId);
-		pc.addAnswer(answer, qId);
 		ListView answerListView = (ListView) activity
 				.findViewById(R.id.answerListView);
-		View answerItem = (View) answerListView.getChildAt(answerListView
-				.getFirstVisiblePosition());
-		ImageView upvote = (ImageView) answerItem
-				.findViewById(R.id.answer_upvote_button);
-		upvote.performClick();
+		AnswerListAdapter ala = (AnswerListAdapter) answerListView.getAdapter();
+		ala.updateAdapter(answers);
+		View answerItem = (View) answerListView.getChildAt(0);
+//		ImageView upvote = (ImageView) answerItem
+//				.findViewById(R.id.answer_upvote_button);
+		answerListView.performItemClick(answerListView.getAdapter().getView(0,null, null), 0, answerListView.getItemIdAtPosition(0));
+		//upvote.performClick();
 
 		// Asserts that answer upvote clicks are correctly changing
 		// the answers rating
 
 		assertTrue("Answer upvote not incrementing score",
-				answer.getRating() == 1);
+				a.getRating() == 1);
 		for (int i = 0; i < 1000; i++) {
-			upvote.performClick();
+			//upvote.performClick();
 		}
 		assertTrue("Upvoting answer 1000 times not working",
-				answer.getRating() == 1001);
+				a.getRating() == 1001);
 	}
 
 	/**
@@ -280,7 +280,8 @@ public class ViewQuestionUITest extends
 	
 	@UiThreadTest
 	public void testDialogActivity()
- {
+	{
+
 		((Button) activity.findViewById(R.id.question_answer_button))
 				.performClick();
 		AlertDialog dialog = activity.getDialog();
@@ -296,16 +297,20 @@ public class ViewQuestionUITest extends
 		answerBody.setText("test");
 		userName.setText("test");
 
-		dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+		dialog.getButton(Dialog.BUTTON_POSITIVE).performClick();
+		
 		TextView answerCount = (TextView) activity
 				.findViewById(R.id.answer_count);
 
 		// Assert that the answer counter incremented
 
 		assertEquals("Answers: 1", answerCount.getText());
-
 		ListView answerListView = (ListView) activity
 				.findViewById(R.id.answerListView);
+		
+//		Answer ans = (Answer) answerListView.getItemAtPosition(0);
+//		assertNotNull(ans);
+		
 		View answerItem = (View) answerListView.getChildAt(answerListView
 				.getFirstVisiblePosition());
 		View mainView = (View) activity.getWindow().getDecorView()
@@ -316,6 +321,7 @@ public class ViewQuestionUITest extends
 		ViewAsserts.assertOnScreen(mainView, answerItem);
 
 		assertNotNull(pc.getQuestion(qId).getAnswers());
+
 
 	}
 
@@ -331,6 +337,7 @@ public class ViewQuestionUITest extends
 	@UiThreadTest
 	public void testFavoriteAQuestion()
 	{
+
 		Drawable icon;
 		Drawable favUnfilled = activity.getResources().getDrawable(
 				R.drawable.ic_fav_no);

@@ -10,7 +10,6 @@ import ca.ualberta.cs.cmput301t03app.R.layout;
 import ca.ualberta.cs.cmput301t03app.R.menu;
 import ca.ualberta.cs.cmput301t03app.adapters.AnswerListAdapter;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
-import ca.ualberta.cs.cmput301t03app.mockserver.mockServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 
@@ -58,7 +57,6 @@ public class ViewQuestion extends Activity {
 	String question_id;
 	TextView answerCounter;
 	TextView commentCounter;
-	mockServerDataManager mockDataManage;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +71,6 @@ public class ViewQuestion extends Activity {
 		setFavoriteIcon();
 		setAnswerAdapter();
 		updateCommentCount();		// updates comments counter
-		/* THIS BLOCK OF CODE IS FOR TESTING PURPOSES ONLY */
-		mockDataManage = new mockServerDataManager(this);
-		/* END OF TEST BLOCK */
 	}
 
 	@Override
@@ -226,9 +221,6 @@ public class ViewQuestion extends Activity {
 						populateThisQuestionsAnswers(question_id);
 						ala.updateAdapter(answerList);
 						updateAnswerCount();
-						/* THIS BLOCK OF CODE IS FOR TESTING PURPOSES ONLY */
-						mockDataManage.mockPushQuestionToServer(pc.getQuestion(question_id));
-						/* END OF TESTING BLOCK */
 					}
 				}).setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
@@ -287,9 +279,6 @@ public class ViewQuestion extends Activity {
 
 	public void increment_upvote() {
 		pc.getQuestion(question_id).upRating();
-		/*THIS BLOCK IS PURELY FOR TESTING */
-		mockDataManage.mockUpdateList(pc.getQuestionsInstance());
-		/* END OF TEST BLOCK*/
 		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
 				.getRating()));
 	}
@@ -326,13 +315,10 @@ public class ViewQuestion extends Activity {
 	// This on upvotes an answer
 	public void answerUpvote(View v) {
 		Answer answer = (Answer) v.getTag();
-		/* THIS BLOCK IS FOR TEST PURPOSES ONLY		 */
-		mockDataManage.mockUpdateList(pc.getQuestionsInstance());
-		/* END OF TEST BLOCK		*/
 		answer.upRating();
 		ala.notifyChange();
 	}
-	
+	// Used for testing
 	public AlertDialog getDialog() {
 		return this.dialog;
 	}

@@ -3,7 +3,6 @@ package ca.ualberta.cs.cmput301t03app.views;
 import java.util.ArrayList;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
-import ca.ualberta.cs.cmput301t03app.mockserver.mockServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -36,7 +35,6 @@ public class ViewComment extends Activity {
 	TextView commentCount;
 	TextView timeStamp;
 	TextView author;
-	mockServerDataManager mockDataManage; // FOR TESTING PURPOSES ONLY
 
 	/** Called when the activity is first created. */
 	@Override
@@ -46,10 +44,7 @@ public class ViewComment extends Activity {
 		Bundle extras = getIntent().getExtras();
 		commentType = extras.getInt(ViewQuestion.SET_COMMENT_TYPE);	//answer or question comments
 		Log.d("click", "Comment type: " + commentType);
-		questionID = extras.getString(ViewQuestion.QUESTION_ID_KEY);
-		/* FOR TESTING PURPOSES ONLY		 */
-		mockDataManage = new mockServerDataManager(this);
-		/* END TESTING BLOCK		 */
+		questionID = extras.getString(ViewQuestion.QUESTION_ID_KEY);	 
 		switch (commentType) {
 			case 1:
 				comments = pc.getCommentsToQuestion(questionID);
@@ -164,8 +159,6 @@ public class ViewComment extends Activity {
 						commentBodyList.add(commentBodyString);
 						cla.notifyDataSetChanged();
 						updateCommentCount(); // <-- MIGHT NOT USE THIS
-						/* THIS BLOCK OF CODE IS FOR MOCK SERVER TESTING ONLY */
-						mockDataManage.mockPushQuestionToServer(pc.getQuestion(questionID));
 					}
 
 				}).setNegativeButton("Cancel",
