@@ -13,6 +13,7 @@ import java.util.UUID;
 
 public class Question{
 	private String id;
+	private ArrayList<Answer> answers;
 	private ArrayList<Comment> comments;
 	private String subject;
 	private String body;
@@ -20,7 +21,7 @@ public class Question{
 	private File picture;
 	private Date date;
 	private int rating;
-	private ArrayList<Answer> answers;
+	
 
 	
 	public Question(String subject, String body, String author) {
@@ -33,39 +34,64 @@ public class Question{
 		this.comments = new ArrayList<Comment>(); // Same as above
 		this.answers = new ArrayList<Answer>();
 	}
+
+	/**
+	 * Adds an Answer object to the list of answers.
+	 * @param answer An Answer Object
+	 */
+	public void addAnswer(Answer answer){
+		this.answers.add(answer);
+	}
 	
+	/**
+	 * Adds a Comment object to the list of comments.
+	 * @param comment A Comment Object
+	 */
+	public void addComment(Comment comment) {
+		this.getComments().add(comment);
+	}
+	
+	/**
+	 * Increments the score of the answer.
+	 */
+	public void upRating() {
+		this.rating++; //Rating should be incremented by 1 per upvote press; we do not need to tell the system what score is.
+	}
+	
+	/**
+	 * Sets the picture to an image provided by the user
+	 * @param picture
+	 */
+	public void setPicture(File picture){
+		this.picture = picture;
+	}
+	
+	/*-----------------------Get counts---------------------*/
+	
+	/**
+	 * Returns the number of Answer objects to the question
+	 * @return The number of Answer Objects
+	 */
 	public int countAnswers() {
 		return this.answers.size();
 	}
 	
+	/**
+	 * Returns the number of Comment objects to the question
+	 * @return int The number of Comment objects.
+	 */
 	public int countComments() {
 		return this.comments.size();
 	}
 	
-	public ArrayList<Comment> getComments() {
-		return this.comments;
-	}
-	
-	public void addComment(Comment comment) {
-		this.getComments().add(comment);
-	}
+	/*----------------------Getters--------------------------*/
 	
 	public ArrayList<Answer> getAnswers() {
 		return this.answers;
 	}
 	
-	public Answer getAnswerByID(String answerID) {
-		/* Josh : This might not be needed */
-		for (int i = 0; i<answers.size(); i++) {
-			if(this.answers.get(i).getId().equals(answerID)) {
-				return answers.get(i);
-			}
-		}
-		return null;
-	}	
-	
-	public void addAnswer(Answer answer){
-		this.answers.add(answer);
+	public ArrayList<Comment> getComments() {
+		return this.comments;
 	}
 	
 	public String getSubject() {
@@ -82,14 +108,6 @@ public class Question{
 	
 	public int getRating() {
 		return this.rating;
-	}
-	
-	public void upRating() {
-		this.rating++; //Rating should be incremented by 1 per upvote press; we do not need to tell the system what score is.
-	}
-	
-	public void setPicture(File picture){
-		this.picture = picture;
 	}
 	
 	public File getPicture(){

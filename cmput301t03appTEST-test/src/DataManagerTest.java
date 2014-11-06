@@ -155,6 +155,6 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 	private void cleanUp() {
 		UserPostCollector upc = postController.getUPC();
 		upc.clearLists();		
-		postController.saveUserPosts();
+		//postController.saveUserPosts();
 	}
 }

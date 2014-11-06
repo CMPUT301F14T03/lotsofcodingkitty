@@ -93,8 +93,8 @@ public class ViewComment extends Activity {
 		else if (commentType == 2) {	//comment for answers 
 			commentTitle
 					.setText("Q: " + pc.getQuestion(questionID).getSubject() +System.getProperty("line.separator")+  "A: " + pc.getAnswer(answerID, questionID).getAnswer());
-			timeStamp.setText("Posted: " + pc.getQuestion(questionID).getAnswerByID(answerID).getDate());
-			author.setText("By: " + pc.getQuestion(questionID).getAnswerByID(answerID).getAuthor());
+			timeStamp.setText("Posted: " + pc.getAnswer(answerID,  questionID).getDate());
+			author.setText("By: " + pc.getAnswer(answerID,  questionID).getAuthor());
 		}
 	}
 
@@ -120,8 +120,7 @@ public class ViewComment extends Activity {
 									.countComments()));
 		} else if (commentType == 2) {
 			commentCount.setText("Comments: "
-					+ String.valueOf(pc.getQuestion(questionID)
-							.getAnswerByID(answerID).countAnswerComments()));
+					+ String.valueOf(pc.getAnswer(answerID,  questionID).countAnswerComments()));
 		}
 	}
 

@@ -62,6 +62,7 @@ public class MainActivity extends Activity {
 		});
 		
 		setupAdapter();
+		
 		 
 	}
 	
@@ -210,12 +211,12 @@ public class MainActivity extends Activity {
 	public AlertDialog getDialog(){		//this is for testing purposes
 		return alertDialog1;
 	}
-	
-	public MainListAdapter getAdapter(){
+
+	public MainListAdapter getAdapter(){ //this is for testing purposes
 		return mla;
 	}
 	
-	public void setupAdapter() {
+	private void setupAdapter() {
 		lv = (ListView) findViewById(R.id.activity_main_question_list);
 		mla = new MainListAdapter(this, R.layout.activity_main_question_entity,
 				pc.getQuestionsInstance());
