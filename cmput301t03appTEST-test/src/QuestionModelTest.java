@@ -80,18 +80,18 @@ public class QuestionModelTest extends ActivityInstrumentationTestCase2<MainActi
 		assertSame("index 1 and 2 have the same comment object", q1.getComments().get(1), q1.getComments().get(2));
 	}
 	// This tests the getAnserByIDmethod by making sure it returns the proper answers given the answer keys.
-	public void testGetAnswerByIDMethod(){
-		Question q1 = new Question("a subject", "a body", "a author");
-		Answer a1 = new Answer("a body", "a author","1");
-		Answer a2 = new Answer("Another body", "some other author","1");
-		
-		assertTrue("An empty list doesnt return null",q1.getAnswerByID("dummy")==null);
-		q1.addAnswer(a1);
-		assertTrue("Doesnt return null with something in the list",q1.getAnswerByID("dummy")==null);
-		assertSame("The answer returned is not the same that was added",q1.getAnswerByID(a1.getId()),a1);
-		
-		q1.addAnswer(a2);
-		assertNotSame("The answers are the same",q1.getAnswerByID(a1.getId()),q1.getAnswerByID(a2.getId()));
-		
-	}
+//	public void testGetAnswerByIDMethod(){
+//		Question q1 = new Question("a subject", "a body", "a author");
+//		Answer a1 = new Answer("a body", "a author","1");
+//		Answer a2 = new Answer("Another body", "some other author","1");
+//		
+//		assertTrue("An empty list doesnt return null",q1.getAnswerByID("dummy")==null);
+//		q1.addAnswer(a1);
+//		assertTrue("Doesnt return null with something in the list",q1.getAnswerByID("dummy")==null);
+//		assertSame("The answer returned is not the same that was added",q1.getAnswerByID(a1.getId()),a1);
+//		
+//		q1.addAnswer(a2);
+//		assertNotSame("The answers are the same",q1.getAnswerByID(a1.getId()),q1.getAnswerByID(a2.getId()));
+//		
+//	}
 }

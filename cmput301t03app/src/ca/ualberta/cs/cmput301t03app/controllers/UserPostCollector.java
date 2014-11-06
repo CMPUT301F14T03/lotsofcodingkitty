@@ -8,16 +8,23 @@ import ca.ualberta.cs.cmput301t03app.models.Question;
 
 import android.content.Context;
 
+/**
+ * A model that contains all user specific lists containing
+ * ID's and a question bank containing a list of Question objects.
+ * All lists are populated by loading from LocalDataManager.
+ * 
+ */
 public class UserPostCollector {
 	private ArrayList<Question> questionBank;
 	private ArrayList<String> favoriteQuestions;
 	private ArrayList<String> readQuestions;
 	private ArrayList<String> toReadQuestions;
 	private ArrayList<String> postedQuestions;
-	private ArrayList<String> postedAnswers;
+	private LocalDataManager local;
+//	private ArrayList<String> postedAnswers;
 
 //	private Context context;
-//	private LocalDataManager localDataManager;
+
 
 	public UserPostCollector() {
 		questionBank = null;
@@ -25,81 +32,66 @@ public class UserPostCollector {
 		readQuestions = null;
 		toReadQuestions = null;
 		postedQuestions = null;
-		postedAnswers = null;
+//		postedAnswers = null;
 	}
-
-	// This is a constructor that is used when the UPC is created using the LocalDataManagers loading methods
-	// Unsure about this constructor.....
-
-	public UserPostCollector(ArrayList<String> favoriteQuestions, ArrayList<String> readQuestions,
-			ArrayList<String> toReadQuestions, ArrayList<String> postedQuestions, ArrayList<String> postedAnswers) {
-		this.favoriteQuestions = favoriteQuestions;
-		this.readQuestions = readQuestions;
-		this.toReadQuestions = toReadQuestions;
-		this.postedQuestions = postedQuestions;
-		this.postedAnswers = postedAnswers;
-	}
+	
+	/*---------------------------Initializers-----------------------------*/
 	
 	/**
 	 * This method initializes the favorites id list
-	 * @param context
+	 * @param context Activity Context
 	 */
 	public void initFavoriteID(Context context) {
 		if (this.favoriteQuestions == null) {
-			LocalDataManager local = new LocalDataManager(context);
+			local = new LocalDataManager(context);
 			this.favoriteQuestions = local.loadFavorites();
 		}
 	}
 	
 	/**
 	 * This method initializes the read id list
-	 * @param context
+	 * @param context Activity Context
 	 */
 	public void initReadID(Context context) {
 		if (this.readQuestions == null) {
-			LocalDataManager local = new LocalDataManager(context);
+			local = new LocalDataManager(context);
 			this.readQuestions = local.loadRead();
 		}
 	}
 	
 	/**
 	 * This method initializes the to read id list
-	 * @param context
+	 * @param context Activity Context
 	 */
 	public void initToReadID(Context context) {
 		if (this.toReadQuestions == null) {
-			LocalDataManager local = new LocalDataManager(context);
+			local = new LocalDataManager(context);
 			this.toReadQuestions = local.loadRead();
 		}
 	}
 
 	/**
 	 * This method initializes the posted questions id list
-	 * @return context
+	 * @return context Activity Context
 	 */
 	public void initPostedQuestionID(Context context) {
 		if (this.postedQuestions == null) {
-			LocalDataManager local = new LocalDataManager(context);
+			local = new LocalDataManager(context);
 			this.postedQuestions = local.loadPostedQuestions();
 		}
 	}
 	
 	/**
 	 * This method initializes the question bank
-	 * @param context
+	 * @param context Activity Context
 	 */
 	public void initQuestionBank(Context context) {
 		if (this.questionBank == null) {
-			LocalDataManager local = new LocalDataManager(context);
+			local = new LocalDataManager(context);
 			this.questionBank = local.loadQuestions();
 		}
 	}
 	
-	// I changed a lot of these because it didn't really seem MVC for the model
-	// to be calling the dataManager (which is what our post controller should know about)
-	// to populate its own lists.
-	//
-	// The model is now populated by the PostController calling the LocalDataManager.
 
 	/*=====================Getters=====================*/
 	public ArrayList<Question> getQuestionBank() {
@@ -120,38 +112,51 @@ public class UserPostCollector {
 
 	public ArrayList<String> getPostedQuestions() {
 		return this.postedQuestions;
-	}
-
-	public ArrayList<String> getPostedAnswers() {
-		return this.postedAnswers;
 	}	
 
 	/*--------------------------------------------------------*/
 
 	/*=====================Adding=====================*/
+	/**
+	 * Adds a question object to the question bank
+	 * @param question A question object
+	 */
 	public void addQuestionToBank(Question question) {
 		questionBank.add(question);
 	}
 	
+	/**
+	 * Adds a string which represents an ID to the list
+	 * @param qId A question ID
+	 */
 	public void addFavoriteQuestion(String qId) {
 		favoriteQuestions.add(qId);
 	}	
 
+	/**
+	 * Adds a string which represents an ID to the list
+	 * @param qId A question ID
+	 */
 	public void addReadQuestion(String qId) {
 		readQuestions.add(qId);
 	}
 
+	/**
+	 * Adds a string which represents an ID to the list
+	 * @param qId A question ID
+	 */
 	public void addtoReadQuestion(String qId) {
 		toReadQuestions.add(qId);
 	}
 
+	/**
+	 * Adds a string which represents an ID to the list
+	 * @param qId A question ID
+	 */
 	public void addPostedQuestion(String qId) {
 		postedQuestions.add(qId);
 	}
 
-	public void addUserAnswer(String qId) {
-		postedAnswers.add(qId);
-	}
 
 	//This method is for testing since each test needs to start with a fresh list
 	//TODO: Delete this later
@@ -164,3 +169,26 @@ public class UserPostCollector {
 	}
 }
 
+// This is a constructor that is used when the UPC is created using the LocalDataManagers loading methods
+// Unsure about this constructor.....
+
+//public UserPostCollector(ArrayList<String> favoriteQuestions, ArrayList<String> readQuestions,
+//		ArrayList<String> toReadQuestions, ArrayList<String> postedQuestions, ArrayList<String> postedAnswers) {
+//	this.favoriteQuestions = favoriteQuestions;
+//	this.readQuestions = readQuestions;
+//	this.toReadQuestions = toReadQuestions;
+//	this.postedQuestions = postedQuestions;
+//	this.postedAnswers = postedAnswers;
+//}
+
+/**
+ * Adds a string which represents an ID to the list
+ * @param qId A question ID
+ */
+//public void addUserAnswer(String qId) {
+//	postedAnswers.add(qId);
+//}
+
+//public ArrayList<String> getPostedAnswers() {
+//return this.postedAnswers;
+//}

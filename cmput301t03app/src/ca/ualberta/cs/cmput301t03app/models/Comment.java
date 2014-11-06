@@ -22,6 +22,8 @@ public class Comment {
 		this.author = author;
 	}
 	
+	/*--------------------Getters-------------------*/
+	
 	public Date getDate() {
 		return this.date;
 	}

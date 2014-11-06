@@ -52,12 +52,12 @@ public class ViewQuestionUITest extends
 		pc = new PostController(getInstrumentation().getContext());
 		q = new Question("Test subject", "Body", "Author");
 		qId = q.getId();
-		pc.addQuestion(q);
 		Comment comment = new Comment("Test", "test");
 		q.addComment(comment);
 		a = new Answer("test", "test", qId);
 		answers = new ArrayList<Answer>();
 		answers.add(a);
+		pc.addQuestion(q);
 		Intent intent = new Intent();
 		intent.putExtra("question_id", qId);
 		setActivityIntent(intent);
