@@ -57,7 +57,6 @@ public class ViewQuestionUITest extends
 		a = new Answer("test", "test", qId);
 		answers = new ArrayList<Answer>();
 		answers.add(a);
-		q.add(a);
 		pc.addQuestion(q);
 		Intent intent = new Intent();
 		intent.putExtra("question_id", qId);

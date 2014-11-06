@@ -36,10 +36,10 @@ public class LocalDataManager implements iDataManager{
 	private static final String TO_READ_FILE = "read_later.sav";
 	private static final String FAVORITE_FILE = "favorite.sav";
 	private static final String POSTED_QUESTIONS_FILE = "post_questions.sav";
-	private static final String POSTED_ANSWERS_FILE = "post_answers.sav";
 	private static final String QUESTION_BANK = "question_bank.sav";
-	private static final String ANSWER_BANK = "answer_bank.sav"; // This is required and use to save the posted answers ONLY.
-	private static final String FAVORITE_ANSWERS_ID = "favorite_answer.sav";
+//	private static final String POSTED_ANSWERS_FILE = "post_answers.sav";	
+//	private static final String ANSWER_BANK = "answer_bank.sav"; // This is required and use to save the posted answers ONLY.
+//	private static final String FAVORITE_ANSWERS_ID = "favorite_answer.sav";
 
 	private Context context;
 	private String SAVE_FILE; //This will be equal to one of the filenames 
@@ -52,8 +52,7 @@ public class LocalDataManager implements iDataManager{
 	
 	/**
 	 * Saves a list of question id's of favorite questions to cache.
-	 * @param idList TODO
-	 * @param UUID
+	 * @param idList A list of strings
 	 */
 	public void saveFavoritesID(ArrayList<String> idList) {
 		SAVE_FILE = FAVORITE_FILE;
@@ -62,8 +61,7 @@ public class LocalDataManager implements iDataManager{
 	
 	/**
 	 * Saves a list of question id's of read questions to cache.
-	 * @param idList TODO
-	 * @param UUID
+	 * @param idList A list of strings
 	 */
 	public void saveReadID(ArrayList<String> idList) {
 		SAVE_FILE = READ_FILE;
@@ -73,8 +71,7 @@ public class LocalDataManager implements iDataManager{
 	/**
 	 * Saves a list of question id's of questions to be
 	 * read later to cache.
-	 * @param idList TODO
-	 * @param UUID
+	 * @param idList A list of strings
 	 */
 	public void saveToReadID(ArrayList<String> idList) {
 		SAVE_FILE = TO_READ_FILE;
@@ -84,54 +81,16 @@ public class LocalDataManager implements iDataManager{
 	/**
 	 * Saves a list of question id's of questions posted by the
 	 * user to cache.
-	 * @param idList TODO
-	 * @param UUID
+	 * @param idList A list of strings
 	 */
 	public void savePostedQuestionsID(ArrayList<String> idList) {
 		SAVE_FILE = POSTED_QUESTIONS_FILE;
 		saveIds(idList);
 	}
-
-	// These two methods set the same mode!
 	
 	/**
-	 * Saves a list of question id's of questions the user posted
-	 * an answer to.
-	 * @param UUID
-	 * 
-	 * 
-	 * Going to comment this one out! -- Eric
-	 * 
-	public void saveQuestionsOfPostedAnswers(ArrayList<String> list) {
-		SAVE_FILE = POSTED_ANSWERS_FILE;
-		saveIds(list);
-	}
-	*/
-
-	/**
-	 * Saves a list of answers posted by the user to cache.
-	 * @param idList TODO
-	 * @param UUID
-	 *
-	 */
-	public void savePostedAnswersID(ArrayList<String> idList) {
-		SAVE_FILE = POSTED_ANSWERS_FILE;
-		saveIds(idList);
-	}
-	
-	/**
-	 * Saves the answer ID.  This should only be needed if we're saving answers independent of questions.
-	 * @param idList TODO
-	 * @param UUID
-	 */
-	public void saveFavoriteAnswerID(ArrayList<String> idList) {
-		SAVE_FILE = FAVORITE_ANSWERS_ID;
-		saveIds(idList);
-	}
-	
-	/**
-	 * Saves
-	 * @param list
+	 * Saves a list of Question Objects to the question bank
+	 * @param list A list of Question Objects
 	 */
 	public void saveToQuestionBank(ArrayList<Question> list) {
 		SAVE_FILE = QUESTION_BANK;
@@ -187,28 +146,6 @@ public class LocalDataManager implements iDataManager{
 		return list;
 	}
 
-	/**
-	 * Loads a list of question ID's of questions posted by 
-	 * the user from cache.
-	 * @return list A list of strings containing ID's.
-	 */
-//	public ArrayList<String> loadQuestionsOfPostedAnswers() {
-//		SAVE_FILE = POSTED_ANSWERS_FILE;
-//		ArrayList<String> list = new ArrayList<String>();
-//		list = loadIds();
-//		return list;
-//	}
-
-	/**
-	 * Loads a list of answers posted by the user from cache.
-	 * @return list A list of strings containing ID's.
-	 */
-	public ArrayList<String> loadPostedAnswers() {
-		SAVE_FILE = POSTED_ANSWERS_FILE;
-		ArrayList<String> list = new ArrayList<String>();
-		list = loadIds();
-		return list;
-	}
 
 	/**
 	 * Returns a list of Question objects from the question bank.
@@ -235,29 +172,6 @@ public class LocalDataManager implements iDataManager{
 		return questionArray;
 	}
 
-	/**
-	 * Returns a list of Answer objects from the answer bank.
-	 * @return answerArray A list of Answer objects.
-	 */
-	public ArrayList<Answer> loadAnswers() {
-		ArrayList<Answer> answerArray = new ArrayList<Answer>();
-		try {			
-				FileInputStream fileInputStream = context.openFileInput(ANSWER_BANK);	
-				InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-				Type listType = new TypeToken<ArrayList<Answer>>(){}.getType();
-				GsonBuilder builder = new GsonBuilder();
-	
-				//Gson does not serialize/deserialize dates with milisecond precision unless specified
-	        	Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create(); 
-	        	builder.serializeNulls(); //Show fields with null values
-	        	ArrayList<Answer> list = gson.fromJson(inputStreamReader, listType);
-	        	answerArray = list;
-			} catch(IOException e) {
-				e.printStackTrace();
-			}
-		return answerArray;
-	}
-
 	/***********************************PRIVATE METHODS*****************************************/
 	
 	private void saveIds(ArrayList<String> idList) {
@@ -274,11 +188,6 @@ public class LocalDataManager implements iDataManager{
 		}
 	}
 	
-	/**
-	 * Saves a list of Question objects to the question bank.
-	 * @param list A list of Question objects.
-	 * 
-	 */
 	private void saveQuestions(ArrayList<Question> list) {
 	    try { 	
 	    	FileOutputStream fileOutputStream = context.openFileOutput(SAVE_FILE, Context.MODE_PRIVATE);
@@ -312,3 +221,87 @@ public class LocalDataManager implements iDataManager{
 		return idArray;
 	}
 }
+
+
+// These two methods set the same mode!
+
+/**
+ * Saves a list of question id's of questions the user posted
+ * an answer to.
+ * @param UUID
+ * 
+ * 
+ * Going to comment this one out! -- Eric
+ * 
+public void saveQuestionsOfPostedAnswers(ArrayList<String> list) {
+	SAVE_FILE = POSTED_ANSWERS_FILE;
+	saveIds(list);
+}
+*/
+
+/**
+ * Saves a list of answers posted by the user to cache.
+ * @param idList TODO
+ * @param UUID
+ *
+ */
+//public void savePostedAnswersID(ArrayList<String> idList) {
+//	SAVE_FILE = POSTED_ANSWERS_FILE;
+//	saveIds(idList);
+//}
+
+/**
+ * Saves the answer ID.  This should only be needed if we're saving answers independent of questions.
+ * @param idList TODO
+ * @param UUID
+ */
+//public void saveFavoriteAnswerID(ArrayList<String> idList) {
+//	SAVE_FILE = FAVORITE_ANSWERS_ID;
+//	saveIds(idList);
+//}
+
+/**
+ * Loads a list of question ID's of questions posted by 
+ * the user from cache.
+ * @return list A list of strings containing ID's.
+ */
+//public ArrayList<String> loadQuestionsOfPostedAnswers() {
+//	SAVE_FILE = POSTED_ANSWERS_FILE;
+//	ArrayList<String> list = new ArrayList<String>();
+//	list = loadIds();
+//	return list;
+//}
+
+/**
+ * Loads a list of answers posted by the user from cache.
+ * @return list A list of strings containing ID's.
+ */
+//public ArrayList<String> loadPostedAnswers() {
+//	SAVE_FILE = POSTED_ANSWERS_FILE;
+//	ArrayList<String> list = new ArrayList<String>();
+//	list = loadIds();
+//	return list;
+//}
+
+/**
+ * Returns a list of Answer objects from the answer bank.
+ * @return answerArray A list of Answer objects.
+ */
+//public ArrayList<Answer> loadAnswers() {
+//	ArrayList<Answer> answerArray = new ArrayList<Answer>();
+//	try {			
+//			FileInputStream fileInputStream = context.openFileInput(ANSWER_BANK);	
+//			InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+//			Type listType = new TypeToken<ArrayList<Answer>>(){}.getType();
+//			GsonBuilder builder = new GsonBuilder();
+//
+//			//Gson does not serialize/deserialize dates with milisecond precision unless specified
+//        	Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create(); 
+//        	builder.serializeNulls(); //Show fields with null values
+//        	ArrayList<Answer> list = gson.fromJson(inputStreamReader, listType);
+//        	answerArray = list;
+//		} catch(IOException e) {
+//			e.printStackTrace();
+//		}
+//	return answerArray;
+//}
