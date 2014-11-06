@@ -37,17 +37,28 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 		this.listview = ((ListView) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_list));
 	}
 	
+	/**
+	 * Testing to see if dialog box opens up when the "Ask question" button is clicked
+	 */
 	@UiThreadTest
 	public void testmakeQuestionDialogBox(){
 		assertNotNull(activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));//making sure that button is visible on screen
 		((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
 	    AlertDialog dialog = activity.getDialog(); // I create getLastDialog method in MyActivity class. Its return last created AlertDialog
 	    assertTrue("dialogbox is showing :)",dialog.isShowing());
-		//testing to see if dialogbox opens up
+		
 	}
 	
+	/**
+	 * This is used as part of the test for integration of UI and PC.
+	 * Ensures that the "Ask question" button exists in the UI and allows other test cases to use this method
+	 * to add Question objects. 
+	 * @param title Title of the question
+	 * @param body Body of the question
+	 * @param name Name of the author
+	 */
 	@UiThreadTest
-	public void makeQuestion(String title, String body, String name){	//This is used for test that makes a question
+	public void makeQuestion(String title, String body, String name){	
 		assertNotNull("this should be a button",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
 		((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
 	    AlertDialog dialog = activity.getDialog();	//grabbing the dialog box that opens up when button clicked	
@@ -64,15 +75,17 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 				 DialogInterface.BUTTON_POSITIVE).performClick();	//clicking to add the question
 	}
 	
+	/**
+	 * Testing if adding a question works
+	 */
 	@UiThreadTest
-	public void testAddQuestion(){		//testing if adding a question works
+	public void testAddQuestion(){		
 		assertNotNull(activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
 		MainListAdapter adapter = activity.getAdapter();
 		int oldCount = adapter.getCount();
 		makeQuestion("why?","why?","rjynn");
 		int newCount = adapter.getCount();
 		assertEquals("new question added", newCount, oldCount); 
-
 	}
 	public void testListView(){
 		//testing that the listview is actually visible on the screen
