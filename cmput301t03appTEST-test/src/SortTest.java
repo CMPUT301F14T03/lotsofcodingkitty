@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.cmput301t03app.incomplete.QuestionFilter;
@@ -37,16 +38,18 @@ public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	public void testSortByDate() {
 		QuestionFilter qFilter = new QuestionFilter();
 		ArrayList<Question> qList = new ArrayList<Question>();
-		qList.add(new Question("String", "String", "String"));
-		qList.add(new Question("String2", "String2", "String2"));
-		qList.add(new Question("String3", "String3", "String3"));
+		Question q1 = new Question("String", "String", "String", new Date(2000,12,10));
+		Question q2 = new Question("String2", "String2", "String2", new Date(2010, 12, 10));
+		Question q3 = new Question("String3", "String3", "String3", new Date(2000, 12, 20));
+		qList.add(q1); qList.add(q2); qList.add(q3);
 		ArrayList<Question> sortedList = qFilter.sortByDate(qList);
 		
 		// define a method for sorting
 		// Collections.sort(ansList);
 		
-		assertTrue("Answer list not sorted properly by date.", sortedList.get(0).getDate().compareTo(sortedList.get(1).getDate())<0);
-		assertTrue("Answer list not sorted properly by date.", sortedList.get(1).getDate().compareTo(sortedList.get(2).getDate())<0);
+		assertTrue("Answer list not sorted properly by date.", sortedList.get(0).equals(q2));
+		assertTrue("Answer list not sorted properly by date.", sortedList.get(1).equals(q3));
+		assertTrue("Answer list not sorted properly by date.", sortedList.get(2).equals(q1));
 		
 	}
 	
