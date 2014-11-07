@@ -20,8 +20,11 @@ import ca.ualberta.cs.cmput301t03app.views.ViewComment;
 import ca.ualberta.cs.cmput301t03app.views.ViewQuestion;
 
 
-/* This Junit test tests the ViewComment activity UI objects
- * @author Dominik Pachala
+/**
+ * This Test tests if the comments are properly working
+ * in the User Interface.
+ * 
+ *
  */
 public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComment>{
 	Instrumentation instrumentation;
@@ -143,7 +146,10 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		ViewAsserts.assertOnScreen(vc.getWindow().getDecorView(), author);
 		ViewAsserts.assertOnScreen(vc.getWindow().getDecorView(), b);
 	}
-	
+	/**
+	 * Tests to see if the comment body is correct
+	 * when there is only one comment
+	 */
 	// This comment tests if the comments body shows correctly with only one comment.
 	public void testCommentBodyIsCorrectWithOneComment(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
@@ -166,6 +172,10 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		
 		assertTrue("The comment body is not the same",lv.getItemAtPosition(0).equals("String"));	
 	}
+	/**
+	 * Tests if the view shows two comments correctly and 
+	 * the body has correct content.
+	 */
 	// Tests if the view shows two comments correctly.
 	public void testCommentBodyIsCorretWithTwoComments(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
