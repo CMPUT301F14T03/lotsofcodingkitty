@@ -144,6 +144,8 @@ public class ViewQuestion extends Activity
 				pc.addFavoriteQuestion(pc.getQuestion(question_id));
 				favIcon.setImageResource(R.drawable.ic_fav_yes);
 				setFavoriteIcon();
+				Toast.makeText(ViewQuestion.this, "Added to Favorites List.", Toast.LENGTH_SHORT)
+				.show();
 			}
 		});
 		// listener to upvote when clicked

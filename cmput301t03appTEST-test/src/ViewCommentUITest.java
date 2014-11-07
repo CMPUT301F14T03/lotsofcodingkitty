@@ -24,7 +24,7 @@ import ca.ualberta.cs.cmput301t03app.views.ViewQuestion;
  * This Test tests if the comments are properly working
  * in the User Interface.
  * 
- *@cateogory Integration/System Testing
+ *@category Integration/System Testing
  */
 public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComment>{
 	Instrumentation instrumentation;
