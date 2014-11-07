@@ -1,23 +1,43 @@
-import ca.ualberta.cs.cmput301t03app.R;
-import ca.ualberta.cs.cmput301t03app.models.Question;
-import ca.ualberta.cs.cmput301t03app.views.UserListsActivity;
 import android.app.Instrumentation;
+import android.app.Instrumentation.ActivityMonitor;
+import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.UiThreadTest;
 import android.test.ViewAsserts;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import ca.ualberta.cs.cmput301t03app.R;
+import ca.ualberta.cs.cmput301t03app.views.UserListsActivity;
 
 
-public class UserListsUITest extends ActivityInstrumentationTestCase2<UserListsActivity> {
-	Instrumentation instru;
+public class UserListsUITest extends ActivityInstrumentationTestCase2<UserListsActivity>{
+	Instrumentation instrumentation;
+	UserListsActivity activity;
+	ActivityMonitor monitor;	//this monitors any newly opened activities
+	
+	
 	public UserListsUITest() {
 		super(UserListsActivity.class);
-		
 	}
 
+	public void setUp() throws Exception{
+		//just setting up the things for tests
+		super.setUp();
+		Intent intent = new Intent();
+		intent.putExtra("userListMode", 0);
+		setActivityIntent(intent);
+		this.activity = (UserListsActivity) getActivity();
+		this.instrumentation = getInstrumentation();
+	}
+	
+	
+	/**
+	 * Testing views on UserLists exist and can be seen
+	 * and the Title at top is correct
+	 */
+	@UiThreadTest
 	public void testItemsOnList(){
-			instru = getInstrumentation();
 			UserListsActivity activity = (UserListsActivity) getActivity();
 			ListView userListView;
 			TextView title;
@@ -45,3 +65,5 @@ public class UserListsUITest extends ActivityInstrumentationTestCase2<UserListsA
 
 		}
 }
+
+
