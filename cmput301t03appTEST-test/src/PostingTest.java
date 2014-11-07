@@ -15,7 +15,7 @@ public PostingTest() {
 		super(MainActivity.class);
 	}
 
-	// Creates a new post contrtoller and new question
+	// Creates a new post controller and new question
 	// Adds the question to the newly created post controller
 	// Asserts that the question getter method of the post controller
 	// returns the earlier created question
@@ -42,7 +42,8 @@ public PostingTest() {
 		assertEquals("Answer not posted correctly.",al,a1);
 	}
 	
-	// Same as above but with comment object
+	//Makes an instance of post controller, adds a comment to a question and checks
+	//to see if it does exist.
 	
 	public void testPostCommentToQuestion() {
 		
@@ -56,6 +57,7 @@ public PostingTest() {
 		assertEquals("Comment not posted correctly.",pc.getQuestion(q1.getId()).getComments().get(0),c1);
 	}
 	
+	// Same as above but adds the comment to an answer
 	public void testPostCommentToAnswer() {
 		
 
