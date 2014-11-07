@@ -6,7 +6,13 @@ import ca.ualberta.cs.cmput301t03app.incomplete.QuestionFilter;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.views.MainActivity;
-
+/**
+ * This tests that the sorting function is working
+ * The sorting functionality is for sorting by date, score, and by pictures
+ * This still needs to be done when the server function is implemented.
+ * @author rdejesus
+ *
+ */
 public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	
 	public SortTest() {

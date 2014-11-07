@@ -1,5 +1,8 @@
-/*this test tests our main activity UI functionality*/
-
+/**
+ * This tests the MainActivity User Interface
+ * it uses the buttons and views to add questions and view questions
+ * rather than using the postcontroller and get functions
+ */
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
@@ -31,9 +34,10 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	public MainActivityUITest() {
 		super(MainActivity.class);
 	}
-	
+	/**
+	 * This sets up all the required fields for this test
+	 */
 	public void setUp() throws Exception{
-		//just setting up the things for tests
 		super.setUp();
 		this.activity = (MainActivity) getActivity();
 		this.instrumentation = getInstrumentation();
@@ -41,7 +45,9 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	}
 	
 	/**
-	 * Testing to see if dialog box opens up when the "Ask question" button is clicked
+	 * Testing to see if dialog box pops up and is visible on the screen
+	 *  when the "Ask question" button is clicked
+	 * 
 	 */
 	@UiThreadTest
 	public void testmakeQuestionDialogBox(){
@@ -51,8 +57,10 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	    assertTrue("dialogbox is showing :)",dialog.isShowing());
 	}
 	
-	/**
-	 * Testing that when cancel is clicked, but fields are not empty No question should be added
+	/**Testing that when the dialog pops up to add a question, 
+	 * and you enter information but click cancel there should be
+	 * no added question to the listView
+	 * 
 	 */
 	public void testAddnoQuestion(){		//testing if clicking cancel works if adding a question
 		activity = (MainActivity) getActivity();
@@ -86,7 +94,11 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	}
 	
 	/**
-	 * Testing adding 1 question. The question should then show up on the listView
+	 * Testing that when you click the add question button,
+	 * a dialog box pops up and when the fields are completed 
+	 * and you click "OK"
+	 * the question should show up on the screen and the adapter 
+	 * should have a new Question object
 	 */
 	public void testAddQuestion(){		//testing if adding 1 question works
 		activity = (MainActivity) getActivity();
@@ -120,7 +132,8 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	}
 	
 	/**
-	 * Testing adding 2 Questions at once.
+	 * Testing adding 2 Questions
+	 * at a time will not break the adapter
 	 */
 	public void testAdd2Question(){		//testing if adding 1 question works
 		activity = (MainActivity) getActivity();
@@ -162,6 +175,7 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	
 	/**
 	 * Testing adding 30 questions 
+	 * will not break the adapter and should work
 	 */
 	public void testAdd30Question(){		//testing if adding 1 question works
 		activity = (MainActivity) getActivity();
@@ -203,6 +217,7 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	}
 	/**
 	 * Making sure ListView is showing up on the screen
+	 * and not null
 	 */
 	public void testListView(){
 		//testing that the listview is actually visible on the screen
@@ -217,8 +232,8 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	}
 	
 	/**
-	 * Testing that when an question is clicked in the ListView it opens up a new activity with that question 
-	 * sent as an intent to be shown.
+	 * Testing that when an question is clicked in the ListView it opens up a new activity with the
+	 * correct question being shown in the new activity
 	 */
 	public void testzQuestionDetailClick(){
 		//this tests that if you click on an item a new activity opens up that is ViewQuestion activiy
