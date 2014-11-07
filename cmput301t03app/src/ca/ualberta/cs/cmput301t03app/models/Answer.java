@@ -21,6 +21,11 @@ public class Answer {
 	private File picture;
 	private int rating;
 	
+	/**
+	 * @param answer		Answer body text
+	 * @param author		Answer author
+	 * @param parentID		ID of Question being answered (not currently used)
+	 */
 	
 	public Answer(String answer, String author, String parentID){
 		this.id = UUID.randomUUID().toString();
