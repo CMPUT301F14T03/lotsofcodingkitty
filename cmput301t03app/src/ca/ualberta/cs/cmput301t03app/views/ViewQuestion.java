@@ -281,8 +281,9 @@ public class ViewQuestion extends Activity
 
 	/**
 	 * onClick method for adding an answer to the question Prompts the user with
-	 * a dialog box which requests answer body text as well as a user name. When
-	 * the dialog is complete, the adapters update method is called.
+	 * a dialog box which requests answer body text (answerBodyString) as well
+	 * as a user name (userNameString). When the dialog is complete, the
+	 * adapters update method is called.
 	 */
 
 	public void answerQuestion()
