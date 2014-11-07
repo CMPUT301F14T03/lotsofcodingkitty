@@ -19,35 +19,24 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 /**
- * 
- * @author tbrockma
- * 
+ * Custom formats a list of questions so that the specific attributes of the question can be
+ *        seen in a listview according to a specified layout.
  */
 
-public class MainListAdapter extends ArrayAdapter<Question>
-{
+public class MainListAdapter extends ArrayAdapter<Question> {
 
 	private int layoutResourceId;
 	private Context context;
 	private ArrayList<Question> questionList;
-
 	/**
-	 * MainListAdapter is the adapter responsible for converting an ArrayList of
-	 * Questions into ListView items for the Main Activities ListView.
-	 * 
-	 * @param Context
-	 *            context The context of the adapter.
-	 * @param int layoutResourceId The listview used by the adapter.
-	 * @param ArrayList
-	 *            <Question> incQuestionList The ArrayList of Questions
-	 *            populating the listview.
+	 * Constructs a {@link #MainListAdapter() MainListAdapter}.
+	 *  @param context The context of the adapter.
+	 * @param layoutResourceId Resource ID of the listview using this adapter.
+	 * @param incQuestionList The list of questions to be displayed in the listview.
 	 */
-
 	public MainListAdapter(Context context, int layoutResourceId,
-			ArrayList<Question> incQuestionList)
-	{
+			ArrayList<Question> incQuestionList) {
 
 		super(context, layoutResourceId, incQuestionList);
 		this.layoutResourceId = layoutResourceId;
@@ -57,13 +46,11 @@ public class MainListAdapter extends ArrayAdapter<Question>
 	}
 
 	/**
-	 * 
-	 * questionListHolder contains all of the view element necessary for
-	 * creating a Question item in the ListView
+	 * Class containing all of the view elements required for a question
+	 * element in the UI.
 	 */
 
-	public static class questionListHolder
-	{
+	public static class questionListHolder {
 
 		/* This is the custom holder with the custom elements for each row */
 		ImageButton question_upvote_button;
@@ -75,17 +62,8 @@ public class MainListAdapter extends ArrayAdapter<Question>
 		TextView question_author;
 	}
 
-	/**
-	 * Major contribution from :
-	 * http://www.mysamplecode.com/2012/07/android-listview
-	 * -checkbox-example.html (Adapter)
-	 * http://javarevisited.blogspot.ca/2011/09/
-	 * convert-date-to-string-simpledateformat.html (Date to string)
-	 * 
-	 * This sets up the XML IDs with the layout of the ListView
-	 */
-	public View getView(int position, View convertView, ViewGroup parent)
-	{
+
+	public View getView(int position, View convertView, ViewGroup parent) {
 
 		View row = convertView;
 		LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -93,18 +71,9 @@ public class MainListAdapter extends ArrayAdapter<Question>
 		questionListHolder holder = null;
 		LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
-		row = vi.inflate(R.layout.activity_main_question_entity, null); // Tell
-																		// Listview
-																		// which
-																		// xml
-																		// to
-																		// find
-																		// the
-																		// formatting
-																		// to.
+		row = vi.inflate(R.layout.activity_main_question_entity, null); 
 		holder = setupHolder(row);
 		row.setTag(holder);
-
 		Question q = questionList.get(position);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String date_to_string = sdf.format(q.getDate());
@@ -123,23 +92,21 @@ public class MainListAdapter extends ArrayAdapter<Question>
 	}
 
 	/**
-	 * Method for notifying the adapter that the data set has changed
-	 * 
-	 * @param qList
-	 *            Takes ArrayList<Question> and uses it to populate the ListView
+	 * Updates the adapter and refreshes the listview to reflect any changes to the list.
+	 *@param qList The new list of questions that will be shown in the listview.
 	 */
-
-	public synchronized void updateAdapter(ArrayList<Question> qList)
-	{
-
-		/* method used to refresh MainActivity */
+	
+	public synchronized void updateAdapter(ArrayList<Question> qList) {
 		questionList.clear();
 		questionList.addAll(qList);
 		notifyDataSetChanged();
 	}
-
-	private questionListHolder setupHolder(View row)
-	{
+	
+	/**Returns an {@link #questionListHolder questionListHolder} that can be used for an adapter.
+	 *@param row The view that requires the adapter.
+	 *@return A holder that now has the specified views to be used in the adapter.
+	 */
+	private questionListHolder setupHolder(View row) {
 
 		/* setting up holder with XML IDs */
 		questionListHolder holder = new questionListHolder();

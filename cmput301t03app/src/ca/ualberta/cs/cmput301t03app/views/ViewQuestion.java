@@ -33,7 +33,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * 
- * @author tbrockma
+ * 
  * 
  *         This is the Activity responsible for allowing a user to view further
  *         details about a Question (the Question body text), view answers to a

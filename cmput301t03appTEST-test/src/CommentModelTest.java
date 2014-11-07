@@ -6,7 +6,6 @@ import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 
 /**
  * This test suite is used to test the functionalities of the Comment object
- * @author Eric
  * @category Unit Testing
  */
 public class CommentModelTest extends ActivityInstrumentationTestCase2<MainActivity> {

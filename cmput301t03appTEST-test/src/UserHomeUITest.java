@@ -13,9 +13,6 @@ import ca.ualberta.cs.cmput301t03app.views.UserListsActivity;
 /**
  * This tests that the UserHome User Interface is working properly to integrate all 
  * functionalities of the app.
- * 
- * 
- * @author rdejesus
  * @category Integration/System Testing
  */
 

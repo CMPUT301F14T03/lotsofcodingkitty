@@ -17,8 +17,6 @@ import ca.ualberta.cs.cmput301t03app.views.ViewQuestion;
 /**
  * This tests that the View Comment User Interface works properly by clicking on
  * buttons and using dialog boxes.
- * 
- * @author rdejesus
  * @category Integration/System Testing
  */
 public class ViewCommentUIAnswerTest extends

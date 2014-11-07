@@ -14,8 +14,6 @@ import ca.ualberta.cs.cmput301t03app.views.MainActivity;
  * <br><br>TODO: This still needs to be done when
  * the server function is implemented.
  * 
- * @author rdejesus
- * 
  */
 public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
