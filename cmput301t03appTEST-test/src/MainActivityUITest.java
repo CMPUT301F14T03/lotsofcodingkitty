@@ -48,10 +48,11 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 		((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
 	    AlertDialog dialog = activity.getDialog(); // I create getLastDialog method in MyActivity class. Its return last created AlertDialog
 	    assertTrue("dialogbox is showing :)",dialog.isShowing());
-		
 	}
 	
-
+	/**
+	 * Testing that when cancel is clicked, but fields are not empty No question should be added
+	 */
 	public void testAddnoQuestion(){		//testing if clicking cancel works if adding a question
 		activity = (MainActivity) getActivity();
 		assertNotNull("button not null",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
@@ -83,7 +84,9 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 
 	}
 	
-	
+	/**
+	 * Testing adding 1 question. The question should then show up on the listView
+	 */
 	public void testAddQuestion(){		//testing if adding 1 question works
 		activity = (MainActivity) getActivity();
 		assertNotNull("button not null",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
@@ -115,6 +118,9 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 
 	}
 	
+	/**
+	 * Testing adding 2 Questions at once.
+	 */
 	public void testAdd2Question(){		//testing if adding 1 question works
 		activity = (MainActivity) getActivity();
 		assertNotNull("button not null",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
@@ -153,6 +159,9 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 
 	}
 	
+	/**
+	 * Testing adding 30 questions 
+	 */
 	public void testAdd30Question(){		//testing if adding 1 question works
 		activity = (MainActivity) getActivity();
 		assertNotNull("button not null",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
@@ -191,7 +200,9 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 		assertEquals("new question added", oldCount+30, newCount); 
 
 	}
-	
+	/**
+	 * Making sure ListView is showing up on the screen
+	 */
 	public void testListView(){
 		//testing that the listview is actually visible on the screen
 		Intent intent = new Intent();
@@ -200,7 +211,11 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 		ViewAsserts.assertOnScreen(view, listview);
 	
 	}
-
+	
+	/**
+	 * Testing that when an question is clicked in the ListView it opens up a new activity with that question 
+	 * sent as an intent to be shown.
+	 */
 	public void testzQuestionDetailClick(){
 		//this tests that if you click on an item a new activity opens up that is ViewQuestion activiy
 		ActivityMonitor activityMonitor = getInstrumentation().addMonitor(ViewQuestion.class.getName(), null, false);
