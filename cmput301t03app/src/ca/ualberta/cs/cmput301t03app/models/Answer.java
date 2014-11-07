@@ -21,6 +21,11 @@ public class Answer {
 	private File picture;
 	private int rating;
 	
+	/**
+	 * @param answer		Answer body text
+	 * @param author		Answer author
+	 * @param parentID		ID of Question being answered (not currently used)
+	 */
 	
 	public Answer(String answer, String author, String parentID){
 		this.id = UUID.randomUUID().toString();
@@ -32,12 +37,30 @@ public class Answer {
 	}
 	
 	/**
-	 * Returns a list of Comment objects
-	 * @return comments A list of Comment objects
+	 * Adds a Comment object to the list of comments
+	 * @param comment A Comment object
 	 */
-	public ArrayList<Comment> getComments() {
-		return this.comments;
+	public void addComment(Comment comment) {
+		this.comments.add(comment);
 	}
+	
+	/**
+	 * Sets the picture to an image provided by the user
+	 * @param picture
+	 */
+	public void setPicture(File picture){
+		this.picture = picture;
+	}
+	
+	/**
+	 * Increments the score of the answer.
+	 */
+	public void upRating() {
+		this.rating++; // This should be incremented, not manually set.
+	
+	}
+	
+	/*----------------------Get counts--------------------*/
 	
 	/**
 	 * Returns the number of Comment objects to the answer
@@ -50,12 +73,13 @@ public class Answer {
 			return comments.size();
 	}
 	
+	/*-----------------------Getters-------------------------*/
 	/**
-	 * Adds a Comment object to the list of comments
-	 * @param comment A Comment object
+	 * Returns a list of Comment objects
+	 * @return comments A list of Comment objects
 	 */
-	public void addComment(Comment comment) {
-		this.comments.add(comment);
+	public ArrayList<Comment> getComments() {
+		return this.comments;
 	}
 	
 	public String getAnswer() {
@@ -74,18 +98,6 @@ public class Answer {
 	
 	public int getRating() {
 		return this.rating;
-	}
-	
-	/**
-	 * Increments the score of the answer.
-	 */
-	public void upRating() {
-		this.rating++; // This should be incremented, not manually set.
-	
-	}
-	
-	public void setPicture(File picture){
-		this.picture = picture;
 	}
 	
 	public File getPicture(){

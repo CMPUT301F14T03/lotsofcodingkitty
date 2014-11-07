@@ -1,7 +1,11 @@
-/*this test tests our main activity UI functionality*/
-
+/**
+ * This tests the MainActivity User Interface
+ * it uses the buttons and views to add questions and view questions
+ * rather than using the postcontroller and get functions
+ */
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
+import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 import ca.ualberta.cs.cmput301t03app.views.ViewQuestion;
 import android.app.AlertDialog;
@@ -9,6 +13,7 @@ import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.test.ViewAsserts;
@@ -16,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainActivity>{
@@ -28,79 +34,228 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	public MainActivityUITest() {
 		super(MainActivity.class);
 	}
-	
+	/**
+	 * This sets up all the required fields for this test
+	 */
 	public void setUp() throws Exception{
-		//just setting up the things for tests
 		super.setUp();
 		this.activity = (MainActivity) getActivity();
 		this.instrumentation = getInstrumentation();
 		this.listview = ((ListView) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_list));
 	}
 	
+	/**
+	 * Testing to see if dialog box pops up and is visible on the screen
+	 *  when the "Ask question" button is clicked
+	 * 
+	 */
 	@UiThreadTest
 	public void testmakeQuestionDialogBox(){
 		assertNotNull(activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));//making sure that button is visible on screen
 		((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
 	    AlertDialog dialog = activity.getDialog(); // I create getLastDialog method in MyActivity class. Its return last created AlertDialog
 	    assertTrue("dialogbox is showing :)",dialog.isShowing());
-		//testing to see if dialogbox opens up
 	}
 	
-	@UiThreadTest
-	public void makeQuestion(String title, String body, String name){	//This is used for test that makes a question
-		assertNotNull("this should be a button",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
-		((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
-	    AlertDialog dialog = activity.getDialog();	//grabbing the dialog box that opens up when button clicked	
-	     EditText questionTitle = (EditText) 		//grabbing all edit texts in teh dialog box
-				dialog.findViewById(R.id.questionTitle);
-		 EditText questionBody = (EditText) 
-				dialog.findViewById(R.id.questionBody);
-		 EditText userName = (EditText) 
-				dialog.findViewById(R.id.UsernameRespondTextView);
-		questionTitle.setText(title);	//setting them up with arguments
-		questionBody.setText(body);
-		userName.setText(name);
-		dialog.getButton(
-				 DialogInterface.BUTTON_POSITIVE).performClick();	//clicking to add the question
-	}
-	
-	@UiThreadTest
-	public void testAddQuestion(){		//testing if adding a question works
-		assertNotNull(activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
+	/**Testing that when the dialog pops up to add a question, 
+	 * and you enter information but click cancel there should be
+	 * no added question to the listView
+	 * 
+	 */
+	public void testAddnoQuestion(){		//testing if clicking cancel works if adding a question
+		activity = (MainActivity) getActivity();
+		assertNotNull("button not null",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
 		MainListAdapter adapter = activity.getAdapter();
 		int oldCount = adapter.getCount();
-		makeQuestion("why?","why?","rjynn");
-		int newCount = adapter.getCount();
-		assertEquals("new question added", newCount, oldCount); 
+		getInstrumentation().runOnMainSync(new Runnable(){	//clicking on an item automatically
+				@Override
+				public void run() {
+					assertNotNull("this should be a button",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
+					((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
+				    AlertDialog dialog = activity.getDialog();	//grabbing the dialog box that opens up when button clicked	
+				     EditText questionTitle = (EditText) 		//grabbing all edit texts in teh dialog box
+							dialog.findViewById(R.id.questionTitle);
+					 EditText questionBody = (EditText) 
+							dialog.findViewById(R.id.questionBody);
+					 EditText userName = (EditText) 
+							dialog.findViewById(R.id.UsernameRespondTextView);
+					questionTitle.setText("poopoo");	//setting them up with arguments
+					questionBody.setText("1newQuestion");
+					userName.setText("me");
+					dialog.getButton(
+							 DialogInterface.BUTTON_NEGATIVE).performClick();
+				}
+				});
+		instrumentation.waitForIdleSync();
+		MainListAdapter adapter1 = activity.getAdapter();
+		int newCount = adapter1.getCount();
+		assertEquals("new question added", oldCount, newCount); 
 
 	}
+	
+	/**
+	 * Testing that when you click the add question button,
+	 * a dialog box pops up and when the fields are completed 
+	 * and you click "OK"
+	 * the question should show up on the screen and the adapter 
+	 * should have a new Question object
+	 */
+	public void testAddQuestion(){		//testing if adding 1 question works
+		activity = (MainActivity) getActivity();
+		assertNotNull("button not null",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
+		MainListAdapter adapter = activity.getAdapter();
+		int oldCount = adapter.getCount();
+		getInstrumentation().runOnMainSync(new Runnable(){	//clicking on an item automatically
+				@Override
+				public void run() {
+					assertNotNull("this should be a button",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
+					((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
+				    AlertDialog dialog = activity.getDialog();	//grabbing the dialog box that opens up when button clicked	
+				     EditText questionTitle = (EditText) 		//grabbing all edit texts in teh dialog box
+							dialog.findViewById(R.id.questionTitle);
+					 EditText questionBody = (EditText) 
+							dialog.findViewById(R.id.questionBody);
+					 EditText userName = (EditText) 
+							dialog.findViewById(R.id.UsernameRespondTextView);
+					questionTitle.setText("poopoo");	//setting them up with arguments
+					questionBody.setText("1newQuestion");
+					userName.setText("me");
+					dialog.getButton(
+							 DialogInterface.BUTTON_POSITIVE).performClick();
+				}
+				});
+		instrumentation.waitForIdleSync();
+		MainListAdapter adapter1 = activity.getAdapter();
+		int newCount = adapter1.getCount();
+		assertEquals("new question added", oldCount+1, newCount); 
+
+	}
+	
+	/**
+	 * Testing adding 2 Questions
+	 * at a time will not break the adapter
+	 */
+	public void testAdd2Question(){		//testing if adding 1 question works
+		activity = (MainActivity) getActivity();
+		assertNotNull("button not null",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
+		MainListAdapter adapter = activity.getAdapter();
+		int oldCount = adapter.getCount();
+		getInstrumentation().runOnMainSync(new Runnable(){	//clicking on an item automatically
+				@Override
+				public void run() {
+					assertNotNull("this should be a button",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
+					((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
+				    AlertDialog dialog = activity.getDialog();	//grabbing the dialog box that opens up when button clicked	
+				     EditText questionTitle = (EditText) 		//grabbing all edit texts in teh dialog box
+							dialog.findViewById(R.id.questionTitle);
+					 EditText questionBody = (EditText) 
+							dialog.findViewById(R.id.questionBody);
+					 EditText userName = (EditText) 
+							dialog.findViewById(R.id.UsernameRespondTextView);
+					questionTitle.setText("poopoo");	//setting them up with arguments
+					questionBody.setText("1newQuestion");
+					userName.setText("me");
+					dialog.getButton(
+							 DialogInterface.BUTTON_POSITIVE).performClick();
+					assertNotNull("this should be a button",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
+					((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
+					questionTitle.setText("poopoo");	//setting them up with arguments
+					questionBody.setText("1newQuestion");
+					userName.setText("me");
+					dialog.getButton(
+							 DialogInterface.BUTTON_POSITIVE).performClick();
+				}
+				});
+		instrumentation.waitForIdleSync();
+		MainListAdapter adapter1 = activity.getAdapter();
+		int newCount = adapter1.getCount();
+		assertEquals("new question added", oldCount+2, newCount); 
+
+	}
+	
+	/**
+	 * Testing adding 30 questions 
+	 * will not break the adapter and should work
+	 */
+	public void testAdd30Question(){		//testing if adding 1 question works
+		activity = (MainActivity) getActivity();
+		assertNotNull("button not null",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
+		MainListAdapter adapter = activity.getAdapter();
+		int oldCount = adapter.getCount();
+		getInstrumentation().runOnMainSync(new Runnable(){	//clicking on an item automatically
+				@Override
+				public void run() {
+					assertNotNull("this should be a button",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
+					((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
+				    AlertDialog dialog = activity.getDialog();	//grabbing the dialog box that opens up when button clicked	
+				     EditText questionTitle = (EditText) 		//grabbing all edit texts in teh dialog box
+							dialog.findViewById(R.id.questionTitle);
+					 EditText questionBody = (EditText) 
+							dialog.findViewById(R.id.questionBody);
+					 EditText userName = (EditText) 
+							dialog.findViewById(R.id.UsernameRespondTextView);
+					questionTitle.setText("poopoo");	//setting them up with arguments
+					questionBody.setText("1newQuestion");
+					userName.setText("me");
+					dialog.getButton(
+							 DialogInterface.BUTTON_POSITIVE).performClick();
+					for(int i=1; i <= 29; i++){
+					assertNotNull("this should be a button",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
+					((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
+					questionTitle.setText("poopoo");	//setting them up with arguments
+					questionBody.setText("1newQuestion");
+					userName.setText("me");
+					dialog.getButton(
+							 DialogInterface.BUTTON_POSITIVE).performClick();
+				}}
+				});
+		instrumentation.waitForIdleSync();
+		MainListAdapter adapter1 = activity.getAdapter();
+		int newCount = adapter1.getCount();
+		assertEquals("new question added", oldCount+30, newCount); 
+
+	}
+	/**
+	 * Making sure ListView is showing up on the screen
+	 * and not null
+	 */
 	public void testListView(){
 		//testing that the listview is actually visible on the screen
+		ListView questionList;
+		questionList = (ListView) activity.findViewById(R.id.activity_main_question_list);
+		assertNotNull("Item not created for question view", questionList);
 		Intent intent = new Intent();
 		setActivityIntent(intent);
 		View view = (View) this.activity.getWindow().getDecorView();
 		ViewAsserts.assertOnScreen(view, listview);
 	
 	}
-
-	public void testEmptyServer(){
-		//TODO: create test to see if empty server is being dealt with correctly
-	}
 	
+	/**
+	 * Testing that when an question is clicked in the ListView it opens up a new activity with the
+	 * correct question being shown in the new activity
+	 */
 	public void testzQuestionDetailClick(){
 		//this tests that if you click on an item a new activity opens up that is ViewQuestion activiy
-		 ActivityMonitor activityMonitor = getInstrumentation().addMonitor(ViewQuestion.class.getName(), null, false);
+		ActivityMonitor activityMonitor = getInstrumentation().addMonitor(ViewQuestion.class.getName(), null, false);
+		PostController pc = new PostController(activity);
+		int i = pc.getQuestionsInstance().size();
+		final int lastquestionindex = i - 1;
 		assertNotNull(listview);
 		getInstrumentation().runOnMainSync(new Runnable(){	//clicking on an item automatically
 			@Override
 			public void run() {
-				listview.performItemClick(listview.getAdapter().getView(1,null,null),
-						1, listview.getAdapter().getItemId(1));		//clicking on second item on list
+				listview.performItemClick(listview.getAdapter().getView(lastquestionindex,null,null),
+						lastquestionindex, listview.getAdapter().getItemId(lastquestionindex));		//clicking on second item on list
 			}
 			});
 	instrumentation.waitForIdleSync();
 	  ViewQuestion newActivity = (ViewQuestion) instrumentation.waitForMonitorWithTimeout(activityMonitor, 5);
 	  assertNotNull(newActivity);	//check that new activity has been opened
+	  Bundle extras = newActivity.getIntent().getExtras();
+	  String question_id = extras.getString("question_id");
+	  String title = pc.getQuestion(question_id).getSubject();
+	  assertEquals("correct Question being sent to be viewed", title, "poopoo");//checking correct question sent
 	  newActivity.finish();	//close activity
 	  //viewActivityUItest should be testing that the intent that has been passed to this new activity is correct
 	}

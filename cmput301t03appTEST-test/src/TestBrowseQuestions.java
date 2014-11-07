@@ -1,8 +1,7 @@
-/*README: this is a basic test it is testing nothing really....
- * its basically useless...but it will eventually become useful
- * probably around proj3
+/**
+ * this tests that the user is able to browse questions
+ * and that the post controller is working
  */
-
 
 import java.util.ArrayList;
 
@@ -17,21 +16,21 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 	public TestBrowseQuestions(){
 		super(MainActivity.class);
 	}
-	
-	// Creates a new postcontroller and an ArrayList<Question>, and then sets the array
-	// to be the uninitiated question list (all values null)
-	// Asserts that the size of the list is empty
+	/**
+	 * This creates a postcontroller and then makes sure that the list
+	 * is empty because it has not done anything yet.
+	 */
+
 	
 	public void testEmptyQuestions(){
 		PostController controller = new PostController(getInstrumentation().getTargetContext());
-		ArrayList<Question> listofquestions = controller.getQuestionsInstance();
-		assertTrue("Question list should be empty.", listofquestions.size() == 0);
+		assertTrue("Question list should be empty.", controller.getQuestionsInstance().size() == 0);
 	}
 	
-	// Creates a new postcontroller and a new Question, then adds the question to
-	// the postcontrollers question list. Asserts that the size of the list returned by 
-	// getQuestionInstance is larger than zero, which it should be given that
-	// we've just added a question to it.
+	/**
+	 * this tests that the postcontroller is adding a question to the question 
+	 * list it holds
+	 */
 	
 	public void testGetQuestions(){
 		PostController controller = new PostController(getInstrumentation().getTargetContext());
@@ -45,7 +44,10 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 	// and then assigns them as children of the question
 	// The test then asserts that the counting method (size() of the arraylist of answers)
 	// returns the expected number of children
-	
+	/**
+	 * This test that the answers are being added 35 times when 
+	 * an answer is created and added to that question
+	 */
 	public void testViewNumberOfAnswersToQuestion() {
 		
 		Question q1 = new Question("Title1","TextBody1", "author");

@@ -39,6 +39,10 @@ public class MainActivity extends Activity {
 	PostController pc = new PostController(this);
 	public AlertDialog alertDialog1; //for testing purposes
 
+	/**
+	 * onCreate method sets up the required adapters for the MainActivity view
+	 */
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,6 +66,7 @@ public class MainActivity extends Activity {
 		});
 		
 		setupAdapter();
+		
 		 
 	}
 	
@@ -91,6 +96,12 @@ public class MainActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	/**
+	 * onClick method for calling the dialog box to ask a question
+	 * Dialog box requires a Question Title, Question Body, and Author
+	 * @param view			The onClicks view
+	 */
 
 	@SuppressWarnings("deprecation")
 	public void addQuestionButtonFunction(View view) {
@@ -182,12 +193,13 @@ public class MainActivity extends Activity {
 				.show();
 	}
 	
+	/**Brings up Dialog window with options to Archive and Delete
+	*http://developer.android.com/reference/android/app/AlertDialog.Builder.html#setSingleChoiceItems(java.lang.CharSequence[],
+	*int, android.content.DialogInterface.OnClickListener)
+	*Edit existing question with LONG CLICK
+	*/
+	
 	public void addToToRead(final int position) {
-		/**Brings up Dialog window with options to Archive and Delete
-		*http://developer.android.com/reference/android/app/AlertDialog.Builder.html#setSingleChoiceItems(java.lang.CharSequence[],
-		*int, android.content.DialogInterface.OnClickListener)
-		*Edit existing question with LONG CLICK
-		*/
 		AlertDialog.Builder editDialog = new AlertDialog.Builder(this);
 		editDialog
 			.setNegativeButton("Cancel",
@@ -210,12 +222,12 @@ public class MainActivity extends Activity {
 	public AlertDialog getDialog(){		//this is for testing purposes
 		return alertDialog1;
 	}
-	
-	public MainListAdapter getAdapter(){
+
+	public MainListAdapter getAdapter(){ //this is for testing purposes
 		return mla;
 	}
 	
-	public void setupAdapter() {
+	private void setupAdapter() {
 		lv = (ListView) findViewById(R.id.activity_main_question_list);
 		mla = new MainListAdapter(this, R.layout.activity_main_question_entity,
 				pc.getQuestionsInstance());

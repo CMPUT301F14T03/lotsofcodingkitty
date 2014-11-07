@@ -15,7 +15,9 @@ public class CommentModelTest extends ActivityInstrumentationTestCase2<MainActiv
 		super(MainActivity.class);
 	}
 
-	// Checks to ensure that the constructor sets attributes correctly by using the retrieval methods
+	/**Tests the get methods
+	 * Tests that the comment being made is correct
+	 */
 	public void testCommentConstructor()  {
 		Comment c1 = new Comment("a comment", "author");
 		Date date= new Date();
@@ -23,7 +25,9 @@ public class CommentModelTest extends ActivityInstrumentationTestCase2<MainActiv
 		assertEquals("Comment has not the expected author","author",c1.getAuthor());
 		assertEquals("Dates are not the same",date,c1.getDate());
 	}
-	// Creates two comments and makes sure they aren't the same. 
+	/**
+	 * Tests that when making two comments they are saved as different objects
+	 */
 	public void testTwoDifferentComments(){
 		Comment c = new Comment("comment1","author1");
 		Comment c1 = new Comment("comment2","author2");

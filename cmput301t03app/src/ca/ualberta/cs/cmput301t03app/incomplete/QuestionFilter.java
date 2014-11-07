@@ -64,10 +64,10 @@ class ansUpvoteComparator implements Comparator<Answer> {
 class dateComparator implements Comparator<Question> {
 	@Override
     public int compare(Question q1, Question q2) {
-        if(q1.getDate().after(q2.getDate())) {
+        if(q1.getDate().before(q2.getDate())) {
             return 1;
         } 
-        else if (q1.getDate().before(q2.getDate())) {
+        else if (q1.getDate().after(q2.getDate())) {
             return -1;
         }
         else {

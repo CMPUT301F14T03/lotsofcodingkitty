@@ -57,7 +57,7 @@ public class ViewQuestionUITest extends
 		a = new Answer("test", "test", qId);
 		answers = new ArrayList<Answer>();
 		answers.add(a);
-		q.add(a);
+		q.addAnswer(a);
 		pc.addQuestion(q);
 		Intent intent = new Intent();
 		intent.putExtra("question_id", qId);
@@ -179,8 +179,6 @@ public class ViewQuestionUITest extends
 				.findViewById(R.id.answer_upvote_button);
 		TextView answer_upvote_score = (TextView) answerItem
 				.findViewById(R.id.answer_upvote_score);
-		ImageView answer_fav_icon = (ImageView) answerItem
-				.findViewById(R.id.answer_fav_icon);
 		TextView answer_text_body = (TextView) answerItem
 				.findViewById(R.id.answer_text_body);
 		TextView post_timestamp = (TextView) answerItem
@@ -190,7 +188,6 @@ public class ViewQuestionUITest extends
 
 		ViewAsserts.assertOnScreen(mainView, answer_upvote_button);
 		ViewAsserts.assertOnScreen(mainView, answer_upvote_score);
-		ViewAsserts.assertOnScreen(mainView, answer_fav_icon);
 		ViewAsserts.assertOnScreen(mainView, answer_text_body);
 		ViewAsserts.assertOnScreen(mainView, post_timestamp);
 		ViewAsserts.assertOnScreen(mainView, answer_author);
@@ -207,6 +204,8 @@ public class ViewQuestionUITest extends
 		for (int i = 0; i < 100; i++) {
 			Answer a = new Answer("test", "test", qId);
 			answers.add(a);
+			q.addAnswer(a);
+			Log.e(TAG, (String) answerCounter.getText());
 			ala.updateAdapter(answers);
 			activity.updateAnswerCount();
 		}
@@ -256,10 +255,9 @@ public class ViewQuestionUITest extends
 		AnswerListAdapter ala = (AnswerListAdapter) answerListView.getAdapter();
 		ala.updateAdapter(answers);
 		View answerItem = (View) answerListView.getChildAt(0);
-//		ImageView upvote = (ImageView) answerItem
-//				.findViewById(R.id.answer_upvote_button);
-		answerListView.performItemClick(answerListView.getAdapter().getView(0,null, null), 0, answerListView.getItemIdAtPosition(0));
-		//upvote.performClick();
+		ImageView upvote = (ImageView) answerItem
+				.findViewById(R.id.answer_upvote_button);
+		upvote.performClick();
 
 		// Asserts that answer upvote clicks are correctly changing
 		// the answers rating
@@ -267,7 +265,7 @@ public class ViewQuestionUITest extends
 		assertTrue("Answer upvote not incrementing score",
 				a.getRating() == 1);
 		for (int i = 0; i < 1000; i++) {
-			//upvote.performClick();
+			upvote.performClick();
 		}
 		assertTrue("Upvoting answer 1000 times not working",
 				a.getRating() == 1001);
@@ -278,41 +276,47 @@ public class ViewQuestionUITest extends
 	 */
 	
 	
-	@UiThreadTest
 	public void testDialogActivity()
 	{
+		activity.runOnUiThread(new Runnable() {
+	          public void run() {
+				((Button) activity.findViewById(R.id.question_answer_button))
+						.performClick();
+				AlertDialog dialog = activity.getDialog();
+				EditText answerBody = (EditText) dialog
+						.findViewById(R.id.postBody);
+				EditText userName = (EditText) dialog
+						.findViewById(R.id.UsernameRespondTextView);
 
-		((Button) activity.findViewById(R.id.question_answer_button))
-				.performClick();
-		AlertDialog dialog = activity.getDialog();
-		EditText answerBody = (EditText) dialog.findViewById(R.id.postBody);
-		EditText userName = (EditText) dialog
-				.findViewById(R.id.UsernameRespondTextView);
+				// Asserts that the fields needed were created properly
 
-		// Asserts that the fields needed were created properly
+				assertNotNull("Answer body EditText not found", answerBody);
+				assertNotNull("Username EditText not found", userName);
 
-		assertNotNull("Answer body EditText not found", answerBody);
-		assertNotNull("Username EditText not found", userName);
+				answerBody.setText("test");
+				userName.setText("test");
 
-		answerBody.setText("test");
-		userName.setText("test");
+				assertEquals(String.valueOf(answerBody.getText()), "test");
+				assertEquals(String.valueOf(userName.getText()), "test");
+				dialog.getButton(Dialog.BUTTON_POSITIVE).callOnClick();
+	          }
+	      });
 
-		dialog.getButton(Dialog.BUTTON_POSITIVE).performClick();
+		getInstrumentation().waitForIdleSync();
 		
 		TextView answerCount = (TextView) activity
 				.findViewById(R.id.answer_count);
 
 		// Assert that the answer counter incremented
 
-		assertEquals("Answers: 1", answerCount.getText());
+		assertEquals("Answers: 2", answerCount.getText());
 		ListView answerListView = (ListView) activity
 				.findViewById(R.id.answerListView);
 		
-//		Answer ans = (Answer) answerListView.getItemAtPosition(0);
-//		assertNotNull(ans);
+		Answer ans = (Answer) answerListView.getItemAtPosition(1);
+		assertNotNull(ans);
 		
-		View answerItem = (View) answerListView.getChildAt(answerListView
-				.getFirstVisiblePosition());
+		View answerItem = (View) answerListView.getChildAt(1);
 		View mainView = (View) activity.getWindow().getDecorView()
 				.findViewById(android.R.id.content);
 
@@ -411,7 +415,7 @@ public class ViewQuestionUITest extends
 	public void testAnswerCounter() {
 
 		TextView newCount;
-		for (int i = 0; i < 100; i++) {
+		for (int i = 1; i < 100; i++) {
 			q.addAnswer(new Answer("this", "this", "1"));
 			activity.updateAnswerCount();
 			newCount = (TextView) activity.findViewById(R.id.answer_count);
