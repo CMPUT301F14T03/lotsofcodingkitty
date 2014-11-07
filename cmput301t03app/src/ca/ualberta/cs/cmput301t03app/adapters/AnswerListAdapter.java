@@ -13,18 +13,45 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class AnswerListAdapter extends ArrayAdapter<Answer> {
+/**
+ * 
+ * @author tbrockma
+ * 
+ *         AnswerListAdapter is the adapter responsible for displaying answers
+ *         to a specific question in the list view in the View Questions
+ *         activity
+ * 
+ * @param context
+ *            The context of the adapter.
+ * @param layoutResourceId
+ *            The listview resource ID.
+ * @param answerList
+ *            The ArrayList of Answers.
+ * 
+ */
+
+public class AnswerListAdapter extends ArrayAdapter<Answer>
+{
 
 	private static ArrayList<Answer> answerList;
 
 	public AnswerListAdapter(Context context, int layoutResourceId,
-			ArrayList<Answer> answerList) {
+			ArrayList<Answer> answerList)
+	{
+
 		super(context, layoutResourceId, answerList);
 		this.answerList = new ArrayList<Answer>();
 		this.answerList.addAll(answerList);
 	}
 
-	public class answerListHolder {
+	/**
+	 * answerListHolder contains all of the view elements required for an answer
+	 * element
+	 */
+
+	public class answerListHolder
+	{
+
 		Answer answer;
 		ImageButton answer_upvote_button;
 		TextView answer_upvote_score;
@@ -34,13 +61,22 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		TextView answer_author;
 	}
 
-	public View getView(int position, View convertView, ViewGroup parent) {
+	/**
+	 * Responsible for converting each answer in the answer list into an element
+	 * for the list view
+	 */
+
+	public View getView(int position, View convertView, ViewGroup parent)
+	{
+
 		LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
-		View row = vi.inflate(R.layout.activity_view_question_answer_entity, null);
+		View row = vi.inflate(R.layout.activity_view_question_answer_entity,
+				null);
 
 		answerListHolder holder = getNewHolder(row);
-		// This sets the answer to the object. So in view question you can get the answer
+		// This sets the answer to the object. So in view question you can get
+		// the answer
 		// that was clicked.
 		holder.answer = answerList.get(position);
 		holder.answer_upvote_button.setTag(holder.answer);
@@ -53,37 +89,49 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		holder.answer_text_body.setText(holder.answer.getAnswer());
 		holder.answer_author.setText("By: " + holder.answer.getAuthor());
 		holder.post_timestamp.setText("Posted: " + date_to_string);
-		holder.answer_upvote_score.setText(Integer.toString(holder.answer.getRating()));
+		holder.answer_upvote_score.setText(Integer.toString(holder.answer
+				.getRating()));
 		return row;
 	}
 
 	// refresh Adapter Method calling in Question Activity
-	public synchronized void updateAdapter(ArrayList<Answer> aList) {
+
+	public synchronized void updateAdapter(ArrayList<Answer> aList)
+	{
+
 		answerList.clear();
 		answerList.addAll(aList);
 		notifyDataSetChanged();
 	}
-	
+
 	// This is called from the ViewQuestion when an answer is upvoted.
-	public void notifyChange(){
+
+	public void notifyChange()
+	{
+
 		notifyDataSetChanged();
 	}
-	
-	private answerListHolder getNewHolder(View row){
+
+	private answerListHolder getNewHolder(View row)
+	{
+
 		answerListHolder holder = new answerListHolder();
 		holder.answer_text_body = (TextView) row
 				.findViewById(R.id.answer_text_body);
-		holder.answer_author = (TextView) row
-				.findViewById(R.id.answer_author);
+		holder.answer_author = (TextView) row.findViewById(R.id.answer_author);
 		holder.post_timestamp = (TextView) row
 				.findViewById(R.id.post_timestamp);
 		holder.answer_upvote_score = (TextView) row
 				.findViewById(R.id.answer_upvote_score);
-		holder.answer_upvote_button = (ImageButton) row.findViewById(R.id.answer_upvote_button);
+		holder.answer_upvote_button = (ImageButton) row
+				.findViewById(R.id.answer_upvote_button);
 		return holder;
 	}
+
 	// This is for testing.
-	public int getCount(){
+	public int getCount()
+	{
+
 		return answerList.size();
 	}
 }

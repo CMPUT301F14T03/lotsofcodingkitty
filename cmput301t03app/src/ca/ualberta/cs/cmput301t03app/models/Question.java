@@ -22,7 +22,11 @@ public class Question{
 	private Date date;
 	private int rating;
 	
-
+	/**
+	 * @param subject			Question title
+	 * @param body				Question body text
+	 * @param author			Question author
+	 */
 	
 	public Question(String subject, String body, String author) {
 		this.id = UUID.randomUUID().toString();

@@ -16,6 +16,11 @@ public class Comment {
 	private String comment;
 	private String author;
 	
+	/**
+	 * @param comment		Comment body text
+	 * @param author		Comment author
+	 */
+	
 	public Comment(String comment, String author) {
 		this.date = new Date();
 		this.comment = comment;

@@ -21,7 +21,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ViewComment extends Activity {
+/**
+ * 
+ * @author tbrockma
+ * 
+ *         ViewComment activity is the activity responsible for showing comments
+ *         to either a given question or a given answer.
+ * 
+ */
+
+public class ViewComment extends Activity
+{
 
 	int commentType;
 	String questionID;
@@ -37,16 +47,27 @@ public class ViewComment extends Activity {
 	TextView author;
 	AlertDialog dialog;
 
-	/** Called when the activity is first created. */
+	/**
+	 * Called when the activity is first created.
+	 * 
+	 * Determines through the intent whether the view was called through a
+	 * question or an answer, and then populates the view accordingly.
+	 * 
+	 */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState)
+	{
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_comment);
 		Bundle extras = getIntent().getExtras();
-		commentType = extras.getInt(ViewQuestion.SET_COMMENT_TYPE);	//answer or question comments
+		commentType = extras.getInt(ViewQuestion.SET_COMMENT_TYPE); // answer or
+																	// question
+																	// comments
 		Log.d("click", "Comment type: " + commentType);
-		questionID = extras.getString(ViewQuestion.QUESTION_ID_KEY);	 
-		switch (commentType) {
+		questionID = extras.getString(ViewQuestion.QUESTION_ID_KEY);
+		switch (commentType)
+		{
 			case 1:
 				comments = pc.getCommentsToQuestion(questionID);
 				break;
@@ -62,7 +83,9 @@ public class ViewComment extends Activity {
 		updateCommentCount();
 	}
 
-	public void instantiateViews() {
+	public void instantiateViews()
+	{
+
 		/**
 		 * sets the views to correct fields
 		 */
@@ -75,82 +98,121 @@ public class ViewComment extends Activity {
 				android.R.layout.simple_list_item_1, commentBodyList);
 	}
 
-	public void setListeners() {
-		commentButton.setOnClickListener(new OnClickListener() {
+	public void setListeners()
+	{
+
+		commentButton.setOnClickListener(new OnClickListener()
+		{
+
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
+
 				addComment();
 			}
 		});
 	}
-	
-	public void setPostDetails() {	
+
+	public void setPostDetails()
+	{
+
 		TextView commentTitle = (TextView) findViewById(R.id.comment_title);
-		if (commentType == 1) {		//comment for questions
-			commentTitle.setText("Q: " + pc.getQuestion(questionID).getSubject());
-			timeStamp.setText("Posted: " + pc.getQuestion(questionID).getDate());
+		if (commentType == 1)
+		{ // comment for questions
+			commentTitle.setText("Q: "
+					+ pc.getQuestion(questionID).getSubject());
+			timeStamp
+					.setText("Posted: " + pc.getQuestion(questionID).getDate());
 			author.setText("By" + pc.getQuestion(questionID).getAuthor());
-		} 
-		else if (commentType == 2) {	//comment for answers 
-			commentTitle
-					.setText("Q: " + pc.getQuestion(questionID).getSubject() +System.getProperty("line.separator")+  "A: " + pc.getAnswer(answerID, questionID).getAnswer());
-			timeStamp.setText("Posted: " + pc.getAnswer(answerID,  questionID).getDate());
-			author.setText("By: " + pc.getAnswer(answerID,  questionID).getAuthor());
+		} else if (commentType == 2)
+		{ // comment for answers
+			commentTitle.setText("Q: "
+					+ pc.getQuestion(questionID).getSubject()
+					+ System.getProperty("line.separator") + "A: "
+					+ pc.getAnswer(answerID, questionID).getAnswer());
+			timeStamp.setText("Posted: "
+					+ pc.getAnswer(answerID, questionID).getDate());
+			author.setText("By: "
+					+ pc.getAnswer(answerID, questionID).getAuthor());
 		}
 	}
 
-	public void setCommentAdapter() {
+	public void setCommentAdapter()
+	{
+
 		commentListView.setAdapter(cla);
 		getCommentBodiesFromComment();
 		cla.notifyDataSetChanged();
 	}
 
-	public void getCommentBodiesFromComment() {	//used for showing in the view
-		if (comments != null) {
+	public void getCommentBodiesFromComment()
+	{ // used for showing in the view
+
+		if (comments != null)
+		{
 			commentBodyList.clear();
 			for (int i = 0; i < comments.size(); i++)
 				commentBodyList.add(comments.get(i).getCommentBody());
 		}
 	}
 
-	public void updateCommentCount() {
-		if (commentType == 1) {
+	public void updateCommentCount()
+	{
+
+		if (commentType == 1)
+		{
 			commentCount
 					.setText("Comments: "
 							+ String.valueOf(pc.getQuestion(questionID)
 									.countComments()));
-		} else if (commentType == 2) {
+		} else if (commentType == 2)
+		{
 			commentCount.setText("Comments: "
-					+ String.valueOf(pc.getAnswer(answerID,  questionID).countAnswerComments()));
+					+ String.valueOf(pc.getAnswer(answerID, questionID)
+							.countAnswerComments()));
 		}
 	}
 
-	public void addComment() {
+	/**
+	 * onClick method for adding comments, takes in a userName and
+	 * commentBodyString string
+	 */
+
+	public void addComment()
+	{
+
 		LayoutInflater li = LayoutInflater.from(this);
 		View promptsView = li.inflate(R.layout.activity_post_dialog, null);
 		final EditText postBody = (EditText) promptsView
 				.findViewById(R.id.postBody);
 		final EditText userName = (EditText) promptsView
 				.findViewById(R.id.UsernameRespondTextView);
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);	// Create a new AlertDialog
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this); // Create
+																				// a
+																				// new
+																				// AlertDialog
 		alertDialogBuilder.setView(promptsView);
-		alertDialogBuilder
-			.setPositiveButton("Comment",
-				new DialogInterface.OnClickListener() {
-				// Building the dialog for adding
-					@Override	
-					public void onClick(DialogInterface dialog, int which) {
+		alertDialogBuilder.setPositiveButton("Comment",
+				new DialogInterface.OnClickListener()
+				{
+
+					// Building the dialog for adding
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+
 						String commentBodyString = (String) postBody.getText()
 								.toString();
 						String userNameString = (String) userName.getText()
 								.toString();
 						Comment c = new Comment(commentBodyString,
 								userNameString);
-						if (commentType == 1) {
+						if (commentType == 1)
+						{
 							pc.addCommentToQuestion(c, questionID);
 							comments = pc.getCommentsToQuestion(questionID);
-						} 
-						else if (commentType == 2) {
+						} else if (commentType == 2)
+						{
 							pc.addCommentToAnswer(c, questionID, answerID);
 							comments = pc.getCommentsToAnswer(questionID,
 									answerID);
@@ -162,8 +224,12 @@ public class ViewComment extends Activity {
 					}
 
 				}).setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
+				new DialogInterface.OnClickListener()
+				{
+
+					public void onClick(DialogInterface dialog, int id)
+					{
+
 						// Do nothing
 						dialog.cancel();
 					}
@@ -174,42 +240,60 @@ public class ViewComment extends Activity {
 		alertDialog.show();
 		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
 
-		//creating a listener to see if any changes to edit text in dialog
-		TextWatcher textwatcher = new TextWatcher(){
-			private void handleText(){
-				final Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-				if(postBody.getText().length() == 0){	//these checks the edittext to make sure not empty edit text
+		// creating a listener to see if any changes to edit text in dialog
+		TextWatcher textwatcher = new TextWatcher()
+		{
+
+			private void handleText()
+			{
+
+				final Button button = alertDialog
+						.getButton(AlertDialog.BUTTON_POSITIVE);
+				if (postBody.getText().length() == 0)
+				{ // these checks the edittext to make sure not empty edit text
 					button.setEnabled(false);
-				}
-				else if(userName.getText().length() == 0){
+				} else if (userName.getText().length() == 0)
+				{
 					button.setEnabled(false);
-				}
-				else{
+				} else
+				{
 					button.setEnabled(true);
-				}	
+				}
 			}
+
 			@Override
-			public void afterTextChanged(Editable s) {
+			public void afterTextChanged(Editable s)
+			{
+
 				handleText();
 			}
+
 			@Override
-			public void beforeTextChanged(CharSequence s, int start,
-					int count, int after) {
-				//do nothing
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after)
+			{
+
+				// do nothing
 			}
+
 			@Override
-			public void onTextChanged(CharSequence s, int start,
-					int before, int count) {
-				//do nothing
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count)
+			{
+
+				// do nothing
 			}
 		};
-		postBody.addTextChangedListener(textwatcher);	//adding listeners to the edittexts
+		postBody.addTextChangedListener(textwatcher); // adding listeners to the
+														// edittexts
 		userName.addTextChangedListener(textwatcher);
 		Toast.makeText(this, "Please write your comment", Toast.LENGTH_SHORT)
 				.show();
 	}
 
-	public AlertDialog getDialog() {
+	public AlertDialog getDialog()
+	{
+
 		return dialog;
 	}
 }
