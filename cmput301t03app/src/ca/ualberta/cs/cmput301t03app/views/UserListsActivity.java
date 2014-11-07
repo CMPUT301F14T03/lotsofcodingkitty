@@ -109,6 +109,15 @@ public class UserListsActivity extends Activity
 		return true;
 	}
 
+	/**
+	 * onClick method for clicking a question in the view and then view the
+	 * corresponding questions details. If the question cannot be found in the
+	 * PostController, it is created. Passes the question ID as an intent extra
+	 * when starting the ViewQuestion activity.
+	 * 
+	 * @param position
+	 */
+
 	public void toQuestionActivity(int position)
 	{
 
