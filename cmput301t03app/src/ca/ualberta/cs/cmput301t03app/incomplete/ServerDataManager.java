@@ -86,7 +86,7 @@ public class ServerDataManager implements iDataManager{
 	 * Get movies with the specified search string. If the search does not
 	 * specify fields, it searches on all the fields.
 	 */
-	public ArrayList<Question> searchMovies(String searchString, String field) {
+	public ArrayList<Question> searchQuestions(String searchString, String field) {
 		ArrayList<Question> result = new ArrayList<Question>();
 
 		
