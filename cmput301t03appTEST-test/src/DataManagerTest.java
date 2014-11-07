@@ -140,6 +140,9 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		ql.add(q3);
 	}
 	
+	/**
+	 * Tests if the questions are being loaded properly
+	 */
 	private void checkCorrect() {
 		assertNotNull("Loaded array is empty", questionArray);
 		assertEquals("Loaded array is the not the same size as ql", questionArray.size(), ql.size());
@@ -147,11 +150,17 @@ public class DataManagerTest extends ActivityInstrumentationTestCase2<MainActivi
 		assertEquals("The second index of the loaded array does not have the same question as the second question added", q.getId(), questionArray.get(0).getId());
 	}
 	
+	/**
+	 * Tests if the question being returned is correct
+	 */
 	private void checkEdgeCases() {
 		assertEquals("Parser did not find correct question", q2.getId(), questionArray.get(0).getId());
 		
 	}
 	
+	/**
+	 * Just clearing the upcLists
+	 */
 	private void cleanUp() {
 		UserPostCollector upc = postController.getUPC();
 		upc.clearLists();		
