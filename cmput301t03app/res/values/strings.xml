@@ -20,5 +20,6 @@
     <string name="user_home_description">The User Home section allows you to view your favorited, recently viewed, \&quot;to read&quot; (saved questions), questions you've authored, and answers you're written.</string>
     <string name="title_activity_user_lists">UserListsActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="comment_dialog">Enter your comment</string>
 
 </resources>

@@ -65,7 +65,7 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		TextView timeStamp = (TextView) vc.findViewById(R.id.comment_post_timestamp);
 		TextView author = (TextView) vc.findViewById(R.id.comment_post_author);
 		assertEquals("Titles are not the same!",title.getText(),"Q: "+ qTitle);
-		assertEquals("Authors are not the same!",author.getText(),"By" + qAuthor);
+		assertEquals("Authors are not the same!",author.getText(),"By: " + qAuthor);
 		assertEquals("Dates are not the same!",timeStamp.getText(),"Posted: " + date.toString());
 		
 	}
@@ -232,7 +232,7 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 				((Button) vc.findViewById(R.id.comment_button)).performClick();
 				AlertDialog dialog = vc.getDialog();
 			    EditText commentBody = (EditText) 
-						dialog.findViewById(R.id.postBody);
+						dialog.findViewById(R.id.comment_body);
 				EditText commentAuthor = (EditText) 
 						dialog.findViewById(R.id.UsernameRespondTextView);
 				 
