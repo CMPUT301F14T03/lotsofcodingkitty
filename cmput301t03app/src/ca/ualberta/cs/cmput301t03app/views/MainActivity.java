@@ -6,7 +6,6 @@
  * */
 package ca.ualberta.cs.cmput301t03app.views;
 
-import java.util.ArrayList;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
@@ -47,6 +46,8 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		Toast.makeText(this, "You are not connected to the server. To access your locally saved data go to your userhome.", Toast.LENGTH_LONG)
+		.show();
 		ListView questionList = (ListView) findViewById(R.id.activity_main_question_list);
 		questionList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -212,6 +213,8 @@ public class MainActivity extends Activity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						pc.addToRead(pc.getQuestionsInstance().get(position));
+						Toast.makeText(MainActivity.this, "Added to To-Read List", Toast.LENGTH_SHORT)
+						.show();
 					}
 				});
 		

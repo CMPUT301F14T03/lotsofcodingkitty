@@ -4,10 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import ca.ualberta.cs.cmput301t03app.R;
-import ca.ualberta.cs.cmput301t03app.R.drawable;
-import ca.ualberta.cs.cmput301t03app.R.id;
-import ca.ualberta.cs.cmput301t03app.R.layout;
-import ca.ualberta.cs.cmput301t03app.R.menu;
 import ca.ualberta.cs.cmput301t03app.adapters.AnswerListAdapter;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
@@ -15,7 +11,6 @@ import ca.ualberta.cs.cmput301t03app.models.Question;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment.SavedState;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -150,6 +144,8 @@ public class ViewQuestion extends Activity
 				pc.addFavoriteQuestion(pc.getQuestion(question_id));
 				favIcon.setImageResource(R.drawable.ic_fav_yes);
 				setFavoriteIcon();
+				Toast.makeText(ViewQuestion.this, "Added to Favorites List.", Toast.LENGTH_SHORT)
+				.show();
 			}
 		});
 		// listener to upvote when clicked

@@ -7,7 +7,7 @@ import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 /**
  * This test suite is used to test the functionalities of the Comment object
  * @author Eric
- *
+ * @category Unit Testing
  */
 public class CommentModelTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
@@ -15,8 +15,9 @@ public class CommentModelTest extends ActivityInstrumentationTestCase2<MainActiv
 		super(MainActivity.class);
 	}
 
-	/**Tests the get methods
-	 * Tests that the comment being made is correct
+	/**Tests that the get methods work properly for the Comment object.
+	 * <br>Also tests that the comment being made has the correct information.
+	 * 
 	 */
 	public void testCommentConstructor()  {
 		Comment c1 = new Comment("a comment", "author");
@@ -26,7 +27,7 @@ public class CommentModelTest extends ActivityInstrumentationTestCase2<MainActiv
 		assertEquals("Dates are not the same",date,c1.getDate());
 	}
 	/**
-	 * Tests that when making two comments they are saved as different objects
+	 * Tests that when making two comments with different attributes they are saved as different objects.
 	 */
 	public void testTwoDifferentComments(){
 		Comment c = new Comment("comment1","author1");

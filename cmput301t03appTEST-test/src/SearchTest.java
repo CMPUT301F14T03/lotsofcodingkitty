@@ -6,8 +6,8 @@ import android.test.ActivityInstrumentationTestCase2;
 
 /**
  * This tests that the search functions are working for local and for server.
- * This still needs to be finished when server has been implemented.
- * 
+ * <br><br>TODO:This still needs to be implemented.
+ * @category Unit Testing
  * @author rdejesus
  * 
  */
@@ -23,7 +23,6 @@ public class SearchTest extends ActivityInstrumentationTestCase2<MainActivity> {
 		// in real search should have a data manager class here
 
 		ArrayList<Question> qList = new ArrayList<Question>();
-		String searchWord = "test";
 		Question q1 = new Question("Title1", "TextBody1", "author");
 		Question q2 = new Question("Title1", "TextBody1", "author");
 		ArrayList<Question> searchResults = new ArrayList<Question>();

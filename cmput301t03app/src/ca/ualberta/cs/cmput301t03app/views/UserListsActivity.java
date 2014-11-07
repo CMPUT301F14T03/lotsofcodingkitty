@@ -3,9 +3,6 @@ package ca.ualberta.cs.cmput301t03app.views;
 import java.util.ArrayList;
 
 import ca.ualberta.cs.cmput301t03app.R;
-import ca.ualberta.cs.cmput301t03app.R.id;
-import ca.ualberta.cs.cmput301t03app.R.layout;
-import ca.ualberta.cs.cmput301t03app.R.menu;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.models.Question;
@@ -13,7 +10,6 @@ import ca.ualberta.cs.cmput301t03app.models.Question;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;

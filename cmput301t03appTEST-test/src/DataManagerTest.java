@@ -9,8 +9,11 @@ import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 
 /**
- * Tests all saving and loading methods in both the LocalDataManager and the
+ * Tests all saving and loading methods in both the LocalDataManager and
  * ServerDataManager.
+ * <br><br>TODO: Server still needs to be implemented.
+ * @category Unit Testing
+ * 
  */
 
 public class DataManagerTest extends
@@ -29,7 +32,7 @@ public class DataManagerTest extends
 	}
 
 	/**
-	 * This test uses the favoriteQuestions list to test the saving and loading
+	 * This test uses the favoriteQuestions list to test the saving and loading. <br>
 	 * Asserts all questions have the same content when it is saved and loaded
 	 * from local data
 	 */
@@ -69,7 +72,7 @@ public class DataManagerTest extends
 	}
 
 	/**
-	 * This test uses the readQuestions list to test the saving and loading
+	 * This test uses the readQuestions list to test the saving and loading. <br>
 	 * Asserts all questions have the same content when being loaded from the
 	 * local data
 	 */
@@ -108,7 +111,7 @@ public class DataManagerTest extends
 	}
 
 	/**
-	 * This test uses the toReadQuestions list to test the saving and loading
+	 * This test uses the toReadQuestions list to test the saving and loading. <br>
 	 * Asserts all questions have the same content when saved then loaded from
 	 * local data.
 	 */
@@ -147,7 +150,7 @@ public class DataManagerTest extends
 	}
 
 	/**
-	 * This test uses the toReadQuestions list to test the saving and loading
+	 * This test uses the toReadQuestions list to test the saving and loading.<br>
 	 * Asserts all questions have the same content.
 	 */
 	public void testSuccessfulSavingAndLoadingUserPostsFromCache() {
@@ -219,8 +222,8 @@ public class DataManagerTest extends
 	}
 
 	/**
-	 * This test should test the server loading and saving this is still a TODO.
-	 * 
+	 * This test should test the server loading and saving.
+	 * <br><br>TODO: Still in progress.
 	 */
 	public void testSuccessfulSavingAndLoadingToServer() {
 		// testing if question posted saved to cache

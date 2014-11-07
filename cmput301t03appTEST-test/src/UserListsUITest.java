@@ -10,11 +10,11 @@ import android.widget.TextView;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.views.UserListsActivity;
 /**
- * This tests the UserList User interface
- * that shows that the lists of the items that the
- * user has saved locally
- * @author rdejesus
- *
+ * This tests the UserList UI
+ * shows that the lists of the items that the
+ * user has saved locally.
+ * 
+ *@category Integration/System Testing
  */
 public class UserListsUITest extends
 	ActivityInstrumentationTestCase2<UserListsActivity> {
@@ -39,8 +39,8 @@ public class UserListsUITest extends
 	}
 
 	/**
-	 * Testing views on UserLists View exist and can be seen and 
-	 * the Title at top of the activity is
+	 * Testing views on UserLists View exist and can be seen. <br> Also tests that 
+	 * the title at top of the activity is
 	 * correct.
 	 */
 	@UiThreadTest

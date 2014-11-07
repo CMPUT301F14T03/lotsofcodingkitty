@@ -24,7 +24,7 @@ import ca.ualberta.cs.cmput301t03app.views.ViewQuestion;
  * This Test tests if the comments are properly working
  * in the User Interface.
  * 
- *
+ *@category Integration/System Testing
  */
 public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComment>{
 	Instrumentation instrumentation;
@@ -41,7 +41,7 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		
 	}
 	
-	/** The following tests focus when the mode is set to Question comments.
+	/** The following tests use Question as a context.
 	* This tests make sure that the view displays the correct
 	* information from a question. Checks the Title,Date,Author.
 	*/
@@ -69,8 +69,11 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		assertEquals("Dates are not the same!",timeStamp.getText(),"Posted: " + date.toString());
 		
 	}
-	// This tests if the view displays the comment count properly. 
-	// This one tests specifically if it's zero.
+	/**This tests if the view displays the comment count properly. <br>
+	This one tests specifically if it's zero.
+	 * 
+	 */
+	
 	public void testDisplayQuestionCommentCountZero(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		String qTitle = "Title";
@@ -148,7 +151,7 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 	}
 	/**
 	 * Tests to see if the comment body is correct
-	 * when there is only one comment
+	 * when there is only one comment.
 	 */
 	// This comment tests if the comments body shows correctly with only one comment.
 	public void testCommentBodyIsCorrectWithOneComment(){
@@ -174,7 +177,7 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 	}
 	/**
 	 * Tests if the view shows two comments correctly and 
-	 * the body has correct content.
+	 * the bodies of the two comments have correct content.
 	 */
 	// Tests if the view shows two comments correctly.
 	public void testCommentBodyIsCorretWithTwoComments(){
@@ -203,13 +206,10 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		assertTrue("The comment body is not the same at position 1",lv.getItemAtPosition(1).equals("String1"));	
 	}
 	
-	/** This adds a comment to a question and tests to see if it is shown.
+	/** This adds a comment to a question using the UI functions (buttons) and tests to see if it is shown on the display.
 	* 
-	* Also tests the dialog box.
+	*
 	* 
-	* Part of UC13: Comment on a question.
-	* 
-	* THIS IS BREAKING NEED SOLVING. CANT GET THE DIALOG TO SHOW AND ADD A COMMENT.
 	*/
 	public void testCommentIsAddedAndShown(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());

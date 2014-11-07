@@ -18,8 +18,6 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	// from the server.
 	
 	public void testPullFromServer() {
-		PostController pc = new PostController(getInstrumentation().getTargetContext());
-		//while (!pc.checkConnectivity()) {
 		}
 		//Object posts = new Object();
 		//posts = pc.loadServerPosts();
@@ -34,7 +32,6 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		Question question = new Question("Question title", "Question body", "author");
-		Object posts = new Object();
 		pc.addQuestion(question);
 		//while (!pc.checkConnectivity()) {
 		}

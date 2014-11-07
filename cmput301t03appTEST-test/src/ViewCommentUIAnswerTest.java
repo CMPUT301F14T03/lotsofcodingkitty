@@ -16,10 +16,10 @@ import ca.ualberta.cs.cmput301t03app.views.ViewQuestion;
 
 /**
  * This tests that the View Comment User Interface works properly by clicking on
- * buttons and using dialog boxes
+ * buttons and using dialog boxes.
  * 
  * @author rdejesus
- * 
+ * @category Integration/System Testing
  */
 public class ViewCommentUIAnswerTest extends
 
@@ -57,7 +57,7 @@ ActivityInstrumentationTestCase2<ViewComment> {
 
 	/**
 	 * This tests that the TextViews show the correct information and displays
-	 * the correct answer that is being viewed
+	 * the correct answer that is being viewed.
 	 */
 
 	public void testDisplayAnswerInfo() {
@@ -94,9 +94,9 @@ ActivityInstrumentationTestCase2<ViewComment> {
 	}
 
 	/**
-	 * This tests that the view is displaying the count of comments is properly
-	 * being displayed on the screen :: this tests to see that if zero comments
-	 * have been added the TextView shows zero
+	 * This tests that the view is displaying the count of comments properly
+	 * :: this tests to see that if zero comments
+	 * have been added, the TextView shows zero.
 	 */
 
 	public void testDisplayQuestionCommentCountZero() {
@@ -115,7 +115,7 @@ ActivityInstrumentationTestCase2<ViewComment> {
 	}
 
 	/**
-	 * This tests if a comment has been added and the comments should show one.
+	 * This tests if a comment has been added. The comments should show one.
 	 */
 
 	public void testDisplayQuestionCommentCountOne() {
@@ -136,8 +136,8 @@ ActivityInstrumentationTestCase2<ViewComment> {
 	}
 
 	/**
-	 * this tests to see if that the correct comment is being showed properly
-	 * and the content is correct
+	 * This tests to see that the correct comment is being showed
+	 * and the content is correct.
 	 */
 	public void testCommentBodyIsCorrectWithOneComment() {
 
@@ -157,7 +157,7 @@ ActivityInstrumentationTestCase2<ViewComment> {
 	}
 
 	/**
-	 * tests that two comments are being shown properly and that the content is
+	 * This tests that two comments are being shown properly and that the content is
 	 * correct.
 	 */
 	public void testCommentBodyIsCorretWithTwoComments() {

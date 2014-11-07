@@ -2,24 +2,17 @@ package ca.ualberta.cs.cmput301t03app.controllers;
 
 import java.util.ArrayList;
 import ca.ualberta.cs.cmput301t03app.datamanagers.LocalDataManager;
-import ca.ualberta.cs.cmput301t03app.incomplete.QuestionFilter;
-import ca.ualberta.cs.cmput301t03app.incomplete.ServerDataManager;
-import ca.ualberta.cs.cmput301t03app.interfaces.iDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 
 import android.content.Context;
-import android.util.Log;
 
 public class PostController
 {
 
 	private static ArrayList<Question> subQuestions = null;
-	private ArrayList<Question> pushQuestions = new ArrayList<Question>();
 	private static UserPostCollector upc = new UserPostCollector();
-	private iDataManager dm;
-	private QuestionFilter qf = new QuestionFilter();
 	private Context context;
 
 	/**
@@ -478,7 +471,7 @@ public class PostController
 	 * @param q
 	 *            Question object Q
 	 * @param local
-	 *            LocalDataManager to... ???
+	 *            LocalDataManager
 	 */
 
 	private void checkExistanceOfQuestion(Question q, LocalDataManager local)
