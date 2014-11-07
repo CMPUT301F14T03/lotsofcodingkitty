@@ -8,7 +8,6 @@ import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 /**
  * This tests the simple posting methods of the postcontroller ie. post
  * comments, answers, and questions.
- * @author rdejesus
  * @category Unit Testing
  * 
  */

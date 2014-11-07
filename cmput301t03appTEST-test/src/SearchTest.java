@@ -8,7 +8,6 @@ import android.test.ActivityInstrumentationTestCase2;
  * This tests that the search functions are working for local and for server.
  * <br><br>TODO:This still needs to be implemented.
  * @category Unit Testing
- * @author rdejesus
  * 
  */
 

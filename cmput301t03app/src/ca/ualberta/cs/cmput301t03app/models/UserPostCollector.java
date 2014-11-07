@@ -1,9 +1,8 @@
-package ca.ualberta.cs.cmput301t03app.controllers;
+package ca.ualberta.cs.cmput301t03app.models;
 
 import java.util.ArrayList;
 
 import ca.ualberta.cs.cmput301t03app.datamanagers.LocalDataManager;
-import ca.ualberta.cs.cmput301t03app.models.Question;
 
 import android.content.Context;
 

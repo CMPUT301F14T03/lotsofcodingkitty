@@ -15,42 +15,33 @@ import android.widget.TextView;
 
 /**
  * 
- * @author tbrockma
- * 
- *         AnswerListAdapter is the adapter responsible for displaying answers
- *         to a specific question in the list view in the View Questions
- *         activity
- * 
- * @param context
- *            The context of the adapter.
- * @param layoutResourceId
- *            The listview resource ID.
- * @param answerList
- *            The ArrayList of Answers.
- * 
+ *        Custom formats a list of answers so that the specific attributes of the answer can be
+ *        seen in a listview according to a specified layout.
+ *
  */
 
-public class AnswerListAdapter extends ArrayAdapter<Answer>
-{
-
+public class AnswerListAdapter extends ArrayAdapter<Answer> {
+	
 	private static ArrayList<Answer> answerList;
-
-	public AnswerListAdapter(Context context, int layoutResourceId,
-			ArrayList<Answer> answerList)
-	{
-
+	
+	/**
+	 * Constructs an {@link #AnswerListAdapter() answerListAdapter}.
+	 * @param context The context of the adapter.
+	 * @param layoutResourceId The resourceID of the layout being used for the adapter.
+	 * @param answerList The list of answers to be displayed in the listview.
+	 */
+	public AnswerListAdapter(Context context, int layoutResourceId, ArrayList<Answer> answerList){
 		super(context, layoutResourceId, answerList);
 		this.answerList = new ArrayList<Answer>();
 		this.answerList.addAll(answerList);
 	}
 
 	/**
-	 * answerListHolder contains all of the view elements required for an answer
-	 * element
+	 * Class containing all of the view elements required for an answer
+	 * element in the UI.
 	 */
 
-	public class answerListHolder
-	{
+	public class answerListHolder {
 
 		Answer answer;
 		ImageButton answer_upvote_button;
@@ -61,20 +52,13 @@ public class AnswerListAdapter extends ArrayAdapter<Answer>
 		TextView answer_author;
 	}
 
-	/**
-	 * Responsible for converting each answer in the answer list into an element
-	 * for the list view
-	 */
-
-	public View getView(int position, View convertView, ViewGroup parent)
-	{
+	public View getView(int position, View convertView, ViewGroup parent) {
 
 		LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
 		View row = vi.inflate(R.layout.activity_view_question_answer_entity,
 				null);
-
-		answerListHolder holder = getNewHolder(row);
+		answerListHolder holder = getNewAnswerHolder(row);
 		// This sets the answer to the object. So in view question you can get
 		// the answer
 		// that was clicked.
@@ -93,27 +77,30 @@ public class AnswerListAdapter extends ArrayAdapter<Answer>
 				.getRating()));
 		return row;
 	}
+	
+	
+	/**
+	 * Updates the adapter and refreshes the listview to reflect any changes to the list.
+	 *@param answerList The new list of answers that will be shown in the listview.
+	 */
 
-	// refresh Adapter Method calling in Question Activity
-
-	public synchronized void updateAdapter(ArrayList<Answer> aList)
-	{
-
+	public synchronized void updateAdapter(ArrayList<Answer> answerList) {
 		answerList.clear();
-		answerList.addAll(aList);
+		answerList.addAll(answerList);
 		notifyDataSetChanged();
 	}
 
 	// This is called from the ViewQuestion when an answer is upvoted.
 
-	public void notifyChange()
-	{
-
+	public void notifyChange() {
 		notifyDataSetChanged();
 	}
-
-	private answerListHolder getNewHolder(View row)
-	{
+	
+	/**Returns an {@link #answerListHolder answerListHolder} that can be used for an adapter.
+	 *@param row The view that requires the adapter.
+	 *@return A holder that now has the specified views to be used in the adapter.
+	 */
+	private answerListHolder getNewAnswerHolder(View row) {
 
 		answerListHolder holder = new answerListHolder();
 		holder.answer_text_body = (TextView) row
@@ -129,9 +116,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer>
 	}
 
 	// This is for testing.
-	public int getCount()
-	{
-
+	public int getCount() {
 		return answerList.size();
 	}
 }

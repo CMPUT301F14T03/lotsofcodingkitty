@@ -5,57 +5,58 @@ import ca.ualberta.cs.cmput301t03app.datamanagers.LocalDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.models.UserPostCollector;
 
 import android.content.Context;
 
-public class PostController
-{
+
+
+/**
+ 	* Responsible for all of the model manipulation in the program. <p>
+ 	* This class uses a UserPostCollector
+	 * which contains all of the local data information (including posted
+	 * questions, favorites, to read, read, etc.). It also uses a DataManager which
+	 * is used for loading and saving.
+	 * 
+ *
+ */
+public class PostController {
 
 	private static ArrayList<Question> subQuestions = null;
 	private static UserPostCollector upc = new UserPostCollector();
 	private Context context;
 
 	/**
-	 * The PostController is the controller responsible for all of the Model
-	 * manipulation in our program. The PostController has a UserPostCollector
-	 * which contains all of the local user information (including posted
-	 * questions, favorites, to read, read, etc.) as well as a DataManager which
-	 * is used for loading and saving.
 	 * 
+	 * Constructor for a {@link #PostController() PostController}
 	 * @param context
 	 *            The context of the PostController
 	 */
 
-	public PostController(Context context)
-	{
+	public PostController(Context context) {
 
 		this.context = context;
 	}
 
-	public int countAnswers(Question q)
-	{
+	public int countAnswers(Question q) {
 
 		return q.countAnswers();
 	}
 
-	public int countComments(Question q)
-	{
+	public int countComments(Question q) {
 
 		return q.countComments();
 	}
 
-	/**************************************** Check methods ******************************************/
-
-	public Boolean checkConnectivity()
-	{
-
+	public Boolean checkConnectivity() {
 		return false;
 	}
-
+	
+	
 	/**
-	 * This method checks if a question is in favorites
+	 * Returns true if a question is favorited by the user.
+	 * @param  questionID the question ID of the question being checked.
 	 * 
-	 * @author joshnguyen
 	 * */
 	public Boolean isQuestionInFavByID(String questionID)
 	{
@@ -72,9 +73,9 @@ public class PostController
 	}
 
 	/**
-	 * This method checks if a question is in Read/Cached
+	 * Returns true if a question is in the cache or has already been read by the user.
+	 * @param  questionID the question ID of the question being checked.
 	 * 
-	 * @author joshnguyen
 	 * */
 	public Boolean isQuestionInReadByID(String questionID)
 	{
@@ -87,13 +88,10 @@ public class PostController
 		return false;
 	}
 
-	/************************************************* Adding *********************************************/
-
 	/**
-	 * Adds a question to the favorite questions list and saves it locally
+	 * Adds a question to the favorite questions list and saves it locally.
 	 * 
-	 * @param q
-	 *            A Question Object
+	 * @param q the Question object to be saved.
 	 */
 	public void addFavoriteQuestion(Question q)
 	{
@@ -115,8 +113,7 @@ public class PostController
 	/**
 	 * Adds a question to the read questions list and saves it locally
 	 * 
-	 * @param q
-	 *            A Question Object
+	 * @param q the previously read question that must be saved.
 	 */
 	public void addReadQuestion(Question q)
 	{
@@ -199,8 +196,7 @@ public class PostController
 	}
 
 	/**
-	 * When an question is added it is added to the subQuestions list, the
-	 * pushQuestions list, and then the UPC.
+	 * Adds a question to the list in the PostController.
 	 * 
 	 * @param question
 	 *            A Question Object
@@ -492,6 +488,7 @@ public class PostController
 			questionList.add(q);
 			local.saveToQuestionBank(questionList);
 		}
+		
 	}
 
 	/*

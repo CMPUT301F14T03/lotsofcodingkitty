@@ -20,8 +20,6 @@ import android.content.Context;
  * local storage Read questions, questions the user wants to read later, and
  * favorite questions will be saved to local storage.
  * 
- * @author ckchan
- * @since 2014-10-28
  * 
  */
 

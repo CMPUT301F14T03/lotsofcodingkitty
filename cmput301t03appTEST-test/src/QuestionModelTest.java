@@ -8,8 +8,6 @@ import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 
 /**
  * This test suite is used to test the functionality of the Question model
- * 
- * @author Eric
  * @category Unit Testing
  */
 public class QuestionModelTest extends
