@@ -1,3 +1,8 @@
+/**
+ * This test tests that adding pictures to an answer or Question
+ * is done properly and can be seen and saved properly
+ */
+
 import java.io.File;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -10,13 +15,16 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	
 	public PictureTest() {
 		super(MainActivity.class);
-		// TODO Auto-generated constructor stub
 	}
 	
-	// Creates a new file from <filepath>,
-	// gets the size of the file
-	// converts to kilobytes
-	// and asserts that the size of the file is less than 64
+	
+	/**
+	 * this creates a new file path
+	 * and creates an image that will be asserted if it is less 
+	 * than 64KB if added to the comment or answer
+	 * (STILL NEED TO BE WRITTEN)
+	 */
+	
 	
 	public void ensurePicLessThan64k() {
 		File img1 = new File("filepath");
@@ -28,7 +36,12 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		assertTrue("Image not less than 64 kb.", imgKB<64);
 		
 	}
-	
+	/**
+	 * This tests that if a new picture is created
+	 * and added to a question, that the question is 
+	 * correctly adding the picture file
+	 * and that the getter method is working properly
+	 */
 	public void testAttachPictureToQuestions() {
 
 	// Creates new picture from "picture_path"
@@ -44,7 +57,12 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		
 	}
 	
-	// Same test as above.
+	/**
+	 * This tests that if a new picture is created
+	 * and added to an answer, that the question is 
+	 * correctly adding the picture file
+	 * and that the getter method is working properly
+	 */
 	
 	public void testAttachPictureToAnswers() {
 

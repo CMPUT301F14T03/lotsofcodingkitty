@@ -44,7 +44,7 @@ public class AnswerModelTest extends ActivityInstrumentationTestCase2<MainActivi
 	public void testIncreaseAnswerScoreby30() {
 		Answer a1 = new Answer("a body", "a author","1");
 		assertEquals("Rating not initialized properly", 0, a1.getRating());
-		for(int i = 0; i<=29; i++){
+		for(int i = 0; i<=30; i++){
 		a1.upRating();}
 		assertEquals("Rating not incremented properly", 31, a1.getRating());
 	}
