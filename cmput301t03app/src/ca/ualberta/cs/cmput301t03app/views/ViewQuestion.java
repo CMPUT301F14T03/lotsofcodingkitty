@@ -408,7 +408,7 @@ public class ViewQuestion extends Activity
 	}
 
 	/**
-	 * answerCounter
+	 * Responsible for updating the views answerCounter
 	 */
 
 	public void updateAnswerCount()
@@ -423,7 +423,7 @@ public class ViewQuestion extends Activity
 	}
 
 	/**
-	 * question commentCounter
+	 * Responsible for updating the views question commentCounter
 	 */
 
 	public void updateCommentCount()
