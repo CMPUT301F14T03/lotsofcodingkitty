@@ -174,8 +174,10 @@ public class ViewComment extends Activity
 	}
 
 	/**
-	 * onClick method for adding comments, takes in a userName and
-	 * commentBodyString string
+	 * onClick method for adding comments, prompts the user with a dialog box
+	 * which takes in a username (userNameString) and comment
+	 * (commentBodyString) and then adds that comment to the either a question
+	 * or an answer depending on the context.
 	 */
 
 	public void addComment()
