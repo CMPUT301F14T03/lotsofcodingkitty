@@ -123,7 +123,7 @@ public class ViewComment extends Activity
 					+ pc.getQuestion(questionID).getSubject());
 			timeStamp
 					.setText("Posted: " + pc.getQuestion(questionID).getDate());
-			author.setText("By" + pc.getQuestion(questionID).getAuthor());
+			author.setText("By: " + pc.getQuestion(questionID).getAuthor());
 		} else if (commentType == 2)
 		{ // comment for answers
 			commentTitle.setText("Q: "
@@ -184,9 +184,9 @@ public class ViewComment extends Activity
 	{
 
 		LayoutInflater li = LayoutInflater.from(this);
-		View promptsView = li.inflate(R.layout.activity_post_dialog, null);
+		View promptsView = li.inflate(R.layout.comment_dialog, null);
 		final EditText postBody = (EditText) promptsView
-				.findViewById(R.id.postBody);
+				.findViewById(R.id.comment_body);
 		final EditText userName = (EditText) promptsView
 				.findViewById(R.id.UsernameRespondTextView);
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this); // Create
