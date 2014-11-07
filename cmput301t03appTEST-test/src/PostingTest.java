@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
@@ -10,8 +8,8 @@ import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 /**
  * This tests the simple posting methods of the postcontroller ie. post
  * comments, answers, and questions.
- * 
  * @author rdejesus
+ * @category Unit Testing
  * 
  */
 
@@ -23,11 +21,10 @@ public class PostingTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	}
 
 	/**
-	 * testing that when a question is added by the postcontroller it is adding
+	 * Testing that when a question is added by the postcontroller, it is adding
 	 * that question properly.
-	 * 
-	 * Testing that getter methods are working and Also testing that getID
-	 * method is working.
+	 * <br>
+	 * Also testing that getter methods are working.
 	 */
 	// Creates a new post controller and new question
 	// Adds the question to the newly created post controller
@@ -49,8 +46,7 @@ public class PostingTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	 * Testing that when an answer is added by the postcontroller it is adding
 	 * that answer properly.
 	 * 
-	 * Testing that getter methods are working and also that the getID method is
-	 * working for the answer and question
+	 * Testing that getter methods are working.
 	 */
 	// Same as above but with answer object
 
@@ -71,7 +67,7 @@ public class PostingTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	// to see if it does exist.
 
 	/**
-	 * Testing that when an comment is added by the postcontroller it is adding
+	 * Testing that when an comment is added by the postcontroller to a Question it is adding
 	 * that comment properly.
 	 * 
 	 * Testing that getter methods are working
@@ -90,7 +86,13 @@ public class PostingTest extends ActivityInstrumentationTestCase2<MainActivity> 
 				.getQuestion(q1.getId()).getComments().get(0), c1);
 	}
 
-	// Same as above but adds the comment to an answer
+	
+	/**
+	 * Testing that when a comment is added by the postcontroller to an Answer it is adding
+	 * that comment properly.
+	 * 
+	 * Testing that getter methods are working
+	 */
 	public void testPostCommentToAnswer() {
 
 		PostController pc = new PostController(getInstrumentation()

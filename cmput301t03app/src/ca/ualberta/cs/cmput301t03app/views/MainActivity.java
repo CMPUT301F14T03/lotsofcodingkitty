@@ -6,7 +6,6 @@
  * */
 package ca.ualberta.cs.cmput301t03app.views;
 
-import java.util.ArrayList;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;

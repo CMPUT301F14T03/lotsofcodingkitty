@@ -1,7 +1,3 @@
-/**
- * This test tests that adding pictures to an answer or Question
- * is done properly and can be seen and saved properly
- */
 
 import java.io.File;
 
@@ -9,6 +5,12 @@ import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.views.MainActivity;
+/**
+ * This test tests that adding pictures to an answer or Question
+ * is done properly and can be seen and saved properly.
+ * <br><br> TODO: This still requires implementation
+ * @category Unit testing
+ */
 
 public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
@@ -17,8 +19,8 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	}
 
 	/**
-	 * this creates a new file path and creates an image that will be asserted
-	 * if it is less than 64KB if added to the comment or answer (STILL NEED TO
+	 * This creates a new file path and creates an image that will be asserted
+	 * to see if the file is less than 64KB. (STILL NEED TO
 	 * BE WRITTEN)
 	 */
 
@@ -36,7 +38,7 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	/**
 	 * This tests that if a new picture is created and added to a question, that
 	 * the question is correctly adding the picture file and that the getter
-	 * method is working properly
+	 * method is working properly.
 	 */
 	public void testAttachPictureToQuestions() {
 
@@ -57,7 +59,7 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	/**
 	 * This tests that if a new picture is created and added to an answer, that
 	 * the question is correctly adding the picture file and that the getter
-	 * method is working properly
+	 * method is working properly.
 	 */
 
 	public void testAttachPictureToAnswers() {

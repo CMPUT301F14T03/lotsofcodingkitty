@@ -6,7 +6,7 @@ import android.test.ActivityInstrumentationTestCase2;
 /**
  * This test suite is used to test all the functionalities of the Answer model
  * @author Eric
- *
+ * @category Unit testing 
  */
 public class AnswerModelTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
@@ -14,9 +14,8 @@ public class AnswerModelTest extends ActivityInstrumentationTestCase2<MainActivi
 		super(MainActivity.class);
 	}
 	/**
-	 * Tests the getter methods of the
-	 * Answer Object and that they return the 
-	 * proper and correct fields when called
+	 * Tests that the getter methods of the Answer object return the 
+	 * proper and correct fields when called.
 	 */
 	public void testAnswerConstructor() {
 		Answer a1 = new Answer("a body", "a author","1");
@@ -27,8 +26,8 @@ public class AnswerModelTest extends ActivityInstrumentationTestCase2<MainActivi
 	}
 	
 	/**
-	 * Tests the method upRating in the answer Object
-	 * That when called, the rating attribute of the comment will be incremented by
+	 * Tests that the method upRating in the Answer object
+	 * increments the Rating of the answer by
 	 * one point.
 	 */
 	public void testIncreaseAnswerScore() {
@@ -38,7 +37,7 @@ public class AnswerModelTest extends ActivityInstrumentationTestCase2<MainActivi
 		assertEquals("Rating not incremented properly", 1, a1.getRating());
 	}
 	/**
-	 * Tests the method upRating works for multiple 
+	 * Tests that the method upRating works for multiple 
 	 * calls.
 	 */
 	public void testIncreaseAnswerScoreby30() {
@@ -49,8 +48,8 @@ public class AnswerModelTest extends ActivityInstrumentationTestCase2<MainActivi
 		assertEquals("Rating not incremented properly", 31, a1.getRating());
 	}
 	/**
-	 * Tests that if two comments with same attributes are added as separate objects
-	 * Checks if a comment can be added by seeing if the object created is the same object in the comment list of the answer
+	 * Tests that if two comments with same attributes are created, they are treated as different objects.
+	 * <br> Also checks that if a comment is added to an answer that comment is in the comment list of the answer object.
 	 */
 	public void testAddComment() {
 		Answer a1 = new Answer("a body", "a author","1");
@@ -68,7 +67,7 @@ public class AnswerModelTest extends ActivityInstrumentationTestCase2<MainActivi
 	}
 	/**
 	 * Tests that adding comments will change the comment count attribute
-	 * in the correct answer object
+	 * in the correct answer object.
 	 */
 	public void testGetCommentCount(){
 		Answer a1 = new Answer("a body", "an author", "1");

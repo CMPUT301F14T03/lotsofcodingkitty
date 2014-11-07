@@ -1,9 +1,6 @@
 package ca.ualberta.cs.cmput301t03app.incomplete;
 
 import ca.ualberta.cs.cmput301t03app.R;
-import ca.ualberta.cs.cmput301t03app.R.id;
-import ca.ualberta.cs.cmput301t03app.R.layout;
-import ca.ualberta.cs.cmput301t03app.R.menu;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;

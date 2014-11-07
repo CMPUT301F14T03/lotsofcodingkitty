@@ -8,8 +8,10 @@ import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 
 /**
- * This tests that the sorting function is working The sorting functionality is
- * for sorting by date, score, and by pictures This still needs to be done when
+ * This tests that the sorting function is working. <br>The sorting functionality is
+ * for sorting by date, score, and by pictures.
+ * 
+ * <br><br>TODO: This still needs to be done when
  * the server function is implemented.
  * 
  * @author rdejesus
@@ -24,7 +26,7 @@ public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	/**
 	 * This creates a question and upvotes it and tests 
 	 * that the upRating method
-	 * is working properly
+	 * is working properly.
 	 */
 	public void testUpvoteQuestions() {
 
@@ -36,7 +38,7 @@ public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
 	/**
 	 * This creates an answer and upvotes it 
-	 * to be used for later
+	 * to be used for later.
 	 */
 	public void testUpvoteAnswers() {
 

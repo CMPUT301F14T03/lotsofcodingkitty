@@ -27,7 +27,8 @@ import ca.ualberta.cs.cmput301t03app.views.ViewQuestion;
 
 /**
  * This test unit is used for testing the View Questions view and all the functionalities within it.
- * @author tbrockma
+ * 
+ * @category Integration/System Testing
  * 
  */
 
@@ -112,14 +113,14 @@ public class ViewQuestionUITest extends
 
 		// Assert that none of the views are null
 
-		assertNotNull("Item not created for question view", answerListView);
-		assertNotNull("Item not created for question view", favIcon);
-		assertNotNull("Item not created for question view", upvoteButton);
-		assertNotNull("Item not created for question view", commentButton);
-		assertNotNull("Item not created for question view", upvote_score);
-		assertNotNull("Item not created for question view", answerCounter);
-		assertNotNull("Item not created for question view", answerButton);
-		assertNotNull("Item not created for question view", commentCounter);
+		assertNotNull("AnswerListview not created for question view", answerListView);
+		assertNotNull("favicon not created for question view", favIcon);
+		assertNotNull("upvotebutton not created for question view", upvoteButton);
+		assertNotNull("commentbutton not created for question view", commentButton);
+		assertNotNull("upvotescore not created for question view", upvote_score);
+		assertNotNull("answerCounter not created for question view", answerCounter);
+		assertNotNull("answerButton not created for question view", answerButton);
+		assertNotNull("commentCounter not created for question view", commentCounter);
 
 		View mainView = (View) activity.getWindow().getDecorView()
 				.findViewById(android.R.id.content);

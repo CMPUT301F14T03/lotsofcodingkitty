@@ -1,7 +1,4 @@
-/**
- * this tests that the user is able to browse questions
- * and that the post controller is working
- */
+
 
 import java.util.ArrayList;
 
@@ -10,7 +7,11 @@ import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 import android.test.ActivityInstrumentationTestCase2;
-
+/**
+ * This tests that the user is able to browse questions
+ * and that the post controller is working.
+ * @category Unit Testing
+ */
 
 public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainActivity> {
 	public TestBrowseQuestions(){
@@ -28,8 +29,8 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 	}
 	
 	/**
-	 * this tests that the postcontroller is adding a question to the question 
-	 * list it holds
+	 * This tests that the postcontroller is adding a question to the question 
+	 * list it holds.
 	 */
 	
 	public void testGetQuestions(){
