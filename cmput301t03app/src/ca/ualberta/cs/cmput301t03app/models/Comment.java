@@ -3,11 +3,8 @@ package ca.ualberta.cs.cmput301t03app.models;
 import java.util.Date;
 
 /**
- * Represents a comment or reply that is added to
- * Answer or Question objects. Answer and Question objects 
- * can have multiple comments.
+ * This class represents a comment or reply to an answer or question.
  * 
- * @since 2014-10-28
  */
 
 public class Comment {
@@ -16,9 +13,9 @@ public class Comment {
 	private String comment;
 	private String author;
 	
-	/**
-	 * @param comment		Comment body text
-	 * @param author		Comment author
+	/**Constructs a {@link #Comment() Comment}
+	 * @param comment		 The comment or reply text
+	 * @param author		 The author of the comment
 	 */
 	
 	public Comment(String comment, String author) {

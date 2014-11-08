@@ -16,16 +16,15 @@ import com.google.gson.reflect.TypeToken;
 import android.content.Context;
 
 /**
- * This class manages the saving and loading of an array list of Questions to
- * local storage Read questions, questions the user wants to read later, and
- * favorite questions will be saved to local storage.
+ * Manages the saving and loading of an array list of Questions to
+ * local storage.<p> Previously read questions, questions the user wants to read later and
+ * favorited questions will be saved to local storage.
  * 
  * 
  */
 
-public class LocalDataManager implements iDataManager
-{
-
+public class LocalDataManager implements iDataManager {
+	
 	// File names
 	private static final String READ_FILE = "read.sav";
 	private static final String TO_READ_FILE = "read_later.sav";
@@ -39,9 +38,14 @@ public class LocalDataManager implements iDataManager
 
 	private Context context;
 	private String SAVE_FILE; // This will be equal to one of the filenames
-
-	public LocalDataManager(Context context)
-	{
+	
+	/**
+	 * 
+	 * Constructs a {@link #LocalDataManager() LocalDataManager}
+	 * @param context
+	 *            The context of the LocalDataManager
+	 */
+	public LocalDataManager(Context context) {
 
 		this.context = context;
 	}
@@ -49,36 +53,34 @@ public class LocalDataManager implements iDataManager
 	/*********************************** SAVE METHODS **************************************/
 
 	/**
-	 * Saves a list of question id's of favorite questions to cache.
+	 * Saves a list of question IDs of favorite questions to cache.
 	 * 
 	 * @param idList
-	 *            A list of strings
+	 *            A list of strings pertaining to question IDs
 	 */
-	public void saveFavoritesID(ArrayList<String> idList)
-	{
+	public void saveFavoritesID(ArrayList<String> idList) {
 
 		SAVE_FILE = FAVORITE_FILE;
 		saveIds(idList);
 	}
 
 	/**
-	 * Saves a list of question id's of read questions to cache.
+	 * Saves a list of question IDs of read questions to cache.
 	 * 
 	 * @param idList
-	 *            A list of strings
+	 *              A list of strings pertaining to question IDs
 	 */
-	public void saveReadID(ArrayList<String> idList)
-	{
+	public void saveReadID(ArrayList<String> idList) {
 
 		SAVE_FILE = READ_FILE;
 		saveIds(idList);
 	}
 
 	/**
-	 * Saves a list of question id's of questions to be read later to cache.
+	 * Saves a list of question IDs of questions to be read later to cache.
 	 * 
 	 * @param idList
-	 *            A list of strings
+	 *            A list of strings pertaining to question IDs
 	 */
 	public void saveToReadID(ArrayList<String> idList)
 	{
@@ -88,10 +90,10 @@ public class LocalDataManager implements iDataManager
 	}
 
 	/**
-	 * Saves a list of question id's of questions posted by the user to cache.
+	 * Saves a list of question IDs of questions posted by the user to cache.
 	 * 
 	 * @param idList
-	 *            A list of strings
+	 *            A list of strings pertaining to question IDs
 	 */
 	public void savePostedQuestionsID(ArrayList<String> idList)
 	{
@@ -101,10 +103,10 @@ public class LocalDataManager implements iDataManager
 	}
 
 	/**
-	 * Saves a list of Question Objects to the question bank
+	 * Saves a list of Question Objects to the local memory
 	 * 
 	 * @param list
-	 *            A list of Question Objects
+	 *            A list of Question Objects 
 	 */
 	public void saveToQuestionBank(ArrayList<Question> list)
 	{
@@ -113,12 +115,11 @@ public class LocalDataManager implements iDataManager
 		saveQuestions(list);
 	}
 
-	/*********************************** LOAD METHODS **************************************/
 
 	/**
 	 * Loads a list of question ID's of favorite questions from cache.
 	 * 
-	 * @return list A list of strings containing ID's.
+	 * @return  A list of strings pertaining to question IDs
 	 */
 	public ArrayList<String> loadFavorites()
 	{
@@ -132,7 +133,7 @@ public class LocalDataManager implements iDataManager
 	/**
 	 * Loads a list of question ID's of read questions from cache.
 	 * 
-	 * @return list A list of strings containing ID's.
+	 * @return A list of strings pertaining to question IDs
 	 */
 	public ArrayList<String> loadRead()
 	{
@@ -146,7 +147,7 @@ public class LocalDataManager implements iDataManager
 	/**
 	 * Loads a list of question ID's of questions to be read later from cache.
 	 * 
-	 * @return list A list of strings containing ID's.
+	 * @return A list of strings pertaining to question IDs
 	 */
 	public ArrayList<String> loadToRead()
 	{
@@ -160,7 +161,7 @@ public class LocalDataManager implements iDataManager
 	/**
 	 * Loads a list of question ID's of questions posted by the user from cache.
 	 * 
-	 * @return list A list of strings containing ID's.
+	 * @return A list of strings pertaining to question IDs
 	 */
 	public ArrayList<String> loadPostedQuestions()
 	{
@@ -174,7 +175,7 @@ public class LocalDataManager implements iDataManager
 	/**
 	 * Returns a list of Question objects from the question bank.
 	 * 
-	 * @return questionArray A list of Question objects.
+	 * @return A list of Question objects.
 	 */
 	@Override
 	public ArrayList<Question> loadQuestions()
@@ -213,7 +214,7 @@ public class LocalDataManager implements iDataManager
 	/**
 	 * Saves an array of IDs to the local drive
 	 * 
-	 * @param idList
+	 * @param idList A list of strings pertaining to question IDs that will be saved to local drive
 	 */
 
 	private void saveIds(ArrayList<String> idList)
@@ -239,7 +240,7 @@ public class LocalDataManager implements iDataManager
 	/**
 	 * Saves an array of Questions to the local drive
 	 * 
-	 * @param list
+	 * @param list A List of question objects that will be saved to local drive
 	 */
 
 	private void saveQuestions(ArrayList<Question> list)
@@ -270,7 +271,7 @@ public class LocalDataManager implements iDataManager
 	/**
 	 * Retrieves an array of IDs from the local drive
 	 * 
-	 * @return
+	 * @return A list of strings pertaining to question IDs
 	 */
 
 	private ArrayList<String> loadIds()

@@ -7,9 +7,9 @@ import ca.ualberta.cs.cmput301t03app.datamanagers.LocalDataManager;
 import android.content.Context;
 
 /**
- * A model that contains all user specific lists containing
- * ID's and a question bank containing a list of Question objects.
- * All lists are populated by loading from LocalDataManager.
+ * A class that contains all user specific Question lists.
+ * Including the user favorited questions, the previously read questions, the 
+ * questions marked "To-be-Read-Later" and the questions posted by the user.
  * 
  */
 public class UserPostCollector {
@@ -23,7 +23,11 @@ public class UserPostCollector {
 
 //	private Context context;
 
-
+	/** Constructs a {@link #userPostCollector() userPostCollector}.
+	 * @param subject			The subject that the question is asking about.
+	 * @param body				The body of the question or description.
+	 * @param author			The author of the question.
+	 */
 	public UserPostCollector() {
 		questionBank = null;
 		favoriteQuestions = null;
@@ -36,8 +40,8 @@ public class UserPostCollector {
 	/*---------------------------Initializers-----------------------------*/
 	
 	/**
-	 * This method initializes the favorites id list
-	 * @param context Activity Context
+	 * Initializes the favorites list
+	 * @param context The Activity Context
 	 */
 	public void initFavoriteID(Context context) {
 		if (this.favoriteQuestions == null) {
@@ -47,19 +51,19 @@ public class UserPostCollector {
 	}
 	
 	/**
-	 * This method initializes the read id list
-	 * @param context Activity Context
+	 * Initializes the previously read list
+	 * @param context The Activity Context
 	 */
 	public void initReadID(Context context) {
 		if (this.readQuestions == null) {
 			local = new LocalDataManager(context);
 			this.readQuestions = local.loadRead();
 		}
-	}
+	}	
 	
 	/**
-	 * This method initializes the to read id list
-	 * @param context Activity Context
+	 * Initializes the to read id list
+	 * @param context The Activity Context
 	 */
 	public void initToReadID(Context context) {
 		if (this.toReadQuestions == null) {
@@ -69,8 +73,8 @@ public class UserPostCollector {
 	}
 
 	/**
-	 * This method initializes the posted questions id list
-	 * @return context Activity Context
+	 * Initializes the posted questions id list
+	 * @return context The Activity Context
 	 */
 	public void initPostedQuestionID(Context context) {
 		if (this.postedQuestions == null) {
@@ -80,8 +84,8 @@ public class UserPostCollector {
 	}
 	
 	/**
-	 * This method initializes the question bank
-	 * @param context Activity Context
+	 * Initializes the question bank
+	 * @param context The Activity Context
 	 */
 	public void initQuestionBank(Context context) {
 		if (this.questionBank == null) {
@@ -117,39 +121,39 @@ public class UserPostCollector {
 	/*=====================Adding=====================*/
 	/**
 	 * Adds a question object to the question bank
-	 * @param question A question object
+	 * @param A question object to be added
 	 */
 	public void addQuestionToBank(Question question) {
 		questionBank.add(question);
 	}
 	
 	/**
-	 * Adds a string which represents an ID to the list
-	 * @param qId A question ID
+	 * Adds a string which represents an ID to the favorite list
+	 * @param A question ID to be added
 	 */
 	public void addFavoriteQuestion(String qId) {
 		favoriteQuestions.add(qId);
 	}	
 
 	/**
-	 * Adds a string which represents an ID to the list
-	 * @param qId A question ID
+	 * Adds a string which represents an ID to the previously read list
+	 * @param A question ID to be added 
 	 */
 	public void addReadQuestion(String qId) {
 		readQuestions.add(qId);
 	}
 
 	/**
-	 * Adds a string which represents an ID to the list
-	 * @param qId A question ID
+	 * Adds a string which represents an ID to the to-read list
+	 * @param A question ID to be added 
 	 */
 	public void addtoReadQuestion(String qId) {
 		toReadQuestions.add(qId);
 	}
 
 	/**
-	 * Adds a string which represents an ID to the list
-	 * @param qId A question ID
+	 * Adds a string which represents an ID to the user posted question list
+	 * @param A question ID to be added
 	 */
 	public void addPostedQuestion(String qId) {
 		postedQuestions.add(qId);

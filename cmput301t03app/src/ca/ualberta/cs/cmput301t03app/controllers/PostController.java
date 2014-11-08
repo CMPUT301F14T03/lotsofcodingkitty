@@ -28,7 +28,7 @@ public class PostController {
 
 	/**
 	 * 
-	 * Constructor for a {@link #PostController() PostController}
+	 * Constructs a {@link #PostController() PostController}
 	 * @param context
 	 *            The context of the PostController
 	 */
@@ -52,14 +52,12 @@ public class PostController {
 		return false;
 	}
 	
-	
 	/**
 	 * Returns true if a question is favorited by the user.
 	 * @param  questionID the question ID of the question being checked.
 	 * 
 	 * */
-	public Boolean isQuestionInFavByID(String questionID)
-	{
+	public Boolean isQuestionInFavByID(String questionID) {
 
 		upc.initFavoriteID(getContext());
 		// Log.d("click", "Size of Fav array: "+
@@ -77,11 +75,9 @@ public class PostController {
 	 * @param  questionID the question ID of the question being checked.
 	 * 
 	 * */
-	public Boolean isQuestionInReadByID(String questionID)
-	{
+	public Boolean isQuestionInReadByID(String questionID) {
 
-		for (int i = 0; i < upc.getFavoriteQuestions().size(); i++)
-		{
+		for (int i = 0; i < upc.getFavoriteQuestions().size(); i++) {
 			if (upc.getFavoriteQuestions().get(i).equals(questionID))
 				return true;
 		}
@@ -93,8 +89,7 @@ public class PostController {
 	 * 
 	 * @param q the Question object to be saved.
 	 */
-	public void addFavoriteQuestion(Question q)
-	{
+	public void addFavoriteQuestion(Question q) {
 
 		upc.initFavoriteID(getContext());
 		upc.initQuestionBank(getContext());
@@ -102,8 +97,7 @@ public class PostController {
 		ArrayList<String> idList = upc.getFavoriteQuestions();
 		String id = q.getId();
 
-		if (!idList.contains(id))
-		{
+		if (!idList.contains(id)) {
 			idList.add(id);
 			local.saveFavoritesID(idList);
 			checkExistanceOfQuestion(q, local);
@@ -115,8 +109,7 @@ public class PostController {
 	 * 
 	 * @param q the previously read question that must be saved.
 	 */
-	public void addReadQuestion(Question q)
-	{
+	public void addReadQuestion(Question q) {
 
 		upc.initReadID(getContext()); // I need to load the lists if they
 										// haven't been loaded yet.
@@ -125,8 +118,7 @@ public class PostController {
 		ArrayList<String> idList = upc.getReadQuestions();
 		String id = q.getId();
 
-		if (!idList.contains(id))
-		{
+		if (!idList.contains(id)) {
 			idList.add(id);
 			local.saveReadID(idList);
 			checkExistanceOfQuestion(q, local);
@@ -136,11 +128,9 @@ public class PostController {
 	/**
 	 * Adds a question to the "to read" list and saves it locally
 	 * 
-	 * @param q
-	 *            A Question Object
+	 * @param q the question object that the user wants to read later.
 	 */
-	public void addToRead(Question q)
-	{
+	public void addToRead(Question q) {
 
 		upc.initToReadID(getContext()); // I need to load the lists if they
 										// haven't been loaded yet.
@@ -149,8 +139,7 @@ public class PostController {
 		ArrayList<String> idList = upc.getToReadQuestions();
 		String id = q.getId();
 
-		if (!idList.contains(id))
-		{
+		if (!idList.contains(id)) {
 			idList.add(id);
 			local.saveToReadID(idList);
 			checkExistanceOfQuestion(q, local);
@@ -160,11 +149,9 @@ public class PostController {
 	/**
 	 * Adds a question to the posted questions list and saves it locally
 	 * 
-	 * @param q
-	 *            A Question Object
+	 * @param q a Question object that the user wants to post
 	 */
-	public void addUserPost(Question q)
-	{
+	public void addUserPost(Question q) {
 
 		upc.initPostedQuestionID(getContext()); // I need to load the lists if
 												// they haven't been loaded yet.
@@ -184,13 +171,10 @@ public class PostController {
 	/**
 	 * Adds an Answer object to the question object
 	 * 
-	 * @param answer
-	 *            An Answer Object
-	 * @param questionID
-	 *            A string representing an ID
+	 * @param answer the answer object that the user has made
+	 * @param questionID The ID of the question that the answer will be added to
 	 */
-	public void addAnswer(Answer answer, String questionID)
-	{
+	public void addAnswer(Answer answer, String questionID) {
 
 		getQuestion(questionID).addAnswer(answer);
 	}
@@ -199,10 +183,9 @@ public class PostController {
 	 * Adds a question to the list in the PostController.
 	 * 
 	 * @param question
-	 *            A Question Object
+	 *            a Question object that the user wants to be added.
 	 */
-	public void addQuestion(Question question)
-	{
+	public void addQuestion(Question question) {
 
 		getQuestionsInstance().add(question);
 		// pushQuestions.add(question);
@@ -214,69 +197,57 @@ public class PostController {
 	 * Adds a comment object to a question object.
 	 * 
 	 * @param comment
-	 *            A comment object
-	 * @param parentId
-	 *            A string representing an ID
+	 *            A comment object that the user wants to be added to a question.
+	 * @param parentId The ID of the question that the comment will be added to
 	 */
-	public void addCommentToQuestion(Comment comment, String parentId)
-	{
+	public void addCommentToQuestion(Comment comment, String parentId) {
 
-		for (int i = 0; i < subQuestions.size(); i++)
-		{
-			if (subQuestions.get(i).getId().equals(parentId))
-			{
+		for (int i = 0; i < subQuestions.size(); i++) {
+			if (subQuestions.get(i).getId().equals(parentId)) {
 				subQuestions.get(i).addComment(comment);
 			}
 		}
 	}
 
 	/**
-	 * Adds a comment object to a answer object.
+	 * Adds a comment object to an answer object.
 	 * 
 	 * @param comment
-	 *            A comment object
-	 * @param parentId
-	 *            A string representing an ID
+	 *            A comment object that will be added to the answer
+	 * @param answerID The ID of the answer that the comment will be added to
+	 * @param questionID the question that the answer is pertaining to.
 	 */
 	public void addCommentToAnswer(Comment comment, String questionID,
-			String answerID)
-	{
+			String answerID) {
 
 		Question q = getQuestion(questionID);
 		ArrayList<Answer> a = q.getAnswers();
-		for (int i = 0; i < a.size(); i++)
-		{
-			if (a.get(i).getId().equals(answerID))
-			{
+		for (int i = 0; i < a.size(); i++) {
+			if (a.get(i).getId().equals(answerID)) {
 				a.get(i).addComment(comment);
 			}
 		}
 	}
 
-	/******************************************** Getters ********************************************/
 
-	public Context getContext()
-	{
+	public Context getContext() {
 
 		return this.context;
 	}
 
-	public UserPostCollector getUPC()
-	{
+	public UserPostCollector getUPC() {
 
 		return upc;
 	}
 
 	/**
-	 * Returns a subset of the total list of questions from the server.
+	 * Returns the questions that the post controller contains.
 	 * 
-	 * @return subQuestions A list of Question objects
+	 * @return A list of Question objects
 	 */
-	public ArrayList<Question> getQuestionsInstance()
-	{
+	public ArrayList<Question> getQuestionsInstance() {
 
-		if (subQuestions == null)
-		{
+		if (subQuestions == null) {
 			subQuestions = new ArrayList<Question>();
 		}
 		return subQuestions;
@@ -285,16 +256,13 @@ public class PostController {
 	/**
 	 * Returns the list of comments to the specified question object
 	 * 
-	 * @param questionID
-	 * @return ArrayList<Comment> A list of Comment objects
+	 * @param questionID the question that the comments pertain to.
+	 * @return A list of Comment objects
 	 */
-	public ArrayList<Comment> getCommentsToQuestion(String questionID)
-	{
+	public ArrayList<Comment> getCommentsToQuestion(String questionID) {
 
-		for (int i = 0; i < subQuestions.size(); i++)
-		{
-			if (subQuestions.get(i).getId().equals(questionID))
-			{
+		for (int i = 0; i < subQuestions.size(); i++) {
+			if (subQuestions.get(i).getId().equals(questionID)) {
 				return subQuestions.get(i).getComments();
 			}
 		}
@@ -308,15 +276,12 @@ public class PostController {
 	 * @return ArrayList<Comment> A list of Comment objects
 	 */
 	public ArrayList<Comment> getCommentsToAnswer(String questionID,
-			String answerID)
-	{
+			String answerID) {
 
 		Question q = getQuestion(questionID);
 		ArrayList<Answer> a = q.getAnswers();
-		for (int i = 0; i < a.size(); i++)
-		{
-			if (a.get(i).getId().equals(answerID))
-			{
+		for (int i = 0; i < a.size(); i++) {
+			if (a.get(i).getId().equals(answerID)) {
 				return a.get(i).getComments();
 			}
 		}
@@ -324,21 +289,17 @@ public class PostController {
 	}
 
 	/**
-	 * Returns an answer from a question given the question id and answer id.
+	 * Returns an answer object of a given answer id.
 	 * 
-	 * @param answerId
-	 *            A String representing an ID
-	 * @param questionId
-	 *            A String representing an ID
-	 * @return Answer An Answer object
+	 * @param answerId The ID of the answer object being returned.
+	 * @param questionId The ID of the question that the answer pertains to.
+	 * @return An Answer object
 	 */
-	public Answer getAnswer(String answerId, String questionId)
-	{
+	public Answer getAnswer(String answerId, String questionId) {
 
 		Question q = getQuestion(questionId);
 		ArrayList<Answer> a = q.getAnswers();
-		for (int i = 0; i < a.size(); i++)
-		{
+		for (int i = 0; i < a.size(); i++) {
 			if (a.get(i).getId().equals(answerId))
 				return a.get(i);
 		}
@@ -346,19 +307,16 @@ public class PostController {
 	}
 
 	/**
-	 * Returns the question object given the question id.
+	 * Returns the question object of a given question id.
 	 * 
 	 * @param qID
-	 *            A String representing an ID
-	 * @return Question A Question Object
+	 *            The ID of the question object being returned.
+	 * @return A Question Object
 	 */
-	public Question getQuestion(String qID)
-	{
+	public Question getQuestion(String qID) {
 
-		for (int i = 0; i < getQuestionsInstance().size(); i++)
-		{
-			if (getQuestionsInstance().get(i).getId().equals(qID))
-			{
+		for (int i = 0; i < getQuestionsInstance().size(); i++) {
+			if (getQuestionsInstance().get(i).getId().equals(qID)) {
 				return getQuestionsInstance().get(i);
 			}
 		}
@@ -366,13 +324,12 @@ public class PostController {
 	}
 
 	/**
-	 * Returns the list of favorite questions. This method only pulls from the
-	 * question bank the questions whose IDs are in the favorite ID's list .
+	 * Returns the list of favorited questions. <p>This method only pulls from the
+	 * question bank of favorite IDs list .
 	 * 
-	 * @return favoriteArray A list of Question objects.
+	 * @return A list of the users favorited questions.
 	 */
-	public ArrayList<Question> getFavoriteQuestions()
-	{
+	public ArrayList<Question> getFavoriteQuestions() {
 
 		LocalDataManager local = new LocalDataManager(getContext());
 		ArrayList<String> idArray = local.loadFavorites();
@@ -381,13 +338,12 @@ public class PostController {
 	}
 
 	/**
-	 * Returns the list of read questions. This method only pulls from the
-	 * question bank the questions whose IDs are in the read ID's list .
+	 * Returns the list of read questions. <p> This method only pulls from the
+	 * question bank of read IDs list .
 	 * 
-	 * @return readArray A list of Question objects.
+	 * @return A list of the user's previously read Questions.
 	 */
-	public ArrayList<Question> getReadQuestions()
-	{
+	public ArrayList<Question> getReadQuestions() {
 
 		LocalDataManager local = new LocalDataManager(getContext());
 		ArrayList<String> idArray = local.loadRead();
@@ -396,13 +352,12 @@ public class PostController {
 	}
 
 	/**
-	 * Returns the list of "to read" questions. This method only pulls from the
-	 * question bank the questions whose IDs are in the "to read" ID's list .
+	 * Returns the list of "To-read" questions. <p>This method only pulls from the
+	 * question bank of "to-read" IDs list .
 	 * 
-	 * @return toReadArray A list of Question objects.
+	 * @return A list of questions that the user has marked "To-Read".
 	 */
-	public ArrayList<Question> getToReadQuestions()
-	{
+	public ArrayList<Question> getToReadQuestions() {
 
 		LocalDataManager local = new LocalDataManager(getContext());
 		ArrayList<String> idArray = local.loadToRead();
@@ -412,13 +367,12 @@ public class PostController {
 
 	/**
 	 * Returns the list of posted questions. This method only pulls from the
-	 * question bank the questions whose IDs are in the post questions ID's list
+	 * question bank of posted questions IDs list
 	 * .
 	 * 
-	 * @return postedArray A list of Question objects.
+	 * @return A list of questions that the user has posted.
 	 */
-	public ArrayList<Question> getUserPostedQuestions()
-	{
+	public ArrayList<Question> getUserPostedQuestions() {
 
 		LocalDataManager local = new LocalDataManager(getContext());
 		ArrayList<String> idArray = local.loadPostedQuestions();
@@ -426,33 +380,25 @@ public class PostController {
 		return postedArray;
 	}
 
-	/******************************************** Private methods *****************************************************/
-
 	/**
 	 * 
-	 * Method uses inputs to return an ArrayList of Questions based on Question
-	 * IDs
-	 * 
+	 * Returns an ArrayList of Question objects from local memory using a list of Question IDs.
 	 * @param idArray
-	 *            An array of Question ID's
+	 *            An array of Question IDs
 	 * @param local
-	 *            Uses the LocalDataManager to load questions
+	 *            the LocalDataManager used to load questions
 	 * @return returns an ArrayList of Questions
 	 */
 
 	private ArrayList<Question> getQuestionsFromID(ArrayList<String> idArray,
-			LocalDataManager local)
-	{
+			LocalDataManager local) {
 
 		ArrayList<Question> returnedArray = new ArrayList<Question>();
 		ArrayList<Question> questionArray = local.loadQuestions();
 
-		for (int i = 0; i < idArray.size(); i++)
-		{
-			for (int j = 0; j < questionArray.size(); j++)
-			{
-				if (idArray.get(i).equals(questionArray.get(j).getId()))
-				{
+		for (int i = 0; i < idArray.size(); i++) {
+			for (int j = 0; j < questionArray.size(); j++) {
+				if (idArray.get(i).equals(questionArray.get(j).getId())) {
 					returnedArray.add(questionArray.get(j));
 				}
 			}
@@ -461,34 +407,27 @@ public class PostController {
 	}
 
 	/**
-	 * Looks for a given Question in the UPC Question bank. If it is not found,
-	 * the question is added to the Question bank.
 	 * 
-	 * @param q
-	 *            Question object Q
-	 * @param local
-	 *            LocalDataManager
+	 * Saves a question to local memory given that, that question does not exist in local memory.
+	 * 
+	 * @param q The question to be saved.
+	 * @param local The datamanager that saves to local memory
 	 */
 
-	private void checkExistanceOfQuestion(Question q, LocalDataManager local)
-	{
+	private void checkExistanceOfQuestion(Question q, LocalDataManager local) {
 
 		boolean found = false;
-		for (int i = 0; i < upc.getQuestionBank().size(); i++)
-		{
-			if (upc.getQuestionBank().get(i).getId().equals(q.getId()))
-			{
+		for (int i = 0; i < upc.getQuestionBank().size(); i++) {
+			if (upc.getQuestionBank().get(i).getId().equals(q.getId()))	{
 				found = true;
 				break;
 			}
 		}
-		if (!found)
-		{
+		if (!found) {
 			ArrayList<Question> questionList = upc.getQuestionBank();
 			questionList.add(q);
 			local.saveToQuestionBank(questionList);
 		}
-		
 	}
 
 	/*

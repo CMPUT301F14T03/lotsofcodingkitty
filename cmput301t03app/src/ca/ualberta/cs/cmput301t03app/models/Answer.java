@@ -7,10 +7,8 @@ import java.util.UUID;
 
 
 /**
- * Represents an Answer to a Question.
- * A Question object can have multiple Answers.
- * 
- * @since 2013-11-2
+ * A class representing an answer to a question.
+ *
  */
 public class Answer {
 	private String id;
@@ -21,10 +19,10 @@ public class Answer {
 	private File picture;
 	private int rating;
 	
-	/**
-	 * @param answer		Answer body text
-	 * @param author		Answer author
-	 * @param parentID		ID of Question being answered (not currently used)
+	/** Constructs an {@link #Answer() Answer}
+	 * @param answer		 The answer that the user has created
+	 * @param author		 The author of the answer
+	 * @param parentID		ID of the Question being answered
 	 */
 	
 	public Answer(String answer, String author, String parentID){
@@ -38,16 +36,13 @@ public class Answer {
 	
 	/**
 	 * Adds a Comment object to the list of comments
-	 * @param comment A Comment object
+	 * @param the comment object being added
 	 */
 	public void addComment(Comment comment) {
 		this.comments.add(comment);
 	}
 	
-	/**
-	 * Sets the picture to an image provided by the user
-	 * @param picture
-	 */
+
 	public void setPicture(File picture){
 		this.picture = picture;
 	}
@@ -63,8 +58,8 @@ public class Answer {
 	/*----------------------Get counts--------------------*/
 	
 	/**
-	 * Returns the number of Comment objects to the answer
-	 * @return int The count of Comment objects.
+	 * Returns the number of Comment objects pertaining to the Answer object.
+	 * @return The number of comments.
 	 */
 	public int countAnswerComments() {
 		if (comments == null) {
@@ -76,7 +71,7 @@ public class Answer {
 	/*-----------------------Getters-------------------------*/
 	/**
 	 * Returns a list of Comment objects
-	 * @return comments A list of Comment objects
+	 * @return A list of Comment objects
 	 */
 	public ArrayList<Comment> getComments() {
 		return this.comments;

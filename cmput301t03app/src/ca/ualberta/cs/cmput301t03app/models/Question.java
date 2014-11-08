@@ -7,8 +7,9 @@ import java.util.UUID;
 
 
 /**
- * Represents a Question the user posts to the app.
- * The app will handle lists of questions.
+ * This class represents a question. <p>
+ * It models a real question in life where it has a subject of the question, a 
+ * description of the question, who wrote the question, etc.
  */
 
 public class Question{
@@ -22,10 +23,10 @@ public class Question{
 	private Date date;
 	private int rating;
 	
-	/**
-	 * @param subject			Question title
-	 * @param body				Question body text
-	 * @param author			Question author
+	/** Constructs a {@link #Question() Question}.
+	 * @param subject			The subject that the question is asking about.
+	 * @param body				The body of the question or description.
+	 * @param author			The author of the question.
 	 */
 	
 	public Question(String subject, String body, String author) {
@@ -39,9 +40,6 @@ public class Question{
 		this.answers = new ArrayList<Answer>();
 	}
 	
-	/** This is for testing sorting by dates
-	 * 	@author tbrockma
-	 */
 	
 	public Question(String subject, String body, String author, Date date) {
 		this.id = UUID.randomUUID().toString();
@@ -57,7 +55,7 @@ public class Question{
 
 	/**
 	 * Adds an Answer object to the list of answers.
-	 * @param answer An Answer Object
+	 * @param An Answer object being added to the question
 	 */
 	public void addAnswer(Answer answer){
 		this.answers.add(answer);
@@ -65,23 +63,19 @@ public class Question{
 	
 	/**
 	 * Adds a Comment object to the list of comments.
-	 * @param comment A Comment Object
+	 * @param A Comment Object being added
 	 */
 	public void addComment(Comment comment) {
 		this.getComments().add(comment);
 	}
 	
 	/**
-	 * Increments the score of the answer.
+	 * Increments the score of the question.
 	 */
 	public void upRating() {
 		this.rating++; //Rating should be incremented by 1 per upvote press; we do not need to tell the system what score is.
 	}
 	
-	/**
-	 * Sets the picture to an image provided by the user
-	 * @param picture
-	 */
 	public void setPicture(File picture){
 		this.picture = picture;
 	}
