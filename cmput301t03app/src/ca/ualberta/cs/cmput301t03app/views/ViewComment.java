@@ -23,8 +23,6 @@ import android.widget.Toast;
 
 /**
  * 
- * @author tbrockma
- * 
  *         ViewComment activity is the activity responsible for showing comments
  *         to either a given question or a given answer.
  * 
@@ -83,12 +81,13 @@ public class ViewComment extends Activity
 		updateCommentCount();
 	}
 
+	/**
+	 * sets the views to correct fields
+	 */
 	public void instantiateViews()
 	{
 
-		/**
-		 * sets the views to correct fields
-		 */
+
 		commentButton = (Button) findViewById(R.id.comment_button);
 		commentCount = (TextView) findViewById(R.id.comment_count);
 		timeStamp = (TextView) findViewById(R.id.comment_post_timestamp);
@@ -113,6 +112,11 @@ public class ViewComment extends Activity
 		});
 	}
 
+	/**
+	 *  Sets the question body,author and date from the question clicked from the
+	 *  ViewQuestions activity. If an answer was clicked it also sets the answers
+	 *  body.
+	 */
 	public void setPostDetails()
 	{
 
@@ -136,6 +140,12 @@ public class ViewComment extends Activity
 					+ pc.getAnswer(answerID, questionID).getAuthor());
 		}
 	}
+	
+	/**
+	 *  This sets up the comment adapter by grabbing the comments
+	 *  from the question or answer objects and feeding them to
+	 *  the adapter.
+	 */
 
 	public void setCommentAdapter()
 	{
@@ -144,7 +154,12 @@ public class ViewComment extends Activity
 		getCommentBodiesFromComment();
 		cla.notifyDataSetChanged();
 	}
-
+	
+	/**
+	 * This extracts the comment bodies from the
+	 * Comment object to be able to place them in the
+	 * adapter.
+	 */
 	public void getCommentBodiesFromComment()
 	{ // used for showing in the view
 
@@ -156,6 +171,12 @@ public class ViewComment extends Activity
 		}
 	}
 
+	
+	/**
+	 *  This updates the comment count for the view for either
+	 *  answer or question.
+	 * 
+	 */
 	public void updateCommentCount()
 	{
 
@@ -293,6 +314,7 @@ public class ViewComment extends Activity
 				.show();
 	}
 
+	//Used for testing.
 	public AlertDialog getDialog()
 	{
 
