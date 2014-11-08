@@ -187,7 +187,7 @@ public class ViewQuestion extends Activity
 	 * Takes a questionId and uses that ID to fill in the various elements of a
 	 * Question in the view.
 	 * 
-	 * @param ID
+	 * @param ID The id of teh question
 	 */
 
 	public void setQuestionText(String ID)
@@ -216,15 +216,21 @@ public class ViewQuestion extends Activity
 		// }
 	}
 
+	/**
+	 *  Fills the favorite icon 
+	 */
 	public void setFavoriteIcon()
 	{
 
-		Log.d("click", "is fav? : " + pc.isQuestionInFavByID(question_id));
+
 		if (pc.isQuestionInFavByID(question_id))
 		{
 			favIcon.setImageResource(R.drawable.ic_fav_yes);
 		}
 	}
+	/**
+	 * Instrantiates the views
+	 */
 
 	public void instantiateViews()
 	{
@@ -244,7 +250,7 @@ public class ViewQuestion extends Activity
 	/**
 	 * onClick for commenting on a question
 	 * 
-	 * @param v
+	 * @param v View where the click happened
 	 */
 
 	public void toCommentActivityQuestion(View v)
@@ -456,7 +462,7 @@ public class ViewQuestion extends Activity
 	/**
 	 * onClick method for updating answers
 	 * 
-	 * @param v
+	 * @param v View where the click happened
 	 */
 
 	// This on upvotes an answer
