@@ -19,13 +19,13 @@ import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * 
- * @author tbrockma
- * 
- *         This is the Activity for looking at a given set of user posted items.
- *         Lists shown change based on the extras taken in from the intent. Can
- *         show a list of favorited questions, cached questions, to be read
- *         questions and user posted questions. Displays favorited questions by
- *         default.
+ *         This is the activity for looking user selected set/list of questions as
+ *         selected from the User Home activity. It is started by the User Home activity
+ *         which passes an extra message in the intent that is used to determine
+ *         which local saved list to load.  Can show a list of favorite questions,
+ *         cached questions, to be read questions and user posted questions.  If a 
+ *         selected list from the User Home activity is empty, then the ListView is
+ *         empty in this activity
  * 
  */
 
@@ -38,7 +38,18 @@ public class UserListsActivity extends Activity
 	private MainListAdapter mla;
 	private ArrayList<Question> userQuestionList;
 	private ListView userListView;
-
+	
+	/**
+	 * Aside from the standard onCreate, this method will also get the extra from the intent
+	 * (the extra is called userListMode) and will:<br>
+	 * - Display the corresponding header for the list to be displayed based on the intent extra value.<br>
+	 * - Get the corresponding list from the post controller based on the intent extra value.<br><br>
+	 * 
+	 * A new list adaptor (activity_main_question_entity) is created and the ListView is set with this
+	 * new list adaptor.
+	 * 
+	 * A new listener for the adaptor is also created.
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -80,12 +91,19 @@ public class UserListsActivity extends Activity
 		setListeners();
 	}
 
+	/**
+	 * Setting a onItemClickListener for the adaptor which will allow the user to interact
+	 * with the Question object placed inside the adaptor.
+	 */
 	public void setListeners()
 	{
 
 		userListView.setOnItemClickListener(new OnItemClickListener()
 		{
-
+			/**
+			 * When the Question object is clicked, the position of the adaptor in
+			 * the list view is determined and passed as an argument to the toQuestionActivity method.
+			 */
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					final int position, long id)
@@ -106,12 +124,18 @@ public class UserListsActivity extends Activity
 	}
 
 	/**
-	 * onClick method for clicking a question in the view and then view the
-	 * corresponding questions details. If the question cannot be found in the
-	 * PostController, it is created. Passes the question ID as an intent extra
-	 * when starting the ViewQuestion activity.
+	 * This method is called when a Question object is clicked.  The Question's position
+	 * in the list is used to determine which Question is selected and to get that Question's
+	 * ID.<br><br>
 	 * 
-	 * @param position
+	 * Checks if the Question is in the PC's (post controller) sublist of questions; if it is not,
+	 * then the Question is added to the sublist.  NOTE: This is a quick work-around for a bug, as
+	 * the question needs to exist in the PC's sublist in order to view it.  BEING WORKED ON.<br><br>
+	 * 
+	 * Starts the ViewQuestion activity with the ID passed as an extra in the intent (the ID is used
+	 * to determine which Question's detail to display).
+	 * 
+	 * @param position is the position of the Question in the ListView that was clicked on
 	 */
 
 	public void toQuestionActivity(int position)
