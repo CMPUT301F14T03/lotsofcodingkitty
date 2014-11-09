@@ -1,6 +1,6 @@
 // Taken from ElasticSearch Lab
 
-package ca.ualberta.cs.cmput301t03app.incomplete;
+package ca.ualberta.cs.cmput301t03app.datamanagers;
 
 public class SimpleSearchCommand {
 

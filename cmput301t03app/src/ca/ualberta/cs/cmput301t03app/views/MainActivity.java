@@ -13,6 +13,8 @@ import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 /**
@@ -125,6 +128,9 @@ public class MainActivity extends Activity
 			Intent intent = new Intent(this, UserHome.class);
 			startActivity(intent);
 		}
+		if (id == R.id.search) {
+			searchQuestions();
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -177,7 +183,7 @@ public class MainActivity extends Activity
 
 						Question q = new Question(questionTitleString,
 								questionBodyString, userNameString);
-						pc.getQuestionsInstance().add(q);
+						pc.addQuestion(q);
 
 						mla.updateAdapter(pc.getQuestionsInstance());
 						pc.addUserPost(q);
@@ -337,6 +343,69 @@ public class MainActivity extends Activity
 				.getId());
 		pc.addReadQuestion(pc.getQuestionsInstance().get(position));
 		startActivity(i);
+	}
+	
+	/**
+	 * This is the onClic
+	 * @param view
+	 */
+	
+	public void searchQuestions() {
+		LayoutInflater li = LayoutInflater.from(this);
+		View searchView = li.inflate(R.layout.search_dialog, null);
+		final EditText searchField = (EditText) searchView
+				.findViewById(R.id.searchField);
+
+		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				this);
+		alertDialogBuilder.setView(searchView);
+		alertDialogBuilder.setPositiveButton("Search",
+				new DialogInterface.OnClickListener()
+				{
+
+					@Override
+					// Building the dialog for adding
+					public void onClick(DialogInterface dialog, int which)
+					{
+
+						String searchString = "";
+						if (searchField.getText().toString() != "" || searchField.getText().toString() != null){
+							searchString = (String) searchField
+									.getText().toString();
+						}
+						
+						final String finalString = searchString;
+						new Thread() {
+							public void run() {
+								pc.executeSearch(finalString);
+							}
+						}.start();
+						
+						// Give some time to get updated info
+						try {
+							Thread.currentThread().sleep(500);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						mla.updateAdapter(pc.getQuestionsInstance());
+					}
+
+				}).setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener()
+				{
+
+					public void onClick(DialogInterface dialog, int id)
+					{
+
+						// Do nothing
+						dialog.cancel();
+					}
+				});
+
+		final AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog1 = alertDialog;
+		alertDialog.show();
+//		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
 	}
 
 }

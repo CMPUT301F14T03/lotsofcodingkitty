@@ -1,15 +1,15 @@
 // Taken from ElasticSearch Lab
 
-package ca.ualberta.cs.cmput301t03app.incomplete;
+package ca.ualberta.cs.cmput301t03app.models;
 
-import java.util.List;
+import java.util.ArrayList;
 
 
 
 public class Hits<T> {
 	private int total;
 	private float max_score;
-	private List<SearchHit<T>> hits;
+	private ArrayList<SearchHit<T>> hits;
 	
 	public Hits() {}
 
@@ -29,11 +29,11 @@ public class Hits<T> {
 		this.max_score = max_score;
 	}
 
-	public List<SearchHit<T>> getHits() {
+	public ArrayList<SearchHit<T>> getHits() {
 		return hits;
 	}
 
-	public void setHits(List<SearchHit<T>> hits) {
+	public void setHits(ArrayList<SearchHit<T>> hits) {
 		this.hits = hits;
 	}
 
