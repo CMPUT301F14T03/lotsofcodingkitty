@@ -325,6 +325,7 @@ public class MainActivity extends Activity
 		lv = (ListView) findViewById(R.id.activity_main_question_list);
 		mla = new MainListAdapter(this, R.layout.activity_main_question_entity,
 				pc.getQuestionsInstance());
+		//TODO: Show questions in question bank when user first opens app if not connected
 		lv.setAdapter(mla);
 	}
 

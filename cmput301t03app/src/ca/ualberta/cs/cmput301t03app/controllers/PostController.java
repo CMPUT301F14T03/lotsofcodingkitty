@@ -91,6 +91,28 @@ public class PostController {
 	}
 
 	/**
+	 * This method replaces the old question with the updated question
+	 * in the question bank and saves to local storage.
+	 * 
+	 * @param qId A String representing a Question ID
+	 */
+	public void updateQuestionInBank(String qId) {
+		
+		Question q = getQuestion(qId);
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<Question> questionArray = upc.getQuestionBank();
+		
+		//Replace the old question with the updated question at the specified index
+		for (int i = 0; i<questionArray.size(); i++) {
+			if (q.getId().equals(questionArray.get(i).getId())) {
+				questionArray.set(i, q);
+			}
+		}
+		
+		local.saveToQuestionBank(questionArray);	
+	}
+	
+	/**
 	 * Adds a question to the favorite questions list and saves it locally.
 	 * 
 	 * @param q the Question object to be saved.
@@ -184,8 +206,8 @@ public class PostController {
 
 		getQuestion(questionID).addAnswer(answer);
 		getPushPostsInstance().add(new Post(answer, questionID, Question.class));
-		pushNewPosts();
-		
+		//TODO: pushNewPosts();
+		updateQuestionInBank(questionID);
 	}
 
 	/**
@@ -216,7 +238,8 @@ public class PostController {
 				getPushPostsInstance().add(new Post(comment, parentId, Question.class));
 			}
 		}
-		pushNewPosts();
+		//TODO: pushNewPosts();
+		updateQuestionInBank(parentId);
 		
 	}
 
@@ -239,7 +262,8 @@ public class PostController {
 				getPushPostsInstance().add(new Post(comment, answerID, questionID, Answer.class));
 			}
 		}
-		pushNewPosts();
+		//TODO: pushNewPosts();
+		updateQuestionInBank(questionID);
 	}
 
 
