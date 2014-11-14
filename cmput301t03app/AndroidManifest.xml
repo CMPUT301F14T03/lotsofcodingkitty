@@ -42,6 +42,7 @@
             android:name="ca.ualberta.cs.cmput301t03app.views.UserListsActivity"
             android:label="@string/title_activity_user_lists" >
         </activity>
+        <activity android:name="ViewPicture"></activity>
     </application>
 
 </manifest>
