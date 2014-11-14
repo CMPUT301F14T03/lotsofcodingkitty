@@ -55,7 +55,11 @@ public class PostController {
 
 		return q.countComments();
 	}
-
+	
+	/**
+	 * Returns true if the application is connected to the internet
+	 * @return A boolean stating if connected to internet
+	 */
 	public Boolean checkConnectivity() {
 		 ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 			    NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
