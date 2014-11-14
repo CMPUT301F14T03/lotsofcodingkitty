@@ -418,6 +418,7 @@ public class ViewQuestion extends Activity
 		pc.getQuestion(question_id).upRating();
 		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
 				.getRating()));
+		pc.updateQuestionInBank(question_id);
 	}
 
 	/**
@@ -482,6 +483,7 @@ public class ViewQuestion extends Activity
 		Answer answer = (Answer) v.getTag();
 		answer.upRating();
 		ala.notifyChange();
+		pc.updateQuestionInBank(answer.getParentId());
 	}
 
 	// Used for testing
