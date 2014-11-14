@@ -12,6 +12,8 @@ import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.models.UserPostCollector;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 
 
@@ -55,7 +57,14 @@ public class PostController {
 	}
 
 	public Boolean checkConnectivity() {
-		return false;
+		 ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+			    NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+			    if (networkInfo != null && networkInfo.isConnected()) {
+			        return true;
+			    } 
+			    else {
+			    	return false;
+			    }
 	}
 	
 	/**
