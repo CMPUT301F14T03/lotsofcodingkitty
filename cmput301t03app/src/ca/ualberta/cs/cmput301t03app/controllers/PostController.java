@@ -2,12 +2,18 @@ package ca.ualberta.cs.cmput301t03app.controllers;
 
 import java.util.ArrayList;
 import ca.ualberta.cs.cmput301t03app.datamanagers.LocalDataManager;
+import ca.ualberta.cs.cmput301t03app.datamanagers.QuestionFilter;
+import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
+import ca.ualberta.cs.cmput301t03app.interfaces.iDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
+import ca.ualberta.cs.cmput301t03app.models.Post;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.models.UserPostCollector;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 
 
@@ -23,6 +29,8 @@ import android.content.Context;
 public class PostController {
 
 	private static ArrayList<Question> subQuestions = null;
+	private static ArrayList<Post> pushPosts = null;
+	private QuestionFilter qf = new QuestionFilter();
 	private static UserPostCollector upc = new UserPostCollector();
 	private Context context;
 
@@ -47,9 +55,20 @@ public class PostController {
 
 		return q.countComments();
 	}
-
+	
+	/**
+	 * Returns true if the application is connected to the internet
+	 * @return A boolean stating if connected to internet
+	 */
 	public Boolean checkConnectivity() {
-		return false;
+		 ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+			    NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+			    if (networkInfo != null && networkInfo.isConnected()) {
+			        return true;
+			    } 
+			    else {
+			    	return false;
+			    }
 	}
 	
 	/**
@@ -84,6 +103,28 @@ public class PostController {
 		return false;
 	}
 
+	/**
+	 * This method replaces the old question with the updated question
+	 * in the question bank and saves to local storage.
+	 * 
+	 * @param qId A String representing a Question ID
+	 */
+	public void updateQuestionInBank(String qId) {
+		
+		Question q = getQuestion(qId);
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<Question> questionArray = upc.getQuestionBank();
+		
+		//Replace the old question with the updated question at the specified index
+		for (int i = 0; i<questionArray.size(); i++) {
+			if (q.getId().equals(questionArray.get(i).getId())) {
+				questionArray.set(i, q);
+			}
+		}
+		
+		local.saveToQuestionBank(questionArray);	
+	}
+	
 	/**
 	 * Adds a question to the favorite questions list and saves it locally.
 	 * 
@@ -177,6 +218,9 @@ public class PostController {
 	public void addAnswer(Answer answer, String questionID) {
 
 		getQuestion(questionID).addAnswer(answer);
+		getPushPostsInstance().add(new Post(answer, questionID, Question.class));
+		//TODO: pushNewPosts();
+		updateQuestionInBank(questionID);
 	}
 
 	/**
@@ -188,9 +232,9 @@ public class PostController {
 	public void addQuestion(Question question) {
 
 		getQuestionsInstance().add(question);
-		// pushQuestions.add(question);
-		// upc.addPostedQuestion(question);
-		// pushNewPosts();
+		getPushPostsInstance().add(new Post(question));
+//		upc.addPostedQuestion(question.getId());
+		pushNewPosts();
 	}
 
 	/**
@@ -201,12 +245,15 @@ public class PostController {
 	 * @param parentId The ID of the question that the comment will be added to
 	 */
 	public void addCommentToQuestion(Comment comment, String parentId) {
-
 		for (int i = 0; i < subQuestions.size(); i++) {
 			if (subQuestions.get(i).getId().equals(parentId)) {
 				subQuestions.get(i).addComment(comment);
+				getPushPostsInstance().add(new Post(comment, parentId, Question.class));
 			}
 		}
+		//TODO: pushNewPosts();
+		updateQuestionInBank(parentId);
+		
 	}
 
 	/**
@@ -225,8 +272,11 @@ public class PostController {
 		for (int i = 0; i < a.size(); i++) {
 			if (a.get(i).getId().equals(answerID)) {
 				a.get(i).addComment(comment);
+				getPushPostsInstance().add(new Post(comment, answerID, questionID, Answer.class));
 			}
 		}
+		//TODO: pushNewPosts();
+		updateQuestionInBank(questionID);
 	}
 
 
@@ -252,7 +302,16 @@ public class PostController {
 		}
 		return subQuestions;
 	}
-
+	
+	// new
+	
+	public ArrayList<Post> getPushPostsInstance() {
+		if (pushPosts == null) {
+			pushPosts = new ArrayList<Post>();
+		}
+		return pushPosts;
+	}
+	
 	/**
 	 * Returns the list of comments to the specified question object
 	 * 
@@ -316,8 +375,8 @@ public class PostController {
 	public Question getQuestion(String qID) {
 
 		for (int i = 0; i < getQuestionsInstance().size(); i++) {
-			if (getQuestionsInstance().get(i).getId().equals(qID)) {
-				return getQuestionsInstance().get(i);
+			if (subQuestions.get(i).getId().equals(qID)) {
+				return subQuestions.get(i);
 			}
 		}
 		return null;
@@ -429,6 +488,44 @@ public class PostController {
 			local.saveToQuestionBank(questionList);
 		}
 	}
+	
+	// Pushes new posts to server, returns true if connectivity attained and
+	// pushed // returns false otherwise // This makes testing easier
+
+	public Boolean pushNewPosts() {
+		Boolean connectivity = true; // placeholder until i make a
+										// checkconnectivity function
+		if (connectivity) {
+			ServerDataManager sdm = new ServerDataManager(); // dm.save(pushQuestions);
+			sdm.pushPosts(getPushPostsInstance());
+
+			// Wait questions to be pushed before clearing
+
+			try {
+				Thread.currentThread().sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			pushPosts.clear();
+			return true;
+		}
+		return false;
+	}
+	
+	public ArrayList<Question> executeSearch(String searchString) {
+		ServerDataManager sdm = new ServerDataManager();
+		ArrayList<Question> qList = sdm.searchQuestions(searchString, null);
+//		try {
+//			Thread.currentThread().sleep(250);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		getQuestionsInstance().clear();
+		getQuestionsInstance().addAll(qList);
+		return qList;
+	}
 
 	/*
 	 * These methods are currently not being used and are commented out We may
@@ -446,20 +543,6 @@ public class PostController {
 
 	/*
 	*/
-
-	/*
-	 * // Pushes new posts to server, returns true if connectivity attained and
-	 * // pushed // returns false otherwise // This makes testing easier
-	 * 
-	 * public Boolean pushNewPosts(){ if (checkConnectivity()){ dm = new
-	 * ServerDataManager(); //dm.save(pushQuestions);
-	 * 
-	 * // need a method for saving new to be pushed answers to server //
-	 * dm.saveAnswers(pushAnswers);
-	 * 
-	 * pushQuestions.clear(); pushAnswers.clear(); return true; } return false;
-	 * }
-	 */
 
 	/*
 	 * // Creates a LocalDataManager and then calls all the saving methods // on

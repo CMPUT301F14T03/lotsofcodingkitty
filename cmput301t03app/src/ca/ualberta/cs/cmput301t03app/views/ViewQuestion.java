@@ -303,9 +303,19 @@ public class ViewQuestion extends Activity {
 								.toString();
 						String userNameString = (String) userName.getText()
 								.toString();
-						Answer a = new Answer(answerBodyString, userNameString,
+						final Answer a = new Answer(answerBodyString, userNameString,
 								question_id);
-						pc.getQuestion(question_id).addAnswer(a);
+						new Thread() {
+							public void run() {
+								pc.addAnswer(a, question_id);
+							}
+						}.start();
+						// Give some time to get updated info
+						try {
+							Thread.currentThread().sleep(500);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 						populateThisQuestionsAnswers(question_id);
 						ala.updateAdapter(answerList);
 						updateAnswerCount();
@@ -387,6 +397,7 @@ public class ViewQuestion extends Activity {
 		pc.getQuestion(question_id).upRating();
 		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
 				.getRating()));
+		pc.updateQuestionInBank(question_id);
 	}
 
 	/**
@@ -450,6 +461,7 @@ public class ViewQuestion extends Activity {
 		Answer answer = (Answer) v.getTag();
 		answer.upRating();
 		ala.notifyChange();
+		pc.updateQuestionInBank(answer.getParentId());
 	}
 
 	// Used for testing

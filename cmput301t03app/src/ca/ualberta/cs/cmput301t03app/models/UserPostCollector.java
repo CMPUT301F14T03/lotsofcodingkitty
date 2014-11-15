@@ -68,7 +68,7 @@ public class UserPostCollector {
 	public void initToReadID(Context context) {
 		if (this.toReadQuestions == null) {
 			local = new LocalDataManager(context);
-			this.toReadQuestions = local.loadRead();
+			this.toReadQuestions = local.loadToRead();
 		}
 	}
 
