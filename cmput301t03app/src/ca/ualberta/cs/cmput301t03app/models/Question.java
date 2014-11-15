@@ -40,15 +40,22 @@ public class Question{
 		this.answers = new ArrayList<Answer>();
 	}
 	
+	/**
+	 * This method is for testing date comparison
+	 * @param subject
+	 * @param body
+	 * @param author
+	 * @param date
+	 */
 	
 	public Question(String subject, String body, String author, Date date) {
 		this.id = UUID.randomUUID().toString();
 		this.date = date;
 		this.subject = subject;
 		this.body = body;
-		this.author = author; // Added author to constructor (Added by Eric)
+		this.author = author;
 		this.rating = 0;
-		this.comments = new ArrayList<Comment>(); // Same as above
+		this.comments = new ArrayList<Comment>();
 		this.answers = new ArrayList<Answer>();
 	}
 	
@@ -133,5 +140,8 @@ public class Question{
 	}
 	public String getId(){
 		return this.id;
+	}
+	public void setId(String id){
+		this.id = id;
 	}
 }

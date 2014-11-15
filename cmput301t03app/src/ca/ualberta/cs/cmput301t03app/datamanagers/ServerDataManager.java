@@ -1,4 +1,4 @@
-package ca.ualberta.cs.cmput301t03app.incomplete;
+package ca.ualberta.cs.cmput301t03app.datamanagers;
 
 import java.util.ArrayList;
 import java.io.BufferedReader;
@@ -19,25 +19,35 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.util.Log;
 import ca.ualberta.cs.cmput301t03app.interfaces.iDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
+import ca.ualberta.cs.cmput301t03app.models.Comment;
+import ca.ualberta.cs.cmput301t03app.models.Hits;
+import ca.ualberta.cs.cmput301t03app.models.Post;
 import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.models.SearchHit;
+import ca.ualberta.cs.cmput301t03app.models.SearchResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class ServerDataManager implements iDataManager{
 	
-	private static final String SEARCH_URL = "http://cmput301.softwareprocess.es:8080/cmput301f14t03/_search";
-	private static final String RESOURCE_URL = "http://cmput301.softwareprocess.es:8080/cmput301f14t03/";
+	private static final String SEARCH_URL = "http://cmput301.softwareprocess.es:8080/cmput301f14t03/question/_search";
+	private static final String RESOURCE_URL = "http://cmput301.softwareprocess.es:8080/cmput301f14t03/question/";
 	private static final String TAG = "QuestionSearch";
 
 	private Gson gson;
+	private GsonBuilder builder;
 
 	public ServerDataManager() {
-		gson = new Gson();
+		builder = new GsonBuilder();
+		gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+				.create();
+		builder.serializeNulls(); // Show fields with null values
 	}
 
 	/**
-	 * Get a movie with the specified id
+	 * Get a question with the specified id
 	 */
 	
 	@Override
@@ -57,19 +67,96 @@ public class ServerDataManager implements iDataManager{
 		
 	}
 	
-	public void clearLocalNonPushed(){
-		
+	/**
+	 * Iterates through an array of posts, looking for three cases 
+	 * 
+	 * 1) The parent of the post is a question (check if it is an answer or comment, 
+	 * append the answer or comment)
+	 * 
+	 * 2) The parent of the post is an answer (it is a comment, find the answer
+	 * and append the comment)
+	 * 
+	 * 3) There is not parent of the post (it is a new question, add it to the
+	 * server)
+	 * 
+	 * Included in the post array is the parentId which is what allows us to
+	 * easily append to a question or answer without too many comparison.
+	 * 
+	 * @param posts
+	 */
+	
+	public void pushPosts(final ArrayList<Post> posts) {
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					for (int i = 0; i < posts.size(); i++) {
+						Post post = posts.get(i);
+						Question q = null;
+
+						// If the parent is a Question
+
+						if (post.getClassofParent().equals(Question.class)) {
+
+							// If the post is an Answer
+
+							if (post.getSelf().getClass().equals(Answer.class)) {
+								q = getQuestion(post.getParentId());
+								Log.i("AnswerToQuestion", post.getParentId());
+								q.addAnswer((Answer) post.getSelf());
+								updateQuestion(q);
+
+							}
+
+							// If the post is a Comment
+
+							else if (post.getSelf().getClass()
+									.equals(Comment.class)) {
+								q = getQuestion(post.getParentId());
+								Log.i("CommentToQuestion", post.getParentId());
+								q.addComment((Comment) post.getSelf());
+								updateQuestion(q);
+							}
+
+						// If the parent is an Answer
+
+						} else if (post.getClassofParent().equals(Answer.class)) {
+							q = getQuestion(post.getQuestionParentId());
+							Log.i("CommentToAnswer", post.getParentId());
+							q.addComment((Comment) post.getSelf());
+							updateQuestion(q);
+						}
+
+						// If the post is a Question
+
+						else {
+							q = (Question) post.getSelf();
+							Log.i("Question", q.getId());
+							addQuestion(q);
+						}
+					}
+				} catch (Exception e) {
+					Log.e(TAG, e.getMessage());
+				}
+			}
+		});
+		thread.start();
 	}
 	
+	
 	public Question getQuestion(String questionId) {
-
+		
 		HttpClient httpClient = new DefaultHttpClient();
+		
 		HttpGet httpGet = new HttpGet(RESOURCE_URL + questionId);
 
 		HttpResponse response;
+		
 
 		try {
 			response = httpClient.execute(httpGet);
+			String status = response.getStatusLine().toString();
+			Log.i(TAG, status);
 			SearchHit<Question> sr = parseQuestionHit(response);
 			return sr.getSource();
 
@@ -83,7 +170,7 @@ public class ServerDataManager implements iDataManager{
 	
 
 	/**
-	 * Get movies with the specified search string. If the search does not
+	 * Get questions with the specified search string. If the search does not
 	 * specify fields, it searches on all the fields.
 	 */
 	public ArrayList<Question> searchQuestions(String searchString, String field) {
@@ -107,8 +194,12 @@ public class ServerDataManager implements iDataManager{
 			Hits<Question> hits = esResponse.getHits();
 			if (hits != null) {
 				if (hits.getHits() != null) {
-					for (SearchHit<Question> sesr : hits.getHits()) {
-						result.add(sesr.getSource());
+					for (int i = 0; i < hits.getHits().size(); i++) {
+						SearchHit<Question> sesr = hits.getHits().get(i);
+						Question q = sesr.getSource();
+						q.setId(sesr.get_id()); // for some reason q.getId() was returning null
+												// so I added this.
+						result.add(q);
 					}
 				}
 			}
@@ -130,7 +221,7 @@ public class ServerDataManager implements iDataManager{
 	}
 
 	/**
-	 * Adds a new movie
+	 * Adds a new question
 	 */
 	public void addQuestion(Question question) {
 		HttpClient httpClient = new DefaultHttpClient();
@@ -150,9 +241,18 @@ public class ServerDataManager implements iDataManager{
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
-	 * Deletes the movie with the specified id
+	 * Updates an existing question
+	 */
+	
+	public void updateQuestion(Question question) {
+		deleteQuestion(question.getId());
+		addQuestion(question);
+	}
+	
+	/**
+	 * Deletes the question with the specified id
 	 */
 	public void deleteQuestion(String questionId) {
 		HttpClient httpClient = new DefaultHttpClient();
