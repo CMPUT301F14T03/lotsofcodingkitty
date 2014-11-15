@@ -15,6 +15,7 @@ public class Answer {
 	private ArrayList<Comment> comments;
 	private String answer;
 	private String author;
+	private String parentId;
 	private Date date;
 	private File picture;
 	private int rating;
@@ -25,13 +26,14 @@ public class Answer {
 	 * @param parentID		ID of the Question being answered
 	 */
 	
-	public Answer(String answer, String author, String parentID){
+	public Answer(String answer, String author, String parentId){
 		this.id = UUID.randomUUID().toString();
 		this.date = new Date();
 		this.answer = answer;
 		this.author = author; // Added author to constructor (Added by Eric)
 		this.rating = 0;
 		this.comments = new ArrayList<Comment>(); // Need to initialize the list (Added by Eric)
+		this.parentId = parentId;
 	}
 	
 	/**
@@ -100,5 +102,8 @@ public class Answer {
 	}
 	public String getId(){
 		return this.id;
+	}
+	public String getParentId() {
+		return this.parentId;
 	}
 }

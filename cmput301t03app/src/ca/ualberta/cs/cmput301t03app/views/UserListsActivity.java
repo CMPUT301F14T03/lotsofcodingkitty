@@ -123,6 +123,38 @@ public class UserListsActivity extends Activity
 		return true;
 	}
 
+	public void onResume() {
+		super.onResume();
+		//This makes sure the listview is updated when the user returns 
+		//from viewing a question.
+		switch (userListMode)
+		{
+			case 0:
+				user_list_title.setText("F A V O R I T E S");
+				userQuestionList = pc.getFavoriteQuestions();
+				break;
+			case 1:
+				user_list_title.setText("C A C H E D");
+				userQuestionList = pc.getReadQuestions();
+				break;
+			case 2:
+				user_list_title.setText("T O  R E A D");
+				userQuestionList = pc.getToReadQuestions();
+				break;
+			case 3:
+				user_list_title.setText("M Y  Q U E S T I O N S");
+				userQuestionList = pc.getUserPostedQuestions();
+				break;
+			default:
+				user_list_title.setText("F A V O R I T E S");
+				userQuestionList = pc.getFavoriteQuestions();
+				break;
+		}
+		
+		mla = new MainListAdapter(this, R.layout.activity_main_question_entity,
+				userQuestionList);
+		userListView.setAdapter(mla);
+	}
 	/**
 	 * This method is called when a Question object is clicked.  The Question's position
 	 * in the list is used to determine which Question is selected and to get that Question's
