@@ -50,6 +50,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		TextView answer_text_body;
 		TextView post_timestamp;
 		TextView answer_author;
+		TextView answer_comment_count;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -75,6 +76,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		holder.post_timestamp.setText("Posted: " + date_to_string);
 		holder.answer_upvote_score.setText(Integer.toString(holder.answer
 				.getRating()));
+		holder.answer_comment_count.setText(Integer.toString(holder.answer.getComments().size()));
 		return row;
 	}
 	
@@ -112,6 +114,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 				.findViewById(R.id.answer_upvote_score);
 		holder.answer_upvote_button = (ImageButton) row
 				.findViewById(R.id.answer_upvote_button);
+		holder.answer_comment_count = (TextView) row.findViewById(R.id.answer_comment_count);
 		return holder;
 	}
 

@@ -14,7 +14,7 @@
         android:clickable="false"
         android:focusable="false"
         android:padding="10dp"
-        android:text=" < Back to the question"
+        android:text="Back to the question"
         android:textAppearance="?android:attr/textAppearanceSmall"
          />
       

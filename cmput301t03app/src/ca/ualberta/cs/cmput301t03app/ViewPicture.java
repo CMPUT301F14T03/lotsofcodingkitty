@@ -9,7 +9,7 @@ public class ViewPicture extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    
+	    setContentView(R.layout.activity_display_picture);
 	
 	    // TODO Auto-generated method stub
 	}
