@@ -35,15 +35,14 @@ import android.widget.AdapterView.OnItemClickListener;
  * 
  * 
  * 
- *         This is the Activity responsible for allowing a user to view further
- *         details about a Question (the Question body text), view answers to a
- *         given question, as well as add answers, add comments to the question,
- *         and add comments to answers.
+ * This is the Activity responsible for allowing a user to view further details
+ * about a Question (the Question body text), view answers to a given question,
+ * as well as add answers, add comments to the question, and add comments to
+ * answers.
  * 
  */
 
-public class ViewQuestion extends Activity
-{
+public class ViewQuestion extends Activity {
 
 	PostController pc = new PostController(this);
 	ArrayList<Answer> answerList = new ArrayList<Answer>();
@@ -65,11 +64,15 @@ public class ViewQuestion extends Activity
 	TextView commentCounter;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_question);
+
+		// enables the activity icon as a 'home' button. required if
+		// "android:targetSdkVersion" > 14
+		getActionBar().setHomeButtonEnabled(true);
+
 		Bundle extras = getIntent().getExtras();
 		question_id = extras.getString("question_id"); // grabbing question to
 														// be displayed
@@ -83,8 +86,7 @@ public class ViewQuestion extends Activity
 	}
 
 	@Override
-	protected void onResume()
-	{
+	protected void onResume() {
 
 		super.onResume();
 		updateCommentCount();
@@ -95,66 +97,60 @@ public class ViewQuestion extends Activity
 	 * Listeners for the given buttons in the activity
 	 */
 
-	public void setListeners()
-	{
+	public void setListeners() {
 
 		// listener to see if clicked on view to comment on an answer
-		answerListView.setOnItemClickListener(new OnItemClickListener()
-		{
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					final int position, long id)
-			{
+		// Josh: I dont think this does anything ATM. Cons
 
-				Log.d("click", "click Answer" + position);
-				toCommentActivityAnswer(view);
-			}
-		});
+		// answerListView.setOnItemClickListener(new OnItemClickListener()
+		// {
+		//
+		// @Override
+		// public void onItemClick(AdapterView<?> parent, View view,
+		// final int position, long id)
+		// {
+		//
+		// Log.d("click", "click Answer" + position);
+		// toCommentActivityAnswer(view);
+		// }
+		// });
 		// listener to answer a question icon
-		answerButton.setOnClickListener(new OnClickListener()
-		{
+		answerButton.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 
 				answerQuestion();
 			}
 		});
 		// listener to see if click on comment question
-		commentButton.setOnClickListener(new OnClickListener()
-		{
+		commentButton.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 
 				toCommentActivityQuestion(v);
 			}
 		});
 		// listener to favorite a question
-		favIcon.setOnClickListener(new OnClickListener()
-		{
+		favIcon.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 
 				pc.addFavoriteQuestion(pc.getQuestion(question_id));
 				favIcon.setImageResource(R.drawable.ic_fav_yes);
 				setFavoriteIcon();
-				Toast.makeText(ViewQuestion.this, "Added to Favorites List.", Toast.LENGTH_SHORT)
-				.show();
+				Toast.makeText(ViewQuestion.this, "Added to Favorites List.",
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 		// listener to upvote when clicked
-		upvoteButton.setOnClickListener(new OnClickListener()
-		{
+		upvoteButton.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 
 				Integer.toString(pc.getQuestion(question_id).getRating());
 				increment_upvote();
@@ -167,8 +163,7 @@ public class ViewQuestion extends Activity
 	 * answers to the given Question
 	 */
 
-	public void setAnswerAdapter()
-	{
+	public void setAnswerAdapter() {
 
 		answerListView = (ListView) findViewById(R.id.answerListView);
 		populateThisQuestionsAnswers(question_id);
@@ -176,8 +171,7 @@ public class ViewQuestion extends Activity
 		answerListView.setAdapter(ala);
 	}
 
-	public void populateThisQuestionsAnswers(String question_id)
-	{
+	public void populateThisQuestionsAnswers(String question_id) {
 
 		answerList.clear();
 		answerList.addAll(pc.getQuestion(question_id).getAnswers());
@@ -187,11 +181,11 @@ public class ViewQuestion extends Activity
 	 * Takes a questionId and uses that ID to fill in the various elements of a
 	 * Question in the view.
 	 * 
-	 * @param ID The id of teh question
+	 * @param ID
+	 *            The id of teh question
 	 */
 
-	public void setQuestionText(String ID)
-	{
+	public void setQuestionText(String ID) {
 
 		Question q = pc.getQuestion(ID);
 		TextView q_title = (TextView) findViewById(R.id.question_title);
@@ -217,23 +211,20 @@ public class ViewQuestion extends Activity
 	}
 
 	/**
-	 *  Fills the favorite icon 
+	 * Fills the favorite icon
 	 */
-	public void setFavoriteIcon()
-	{
+	public void setFavoriteIcon() {
 
-
-		if (pc.isQuestionInFavByID(question_id))
-		{
+		if (pc.isQuestionInFavByID(question_id)) {
 			favIcon.setImageResource(R.drawable.ic_fav_yes);
 		}
 	}
+
 	/**
 	 * Instrantiates the views
 	 */
 
-	public void instantiateViews()
-	{
+	public void instantiateViews() {
 
 		// thisQuestion = (TextView) findViewById(R.id.question_title);
 		answerListView = (ListView) findViewById(R.id.answerListView);
@@ -250,11 +241,11 @@ public class ViewQuestion extends Activity
 	/**
 	 * onClick for commenting on a question
 	 * 
-	 * @param v View where the click happened
+	 * @param v
+	 *            View where the click happened
 	 */
 
-	public void toCommentActivityQuestion(View v)
-	{
+	public void toCommentActivityQuestion(View v) {
 
 		/* This method takes user to ViewComment activity for questions */
 		Intent i = new Intent(this, ViewComment.class);
@@ -269,8 +260,7 @@ public class ViewQuestion extends Activity
 	 * @param v
 	 */
 
-	public void toCommentActivityAnswer(View v)
-	{
+	public void toCommentActivityAnswer(View v) {
 
 		/* This method takes user to ViewComment activity for answers */
 		Answer answer = (Answer) v.getTag();
@@ -288,8 +278,7 @@ public class ViewQuestion extends Activity
 	 * adapters update method is called.
 	 */
 
-	public void answerQuestion()
-	{
+	public void answerQuestion() {
 
 		/* when clicked answer question dialog box pops up here */
 		LayoutInflater li = LayoutInflater.from(this);
@@ -304,13 +293,11 @@ public class ViewQuestion extends Activity
 																				// AlertDialog
 		alertDialogBuilder.setView(promptsView);
 		alertDialogBuilder.setPositiveButton("Answer",
-				new DialogInterface.OnClickListener()
-				{
+				new DialogInterface.OnClickListener() {
 
 					@Override
 					// Building the dialog for adding
-					public void onClick(DialogInterface dialog, int which)
-					{
+					public void onClick(DialogInterface dialog, int which) {
 
 						String answerBodyString = (String) answerBody.getText()
 								.toString();
@@ -334,11 +321,9 @@ public class ViewQuestion extends Activity
 						updateAnswerCount();
 					}
 				}).setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener()
-				{
+				new DialogInterface.OnClickListener() {
 
-					public void onClick(DialogInterface dialog, int id)
-					{
+					public void onClick(DialogInterface dialog, int id) {
 
 						// Do nothing
 						dialog.cancel();
@@ -351,45 +336,40 @@ public class ViewQuestion extends Activity
 		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
 
 		// creating a listener to see if any changes to edit text in dialog
-		TextWatcher textwatcher = new TextWatcher()
-		{
+		TextWatcher textwatcher = new TextWatcher() {
 
-			private void handleText()
-			{
+			private void handleText() {
 
 				final Button button = alertDialog
 						.getButton(AlertDialog.BUTTON_POSITIVE);
-				if (answerBody.getText().length() == 0)
-				{ // these checks the edittext to make sure not empty edit text
+				if (answerBody.getText().length() == 0) { // these checks the
+															// edittext to make
+															// sure not empty
+															// edit text
 					button.setEnabled(false);
-				} else if (userName.getText().length() == 0)
-				{
+				} else if (userName.getText().length() == 0) {
 					button.setEnabled(false);
-				} else
-				{
+				} else {
 					button.setEnabled(true);
 				}
 			}
 
 			@Override
-			public void afterTextChanged(Editable s)
-			{
+			public void afterTextChanged(Editable s) {
 
 				handleText();
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after)
-			{
+					int after) {
 
 				// do nothing
 			}
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
-					int count)
-			{
+					int count) {
 
 				// do nothing
 			}
@@ -412,8 +392,7 @@ public class ViewQuestion extends Activity
 	 * onClick method for upvoting the question
 	 */
 
-	public void increment_upvote()
-	{
+	public void increment_upvote() {
 
 		pc.getQuestion(question_id).upRating();
 		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
@@ -425,8 +404,7 @@ public class ViewQuestion extends Activity
 	 * Responsible for updating the views answerCounter
 	 */
 
-	public void updateAnswerCount()
-	{
+	public void updateAnswerCount() {
 
 		Log.d("click",
 				"Count"
@@ -440,45 +418,45 @@ public class ViewQuestion extends Activity
 	 * Responsible for updating the views question commentCounter
 	 */
 
-	public void updateCommentCount()
-	{
+	public void updateCommentCount() {
 
 		commentCounter.setText(String.valueOf(pc.getQuestion(question_id)
 				.countComments()));
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 
 		getMenuInflater().inflate(R.menu.view_question, menu);
 		return true;
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
+	public boolean onOptionsItemSelected(MenuItem item) {
 
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings)
-		{
-			return true;
+
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				Intent intent = new Intent(this, MainActivity.class);
+				startActivity(intent);
+				break;
+			
 		}
-		return super.onOptionsItemSelected(item);
+		return (super.onOptionsItemSelected(item));
 	}
 
 	/**
 	 * onClick method for updating answers
 	 * 
-	 * @param v View where the click happened
+	 * @param v
+	 *            View where the click happened
 	 */
 
 	// This on upvotes an answer
-	public void answerUpvote(View v)
-	{
+	public void answerUpvote(View v) {
 
 		Answer answer = (Answer) v.getTag();
 		answer.upRating();
@@ -487,8 +465,7 @@ public class ViewQuestion extends Activity
 	}
 
 	// Used for testing
-	public AlertDialog getDialog()
-	{
+	public AlertDialog getDialog() {
 
 		return this.dialog;
 	}
