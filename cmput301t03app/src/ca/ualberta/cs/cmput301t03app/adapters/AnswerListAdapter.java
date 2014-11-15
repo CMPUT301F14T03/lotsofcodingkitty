@@ -45,6 +45,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 
 		Answer answer;
 		ImageButton answer_upvote_button;
+		ImageButton answer_comment_icon;
 		TextView answer_upvote_score;
 		ImageView answer_fav_icon;
 		TextView answer_text_body;
@@ -66,6 +67,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		holder.answer = answerList.get(position);
 		holder.answer_upvote_button.setTag(holder.answer);
 		holder.answer_text_body.setTag(holder.answer);
+		holder.answer_comment_icon.setTag(holder.answer);
 		row.setTag(holder);
 		// Date to string
 		// http://javarevisited.blogspot.ca/2011/09/convert-date-to-string-simpledateformat.html
@@ -114,6 +116,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 				.findViewById(R.id.answer_upvote_score);
 		holder.answer_upvote_button = (ImageButton) row
 				.findViewById(R.id.answer_upvote_button);
+		holder.answer_comment_icon = (ImageButton) row.findViewById(R.id.answer_comment_icon);
 		holder.answer_comment_count = (TextView) row.findViewById(R.id.answer_comment_count);
 		return holder;
 	}

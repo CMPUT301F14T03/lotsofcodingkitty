@@ -99,18 +99,21 @@ public class ViewQuestion extends Activity
 	{
 
 		// listener to see if clicked on view to comment on an answer
-		answerListView.setOnItemClickListener(new OnItemClickListener()
-		{
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					final int position, long id)
-			{
-
-				Log.d("click", "click Answer" + position);
-				toCommentActivityAnswer(view);
-			}
-		});
+		
+		// Josh: I dont think this does anything ATM. Considering removing
+		
+//		answerListView.setOnItemClickListener(new OnItemClickListener()
+//		{
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View view,
+//					final int position, long id)
+//			{
+//
+//				Log.d("click", "click Answer" + position);
+//				toCommentActivityAnswer(view);
+//			}
+//		});
 		// listener to answer a question icon
 		answerButton.setOnClickListener(new OnClickListener()
 		{
@@ -335,6 +338,9 @@ public class ViewQuestion extends Activity
 					}
 				});
 
+		
+		
+		
 		final AlertDialog alertDialog = alertDialogBuilder.create();
 		dialog = alertDialog;
 		alertDialog.show();
