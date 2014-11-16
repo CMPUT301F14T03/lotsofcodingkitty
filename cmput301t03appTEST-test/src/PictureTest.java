@@ -50,7 +50,7 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 
 		File picture = new File("picture_path");
 		Question question = new Question("Title1", "TextBody1", "author");
-		question.setPicture(picture);
+//		question.setPicture(picture);
 		assertEquals("Picture not attached correctly to question.",
 				question.getPicture(), picture);
 

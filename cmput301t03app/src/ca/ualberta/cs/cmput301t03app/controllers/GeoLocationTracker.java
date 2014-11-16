@@ -32,7 +32,7 @@ public class GeoLocationTracker {
 	private Context context;
 	
 	private boolean gpsEnabled = false;
-	private boolean networkEnabled = false;
+//	private boolean networkEnabled = false;
 	
 	public GeoLocationTracker(Context context, GeoLocation location) {
 		this.geoLocation = location;
@@ -53,23 +53,23 @@ public class GeoLocationTracker {
         		
         }
         
-        try {
-        	networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        } catch (Exception ex){ 
-        	
-        }
+//        try {
+//        	networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+//        } catch (Exception ex){ 
+//        	
+//        }
 
         //don't start listeners if no provider is enabled
-        if (!gpsEnabled && !networkEnabled) {
+        if (!gpsEnabled) {
             return false;
         }
         
         if (gpsEnabled) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListenerGps);
         }
-        if (networkEnabled) {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListenerNetwork);
-        }
+//        if (networkEnabled) {
+//            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListenerNetwork);
+//        }
         
         timer = new Timer();
         timer.schedule(new GetLastLocation(), 20000);
@@ -83,7 +83,7 @@ public class GeoLocationTracker {
             geoLocation.setLatitude(location.getLatitude());
             geoLocation.setLongitude(location.getLongitude());
             locationManager.removeUpdates(this);
-            locationManager.removeUpdates(locationListenerNetwork);
+//            locationManager.removeUpdates(locationListenerNetwork);
         }
         public void onProviderDisabled(String provider) {
         	
@@ -96,66 +96,66 @@ public class GeoLocationTracker {
         }
     };
 
-    LocationListener locationListenerNetwork = new LocationListener() {
-    	
-        public void onLocationChanged(Location location) {
-            timer.cancel();
-            geoLocation.setLatitude(location.getLatitude());
-            geoLocation.setLongitude(location.getLongitude());
-            locationManager.removeUpdates(this);
-            locationManager.removeUpdates(locationListenerGps);
-        }
-        public void onProviderDisabled(String provider) {
-        	
-        }
-        public void onProviderEnabled(String provider) {
-        	
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        	
-        }
-    };
+//    LocationListener locationListenerNetwork = new LocationListener() {
+//    	
+//        public void onLocationChanged(Location location) {
+//            timer.cancel();
+//            geoLocation.setLatitude(location.getLatitude());
+//            geoLocation.setLongitude(location.getLongitude());
+//            locationManager.removeUpdates(this);
+//            locationManager.removeUpdates(locationListenerGps);
+//        }
+//        public void onProviderDisabled(String provider) {
+//        	
+//        }
+//        public void onProviderEnabled(String provider) {
+//        	
+//        }
+//        public void onStatusChanged(String provider, int status, Bundle extras) {
+//        	
+//        }
+//    };
 	
     class GetLastLocation extends TimerTask {
         @Override
         public void run() {
         	locationManager.removeUpdates(locationListenerGps);
-        	locationManager.removeUpdates(locationListenerNetwork);
+//        	locationManager.removeUpdates(locationListenerNetwork);
 
-             Location net_loc=null, gps_loc=null;
+             Location gps_loc=null;
              
              if (gpsEnabled) {
                  gps_loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
              }
              
-             if (networkEnabled) {
-                 net_loc=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-             }
+//             if (networkEnabled) {
+//                 net_loc=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+//             }
 
              //if there are both values use the latest one
-             if (gps_loc!=null && net_loc!=null) {
-            	 
-                 if (gps_loc.getTime()>net_loc.getTime()) {
-                 	geoLocation.setLatitude(gps_loc.getLatitude());
-             		geoLocation.setLongitude(gps_loc.getLongitude());
-                 }
-                 else {
-                  	geoLocation.setLatitude(net_loc.getLatitude());
-              		geoLocation.setLongitude(net_loc.getLongitude());
-                 }
-                 return;
-             }
+//             if (gps_loc!=null && net_loc!=null) {
+//            	 
+//                 if (gps_loc.getTime()>net_loc.getTime()) {
+//                 	geoLocation.setLatitude(gps_loc.getLatitude());
+//             		geoLocation.setLongitude(gps_loc.getLongitude());
+//                 }
+//                 else {
+//                  	geoLocation.setLatitude(net_loc.getLatitude());
+//              		geoLocation.setLongitude(net_loc.getLongitude());
+//                 }
+//                 return;
+//             }
 
              if (gps_loc!=null) {
               	geoLocation.setLatitude(gps_loc.getLatitude());
           		geoLocation.setLongitude(gps_loc.getLongitude());
                  return;
              }
-             if (net_loc!=null) {
-               	geoLocation.setLatitude(net_loc.getLatitude());
-           		geoLocation.setLongitude(net_loc.getLongitude());
-                 return;
-             }
+//             if (net_loc!=null) {
+//               	geoLocation.setLatitude(net_loc.getLatitude());
+//           		geoLocation.setLongitude(net_loc.getLongitude());
+//                 return;
+//             }
         }
     }
     
