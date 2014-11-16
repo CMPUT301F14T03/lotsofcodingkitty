@@ -19,6 +19,7 @@ public class Answer {
 	private Date date;
 	private File picture;
 	private int rating;
+	private GeoLocation location;
 	
 	/** Constructs an {@link #Answer() Answer}
 	 * @param answer		 The answer that the user has created
@@ -57,6 +58,10 @@ public class Answer {
 	
 	}
 	
+	public void setGeoLocation(GeoLocation location) {
+		this.location = location;
+	}
+	
 	/*----------------------Get counts--------------------*/
 	
 	/**
@@ -75,6 +80,11 @@ public class Answer {
 	 * Returns a list of Comment objects
 	 * @return A list of Comment objects
 	 */
+	
+	public GeoLocation getGeoLocation() {
+		return location;
+	}
+	
 	public ArrayList<Comment> getComments() {
 		return this.comments;
 	}

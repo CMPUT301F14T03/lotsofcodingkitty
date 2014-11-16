@@ -236,7 +236,7 @@ public class PostController {
 
 		getQuestionsInstance().add(question);
 		getPushPostsInstance().add(new Post(question));
-//		upc.addPostedQuestion(question.getId());
+		addUserPost(question);
 		pushNewPosts();
 	}
 
