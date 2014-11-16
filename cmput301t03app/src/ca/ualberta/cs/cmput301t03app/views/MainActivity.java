@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.ArrayList;
 
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
@@ -62,11 +63,12 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity
 {
-	Uri imageFileUri;
-	boolean hasPicture = false;
-	ListView lv;
-	MainListAdapter mla;
-	PostController pc = new PostController(this);
+	protected Uri imageFileUri;
+	protected boolean hasPicture = false;
+	private ListView lv;
+	private MainListAdapter mla;
+	private PostController pc = new PostController(this);
+	private ArrayList<Question> serverList = new ArrayList<Question>();
 	public AlertDialog alertDialog1; // for testing purposes
 
 	/**
@@ -80,9 +82,11 @@ public class MainActivity extends Activity
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		if (pc.checkConnectivity() == false) {
 		Toast.makeText(this,
 				"You are not connected to the server. To access your locally saved data go to your userhome.",
 				Toast.LENGTH_LONG).show();
+		}
 		ListView questionList = (ListView) findViewById(R.id.activity_main_question_list);
 		questionList.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -110,7 +114,10 @@ public class MainActivity extends Activity
 		});
 
 		setupAdapter();
-
+		Thread thread = new SearchThread("");
+		thread.start();
+		//pc.getQuestionsFromServer();
+		//mla.updateAdapter(pc.getQuestionsInstance());
 	}
 
 	@Override
@@ -533,6 +540,33 @@ public class MainActivity extends Activity
 					}
 					
 			}
+	    }
+	    
+	    public void loadMoreQuestions(View view) {
+	    	pc.loadServerQuestions(serverList);
+	    	mla.updateAdapter(pc.getQuestionsInstance());
+	    }
+	    
+	    private Runnable doUpdateGUIList = new Runnable() {
+	    	public void run() {
+	    		mla.updateAdapter(pc.getQuestionsInstance());
+	    	}
+	    };
+	    
+	    class SearchThread extends Thread {
+	    	private String search;
+	    	
+	    	public SearchThread(String s) {
+	    		search = s;
+	    	}
+	    	
+	    	@Override
+	    	public void run() {
+	    		pc.getQuestionsInstance().clear();
+	    		serverList = pc.getQuestionsFromServer();
+	    		pc.loadServerQuestions(serverList);
+	    		runOnUiThread(doUpdateGUIList);
+	    	};
 	    }
 	
 }
