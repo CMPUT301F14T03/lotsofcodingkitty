@@ -4,6 +4,9 @@ import ca.ualberta.cs.cmput301t03app.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 /**
@@ -23,6 +26,8 @@ public class UserHome extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_home);
+		
+		getActionBar().setHomeButtonEnabled(true);
 	}
 
 	/**
@@ -75,5 +80,42 @@ public class UserHome extends Activity {
 		Intent intent = new Intent(this, UserListsActivity.class);
 		intent.putExtra("userListMode", 3);
 		startActivity(intent);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.view_question, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+
+		int id = item.getItemId();
+		if (id == R.id.home) {
+			Intent intent = new Intent(this, MainActivity.class);
+			startActivity(intent);
+			
+		}
+		if (id == R.id.user_home) {
+			Log.d("click", "Inside menu user home");
+			
+			Intent intent = new Intent(this, UserHome.class);
+			startActivity(intent);
+		}
+		
+//		if (id == R.id.search) {
+//			searchQuestions();
+//		}
+				
+	
+		return (super.onOptionsItemSelected(item));
 	}
 }

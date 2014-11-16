@@ -344,13 +344,17 @@ public class ViewComment extends Activity
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				Intent intent = new Intent(this, MainActivity.class);
-				startActivity(intent);
-				break;
+		int id = item.getItemId();
+		if (id == R.id.home) {
+			Intent intent = new Intent(this, MainActivity.class);
+			startActivity(intent);
 			
+		} else if (id == R.id.user_home) {
+			Intent intent = new Intent(this, UserHome.class);
+			startActivity(intent);
 		}
+		
+
 		return (super.onOptionsItemSelected(item));
 	}
 	
