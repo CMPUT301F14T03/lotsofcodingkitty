@@ -45,7 +45,7 @@ public final class R {
     }
     public static final class id {
         public static final int UsernameRespondTextView=0x7f08000c;
-        public static final int action_settings=0x7f08002c;
+        public static final int action_settings=0x7f08002d;
         public static final int activity_main_question_button=0x7f080003;
         public static final int activity_main_question_list=0x7f080004;
         public static final int answerListView=0x7f080025;
@@ -58,17 +58,18 @@ public final class R {
         public static final int attachImg=0x7f08000d;
         public static final int attachImgTxt=0x7f08000e;
         public static final int commentListView=0x7f08001e;
+        public static final int comment_body=0x7f08002b;
         public static final int comment_button=0x7f080019;
         public static final int comment_count=0x7f08001d;
         public static final int comment_post_author=0x7f08001c;
         public static final int comment_post_timestamp=0x7f08001b;
         public static final int comment_title=0x7f08001a;
         public static final int doneBtn=0x7f080000;
-        public static final int filter=0x7f08002f;
-        public static final int filter_date=0x7f080032;
-        public static final int filter_newest=0x7f080031;
-        public static final int filter_picture=0x7f080033;
-        public static final int filter_popular=0x7f080030;
+        public static final int filter=0x7f080030;
+        public static final int filter_date=0x7f080033;
+        public static final int filter_newest=0x7f080032;
+        public static final int filter_picture=0x7f080034;
+        public static final int filter_popular=0x7f080031;
         public static final int inputUsername=0x7f080001;
         public static final int postBody=0x7f08000b;
         public static final int post_timestamp=0x7f080009;
@@ -84,12 +85,12 @@ public final class R {
         public static final int question_title=0x7f080008;
         public static final int question_upvote_button=0x7f080020;
         public static final int question_upvote_score=0x7f080005;
-        public static final int question_viewed_icon=0x7f08002b;
-        public static final int search=0x7f08002e;
-        public static final int sync=0x7f080034;
+        public static final int question_viewed_icon=0x7f08002c;
+        public static final int search=0x7f08002f;
+        public static final int sync=0x7f080035;
         public static final int user_cached_button=0x7f080014;
         public static final int user_fav_button=0x7f080013;
-        public static final int user_home=0x7f08002d;
+        public static final int user_home=0x7f08002e;
         public static final int user_home_description=0x7f080012;
         public static final int user_home_title=0x7f080011;
         public static final int user_list_title=0x7f080017;
@@ -111,8 +112,9 @@ public final class R {
         public static final int activity_view_question=0x7f030009;
         public static final int activity_view_question_answer_entity=0x7f03000a;
         public static final int activity_view_question_entity=0x7f03000b;
-        public static final int copy_of_activity_main_question_entity=0x7f03000c;
-        public static final int dialog_to_read=0x7f03000d;
+        public static final int comment_dialog=0x7f03000c;
+        public static final int copy_of_activity_main_question_entity=0x7f03000d;
+        public static final int dialog_to_read=0x7f03000e;
     }
     public static final class menu {
         public static final int display_picture=0x7f070000;
@@ -128,6 +130,7 @@ public final class R {
         public static final int app_name=0x7f050000;
         public static final int attachImgTxt=0x7f050005;
         public static final int cancel=0x7f050002;
+        public static final int comment_dialog=0x7f050013;
         public static final int done=0x7f050008;
         public static final int enterName=0x7f050006;
         public static final int hello_world=0x7f050012;
