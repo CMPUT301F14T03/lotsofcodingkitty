@@ -68,9 +68,9 @@
     
     <ImageView 
         android:id="@+id/displayPicture"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        android:background="#333333"
+        android:background="#dddddd"
         android:layout_below="@+id/picture_post_author"/>
     
     
