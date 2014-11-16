@@ -20,6 +20,7 @@ public class Question{
 	private String body;
 	private String author;
 	private File picture;
+	private String pictureFilePath;
 	private Date date;
 	private int rating;
 	
@@ -83,8 +84,10 @@ public class Question{
 		this.rating++; //Rating should be incremented by 1 per upvote press; we do not need to tell the system what score is.
 	}
 	
-	public void setPicture(File picture){
-		this.picture = picture;
+	public void setPicture(String pictureFilePath){
+		//public void setPicture(File picture){
+		//this.picture = picture;
+		this.pictureFilePath = pictureFilePath;
 	}
 	
 	/*-----------------------Get counts---------------------*/
@@ -131,8 +134,9 @@ public class Question{
 		return this.rating;
 	}
 	
-	public File getPicture(){
-		return this.picture;
+	public String getPicture(){
+		//return this.picture;
+		return this.pictureFilePath;
 	}
 
 	public String getAuthor() {

@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,11 +63,13 @@ public class ViewQuestion extends Activity {
 	String question_id;
 	TextView answerCounter;
 	TextView commentCounter;
+	ImageButton questionPictureButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_view_question);
 
 		// enables the activity icon as a 'home' button. required if
@@ -156,6 +159,15 @@ public class ViewQuestion extends Activity {
 				increment_upvote();
 			}
 		});
+		questionPictureButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				toPictureActivityQuestion(v);
+			}
+		});
+		
 	}
 
 	/**
@@ -236,6 +248,7 @@ public class ViewQuestion extends Activity {
 		answerCounter = (TextView) findViewById(R.id.answer_count);
 		commentCounter = (TextView) findViewById(R.id.question_comment_count);
 		answerListView = (ListView) findViewById(R.id.answerListView);
+		questionPictureButton = (ImageButton) findViewById(R.id.question_picture_button);
 	}
 
 	/**
@@ -270,6 +283,45 @@ public class ViewQuestion extends Activity {
 		i.putExtra(ANSWER_ID_KEY, answer.getId());
 		startActivity(i);
 	}
+	
+	
+
+	/**
+	 * onClick for going to Picture activity for question
+	 * 
+	 * @param v
+	 *            View where the click happened
+	 */
+	
+	public void toPictureActivityQuestion(View v) {
+		/* This method takes user to ViewPicture activity for questions */
+		
+		
+		
+		Intent i = new Intent(this, ViewPicture.class);
+		i.putExtra(QUESTION_ID_KEY, question_id);
+		Log.d("click", "Leaving View picture");
+		startActivity(i);
+	}
+	
+
+	/**
+	 * onClick for going to Picture activity for question
+	 * 
+	 * @param v
+	 *            View where the click happened
+	 */
+	
+	public void toPictureActivityAnswer(View v) {
+		/* This method takes user to ViewPicture activity for answers */
+		Answer answer = (Answer) v.getTag();
+		
+		Intent i = new Intent(this, ViewPicture.class);
+		i.putExtra(QUESTION_ID_KEY, question_id);
+		i.putExtra(ANSWER_ID_KEY, answer.getId());
+		startActivity(i);
+	}
+	
 
 	/**
 	 * onClick method for adding an answer to the question Prompts the user with
