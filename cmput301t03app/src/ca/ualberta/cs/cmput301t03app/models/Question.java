@@ -23,6 +23,7 @@ public class Question{
 	private String pictureFilePath;
 	private Date date;
 	private int rating;
+	private GeoLocation location;
 	
 	/** Constructs a {@link #Question() Question}.
 	 * @param subject			The subject that the question is asking about.
@@ -90,6 +91,10 @@ public class Question{
 		this.pictureFilePath = pictureFilePath;
 	}
 	
+	public void setGeoLocation(GeoLocation location) {
+		this.location = location;
+	}
+	
 	/*-----------------------Get counts---------------------*/
 	
 	/**
@@ -109,6 +114,10 @@ public class Question{
 	}
 	
 	/*----------------------Getters--------------------------*/
+	
+	public GeoLocation getGeoLocation() {
+		return location;
+	}
 	
 	public ArrayList<Answer> getAnswers() {
 		return this.answers;
