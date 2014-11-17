@@ -1,17 +1,24 @@
 package ca.ualberta.cs.cmput301t03app.controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import ca.ualberta.cs.cmput301t03app.datamanagers.LocalDataManager;
 import ca.ualberta.cs.cmput301t03app.datamanagers.QuestionFilter;
 import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.interfaces.iDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
+import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 import ca.ualberta.cs.cmput301t03app.models.Post;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.models.UserPostCollector;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -57,6 +64,43 @@ public class PostController {
 	public int countComments(Question q) {
 
 		return q.countComments();
+	}
+	
+	/**
+	 *  Takes in a geolocation and returns a city name if available
+	 *  @param Geolocation location
+	 *  @return a string with the city name
+	 */
+	public String getCity(GeoLocation location) {
+		String cityName = null;                
+		Geocoder gcd = new Geocoder(getContext(),Locale.getDefault());               
+		List<Address> addresses;    
+		try {    
+	      addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);   
+	      
+	      if (addresses.size() > 0)               
+	         cityName=addresses.get(0).getLocality();    
+		} catch (IOException e) {              
+	        e.printStackTrace();    
+		}
+		return cityName;
+	}
+	
+	public GeoLocation turnFromCity(String cityName){
+		
+		Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
+		List<Address> addresses;
+		GeoLocation location= new GeoLocation();
+		try {
+			addresses = gcd.getFromLocationName(cityName, 1);
+			if (addresses.size() > 0) { 
+				location.setLatitude(addresses.get(0).getLatitude());
+				location.setLongitude(addresses.get(0).getLongitude());
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		return location;
 	}
 	
 	/**

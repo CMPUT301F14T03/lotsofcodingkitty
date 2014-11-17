@@ -7,10 +7,8 @@
 package ca.ualberta.cs.cmput301t03app.views;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 import java.util.ArrayList;
+
 
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
@@ -22,15 +20,11 @@ import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 import ca.ualberta.cs.cmput301t03app.models.Post;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.utils.TakePicture;
+
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.location.Geocoder;
-import android.location.Address; 
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -51,9 +45,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
+import ca.ualberta.cs.cmput301t03app.R;
+import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
+import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
+import ca.ualberta.cs.cmput301t03app.models.Question;
 
 /**
  * 
@@ -66,7 +63,10 @@ import android.widget.Toast;
 public class MainActivity extends Activity
 {
 	protected Uri imageFileUri;
+	protected GeoLocation location;
+	protected String cityName;
 	protected boolean hasPicture = false;
+	protected boolean hasLocation = false;
 	private ListView lv;
 	private MainListAdapter mla;
 	private PostController pc = new PostController(this);
@@ -188,31 +188,20 @@ public class MainActivity extends Activity
 		final EditText userLocation = (EditText) promptsView
 				.findViewById(R.id.userLocation);
 		
-		GeoLocation location = new GeoLocation();
+		location = new GeoLocation();
 //		GeoLocationTracker locationTracker = new GeoLocationTracker(this, location);
 //		locationTracker.getLocation();
 		
 		location.setLatitude(53.53333);
 		location.setLongitude(-113.5);
 		
-		String cityName = null;                
-		Geocoder gcd = new Geocoder(getBaseContext(),   
-		Locale.getDefault());               
-		List<Address> addresses;    
-		try {    
-	      addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);   
-	      
-	      if (addresses.size() > 0)               
-	         cityName=addresses.get(0).getLocality();    
-		} catch (IOException e) {              
-	        e.printStackTrace();    
-		}
+		cityName = pc.getCity(location);
 		
-		if (cityName != null) {
-			userLocation.setText(cityName);
-		} else {
-			userLocation.setText("No Location");
-		}
+//		if (cityName != null) {
+//			userLocation.setText(cityName);
+//		} else {
+//			userLocation.setText("No Location");
+//		}
 		
 		
 		attachImg.setOnClickListener(new OnClickListener() {
@@ -229,13 +218,13 @@ public class MainActivity extends Activity
 			}
 		});
 		
-		final CheckBox check = (CheckBox) promptsView
+		CheckBox check = (CheckBox) promptsView
 				.findViewById(R.id.enableLocation);
 		check.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				
+				hasLocation=!hasLocation;
 				
 			}
 		});
@@ -260,6 +249,8 @@ public class MainActivity extends Activity
 								.getText().toString();
 						String userNameString = (String) userName.getText()
 								.toString();
+						String userLocationString = userLocation.getText()
+								.toString();
 
 						Question q = new Question(questionTitleString,
 								questionBodyString, userNameString);
@@ -267,7 +258,20 @@ public class MainActivity extends Activity
 
 						if(hasPicture)
 							q.setPicture(imageFileUri.getPath());
-						
+						if(hasLocation){
+							if (userLocationString==cityName){
+								q.setGeoLocation(location);
+							}
+							else{
+								q.setGeoLocation(pc.turnFromCity(userLocationString));
+								//Testing
+								GeoLocation testlocation= pc.turnFromCity(userLocationString);
+								Log.d("Location",Double.toString(testlocation.getLatitude()));
+								Log.d("Location",Double.toString(testlocation.getLongitude()));
+								
+							}
+						}
+							
 						
 						pc.addUserPost(q);
 						Thread thread = new AddThread(q);
