@@ -14,6 +14,7 @@ import ca.ualberta.cs.cmput301t03app.models.UserPostCollector;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 
 
@@ -30,8 +31,10 @@ public class PostController {
 
 	private static ArrayList<Question> subQuestions = null;
 	private static ArrayList<Post> pushPosts = null;
-	private QuestionFilter qf = new QuestionFilter();
+	private static QuestionFilter qf = new QuestionFilter();
 	private static UserPostCollector upc = new UserPostCollector();
+	private static ServerDataManager sdm = new ServerDataManager();
+	private static int serverListIndex = 0;
 	private Context context;
 
 	/**
@@ -61,14 +64,14 @@ public class PostController {
 	 * @return A boolean stating if connected to internet
 	 */
 	public Boolean checkConnectivity() {
-		 ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-			    NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-			    if (networkInfo != null && networkInfo.isConnected()) {
-			        return true;
-			    } 
-			    else {
-			    	return false;
-			    }
+		ConnectivityManager connMgr = (ConnectivityManager) getContext()
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+		if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -233,7 +236,7 @@ public class PostController {
 
 		getQuestionsInstance().add(question);
 		getPushPostsInstance().add(new Post(question));
-//		upc.addPostedQuestion(question.getId());
+		addUserPost(question);
 		pushNewPosts();
 	}
 
@@ -304,6 +307,28 @@ public class PostController {
 	}
 	
 	// new
+	
+	public ArrayList<Question> getQuestionsFromServer() {
+		ArrayList<Question> serverList = new ArrayList<Question>();
+		serverList = sdm.searchQuestions("", null);
+		serverList = qf.sortByDate(serverList);
+		//Log.d("size", "size:"+serverList.size());
+		return serverList;
+	}
+	
+	public void loadServerQuestions(ArrayList<Question> list) {
+		//Log.d("size", "passed size:"+list.size());
+		int checkListSize = list.size();
+		int increment = 10;
+		if (checkListSize - serverListIndex < 10) {
+			increment = checkListSize - serverListIndex;
+		}
+		for (int i = serverListIndex; i < (serverListIndex + increment); i++) {
+			//Log.d("size", "passed size:"+list.size());
+			subQuestions.add(list.get(i));
+		}
+		serverListIndex = serverListIndex + increment;
+	}
 	
 	public ArrayList<Post> getPushPostsInstance() {
 		if (pushPosts == null) {

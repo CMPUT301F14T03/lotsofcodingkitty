@@ -80,7 +80,7 @@ public class ServerDataManagerTest extends ActivityInstrumentationTestCase2<Main
 	
 	public void testAddAnswerToQuestion() {
 		pc = new PostController(getInstrumentation().getContext());
-		q = new Question("This", "this", "this");
+		q = new Question("b", "b", "b");
 		pc.addQuestion(q);
 		Answer answer = new Answer("that","that","n/a");
 		pc.addAnswer(answer, q.getId());

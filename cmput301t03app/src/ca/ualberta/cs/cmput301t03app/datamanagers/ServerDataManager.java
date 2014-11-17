@@ -86,61 +86,54 @@ public class ServerDataManager implements iDataManager{
 	 */
 	
 	public void pushPosts(final ArrayList<Post> posts) {
-		Thread thread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					for (int i = 0; i < posts.size(); i++) {
-						Post post = posts.get(i);
-						Question q = null;
+		try {
+			for (int i = 0; i < posts.size(); i++) {
+				Post post = posts.get(i);
+				Question q = null;
 
-						// If the parent is a Question
+				// If the parent is a Question
 
-						if (post.getClassofParent().equals(Question.class)) {
+				if (post.getClassofParent().equals(Question.class)) {
 
-							// If the post is an Answer
+					// If the post is an Answer
 
-							if (post.getSelf().getClass().equals(Answer.class)) {
-								q = getQuestion(post.getParentId());
-								Log.i("AnswerToQuestion", post.getParentId());
-								q.addAnswer((Answer) post.getSelf());
-								updateQuestion(q);
+					if (post.getSelf().getClass().equals(Answer.class)) {
+						q = getQuestion(post.getParentId());
+						Log.i("AnswerToQuestion", post.getParentId());
+						q.addAnswer((Answer) post.getSelf());
+						updateQuestion(q);
 
-							}
-
-							// If the post is a Comment
-
-							else if (post.getSelf().getClass()
-									.equals(Comment.class)) {
-								q = getQuestion(post.getParentId());
-								Log.i("CommentToQuestion", post.getParentId());
-								q.addComment((Comment) post.getSelf());
-								updateQuestion(q);
-							}
-
-						// If the parent is an Answer
-
-						} else if (post.getClassofParent().equals(Answer.class)) {
-							q = getQuestion(post.getQuestionParentId());
-							Log.i("CommentToAnswer", post.getParentId());
-							q.addComment((Comment) post.getSelf());
-							updateQuestion(q);
-						}
-
-						// If the post is a Question
-
-						else {
-							q = (Question) post.getSelf();
-							Log.i("Question", q.getId());
-							addQuestion(q);
-						}
 					}
-				} catch (Exception e) {
-					Log.e(TAG, e.getMessage());
+
+					// If the post is a Comment
+
+					else if (post.getSelf().getClass().equals(Comment.class)) {
+						q = getQuestion(post.getParentId());
+						Log.i("CommentToQuestion", post.getParentId());
+						q.addComment((Comment) post.getSelf());
+						updateQuestion(q);
+					}
+
+					// If the parent is an Answer
+
+				} else if (post.getClassofParent().equals(Answer.class)) {
+					q = getQuestion(post.getQuestionParentId());
+					Log.i("CommentToAnswer", post.getParentId());
+					q.addComment((Comment) post.getSelf());
+					updateQuestion(q);
+				}
+
+				// If the post is a Question
+
+				else {
+					q = (Question) post.getSelf();
+					Log.i("Question", q.getId());
+					addQuestion(q);
 				}
 			}
-		});
-		thread.start();
+		} catch (Exception e) {
+			Log.e(TAG, e.getMessage());
+		}
 	}
 	
 	
