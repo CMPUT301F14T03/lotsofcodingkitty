@@ -4,19 +4,7 @@
     android:layout_height="match_parent"
     tools:context="ca.ualberta.cs.cmput301t03app.incomplete.DisplayPicture" >
     
-      
-      <TextView
-        android:id="@+id/back_link"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:clickable="false"
-        android:focusable="false"
-        android:padding="10dp"
-        android:text=" Back to the question"
-         />
-      
+     
       
       <TextView
         android:id="@+id/picture_title"
@@ -71,6 +59,7 @@
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:background="#dddddd"
+        android:gravity="top"
         android:layout_below="@+id/picture_post_author"/>
     
     

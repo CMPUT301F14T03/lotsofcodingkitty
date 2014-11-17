@@ -40,6 +40,7 @@ public class Question{
 		this.rating = 0;
 		this.comments = new ArrayList<Comment>(); // Same as above
 		this.answers = new ArrayList<Answer>();
+		this.pictureFilePath = null;
 	}
 	
 	/**

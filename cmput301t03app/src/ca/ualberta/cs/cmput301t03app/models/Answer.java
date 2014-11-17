@@ -17,7 +17,7 @@ public class Answer {
 	private String author;
 	private String parentId;
 	private Date date;
-	private File picture;
+	private String pictureFilePath;
 	private int rating;
 	private GeoLocation location;
 	
@@ -35,6 +35,7 @@ public class Answer {
 		this.rating = 0;
 		this.comments = new ArrayList<Comment>(); // Need to initialize the list (Added by Eric)
 		this.parentId = parentId;
+		this.pictureFilePath = null;
 	}
 	
 	/**
@@ -46,8 +47,8 @@ public class Answer {
 	}
 	
 
-	public void setPicture(File picture){
-		this.picture = picture;
+	public void setPicture(String pictureFilePath) {
+		this.pictureFilePath = pictureFilePath;
 	}
 	
 	/**
@@ -107,8 +108,8 @@ public class Answer {
 		return this.rating;
 	}
 	
-	public File getPicture(){
-		return this.picture;
+	public String getPicture(){
+		return this.pictureFilePath;
 	}
 	public String getId(){
 		return this.id;
