@@ -72,7 +72,8 @@ public class MainActivity extends Activity
 	private PostController pc = new PostController(this);
 	private ArrayList<Question> serverList = new ArrayList<Question>();
 	public AlertDialog alertDialog1; // for testing purposes
-
+	private ServerDataManager sdm = new ServerDataManager();
+	
 	/**
 	 * onCreate sets up the listview,sets the click listeners
 	 * and runs the setupAdapter() method
@@ -118,6 +119,7 @@ public class MainActivity extends Activity
 		setupAdapter();
 		Thread thread = new SearchThread("");
 		thread.start();
+		thread.interrupt();
 		//pc.getQuestionsFromServer();
 		//mla.updateAdapter(pc.getQuestionsInstance());
 	}
@@ -577,6 +579,7 @@ public class MainActivity extends Activity
 	    		serverList = pc.getQuestionsFromServer();
 	    		pc.loadServerQuestions(serverList);
 	    		runOnUiThread(doUpdateGUIList);
+	    		
 	    	};
 	    }
 	    
@@ -590,7 +593,6 @@ public class MainActivity extends Activity
 	    	
 	    	@Override
 	    	public void run() {
-	    		ServerDataManager sdm = new ServerDataManager();
 	    		sdm.addQuestion(this.question);
 	    		try {
 	    			Thread.sleep(500);
