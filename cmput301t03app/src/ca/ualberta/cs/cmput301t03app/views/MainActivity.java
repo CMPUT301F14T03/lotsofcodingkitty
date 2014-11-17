@@ -217,8 +217,11 @@ public class MainActivity extends Activity
 						if(hasPicture)
 							q.setPicture(imageFileUri.getPath());
 						
-						mla.updateAdapter(pc.getQuestionsInstance());
+						
 						pc.addUserPost(q);
+						Thread thread = new AddThread(q);
+						thread.start();
+						mla.updateAdapter(pc.getQuestionsInstance());
 
 					}
 
@@ -504,6 +507,12 @@ public class MainActivity extends Activity
 	    	}
 	    };
 	    
+	    private Runnable doFinishAdd = new Runnable() {
+	    	public void run() {
+	    		finish();
+	    	}
+	    };
+	    
 	    class SearchThread extends Thread {
 	    	private String search;
 	    	
@@ -518,6 +527,26 @@ public class MainActivity extends Activity
 	    		pc.loadServerQuestions(serverList);
 	    		runOnUiThread(doUpdateGUIList);
 	    	};
+	    }
+	    
+	    class AddThread extends Thread {
+	    	private Question question;
+	    	
+	    	public AddThread(Question question) {
+	    		this.question = question;
+	    	}
+	    	
+	    	@Override
+	    	public void run() {
+	    		pc.pushNewPosts();
+	    		try {
+	    			Thread.sleep(500);
+	    		} catch(InterruptedException e) {
+	    			e.printStackTrace();
+	    		}
+	    		
+	    		runOnUiThread(doFinishAdd);
+	    	}
 	    }
 	
 }
