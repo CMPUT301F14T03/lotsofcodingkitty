@@ -2,12 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:selectAllOnFocus="true" 
-    android:minWidth="300dp"
-    android:minHeight="400dp"
     android:background="#FFFFFF"
-    >
+    android:minHeight="400dp"
+    android:minWidth="300dp"
+    android:orientation="vertical"
+    android:selectAllOnFocus="true" >
 
     <EditText
         android:id="@+id/questionTitle"
@@ -39,6 +38,40 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
+        android:layout_height="59dp" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="11dp"
+            android:text="Include GeoLocation?"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="19dp" />
+
+        <CheckBox
+            android:id="@+id/enableLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView1"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/textView1" />
+
+        <EditText
+            android:id="@+id/userLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/textView1"
+            android:hint="Enter Location" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.01" >
 
@@ -60,9 +93,8 @@
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@+id/attachImg"
             android:text="@string/attachImgTxt" />
-
     </RelativeLayout>
-<!-- 
+    <!--
     <LinearLayout
         style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
@@ -84,6 +116,7 @@
             android:layout_height="wrap_content"
             android:onClick="cancelResponse"
             android:text="@string/cancel" />
-    </LinearLayout>  -->
+    </LinearLayout>
+    -->
 
 </LinearLayout>

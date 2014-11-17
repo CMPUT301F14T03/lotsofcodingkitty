@@ -7,12 +7,17 @@
 package ca.ualberta.cs.cmput301t03app.views;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 import java.util.ArrayList;
 
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
+import ca.ualberta.cs.cmput301t03app.controllers.GeoLocationTracker;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 
+import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.utils.TakePicture;
 import android.app.Activity;
@@ -22,6 +27,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.Geocoder;
+import android.location.Address; 
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -38,6 +45,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -175,6 +183,36 @@ public class MainActivity extends Activity
 				.findViewById(R.id.UsernameRespondTextView);
 		final ImageButton attachImg = (ImageButton) promptsView
 				.findViewById(R.id.attachImg);
+		final EditText userLocation = (EditText) promptsView
+				.findViewById(R.id.userLocation);
+		
+		GeoLocation location = new GeoLocation();
+//		GeoLocationTracker locationTracker = new GeoLocationTracker(this, location);
+//		locationTracker.getLocation();
+		
+		location.setLatitude(53.53333);
+		location.setLongitude(-113.5);
+		
+		String cityName = null;                
+		Geocoder gcd = new Geocoder(getBaseContext(),   
+		Locale.getDefault());               
+		List<Address> addresses;    
+		try {    
+	      addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);   
+	      
+	      if (addresses.size() > 0)               
+	         cityName=addresses.get(0).getLocality();    
+		} catch (IOException e) {              
+	        e.printStackTrace();    
+		}
+		
+		if (cityName != null) {
+			userLocation.setText(cityName);
+		} else {
+			userLocation.setText("No Location");
+		}
+		
+		
 		attachImg.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -188,7 +226,18 @@ public class MainActivity extends Activity
 				
 			}
 		});
-
+		
+		final CheckBox check = (CheckBox) promptsView
+				.findViewById(R.id.enableLocation);
+		check.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				
+			}
+		});
+		
 		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				this);// Create a new AlertDialog
 
@@ -217,8 +266,11 @@ public class MainActivity extends Activity
 						if(hasPicture)
 							q.setPicture(imageFileUri.getPath());
 						
-						mla.updateAdapter(pc.getQuestionsInstance());
+						
 						pc.addUserPost(q);
+						Thread thread = new AddThread(q);
+						thread.start();
+						mla.updateAdapter(pc.getQuestionsInstance());
 
 					}
 
@@ -504,6 +556,12 @@ public class MainActivity extends Activity
 	    	}
 	    };
 	    
+	    private Runnable doFinishAdd = new Runnable() {
+	    	public void run() {
+	    		finish();
+	    	}
+	    };
+	    
 	    class SearchThread extends Thread {
 	    	private String search;
 	    	
@@ -518,6 +576,26 @@ public class MainActivity extends Activity
 	    		pc.loadServerQuestions(serverList);
 	    		runOnUiThread(doUpdateGUIList);
 	    	};
+	    }
+	    
+	    class AddThread extends Thread {
+	    	private Question question;
+	    	
+	    	public AddThread(Question question) {
+	    		this.question = question;
+	    	}
+	    	
+	    	@Override
+	    	public void run() {
+	    		pc.pushNewPosts();
+	    		try {
+	    			Thread.sleep(500);
+	    		} catch(InterruptedException e) {
+	    			e.printStackTrace();
+	    		}
+	    		
+	    		runOnUiThread(doFinishAdd);
+	    	}
 	    }
 	
 }
