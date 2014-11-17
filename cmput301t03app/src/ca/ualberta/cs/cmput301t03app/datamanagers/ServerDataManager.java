@@ -220,6 +220,7 @@ public class ServerDataManager implements iDataManager{
 		HttpClient httpClient = new DefaultHttpClient();
 
 		try {
+			Log.d("push", question.getBody());
 			HttpPost addRequest = new HttpPost(RESOURCE_URL + question.getId());
 
 			StringEntity stringEntity = new StringEntity(gson.toJson(question));
@@ -228,7 +229,7 @@ public class ServerDataManager implements iDataManager{
 
 			HttpResponse response = httpClient.execute(addRequest);
 			String status = response.getStatusLine().toString();
-			Log.i(TAG, status);
+			Log.d("push", status);
 
 		} catch (Exception e) {
 			e.printStackTrace();
