@@ -7,20 +7,24 @@
 package ca.ualberta.cs.cmput301t03app.views;
 
 import java.io.File;
+import java.util.ArrayList;
+
 
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
+import ca.ualberta.cs.cmput301t03app.controllers.GeoLocationTracker;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 
+import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
+import ca.ualberta.cs.cmput301t03app.models.Post;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.utils.TakePicture;
+
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -37,12 +41,16 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
+import ca.ualberta.cs.cmput301t03app.R;
+import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
+import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
+import ca.ualberta.cs.cmput301t03app.models.Question;
 
 /**
  * 
@@ -54,11 +62,15 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity
 {
-	Uri imageFileUri;
-	boolean hasPicture = false;
-	ListView lv;
-	MainListAdapter mla;
-	PostController pc = new PostController(this);
+	protected Uri imageFileUri;
+	protected GeoLocation location;
+	protected String cityName;
+	protected boolean hasPicture = false;
+	protected boolean hasLocation = false;
+	private ListView lv;
+	private MainListAdapter mla;
+	private PostController pc = new PostController(this);
+	private ArrayList<Question> serverList = new ArrayList<Question>();
 	public AlertDialog alertDialog1; // for testing purposes
 
 	/**
@@ -72,9 +84,11 @@ public class MainActivity extends Activity
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		if (pc.checkConnectivity() == false) {
 		Toast.makeText(this,
 				"You are not connected to the server. To access your locally saved data go to your userhome.",
 				Toast.LENGTH_LONG).show();
+		}
 		ListView questionList = (ListView) findViewById(R.id.activity_main_question_list);
 		questionList.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -102,7 +116,10 @@ public class MainActivity extends Activity
 		});
 
 		setupAdapter();
-
+		Thread thread = new SearchThread("");
+		thread.start();
+		//pc.getQuestionsFromServer();
+		//mla.updateAdapter(pc.getQuestionsInstance());
 	}
 
 	@Override
@@ -168,6 +185,25 @@ public class MainActivity extends Activity
 				.findViewById(R.id.UsernameRespondTextView);
 		final ImageButton attachImg = (ImageButton) promptsView
 				.findViewById(R.id.attachImg);
+		final EditText userLocation = (EditText) promptsView
+				.findViewById(R.id.userLocation);
+		
+		location = new GeoLocation();
+//		GeoLocationTracker locationTracker = new GeoLocationTracker(this, location);
+//		locationTracker.getLocation();
+		
+		location.setLatitude(53.53333);
+		location.setLongitude(-113.5);
+		
+		cityName = pc.getCity(location);
+		
+//		if (cityName != null) {
+//			userLocation.setText(cityName);
+//		} else {
+//			userLocation.setText("No Location");
+//		}
+		
+		
 		attachImg.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -181,7 +217,18 @@ public class MainActivity extends Activity
 				
 			}
 		});
-
+		
+		CheckBox check = (CheckBox) promptsView
+				.findViewById(R.id.enableLocation);
+		check.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				hasLocation=!hasLocation;
+				
+			}
+		});
+		
 		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				this);// Create a new AlertDialog
 
@@ -202,6 +249,8 @@ public class MainActivity extends Activity
 								.getText().toString();
 						String userNameString = (String) userName.getText()
 								.toString();
+						String userLocationString = userLocation.getText()
+								.toString();
 
 						Question q = new Question(questionTitleString,
 								questionBodyString, userNameString);
@@ -209,9 +258,25 @@ public class MainActivity extends Activity
 
 						if(hasPicture)
 							q.setPicture(imageFileUri.getPath());
+						if(hasLocation){
+							if (userLocationString==cityName){
+								q.setGeoLocation(location);
+							}
+							else{
+								q.setGeoLocation(pc.turnFromCity(userLocationString));
+								//Testing
+								GeoLocation testlocation= pc.turnFromCity(userLocationString);
+								Log.d("Location",Double.toString(testlocation.getLatitude()));
+								Log.d("Location",Double.toString(testlocation.getLongitude()));
+								
+							}
+						}
+							
 						
-						mla.updateAdapter(pc.getQuestionsInstance());
 						pc.addUserPost(q);
+						Thread thread = new AddThread(q);
+						thread.start();
+						mla.updateAdapter(pc.getQuestionsInstance());
 
 					}
 
@@ -484,6 +549,60 @@ public class MainActivity extends Activity
 					}
 					
 			}
+	    }
+	    
+	    public void loadMoreQuestions(View view) {
+	    	pc.loadServerQuestions(serverList);
+	    	mla.updateAdapter(pc.getQuestionsInstance());
+	    }
+	    
+	    private Runnable doUpdateGUIList = new Runnable() {
+	    	public void run() {
+	    		mla.updateAdapter(pc.getQuestionsInstance());
+	    	}
+	    };
+	    
+	    private Runnable doFinish = new Runnable() {
+	    	public void run() {
+	    		finish();
+	    	}
+	    };
+	    
+	    class SearchThread extends Thread {
+	    	private String search;
+	    	
+	    	public SearchThread(String s) {
+	    		search = s;
+	    	}
+	    	
+	    	@Override
+	    	public void run() {
+	    		pc.getQuestionsInstance().clear();
+	    		serverList = pc.getQuestionsFromServer();
+	    		pc.loadServerQuestions(serverList);
+	    		runOnUiThread(doUpdateGUIList);
+	    	};
+	    }
+	    
+	    class AddThread extends Thread {
+	    	private Question question;
+	    	
+	    	public AddThread(Question question) {
+	    		this.question = question;
+	    		Log.d("push", this.question.getSubject());
+	    	}
+	    	
+	    	@Override
+	    	public void run() {
+	    		ServerDataManager sdm = new ServerDataManager();
+	    		sdm.addQuestion(this.question);
+	    		try {
+	    			Thread.sleep(500);
+	    		} catch(InterruptedException e) {
+	    			e.printStackTrace();
+	    		}
+	    		
+	    	}
 	    }
 	
 }

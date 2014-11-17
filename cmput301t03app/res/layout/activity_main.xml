@@ -18,13 +18,26 @@
         android:textColor="#ffffff" />
     
     <ListView
-        android:layout_marginTop="50dp"
         android:id="@+id/activity_main_question_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true" 
-        tools:listitem="@layout/activity_main_question_entity">
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/load_more_button"
+        android:layout_marginTop="50dp"
+        tools:listitem="@layout/activity_main_question_entity" >
 
     </ListView>
+    
+    <Button
+        android:id="@+id/load_more_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="L O A D  M O R E"
+        android:textColor="#ffffff"
+        android:background="@drawable/ic_picture_placeholder"
+        android:onClick="loadMoreQuestions"  />
     
 </RelativeLayout>

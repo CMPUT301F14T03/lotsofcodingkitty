@@ -39,8 +39,7 @@ public class GeoLocationTracker {
 		this.context = context;
 	}
 	
-	public boolean getLocation(Context context, GeoLocation location)
-    {
+	public boolean getLocation() {
         if (locationManager==null) {
             locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         }
@@ -163,7 +162,7 @@ public class GeoLocationTracker {
      * Creates a pop up dialog box to notify the user that GPS is not enabled
      * and gives the option for the user to be redirected to enable it.
      */
-    protected void showGPSDisabledAlertBox() {
+    public void showGPSDisabledAlertBox() {
     	AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
     	alertBuilder.setMessage("GPS is disabled on this device. Do you want to enable it?")
     	.setCancelable(false)

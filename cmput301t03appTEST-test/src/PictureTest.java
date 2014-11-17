@@ -1,4 +1,3 @@
-
 import java.io.File;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -74,3 +73,4 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	}
 
 }
+
