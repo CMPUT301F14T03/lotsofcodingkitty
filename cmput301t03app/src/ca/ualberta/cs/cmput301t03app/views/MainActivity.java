@@ -9,6 +9,18 @@ package ca.ualberta.cs.cmput301t03app.views;
 import java.io.File;
 import java.util.ArrayList;
 
+
+import ca.ualberta.cs.cmput301t03app.R;
+import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
+import ca.ualberta.cs.cmput301t03app.controllers.GeoLocationTracker;
+import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
+
+import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
+import ca.ualberta.cs.cmput301t03app.models.Post;
+import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.utils.TakePicture;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -249,6 +261,14 @@ public class MainActivity extends Activity
 						if(hasLocation){
 							if (userLocationString==cityName){
 								q.setGeoLocation(location);
+							}
+							else{
+								q.setGeoLocation(pc.turnFromCity(userLocationString));
+								//Testing
+								GeoLocation testlocation= pc.turnFromCity(userLocationString);
+								Log.d("Location",Double.toString(testlocation.getLatitude()));
+								Log.d("Location",Double.toString(testlocation.getLongitude()));
+								
 							}
 						}
 							
@@ -542,7 +562,7 @@ public class MainActivity extends Activity
 	    	}
 	    };
 	    
-	    private Runnable doFinishAdd = new Runnable() {
+	    private Runnable doFinish = new Runnable() {
 	    	public void run() {
 	    		finish();
 	    	}
@@ -569,18 +589,19 @@ public class MainActivity extends Activity
 	    	
 	    	public AddThread(Question question) {
 	    		this.question = question;
+	    		Log.d("push", this.question.getSubject());
 	    	}
 	    	
 	    	@Override
 	    	public void run() {
-	    		pc.pushNewPosts();
+	    		ServerDataManager sdm = new ServerDataManager();
+	    		sdm.addQuestion(this.question);
 	    		try {
 	    			Thread.sleep(500);
 	    		} catch(InterruptedException e) {
 	    			e.printStackTrace();
 	    		}
 	    		
-	    		runOnUiThread(doFinishAdd);
 	    	}
 	    }
 	

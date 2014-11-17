@@ -86,6 +86,23 @@ public class PostController {
 		return cityName;
 	}
 	
+	public GeoLocation turnFromCity(String cityName){
+		
+		Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
+		List<Address> addresses;
+		GeoLocation location= new GeoLocation();
+		try {
+			addresses = gcd.getFromLocationName(cityName, 1);
+			if (addresses.size() > 0) { 
+				location.setLatitude(addresses.get(0).getLatitude());
+				location.setLongitude(addresses.get(0).getLongitude());
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		return location;
+	}
+	
 	/**
 	 * Returns true if the application is connected to the internet
 	 * @return A boolean stating if connected to internet
