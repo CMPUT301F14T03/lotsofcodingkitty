@@ -1,5 +1,6 @@
 package ca.ualberta.cs.cmput301t03app.views;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -13,7 +14,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -22,10 +27,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,11 +69,16 @@ public class ViewQuestion extends Activity {
 	String question_id;
 	TextView answerCounter;
 	TextView commentCounter;
+	ImageView questionPictureButton;
+
+	Uri imageFileUri;
+	boolean hasPicture = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_view_question);
 
 		// enables the activity icon as a 'home' button. required if
@@ -99,23 +111,7 @@ public class ViewQuestion extends Activity {
 
 	public void setListeners() {
 
-		// listener to see if clicked on view to comment on an answer
-
-		// Josh: I dont think this does anything ATM. Cons
-
-		// answerListView.setOnItemClickListener(new OnItemClickListener()
-		// {
-		//
-		// @Override
-		// public void onItemClick(AdapterView<?> parent, View view,
-		// final int position, long id)
-		// {
-		//
-		// Log.d("click", "click Answer" + position);
-		// toCommentActivityAnswer(view);
-		// }
-		// });
-		// listener to answer a question icon
+		
 		answerButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -156,6 +152,15 @@ public class ViewQuestion extends Activity {
 				increment_upvote();
 			}
 		});
+		questionPictureButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				toPictureActivityQuestion(v);
+			}
+		});
+
 	}
 
 	/**
@@ -169,12 +174,29 @@ public class ViewQuestion extends Activity {
 		populateThisQuestionsAnswers(question_id);
 		ala = new AnswerListAdapter(this, R.id.answerListView, answerList);
 		answerListView.setAdapter(ala);
+
+		/* Change icon if has Picture for answers */
 	}
 
 	public void populateThisQuestionsAnswers(String question_id) {
 
 		answerList.clear();
 		answerList.addAll(pc.getQuestion(question_id).getAnswers());
+	}
+
+
+
+	public View getViewByPosition(int pos, ListView listView) {
+		final int firstListItemPosition = listView.getFirstVisiblePosition();
+		final int lastListItemPosition = firstListItemPosition
+				+ listView.getChildCount() - 1;
+
+		if (pos < firstListItemPosition || pos > lastListItemPosition) {
+			return listView.getAdapter().getView(pos, null, listView);
+		} else {
+			final int childIndex = pos - firstListItemPosition;
+			return listView.getChildAt(childIndex);
+		}
 	}
 
 	/**
@@ -201,13 +223,9 @@ public class ViewQuestion extends Activity {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String date_to_string = sdf.format(q.getDate());
 		q_date.setText("Posted: " + date_to_string);
-		// Log.d("click", "Contains? " +
-		// upc.getFavoriteQuestions().contains(pc.getQuestion(question_id)));
-		//
-		// if(upc.getFavoriteQuestions().contains(pc.getQuestion(question_id)))
-		// {
-		// favIcon.setImageResource(R.drawable.ic_fav_yes);
-		// }
+
+		if (q.getPicture() != null)
+			questionPictureButton.setImageResource(R.drawable.ic_picture_yes);
 	}
 
 	/**
@@ -236,6 +254,7 @@ public class ViewQuestion extends Activity {
 		answerCounter = (TextView) findViewById(R.id.answer_count);
 		commentCounter = (TextView) findViewById(R.id.question_comment_count);
 		answerListView = (ListView) findViewById(R.id.answerListView);
+		questionPictureButton = (ImageView) findViewById(R.id.question_picture_button);
 	}
 
 	/**
@@ -272,6 +291,41 @@ public class ViewQuestion extends Activity {
 	}
 
 	/**
+	 * onClick for going to Picture activity for question
+	 * 
+	 * @param v
+	 *            View where the click happened
+	 */
+
+	public void toPictureActivityQuestion(View v) {
+		/* This method takes user to ViewPicture activity for questions */
+
+		Intent i = new Intent(this, ViewPicture.class);
+		i.putExtra(SET_COMMENT_TYPE, 1);
+		i.putExtra(QUESTION_ID_KEY, question_id);
+		Log.d("click", "Leaving View picture");
+		startActivity(i);
+	}
+
+	/**
+	 * onClick for going to Picture activity for question
+	 * 
+	 * @param v
+	 *            View where the click happened
+	 */
+
+	public void toPictureActivityAnswer(View v) {
+		/* This method takes user to ViewPicture activity for answers */
+		Answer answer = (Answer) v.getTag();
+
+		Intent i = new Intent(this, ViewPicture.class);
+		i.putExtra(SET_COMMENT_TYPE, 2);
+		i.putExtra(QUESTION_ID_KEY, question_id);
+		i.putExtra(ANSWER_ID_KEY, answer.getId());
+		startActivity(i);
+	}
+
+	/**
 	 * onClick method for adding an answer to the question Prompts the user with
 	 * a dialog box which requests answer body text (answerBodyString) as well
 	 * as a user name (userNameString). When the dialog is complete, the
@@ -287,6 +341,18 @@ public class ViewQuestion extends Activity {
 				.findViewById(R.id.postBody);
 		final EditText userName = (EditText) promptsView
 				.findViewById(R.id.UsernameRespondTextView);
+		final ImageButton attachImg = (ImageButton) promptsView
+				.findViewById(R.id.attachImg);
+		attachImg.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				takeAPhoto();
+
+			}
+		});
+
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this); // Create
 																				// a
 																				// new
@@ -303,8 +369,12 @@ public class ViewQuestion extends Activity {
 								.toString();
 						String userNameString = (String) userName.getText()
 								.toString();
-						final Answer a = new Answer(answerBodyString, userNameString,
-								question_id);
+						final Answer a = new Answer(answerBodyString,
+								userNameString, question_id);
+
+						if (hasPicture)
+							a.setPicture(imageFileUri.getPath());
+
 						new Thread() {
 							public void run() {
 								pc.addAnswer(a, question_id);
@@ -353,6 +423,7 @@ public class ViewQuestion extends Activity {
 					button.setEnabled(true);
 				}
 			}
+			
 
 			@Override
 			public void afterTextChanged(Editable s) {
@@ -389,7 +460,7 @@ public class ViewQuestion extends Activity {
 	// }
 
 	/**
-	 * onClick method for upvoting the question
+	 * onClick method for upvoting the questionhttp://stackoverflow.com/questions/2173936/how-to-set-background-color-of-a-view
 	 */
 
 	public void increment_upvote() {
@@ -426,7 +497,7 @@ public class ViewQuestion extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
+		http://stackoverflow.com/questions/2173936/how-to-set-background-color-of-a-view
 		getMenuInflater().inflate(R.menu.view_question, menu);
 		return true;
 	}
@@ -439,11 +510,11 @@ public class ViewQuestion extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 
 		switch (item.getItemId()) {
-			case android.R.id.home:
-				Intent intent = new Intent(this, MainActivity.class);
-				startActivity(intent);
-				break;
-			
+		case android.R.id.home:
+			Intent intent = new Intent(this, MainActivity.class);
+			startActivity(intent);
+			break;
+
 		}
 		return (super.onOptionsItemSelected(item));
 	}
@@ -469,4 +540,60 @@ public class ViewQuestion extends Activity {
 
 		return this.dialog;
 	}
+
+	public void takeAPhoto() {
+		/*
+		 * Main Activity is getting pretty bloated so I'm trying to move this
+		 * out into the Utils package
+		 */
+		String path = Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + "/MyCameraTest";
+		File folder = new File(path);
+
+		if (!folder.exists()) {
+			folder.mkdir();
+		}
+
+		String imagePathAndFileName = path + File.separator
+				+ String.valueOf(System.currentTimeMillis()) + ".jpg"; 															
+		// timestamp as part of the filename
+
+		File imageFile = new File(imagePathAndFileName);
+		imageFileUri = Uri.fromFile(imageFile);
+
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+		startActivityForResult(intent, CAMERA_ACTIVITY_REQUEST_CODE); 
+		
+		// matches the ID to the request code in onActivityResult
+
+	}
+
+	private final int CAMERA_ACTIVITY_REQUEST_CODE = 12345;
+
+	// This method is run after returning back from camera activity:
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		if (requestCode == CAMERA_ACTIVITY_REQUEST_CODE) {
+			// TextView tv = (TextView)findViewById(R.id.status); // THE TEXT
+			// VIEW THAT YOU SEE ON SCREEN
+
+			if (resultCode == RESULT_OK) {
+				hasPicture = true;
+				Log.d("click",
+						"Answer Image file path: " + imageFileUri.getPath());
+
+				// Trying to set the thumbail. Ging to just change icon for now
+				// Bundle extras = data.getExtras();
+				// Bitmap imageBitmap = (Bitmap) extras.get("data");
+				// questionPictureButton.setImageBitmap(imageBitmap);
+
+			} else if (resultCode == RESULT_CANCELED) {
+
+			}
+
+		}
+	}
+	
+
 }

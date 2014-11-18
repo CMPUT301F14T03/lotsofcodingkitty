@@ -1,4 +1,3 @@
-
 import java.io.File;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -48,11 +47,12 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		// attribute. Asserts that the questions file
 		// attribute is the same as the picture we specified.
 
-		File picture = new File("picture_path");
+		//File picture = new File("picture_path");
+		String filePath = "/mnt/sdcard/QandAPictures/image.jpg";
 		Question question = new Question("Title1", "TextBody1", "author");
-		question.setPicture(picture);
+		question.setPicture(filePath);
 		assertEquals("Picture not attached correctly to question.",
-				question.getPicture(), picture);
+				question.getPicture(), "/mnt/sdcard/QandAPictures/image.jpg");
 
 	}
 
@@ -73,3 +73,4 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	}
 
 }
+

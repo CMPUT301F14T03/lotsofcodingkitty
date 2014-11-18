@@ -58,8 +58,7 @@
                     android:layout_height="40dp"
                     android:layout_toRightOf="@+id/answer_upvote_score"
                     android:layout_below="@+id/answer_text_body"
-                    android:background="#ccc"
-                    android:src="@drawable/ic_picture_placeholder" 
+                    android:onClick="toPictureActivityAnswer"
                     />
 
                 <TextView
@@ -122,16 +121,6 @@
 			           android:textStyle="bold" 
 			           android:text="5"
 			           />
-    
-<!-- 
-                <ImageButton
-                    android:id="@+id/answer_fav_icon"
-                    android:layout_width="75dp"
-                    android:layout_height="28dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/answer_upvote_score"
-                    android:background="#ffffff"
-                    android:gravity="left"
-                    android:src="@drawable/ic_fav_no" /> -->
+
     
 </RelativeLayout>

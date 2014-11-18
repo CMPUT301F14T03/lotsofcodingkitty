@@ -1,19 +1,27 @@
 package ca.ualberta.cs.cmput301t03app.controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import ca.ualberta.cs.cmput301t03app.datamanagers.LocalDataManager;
 import ca.ualberta.cs.cmput301t03app.datamanagers.QuestionFilter;
 import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.interfaces.iDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
+import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 import ca.ualberta.cs.cmput301t03app.models.Post;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.models.UserPostCollector;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 
 
@@ -30,8 +38,10 @@ public class PostController {
 
 	private static ArrayList<Question> subQuestions = null;
 	private static ArrayList<Post> pushPosts = null;
-	private QuestionFilter qf = new QuestionFilter();
+	private static QuestionFilter qf = new QuestionFilter();
 	private static UserPostCollector upc = new UserPostCollector();
+	private static ServerDataManager sdm = new ServerDataManager();
+	private static int serverListIndex = 0;
 	private Context context;
 
 	/**
@@ -57,18 +67,55 @@ public class PostController {
 	}
 	
 	/**
+	 *  Takes in a geolocation and returns a city name if available
+	 *  @param Geolocation location
+	 *  @return a string with the city name
+	 */
+	public String getCity(GeoLocation location) {
+		String cityName = null;                
+		Geocoder gcd = new Geocoder(getContext(),Locale.getDefault());               
+		List<Address> addresses;    
+		try {    
+	      addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);   
+	      
+	      if (addresses.size() > 0)               
+	         cityName=addresses.get(0).getLocality();    
+		} catch (IOException e) {              
+	        e.printStackTrace();    
+		}
+		return cityName;
+	}
+	
+	public GeoLocation turnFromCity(String cityName){
+		
+		Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
+		List<Address> addresses;
+		GeoLocation location= new GeoLocation();
+		try {
+			addresses = gcd.getFromLocationName(cityName, 1);
+			if (addresses.size() > 0) { 
+				location.setLatitude(addresses.get(0).getLatitude());
+				location.setLongitude(addresses.get(0).getLongitude());
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		return location;
+	}
+	
+	/**
 	 * Returns true if the application is connected to the internet
 	 * @return A boolean stating if connected to internet
 	 */
 	public Boolean checkConnectivity() {
-		 ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-			    NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-			    if (networkInfo != null && networkInfo.isConnected()) {
-			        return true;
-			    } 
-			    else {
-			    	return false;
-			    }
+		ConnectivityManager connMgr = (ConnectivityManager) getContext()
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+		if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -233,7 +280,7 @@ public class PostController {
 
 		getQuestionsInstance().add(question);
 		getPushPostsInstance().add(new Post(question));
-//		upc.addPostedQuestion(question.getId());
+		addUserPost(question);
 		pushNewPosts();
 	}
 
@@ -304,6 +351,28 @@ public class PostController {
 	}
 	
 	// new
+	
+	public ArrayList<Question> getQuestionsFromServer() {
+		ArrayList<Question> serverList = new ArrayList<Question>();
+		serverList = sdm.searchQuestions("", null);
+		serverList = qf.sortByDate(serverList);
+		//Log.d("size", "size:"+serverList.size());
+		return serverList;
+	}
+	
+	public void loadServerQuestions(ArrayList<Question> list) {
+		//Log.d("size", "passed size:"+list.size());
+		int checkListSize = list.size();
+		int increment = 10;
+		if (checkListSize - serverListIndex < 10) {
+			increment = checkListSize - serverListIndex;
+		}
+		for (int i = serverListIndex; i < (serverListIndex + increment); i++) {
+			//Log.d("size", "passed size:"+list.size());
+			subQuestions.add(list.get(i));
+		}
+		serverListIndex = serverListIndex + increment;
+	}
 	
 	public ArrayList<Post> getPushPostsInstance() {
 		if (pushPosts == null) {

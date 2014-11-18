@@ -6,18 +6,29 @@
  * */
 package ca.ualberta.cs.cmput301t03app.views;
 
+import java.io.File;
+import java.util.ArrayList;
+
+
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
+import ca.ualberta.cs.cmput301t03app.controllers.GeoLocationTracker;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 
+import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
+import ca.ualberta.cs.cmput301t03app.models.Post;
 import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.utils.TakePicture;
+
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,14 +36,21 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Toast;
+import ca.ualberta.cs.cmput301t03app.R;
+import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
+import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
+import ca.ualberta.cs.cmput301t03app.models.Question;
 
 /**
  * 
@@ -44,10 +62,15 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity
 {
-
-	ListView lv;
-	MainListAdapter mla;
-	PostController pc = new PostController(this);
+	protected Uri imageFileUri;
+	protected GeoLocation location;
+	protected String cityName;
+	protected boolean hasPicture = false;
+	protected boolean hasLocation = false;
+	private ListView lv;
+	private MainListAdapter mla;
+	private PostController pc = new PostController(this);
+	private ArrayList<Question> serverList = new ArrayList<Question>();
 	public AlertDialog alertDialog1; // for testing purposes
 
 	/**
@@ -61,9 +84,11 @@ public class MainActivity extends Activity
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		if (pc.checkConnectivity() == false) {
 		Toast.makeText(this,
 				"You are not connected to the server. To access your locally saved data go to your userhome.",
 				Toast.LENGTH_LONG).show();
+		}
 		ListView questionList = (ListView) findViewById(R.id.activity_main_question_list);
 		questionList.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -91,7 +116,10 @@ public class MainActivity extends Activity
 		});
 
 		setupAdapter();
-
+		Thread thread = new SearchThread("");
+		thread.start();
+		//pc.getQuestionsFromServer();
+		//mla.updateAdapter(pc.getQuestionsInstance());
 	}
 
 	@Override
@@ -119,10 +147,6 @@ public class MainActivity extends Activity
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings)
-		{
-			return true;
-		}
 		if (id == R.id.user_home)
 		{
 			Intent intent = new Intent(this, UserHome.class);
@@ -148,7 +172,7 @@ public class MainActivity extends Activity
 
 		// Pops up dialog box for adding a question
 		LayoutInflater li = LayoutInflater.from(this);
-		View promptsView = li.inflate(R.layout.activity_respond, null);// Get
+		View promptsView = li.inflate(R.layout.dialog_activity_respond, null);// Get
 																		// XML
 																		// file
 																		// to
@@ -159,7 +183,52 @@ public class MainActivity extends Activity
 				.findViewById(R.id.questionBody);
 		final EditText userName = (EditText) promptsView
 				.findViewById(R.id.UsernameRespondTextView);
-
+		final ImageButton attachImg = (ImageButton) promptsView
+				.findViewById(R.id.attachImg);
+		final EditText userLocation = (EditText) promptsView
+				.findViewById(R.id.userLocation);
+		
+		location = new GeoLocation();
+//		GeoLocationTracker locationTracker = new GeoLocationTracker(this, location);
+//		locationTracker.getLocation();
+		
+		location.setLatitude(53.53333);
+		location.setLongitude(-113.5);
+		
+		cityName = pc.getCity(location);
+		
+//		if (cityName != null) {
+//			userLocation.setText(cityName);
+//		} else {
+//			userLocation.setText("No Location");
+//		}
+		
+		
+		attachImg.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+//				TakePicture tp = new TakePicture();
+//				tp.takeAPhoto();
+				
+				takeAPhoto();
+				
+			}
+		});
+		
+		CheckBox check = (CheckBox) promptsView
+				.findViewById(R.id.enableLocation);
+		check.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				hasLocation=!hasLocation;
+				
+			}
+		});
+		
 		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				this);// Create a new AlertDialog
 
@@ -180,13 +249,34 @@ public class MainActivity extends Activity
 								.getText().toString();
 						String userNameString = (String) userName.getText()
 								.toString();
+						String userLocationString = userLocation.getText()
+								.toString();
 
 						Question q = new Question(questionTitleString,
 								questionBodyString, userNameString);
 						pc.addQuestion(q);
 
-						mla.updateAdapter(pc.getQuestionsInstance());
+						if(hasPicture)
+							q.setPicture(imageFileUri.getPath());
+						if(hasLocation){
+							if (userLocationString==cityName){
+								q.setGeoLocation(location);
+							}
+							else{
+								q.setGeoLocation(pc.turnFromCity(userLocationString));
+								//Testing
+								GeoLocation testlocation= pc.turnFromCity(userLocationString);
+								Log.d("Location",Double.toString(testlocation.getLatitude()));
+								Log.d("Location",Double.toString(testlocation.getLongitude()));
+								
+							}
+						}
+							
+						
 						pc.addUserPost(q);
+						Thread thread = new AddThread(q);
+						thread.start();
+						mla.updateAdapter(pc.getQuestionsInstance());
 
 					}
 
@@ -303,6 +393,7 @@ public class MainActivity extends Activity
 		AlertDialog alertDialog = editDialog.create();
 		alertDialog.show();
 	}
+	
 
 	public AlertDialog getDialog()
 	{ // this is for testing purposes
@@ -409,4 +500,109 @@ public class MainActivity extends Activity
 //		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
 	}
 
+	
+	
+	 public void takeAPhoto() {
+		 	/* Main Activity is getting pretty bloated so I'm trying to move this out into the Utils package */
+	    	String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyCameraTest";
+			File folder = new File(path);
+			
+			if (!folder.exists()){
+				folder.mkdir();
+			}
+				
+			String imagePathAndFileName = path + File.separator + 
+					String.valueOf(System.currentTimeMillis()) + ".jpg" ; //makes the timestamp as part of the filename
+			
+			File imageFile = new File(imagePathAndFileName);
+			imageFileUri = Uri.fromFile(imageFile); 
+			
+			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+			startActivityForResult(intent, CAMERA_ACTIVITY_REQUEST_CODE); // sets the ID for when the CAmera app sends it back here. 
+			// matches the ID to the request code in onActivityResult
+			
+	    }
+	    
+	    
+	    private final int CAMERA_ACTIVITY_REQUEST_CODE = 12345;
+	    
+	    
+	    //This method is run after returning back from camera activity:
+	    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+			
+	    	if (requestCode == CAMERA_ACTIVITY_REQUEST_CODE){
+				//TextView tv = (TextView)findViewById(R.id.status); // THE TEXT VIEW THAT YOU SEE ON SCREEN
+				
+				if (resultCode == RESULT_OK){
+					hasPicture = true;
+					Log.d("click", "Imag efile path: "+imageFileUri.getPath());
+//					tv.setText("Photo completed");
+//					ImageButton ib = (ImageButton) findViewById(R.id.TakeAPhoto);
+//					ib.setImageDrawable(Drawable.createFromPath(imageFileUri.getPath())); // need to use GETPATH
+					
+					
+				}
+				else
+					if (resultCode == RESULT_CANCELED){
+						
+					}
+					
+			}
+	    }
+	    
+	    public void loadMoreQuestions(View view) {
+	    	pc.loadServerQuestions(serverList);
+	    	mla.updateAdapter(pc.getQuestionsInstance());
+	    }
+	    
+	    private Runnable doUpdateGUIList = new Runnable() {
+	    	public void run() {
+	    		mla.updateAdapter(pc.getQuestionsInstance());
+	    	}
+	    };
+	    
+	    private Runnable doFinish = new Runnable() {
+	    	public void run() {
+	    		finish();
+	    	}
+	    };
+	    
+	    class SearchThread extends Thread {
+	    	private String search;
+	    	
+	    	public SearchThread(String s) {
+	    		search = s;
+	    	}
+	    	
+	    	@Override
+	    	public void run() {
+	    		pc.getQuestionsInstance().clear();
+	    		serverList = pc.getQuestionsFromServer();
+	    		pc.loadServerQuestions(serverList);
+	    		runOnUiThread(doUpdateGUIList);
+	    	};
+	    }
+	    
+	    class AddThread extends Thread {
+	    	private Question question;
+	    	
+	    	public AddThread(Question question) {
+	    		this.question = question;
+	    		Log.d("push", this.question.getSubject());
+	    	}
+	    	
+	    	@Override
+	    	public void run() {
+	    		ServerDataManager sdm = new ServerDataManager();
+	    		sdm.addQuestion(this.question);
+	    		try {
+	    			Thread.sleep(500);
+	    		} catch(InterruptedException e) {
+	    			e.printStackTrace();
+	    		}
+	    		
+	    	}
+	    }
+	
 }
