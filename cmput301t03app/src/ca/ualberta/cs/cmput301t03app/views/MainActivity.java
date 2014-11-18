@@ -264,9 +264,11 @@ public class MainActivity extends Activity
 							q.setPicture(imageFileUri.getPath());
 						if(hasLocation){
 							
+							//Set location if location typed by user is same as location found
 							if (userLocationString.equals(cityName)){
 								q.setGeoLocation(location);
 							}
+							//Find the coordinates of place entered by user and set location
 							else{
 								q.setGeoLocation(pc.turnFromCity(userLocationString));
 								//Testing
@@ -293,6 +295,7 @@ public class MainActivity extends Activity
 					{
 
 						// Do nothing
+						hasLocation = false;
 						dialog.cancel();
 					}
 				});
