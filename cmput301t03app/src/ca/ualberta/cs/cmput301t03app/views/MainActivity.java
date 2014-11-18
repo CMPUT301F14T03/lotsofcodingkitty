@@ -189,23 +189,7 @@ public class MainActivity extends Activity
 				.findViewById(R.id.attachImg);
 		final EditText userLocation = (EditText) promptsView
 				.findViewById(R.id.userLocation);
-		
-		location = new GeoLocation();
-//		GeoLocationTracker locationTracker = new GeoLocationTracker(this, location);
-//		locationTracker.getLocation();
-		
-		location.setLatitude(53.53333);
-		location.setLongitude(-113.5);
-		
-		cityName = pc.getCity(location);
-		
-//		if (cityName != null) {
-//			userLocation.setText(cityName);
-//		} else {
-//			userLocation.setText("No Location");
-//		}
-		
-		
+			
 		attachImg.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -227,6 +211,24 @@ public class MainActivity extends Activity
 			@Override
 			public void onClick(View v) {
 				hasLocation=!hasLocation;
+				
+				if (hasLocation) {
+					
+					location = new GeoLocation();
+					GeoLocationTracker locationTracker = new GeoLocationTracker(MainActivity.this, location);
+					locationTracker.getLocation();
+					
+//					location.setLatitude(53.53333);
+//					location.setLongitude(-113.5);
+					
+					cityName = pc.getCity(location);
+					
+					if (cityName != null) {
+						userLocation.setText(cityName);
+					} else {
+						userLocation.setText("Location not found.");
+					}
+				}
 				
 			}
 		});
@@ -261,7 +263,8 @@ public class MainActivity extends Activity
 						if(hasPicture)
 							q.setPicture(imageFileUri.getPath());
 						if(hasLocation){
-							if (userLocationString==cityName){
+							
+							if (userLocationString.equals(cityName)){
 								q.setGeoLocation(location);
 							}
 							else{
