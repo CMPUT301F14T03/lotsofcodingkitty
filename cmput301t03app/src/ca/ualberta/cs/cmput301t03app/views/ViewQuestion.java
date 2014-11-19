@@ -211,6 +211,7 @@ public class ViewQuestion extends Activity {
 		TextView q_body = (TextView) findViewById(R.id.question_text_body);
 		TextView q_author = (TextView) findViewById(R.id.question_author);
 		TextView q_date = (TextView) findViewById(R.id.post_timestamp);
+		TextView q_location = (TextView) findViewById(R.id.question_location1);
 		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
 				.getRating()));
 		q_title.setText(q.getSubject());
@@ -219,6 +220,11 @@ public class ViewQuestion extends Activity {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String date_to_string = sdf.format(q.getDate());
 		q_date.setText("Posted: " + date_to_string);
+		
+		//Sets city name for location
+		if (q.getGeoLocation()!= null) {
+			q_location.setText("Location: " + q.getGeoLocation().getCityName());
+		}
 		// Log.d("click", "Contains? " +
 		// upc.getFavoriteQuestions().contains(pc.getQuestion(question_id)));
 		//
@@ -400,7 +406,6 @@ public class ViewQuestion extends Activity {
 								question_id);
 						
 						if(hasLocation){
-							
 							//Set location if location typed by user is same as location found
 							if (userLocationString.equals(cityName)){
 								a.setGeoLocation(location);

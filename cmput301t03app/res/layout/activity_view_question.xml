@@ -122,6 +122,16 @@
         android:textSize="11dp"
         android:textColor="#000000"
         />
+    <TextView
+        android:id="@+id/question_location1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/answer_count"
+        android:layout_toRightOf="@+id/question_picture_button"
+        android:text="@string/no_location"
+        android:textSize="11dp"
+        android:textColor="#000000"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
     
     <TextView
         android:id="@+id/answer_count"
@@ -205,6 +215,5 @@
         
         tools:listitem="@layout/activity_view_question_answer_entity" >
     </ListView>
-
     
 </RelativeLayout>
