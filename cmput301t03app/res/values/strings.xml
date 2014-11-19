@@ -22,6 +22,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="search_title">Find a Question</string>
     <string name="comment_dialog">Enter your comment</string>
+    <string name="answer_dialog">Enter your answer</string>
     <string name="title_activity_search_results">SearchResultsActivity</string>
+    <string name="no_location">Location: None</string>
 
 </resources>
