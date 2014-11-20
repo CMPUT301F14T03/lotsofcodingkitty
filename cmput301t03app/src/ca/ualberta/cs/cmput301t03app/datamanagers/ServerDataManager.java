@@ -132,7 +132,7 @@ public class ServerDataManager implements iDataManager{
 				}
 			}
 		} catch (Exception e) {
-			Log.e(TAG, e.getMessage());
+			Log.d("", e.getMessage());
 		}
 	}
 	
