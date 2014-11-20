@@ -85,9 +85,9 @@
         android:layout_height="40dp"
         android:layout_toRightOf="@+id/question_upvote_score"
         android:layout_below="@+id/question_text_body"
-        android:background="#ccc"
+        android:background="#cccccc"
         android:layout_marginRight="10dp"
-        android:src="@drawable/ic_picture_placeholder" 
+        android:src="@drawable/ic_picture_no" 
         />
 
     
