@@ -60,7 +60,7 @@ public class GeoLocationTracker {
 
         //don't start listeners if no provider is enabled
         if (!gpsEnabled) {
-            return false;
+        	showGPSDisabledAlertBox();
         }
         
         if (gpsEnabled) {
@@ -165,9 +165,9 @@ public class GeoLocationTracker {
     public void showGPSDisabledAlertBox() {
     	AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
     	alertBuilder.setMessage("GPS is disabled on this device. Do you want to enable it?")
-    	.setCancelable(false)
-    	.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(final DialogInterface dialog, final int id) {
+    				.setCancelable(false)
+    				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	public void onClick(final DialogInterface dialog, final int id) {
                 context.startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
             }
         })
@@ -176,5 +176,7 @@ public class GeoLocationTracker {
                  dialog.cancel();
             }
         });
+    	AlertDialog alert = alertBuilder.create();
+    	alert.show();
     }
 }

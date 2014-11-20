@@ -91,6 +91,7 @@ public class PostController {
 		Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
 		List<Address> addresses;
 		GeoLocation location= new GeoLocation();
+		location.setCityName(cityName);
 		try {
 			addresses = gcd.getFromLocationName(cityName, 1);
 			if (addresses.size() > 0) { 

@@ -132,7 +132,7 @@ public class ServerDataManager implements iDataManager{
 				}
 			}
 		} catch (Exception e) {
-			Log.e(TAG, e.getMessage());
+			Log.d("", e.getMessage());
 		}
 	}
 	
@@ -220,7 +220,7 @@ public class ServerDataManager implements iDataManager{
 		HttpClient httpClient = new DefaultHttpClient();
 
 		try {
-			Log.d("push", question.getBody());
+			Log.d("push", question.getId());
 			HttpPost addRequest = new HttpPost(RESOURCE_URL + question.getId());
 
 			StringEntity stringEntity = new StringEntity(gson.toJson(question));

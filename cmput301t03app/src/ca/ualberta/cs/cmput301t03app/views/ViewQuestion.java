@@ -6,8 +6,10 @@ import java.util.ArrayList;
 
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.AnswerListAdapter;
+import ca.ualberta.cs.cmput301t03app.controllers.GeoLocationTracker;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
+import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 
 import android.app.Activity;
@@ -30,6 +32,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -59,6 +62,9 @@ public class ViewQuestion extends Activity {
 	public static final int COMMENT_ON_ANSWER_KEY = 2;
 	public static final String QUESTION_ID_KEY = "3";
 	public static final String ANSWER_ID_KEY = "4";
+	protected boolean hasLocation = false;
+	protected GeoLocation location;
+	protected String cityName;
 	AnswerListAdapter ala;
 	ListView answerListView;
 	private static ImageButton favIcon;
@@ -215,6 +221,7 @@ public class ViewQuestion extends Activity {
 		TextView q_body = (TextView) findViewById(R.id.question_text_body);
 		TextView q_author = (TextView) findViewById(R.id.question_author);
 		TextView q_date = (TextView) findViewById(R.id.post_timestamp);
+		TextView q_location = (TextView) findViewById(R.id.question_location1);
 		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
 				.getRating()));
 		q_title.setText(q.getSubject());
@@ -226,6 +233,12 @@ public class ViewQuestion extends Activity {
 
 		if (q.getPicture() != null)
 			questionPictureButton.setImageResource(R.drawable.ic_picture_yes);
+
+		
+		//Sets city name for location
+		if (q.getGeoLocation()!= null) {
+			q_location.setText("Location: " + q.getGeoLocation().getCityName());
+		}
 	}
 
 	/**
@@ -353,6 +366,39 @@ public class ViewQuestion extends Activity {
 			}
 		});
 
+
+		final EditText userLocation = (EditText) promptsView
+				.findViewById(R.id.userLocation2);
+		
+		CheckBox check = (CheckBox) promptsView
+				.findViewById(R.id.enableLocation2);
+		check.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				hasLocation=!hasLocation;
+				
+				if (hasLocation) {
+					
+					location = new GeoLocation();
+					GeoLocationTracker locationTracker = new GeoLocationTracker(ViewQuestion.this, location);
+					locationTracker.getLocation();
+					
+//					location.setLatitude(53.53333);
+//					location.setLongitude(-113.5);
+					
+					cityName = pc.getCity(location);
+					
+					if (cityName != null) {
+						userLocation.setText(cityName);
+					} else {
+						userLocation.setText("Location not found.");
+					}
+				}
+				
+			}
+		});
+
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this); // Create
 																				// a
 																				// new
@@ -369,12 +415,35 @@ public class ViewQuestion extends Activity {
 								.toString();
 						String userNameString = (String) userName.getText()
 								.toString();
-						final Answer a = new Answer(answerBodyString,
-								userNameString, question_id);
 
+						final Answer a = new Answer(answerBodyString, userNameString,
+								question_id);
+						
 						if (hasPicture)
 							a.setPicture(imageFileUri.getPath());
 
+
+						String userLocationString = (String) userLocation.getText()
+								.toString();
+						
+						
+						
+						if(hasLocation){
+							//Set location if location typed by user is same as location found
+							if (userLocationString.equals(cityName)){
+								a.setGeoLocation(location);
+							}
+							//Find the coordinates of place entered by user and set location
+							else{
+								a.setGeoLocation(pc.turnFromCity(userLocationString));
+								//Testing
+								GeoLocation testlocation= pc.turnFromCity(userLocationString);
+								Log.d("Location",Double.toString(testlocation.getLatitude()));
+								Log.d("Location",Double.toString(testlocation.getLongitude()));
+								
+							}
+						}
+						
 						new Thread() {
 							public void run() {
 								pc.addAnswer(a, question_id);
@@ -396,6 +465,7 @@ public class ViewQuestion extends Activity {
 					public void onClick(DialogInterface dialog, int id) {
 
 						// Do nothing
+						hasLocation = false;
 						dialog.cancel();
 					}
 				});

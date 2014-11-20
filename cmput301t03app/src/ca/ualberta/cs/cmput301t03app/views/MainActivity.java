@@ -72,7 +72,8 @@ public class MainActivity extends Activity
 	private PostController pc = new PostController(this);
 	private ArrayList<Question> serverList = new ArrayList<Question>();
 	public AlertDialog alertDialog1; // for testing purposes
-
+	private ServerDataManager sdm = new ServerDataManager();
+	
 	/**
 	 * onCreate sets up the listview,sets the click listeners
 	 * and runs the setupAdapter() method
@@ -118,6 +119,7 @@ public class MainActivity extends Activity
 		setupAdapter();
 		Thread thread = new SearchThread("");
 		thread.start();
+		thread.interrupt();
 		//pc.getQuestionsFromServer();
 		//mla.updateAdapter(pc.getQuestionsInstance());
 	}
@@ -187,23 +189,7 @@ public class MainActivity extends Activity
 				.findViewById(R.id.attachImg);
 		final EditText userLocation = (EditText) promptsView
 				.findViewById(R.id.userLocation);
-		
-		location = new GeoLocation();
-//		GeoLocationTracker locationTracker = new GeoLocationTracker(this, location);
-//		locationTracker.getLocation();
-		
-		location.setLatitude(53.53333);
-		location.setLongitude(-113.5);
-		
-		cityName = pc.getCity(location);
-		
-//		if (cityName != null) {
-//			userLocation.setText(cityName);
-//		} else {
-//			userLocation.setText("No Location");
-//		}
-		
-		
+			
 		attachImg.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -225,6 +211,24 @@ public class MainActivity extends Activity
 			@Override
 			public void onClick(View v) {
 				hasLocation=!hasLocation;
+				
+				if (hasLocation) {
+					
+					location = new GeoLocation();
+					GeoLocationTracker locationTracker = new GeoLocationTracker(MainActivity.this, location);
+					locationTracker.getLocation();
+					
+//					location.setLatitude(53.53333);
+//					location.setLongitude(-113.5);
+					
+					cityName = pc.getCity(location);
+					
+					if (cityName != null) {
+						userLocation.setText(cityName);
+					} else {
+						userLocation.setText("Location not found.");
+					}
+				}
 				
 			}
 		});
@@ -259,9 +263,12 @@ public class MainActivity extends Activity
 						if(hasPicture)
 							q.setPicture(imageFileUri.getPath());
 						if(hasLocation){
-							if (userLocationString==cityName){
+							
+							//Set location if location typed by user is same as location found
+							if (userLocationString.equals(cityName)){
 								q.setGeoLocation(location);
 							}
+							//Find the coordinates of place entered by user and set location
 							else{
 								q.setGeoLocation(pc.turnFromCity(userLocationString));
 								//Testing
@@ -288,6 +295,7 @@ public class MainActivity extends Activity
 					{
 
 						// Do nothing
+						hasLocation = false;
 						dialog.cancel();
 					}
 				});
@@ -581,6 +589,7 @@ public class MainActivity extends Activity
 	    		serverList = pc.getQuestionsFromServer();
 	    		pc.loadServerQuestions(serverList);
 	    		runOnUiThread(doUpdateGUIList);
+	    		
 	    	};
 	    }
 	    
@@ -594,7 +603,6 @@ public class MainActivity extends Activity
 	    	
 	    	@Override
 	    	public void run() {
-	    		ServerDataManager sdm = new ServerDataManager();
 	    		sdm.addQuestion(this.question);
 	    		try {
 	    			Thread.sleep(500);

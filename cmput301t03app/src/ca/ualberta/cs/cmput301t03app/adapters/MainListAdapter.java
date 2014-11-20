@@ -67,6 +67,7 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 		TextView question_title;
 		TextView post_timestamp;
 		TextView question_author;
+		TextView question_location;
 	}
 
 
@@ -90,7 +91,14 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 		holder.question_title.setText(holder.q.getSubject());
 		holder.question_upvote_score.setText(Integer.toString(holder.q.getRating()));
 		holder.post_timestamp.setText("Posted: " + date_to_string);
+
 		holder.question_author.setText("By: " + holder.q.getAuthor());
+
+		
+		if (holder.q.getGeoLocation() != null) {
+			holder.question_location.setText("Location: " + holder.q.getGeoLocation().getCityName());
+		}
+
 		// Tell the Textviews where the info is coming from.
 		holder.question_author.setTag(holder.q);
 		holder.post_timestamp.setTag(holder.q);
@@ -139,6 +147,8 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 				.findViewById(R.id.question_author);
 		holder.question_upvote_score = (TextView) row
 				.findViewById(R.id.question_upvote_score);
+		holder.question_location = (TextView) row
+				.findViewById(R.id.question_location1);
 		return holder;
 	}
 
