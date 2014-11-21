@@ -92,6 +92,15 @@ public class Question{
 		this.pictureFilePath = pictureFilePath;
 	}
 	
+	/**
+	 * Used for replacing answer list with newly upvoted answers
+	 * @param answers
+	 */
+	
+	public void setAnswers(ArrayList<Answer> answers) {
+		this.answers = answers;
+	}
+	
 	public void setGeoLocation(GeoLocation location) {
 		this.location = location;
 	}

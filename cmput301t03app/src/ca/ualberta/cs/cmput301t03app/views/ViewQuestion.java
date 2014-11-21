@@ -535,7 +535,17 @@ public class ViewQuestion extends Activity {
 
 	public void increment_upvote() {
 
-		pc.getQuestion(question_id).upRating();
+		new Thread() {
+			public void run() {
+				pc.upvoteQuestion(question_id);
+			}
+		}.start();
+		// Give some time to get updated info
+		try {
+			Thread.currentThread().sleep(250);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
 				.getRating()));
 		pc.updateQuestionInBank(question_id);
@@ -599,8 +609,18 @@ public class ViewQuestion extends Activity {
 	// This on upvotes an answer
 	public void answerUpvote(View v) {
 
-		Answer answer = (Answer) v.getTag();
-		answer.upRating();
+		final Answer answer = (Answer) v.getTag();
+		new Thread() {
+			public void run() {
+				pc.upvoteAnswer(answer.getId(), question_id);
+			}
+		}.start();
+		// Give some time to get updated info
+		try {
+			Thread.currentThread().sleep(250);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		ala.notifyChange();
 		pc.updateQuestionInBank(answer.getParentId());
 	}
