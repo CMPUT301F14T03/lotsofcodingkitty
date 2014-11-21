@@ -470,6 +470,7 @@ public class MainActivity extends Activity {
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
+						pc.sortQuestions(0);
 						mla.updateAdapter(pc.getQuestionsInstance());
 					}
 
