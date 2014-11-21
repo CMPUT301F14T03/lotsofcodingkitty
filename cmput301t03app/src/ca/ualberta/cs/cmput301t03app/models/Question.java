@@ -40,6 +40,7 @@ public class Question{
 		this.rating = 0;
 		this.comments = new ArrayList<Comment>(); // Same as above
 		this.answers = new ArrayList<Answer>();
+		this.pictureFilePath = null;
 	}
 	
 	/**
@@ -89,6 +90,15 @@ public class Question{
 		//public void setPicture(File picture){
 		//this.picture = picture;
 		this.pictureFilePath = pictureFilePath;
+	}
+	
+	/**
+	 * Used for replacing answer list with newly upvoted answers
+	 * @param answers
+	 */
+	
+	public void setAnswers(ArrayList<Answer> answers) {
+		this.answers = answers;
 	}
 	
 	public void setGeoLocation(GeoLocation location) {

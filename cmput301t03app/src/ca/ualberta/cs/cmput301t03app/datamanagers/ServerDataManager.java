@@ -132,10 +132,39 @@ public class ServerDataManager implements iDataManager{
 				}
 			}
 		} catch (Exception e) {
-			Log.e(TAG, e.getMessage());
+			Log.d("", e.getMessage());
 		}
 	}
 	
+	public void pushQuestionUpvote(String questionId, Integer amount) {
+		try {
+			Question q = getQuestion(questionId);
+			for (int i = 0; i < amount; i++) {
+				q.upRating();
+			}
+			updateQuestion(q);
+		} catch (Exception e) {
+			Log.d("", e.getMessage());
+		}
+	}
+	
+	public void pushAnswerUpvote(String answerId, String questionId, Integer amount) {
+		try {
+			Question q = getQuestion(questionId);
+			ArrayList<Answer> answers = q.getAnswers();
+			for (int i = 0; i < answers.size(); i++) {
+				if (answers.get(i).getId().equals(answerId)) {
+					for (int j = 0; j < amount; j++) {
+						answers.get(i).upRating();
+					}
+				}
+			}
+			q.setAnswers(answers);
+			updateQuestion(q);
+		} catch (Exception e) {
+			Log.d("", e.getMessage());
+		}
+	}
 	
 	public Question getQuestion(String questionId) {
 		

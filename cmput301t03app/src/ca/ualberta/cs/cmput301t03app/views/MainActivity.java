@@ -157,6 +157,18 @@ public class MainActivity extends Activity
 		if (id == R.id.search) {
 			searchQuestions();
 		}
+		if (id == R.id.filter_date) {
+			pc.sortQuestions(0);
+			mla.updateAdapter(pc.getQuestionsInstance());
+		}
+		if (id == R.id.filter_score) {
+			pc.sortQuestions(1);
+			mla.updateAdapter(pc.getQuestionsInstance());
+		}
+		if (id == R.id.filter_picture) {
+			pc.sortQuestions(2);
+			mla.updateAdapter(pc.getQuestionsInstance());
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
