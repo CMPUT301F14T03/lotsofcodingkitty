@@ -54,6 +54,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		TextView post_timestamp;
 		TextView answer_author;
 		TextView answer_comment_count;
+		TextView answer_location;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -87,6 +88,10 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 			holder.answer_picture.setBackgroundResource(R.drawable.ic_picture_yes);
 		} else {
 			holder.answer_picture.setBackgroundResource(R.drawable.ic_picture_no);
+		}
+		
+		if (holder.answer.getGeoLocation() != null) {
+			holder.answer_location.setText("Location: " + holder.answer.getGeoLocation().getCityName());
 		}
 				
 		return row;
@@ -129,6 +134,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		holder.answer_comment_icon = (ImageButton) row.findViewById(R.id.answer_comment_icon);
 		holder.answer_comment_count = (TextView) row.findViewById(R.id.answer_comment_count);
 		holder.answer_picture = (ImageButton) row.findViewById(R.id.answer_picture);
+		holder.answer_location = (TextView) row.findViewById(R.id.answer_location);
 		
 		return holder;
 	}

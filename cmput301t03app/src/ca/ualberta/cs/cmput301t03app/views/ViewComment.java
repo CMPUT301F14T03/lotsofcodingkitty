@@ -39,7 +39,7 @@ public class ViewComment extends Activity
 
 	int commentType;
 	protected boolean hasLocation = false;
-	protected GeoLocation location;
+	protected GeoLocation geoLocation;
 	protected String cityName;
 	String questionID;
 	String answerID;
@@ -52,6 +52,7 @@ public class ViewComment extends Activity
 	TextView commentCount;
 	TextView timeStamp;
 	TextView author;
+	TextView location;
 	AlertDialog dialog;
 
 	/**
@@ -109,6 +110,7 @@ public class ViewComment extends Activity
 		commentListView = (ListView) findViewById(R.id.commentListView);
 		cla = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, commentBodyList);
+		location = (TextView) findViewById(R.id.comment_location);
 	}
 
 	public void setListeners()
@@ -142,6 +144,12 @@ public class ViewComment extends Activity
 			timeStamp
 					.setText("Posted: " + pc.getQuestion(questionID).getDate());
 			author.setText("By: " + pc.getQuestion(questionID).getAuthor());
+			
+			//Set location
+			if (pc.getQuestion(questionID).getGeoLocation() != null) {
+				location.setText("Location: " + pc.getQuestion(questionID).getGeoLocation().getCityName());
+			}
+			
 		} else if (commentType == 2)
 		{ // comment for answers
 			commentTitle.setText("Q: "
@@ -152,6 +160,10 @@ public class ViewComment extends Activity
 					+ pc.getAnswer(answerID, questionID).getDate());
 			author.setText("By: "
 					+ pc.getAnswer(answerID, questionID).getAuthor());
+			//Set location
+			if (pc.getAnswer(answerID, questionID).getGeoLocation() != null) {
+				location.setText("Location: " + pc.getAnswer(answerID, questionID).getGeoLocation().getCityName());
+			}
 		}
 	}
 	
@@ -237,14 +249,14 @@ public class ViewComment extends Activity
 				
 				if (hasLocation) {
 					
-					location = new GeoLocation();
-					GeoLocationTracker locationTracker = new GeoLocationTracker(ViewComment.this, location);
+					geoLocation = new GeoLocation();
+					GeoLocationTracker locationTracker = new GeoLocationTracker(ViewComment.this, geoLocation);
 					locationTracker.getLocation();
 					
 //					location.setLatitude(53.53333);
 //					location.setLongitude(-113.5);
 					
-					cityName = pc.getCity(location);
+					cityName = pc.getCity(geoLocation);
 					
 					if (cityName != null) {
 						userLocation.setText(cityName);
@@ -282,7 +294,7 @@ public class ViewComment extends Activity
 							
 							//Set location if location typed by user is same as location found
 							if (userLocationString.equals(cityName)){
-								c.setGeoLocation(location);
+								c.setGeoLocation(geoLocation);
 							}
 							//Find the coordinates of place entered by user and set location
 							else{

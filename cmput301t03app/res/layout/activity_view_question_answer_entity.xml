@@ -94,6 +94,21 @@
                     android:textColor="#ffffff"
                     android:textSize="11dp" />
                  
+			     <TextView
+                    android:id="@+id/answer_location"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/answer_author"
+                    android:layout_toRightOf="@+id/answer_picture"
+                    android:background="#2DAD98"
+                    android:text="@string/no_location"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="0dp"
+                    android:textColor="#ffffff"
+                    android:textSize="11dp" />
+                 
                  
                  <ImageButton
 			        android:id="@+id/answer_comment_icon"
