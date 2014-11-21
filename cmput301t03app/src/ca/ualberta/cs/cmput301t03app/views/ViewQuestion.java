@@ -187,6 +187,7 @@ public class ViewQuestion extends Activity {
 	public void populateThisQuestionsAnswers(String question_id) {
 
 		answerList.clear();
+		Log.v("THIS", pc.getQuestion(question_id).getAnswers().toString());
 		answerList.addAll(pc.getQuestion(question_id).getAnswers());
 	}
 

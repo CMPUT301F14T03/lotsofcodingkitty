@@ -544,6 +544,8 @@ public class MainActivity extends Activity {
 	    public void loadMoreQuestions(View view) {
 	    	pc.loadServerQuestions(serverList);
 	    	mla.updateAdapter(pc.getQuestionsInstance());
+	    	Toast.makeText(this, "Loaded more questions..", Toast.LENGTH_SHORT)
+			.show();
 	    }
 	    
 	    private Runnable doUpdateGUIList = new Runnable() {
