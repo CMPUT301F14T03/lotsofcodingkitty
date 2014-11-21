@@ -382,7 +382,7 @@ public class PostController {
 	 */
 	public void addQuestion(Question question) {
 
-		getQuestionsInstance().add(question);
+		getQuestionsInstance().add(0,question);
 		getPushPostsInstance().add(new Post(question));
 		addUserPost(question);
 		pushNewPosts();
