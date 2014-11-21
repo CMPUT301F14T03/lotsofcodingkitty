@@ -113,9 +113,10 @@ public class MainActivity extends Activity {
 		setupAdapter();
 		Thread thread = new SearchThread("");
 		thread.start();
-		thread.interrupt();
+		//thread.interrupt();
 		//pc.getQuestionsFromServer();
-		//mla.updateAdapter(pc.getQuestionsInstance());
+		mla.updateAdapter(pc.getQuestionsInstance());
+		pc.sortQuestions(0);
 	}
 
 	@Override
@@ -544,7 +545,7 @@ public class MainActivity extends Activity {
 	    public void loadMoreQuestions(View view) {
 	    	pc.loadServerQuestions(serverList);
 	    	mla.updateAdapter(pc.getQuestionsInstance());
-	    	Toast.makeText(this, "Loaded more questions..", Toast.LENGTH_SHORT)
+	    	Toast.makeText(this, "Loaded more questions", Toast.LENGTH_SHORT)
 			.show();
 	    }
 	    

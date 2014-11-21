@@ -132,7 +132,7 @@ public class ServerDataManager implements iDataManager{
 				}
 			}
 		} catch (Exception e) {
-			Log.d("", e.getMessage());
+			Log.i("", e.getMessage());
 		}
 	}
 	
@@ -144,7 +144,7 @@ public class ServerDataManager implements iDataManager{
 			}
 			updateQuestion(q);
 		} catch (Exception e) {
-			Log.d("", e.getMessage());
+			//Log.i("", e.getMessage());
 		}
 	}
 	
@@ -162,7 +162,7 @@ public class ServerDataManager implements iDataManager{
 			q.setAnswers(answers);
 			updateQuestion(q);
 		} catch (Exception e) {
-			Log.d("", e.getMessage());
+			//Log.i("", e.getMessage());
 		}
 	}
 	

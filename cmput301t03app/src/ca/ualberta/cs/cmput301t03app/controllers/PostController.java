@@ -124,16 +124,19 @@ public class PostController {
 		
 		// push all upvotes in question upvote hashtable
 
-		for (HashMap.Entry<String, Integer> entry : getQuestionUpvotes().entrySet()) {
-			sdm.pushQuestionUpvote(entry.getKey(), entry.getValue());
+		if (checkConnectivity()) {
+			for (HashMap.Entry<String, Integer> entry : getQuestionUpvotes()
+					.entrySet()) {
+				sdm.pushQuestionUpvote(entry.getKey(), entry.getValue());
+			}
+			try {
+				Thread.currentThread().sleep(250);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			questionUpvotes.clear();
 		}
-		try {
-			Thread.currentThread().sleep(250);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		questionUpvotes.clear();
 	}
 	
 
@@ -155,18 +158,22 @@ public class PostController {
 			getAnswerUpvotes().put(answerId, tuple);
 		}
 		// push all upvotes in answer upvote hashtable
-		for (HashMap.Entry<String, UpvoteTuple> entry : getAnswerUpvotes().entrySet()) {
-			Integer upvoteCount = entry.getValue().getUpvoteCount();
-			String qId = entry.getValue().getQuestionId();
-			sdm.pushAnswerUpvote(entry.getKey(), qId, upvoteCount);
+		
+		if (checkConnectivity()){
+			for (HashMap.Entry<String, UpvoteTuple> entry : getAnswerUpvotes()
+					.entrySet()) {
+				Integer upvoteCount = entry.getValue().getUpvoteCount();
+				String qId = entry.getValue().getQuestionId();
+				sdm.pushAnswerUpvote(entry.getKey(), qId, upvoteCount);
+			}
+			try {
+				Thread.currentThread().sleep(250);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			answerUpvotes.clear();
 		}
-		try {
-			Thread.currentThread().sleep(250);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		answerUpvotes.clear();
 	}
 	
 	/**
@@ -666,10 +673,9 @@ public class PostController {
 	// pushed // returns false otherwise // This makes testing easier
 
 	public Boolean pushNewPosts() {
-		Boolean connectivity = true; // placeholder until i make a
-										// checkconnectivity function
-		if (connectivity) {
-			ServerDataManager sdm = new ServerDataManager(); // dm.save(pushQuestions);
+
+		if (checkConnectivity()) {
+			ServerDataManager sdm = new ServerDataManager();
 			sdm.pushPosts(getPushPostsInstance());
 
 			// Wait questions to be pushed before clearing
