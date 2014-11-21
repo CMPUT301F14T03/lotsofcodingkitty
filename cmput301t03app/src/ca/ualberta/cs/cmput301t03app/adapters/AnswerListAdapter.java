@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,9 +98,9 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 	 *@param answerList The new list of answers that will be shown in the listview.
 	 */
 
-	public synchronized void updateAdapter(ArrayList<Answer> answerList) {
+	public synchronized void updateAdapter(ArrayList<Answer> List) {
 		answerList.clear();
-		answerList.addAll(answerList);
+		answerList.addAll(List);
 		notifyDataSetChanged();
 	}
 

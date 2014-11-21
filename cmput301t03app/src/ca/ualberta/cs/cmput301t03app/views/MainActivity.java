@@ -60,8 +60,7 @@ import ca.ualberta.cs.cmput301t03app.models.Question;
  * 
  */
 
-public class MainActivity extends Activity
-{
+public class MainActivity extends Activity {
 	protected Uri imageFileUri;
 	protected GeoLocation location;
 	protected String cityName;
@@ -80,8 +79,7 @@ public class MainActivity extends Activity
 	 */
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -96,21 +94,17 @@ public class MainActivity extends Activity
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					final int position, long id)
-			{
+					final int position, long id) {
 
 				toQuestionActivity(position);
 			}
 		});
 
-		questionList.setOnItemLongClickListener(new OnItemLongClickListener()
-		{
+		questionList.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
-					int position, long id)
-			{
-				{
-					addToToRead(position);
+					int position, long id) {{
+						addToToRead(position);
 				}
 				return true;
 			}
@@ -125,16 +119,14 @@ public class MainActivity extends Activity
 	}
 
 	@Override
-	public void onResume()
-	{
+	public void onResume() {
 
 		super.onResume();
 		mla.updateAdapter(pc.getQuestionsInstance());
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
@@ -142,8 +134,7 @@ public class MainActivity extends Activity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
+	public boolean onOptionsItemSelected(MenuItem item) {
 
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
@@ -181,8 +172,7 @@ public class MainActivity extends Activity
 	 */
 
 	@SuppressWarnings("deprecation")
-	public void addQuestionButtonFunction(View view)
-	{
+	public void addQuestionButtonFunction(View view) {
 
 		// Pops up dialog box for adding a question
 		LayoutInflater li = LayoutInflater.from(this);
@@ -251,13 +241,11 @@ public class MainActivity extends Activity
 		alertDialogBuilder.setView(promptsView);// Link the alertdialog to the
 												// XML
 		alertDialogBuilder.setPositiveButton("Ask!",
-				new DialogInterface.OnClickListener()
-				{
+				new DialogInterface.OnClickListener() {
 
 					@Override
 					// Building the dialog for adding
-					public void onClick(DialogInterface dialog, int which)
-					{
+					public void onClick(DialogInterface dialog, int which) {
 
 						String questionTitleString = (String) questionTitle
 								.getText().toString();
@@ -291,8 +279,6 @@ public class MainActivity extends Activity
 							}
 						}
 							
-						
-						pc.addUserPost(q);
 						Thread thread = new AddThread(q);
 						thread.start();
 						mla.updateAdapter(pc.getQuestionsInstance());
@@ -300,8 +286,7 @@ public class MainActivity extends Activity
 					}
 
 				}).setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener()
-				{
+				new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int id)
 					{
@@ -317,49 +302,43 @@ public class MainActivity extends Activity
 		alertDialog.show();
 		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
 
-		TextWatcher textwatcher = new TextWatcher()
-		{
+		TextWatcher textwatcher = new TextWatcher() {
 
 			// creating a listener to see if any changes to edit text in dialog
-			private void handleText()
-			{
+			private void handleText() {
 
 				final Button button = alertDialog
 						.getButton(AlertDialog.BUTTON_POSITIVE);
-				if (questionTitle.getText().length() == 0)
-				{ // these checks the edittext to make sure not empty edit text
+				if (questionTitle.getText().length() == 0) { // these checks the edittext to make sure not empty edit text
 					button.setEnabled(false);
-				} else if (questionBody.getText().length() == 0)
-				{
+				} 
+				else if (questionBody.getText().length() == 0) {
 					button.setEnabled(false);
-				} else if (userName.getText().length() == 0)
-				{
+				} 
+				else if (userName.getText().length() == 0) {
 					button.setEnabled(false);
-				} else
-				{
+				}
+				else {
 					button.setEnabled(true);
 				}
 			}
 
 			@Override
-			public void afterTextChanged(Editable s)
-			{
+			public void afterTextChanged(Editable s) {
 
 				handleText();
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after)
-			{
+					int after) {
 
 				// do nothing
 			}
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
-					int count)
-			{
+					int count)	{
 
 				// do nothing
 			}
@@ -383,25 +362,20 @@ public class MainActivity extends Activity
 	 * 
 	 */
 
-	public void addToToRead(final int position)
-	{
+	public void addToToRead(final int position) {
 
 		AlertDialog.Builder editDialog = new AlertDialog.Builder(this);
 		editDialog.setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener()
-				{
+				new DialogInterface.OnClickListener() {
 
-					public void onClick(DialogInterface dialog, int id)
-					{
+					public void onClick(DialogInterface dialog, int id) {
 
 						dialog.cancel();
 					}
 				}).setPositiveButton("Add to To-Read",
-				new DialogInterface.OnClickListener()
-				{
+				new DialogInterface.OnClickListener() {
 
-					public void onClick(DialogInterface dialog, int id)
-					{
+					public void onClick(DialogInterface dialog, int id) {
 
 						pc.addToRead(pc.getQuestionsInstance().get(position));
 						Toast.makeText(MainActivity.this,
@@ -415,14 +389,12 @@ public class MainActivity extends Activity
 	}
 	
 
-	public AlertDialog getDialog()
-	{ // this is for testing purposes
+	public AlertDialog getDialog() { // this is for testing purposes
 
 		return alertDialog1;
 	}
 
-	public MainListAdapter getAdapter()
-	{ // this is for testing purposes
+	public MainListAdapter getAdapter() { // this is for testing purposes
 
 		return mla;
 	}
@@ -430,8 +402,7 @@ public class MainActivity extends Activity
 	/**
 	 * Sets the adapter for the list view.
 	 */
-	private void setupAdapter()
-	{
+	private void setupAdapter() {
 
 		lv = (ListView) findViewById(R.id.activity_main_question_list);
 		mla = new MainListAdapter(this, R.layout.activity_main_question_entity,
@@ -447,8 +418,7 @@ public class MainActivity extends Activity
 	 *  
 	 * @param position The position of the question clicked
 	 */
-	public void toQuestionActivity(int position)
-	{
+	public void toQuestionActivity(int position) {
 
 		Intent i = new Intent(this, ViewQuestion.class);
 		i.putExtra("question_id", pc.getQuestionsInstance().get(position)
@@ -574,6 +544,8 @@ public class MainActivity extends Activity
 	    public void loadMoreQuestions(View view) {
 	    	pc.loadServerQuestions(serverList);
 	    	mla.updateAdapter(pc.getQuestionsInstance());
+	    	Toast.makeText(this, "Loaded more questions..", Toast.LENGTH_SHORT)
+			.show();
 	    }
 	    
 	    private Runnable doUpdateGUIList = new Runnable() {

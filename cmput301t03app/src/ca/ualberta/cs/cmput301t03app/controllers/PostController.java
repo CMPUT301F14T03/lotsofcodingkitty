@@ -2,7 +2,6 @@ package ca.ualberta.cs.cmput301t03app.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -383,7 +382,7 @@ public class PostController {
 	 */
 	public void addQuestion(Question question) {
 
-		getQuestionsInstance().add(question);
+		getQuestionsInstance().add(0,question);
 		getPushPostsInstance().add(new Post(question));
 		addUserPost(question);
 		pushNewPosts();
