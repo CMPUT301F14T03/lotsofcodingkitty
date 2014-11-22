@@ -11,6 +11,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 
 /**
@@ -71,25 +72,27 @@ public class GeoLocationTracker {
 //        }
         
         timer = new Timer();
-        timer.schedule(new GetLastLocation(), 20000);
+        timer.schedule(new GetLastLocation(), 10000);
         return true;
     }
 	
     LocationListener locationListenerGps = new LocationListener() {
-    	
+    	@Override
         public void onLocationChanged(Location location) {
             timer.cancel();
             geoLocation.setLatitude(location.getLatitude());
             geoLocation.setLongitude(location.getLongitude());
             locationManager.removeUpdates(this);
-//            locationManager.removeUpdates(locationListenerNetwork);
         }
+    	@Override
         public void onProviderDisabled(String provider) {
         	
         }
+    	@Override
         public void onProviderEnabled(String provider) {
         	
         }
+    	@Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
         	
         }

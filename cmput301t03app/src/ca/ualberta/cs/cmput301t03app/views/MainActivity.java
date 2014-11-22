@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -45,6 +46,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
@@ -192,6 +194,9 @@ public class MainActivity extends Activity {
 				.findViewById(R.id.attachImg);
 		final EditText userLocation = (EditText) promptsView
 				.findViewById(R.id.userLocation);
+		final ProgressBar spinner = (ProgressBar) promptsView
+				.findViewById(R.id.progressBar1);
+		spinner.setVisibility(View.GONE);
 			
 		attachImg.setOnClickListener(new OnClickListener() {
 			
@@ -216,7 +221,7 @@ public class MainActivity extends Activity {
 				hasLocation=!hasLocation;
 				
 				if (hasLocation) {
-					
+					spinner.setVisibility(View.VISIBLE);
 					location = new GeoLocation();
 					GeoLocationTracker locationTracker = new GeoLocationTracker(MainActivity.this, location);
 					locationTracker.getLocation();
@@ -224,13 +229,21 @@ public class MainActivity extends Activity {
 //					location.setLatitude(53.53333);
 //					location.setLongitude(-113.5);
 					
-					cityName = pc.getCity(location);
-					
-					if (cityName != null) {
-						userLocation.setText(cityName);
-					} else {
-						userLocation.setText("Location not found.");
-					}
+					//Delay for 7 seconds
+				    Handler handler = new Handler(); 
+				    handler.postDelayed(new Runnable() { 
+				         public void run() { 
+				        	 cityName = pc.getCity(location);
+				        	 Log.d("Loc","Timer is done");
+							if (cityName != null) {
+								userLocation.setText(cityName);
+							} else {
+								userLocation.setText("Location not found.");
+							}
+							spinner.setVisibility(View.GONE);
+				         } 
+				    }, 7000); 
+									
 				}
 				
 			}
