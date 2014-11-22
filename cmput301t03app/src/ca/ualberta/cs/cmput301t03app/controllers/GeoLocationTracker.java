@@ -3,6 +3,7 @@ package ca.ualberta.cs.cmput301t03app.controllers;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -65,7 +66,7 @@ public class GeoLocationTracker {
         }
         
         if (gpsEnabled) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListenerGps);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 35, 0, locationListenerGps);
         }
 //        if (networkEnabled) {
 //            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListenerNetwork);
@@ -121,43 +122,48 @@ public class GeoLocationTracker {
     class GetLastLocation extends TimerTask {
         @Override
         public void run() {
-        	locationManager.removeUpdates(locationListenerGps);
-//        	locationManager.removeUpdates(locationListenerNetwork);
-
-             Location gps_loc=null;
-             
-             if (gpsEnabled) {
-                 gps_loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-             }
-             
-//             if (networkEnabled) {
-//                 net_loc=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-//             }
-
-             //if there are both values use the latest one
-//             if (gps_loc!=null && net_loc!=null) {
-//            	 
-//                 if (gps_loc.getTime()>net_loc.getTime()) {
-//                 	geoLocation.setLatitude(gps_loc.getLatitude());
-//             		geoLocation.setLongitude(gps_loc.getLongitude());
-//                 }
-//                 else {
-//                  	geoLocation.setLatitude(net_loc.getLatitude());
-//              		geoLocation.setLongitude(net_loc.getLongitude());
-//                 }
-//                 return;
-//             }
-
-             if (gps_loc!=null) {
-              	geoLocation.setLatitude(gps_loc.getLatitude());
-          		geoLocation.setLongitude(gps_loc.getLongitude());
-                 return;
-             }
-//             if (net_loc!=null) {
-//               	geoLocation.setLatitude(net_loc.getLatitude());
-//           		geoLocation.setLongitude(net_loc.getLongitude());
-//                 return;
-//             }
+        	((Activity) context).runOnUiThread(new Runnable() {
+        		public void run() {
+        	
+		        	locationManager.removeUpdates(locationListenerGps);
+		//        	locationManager.removeUpdates(locationListenerNetwork);
+		
+		             Location gps_loc=null;
+		             
+		             if (gpsEnabled) {
+		                 gps_loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		             }
+		             
+		//             if (networkEnabled) {
+		//                 net_loc=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		//             }
+		
+		             //if there are both values use the latest one
+		//             if (gps_loc!=null && net_loc!=null) {
+		//            	 
+		//                 if (gps_loc.getTime()>net_loc.getTime()) {
+		//                 	geoLocation.setLatitude(gps_loc.getLatitude());
+		//             		geoLocation.setLongitude(gps_loc.getLongitude());
+		//                 }
+		//                 else {
+		//                  	geoLocation.setLatitude(net_loc.getLatitude());
+		//              		geoLocation.setLongitude(net_loc.getLongitude());
+		//                 }
+		//                 return;
+		//             }
+		
+		             if (gps_loc!=null) {
+		              	geoLocation.setLatitude(gps_loc.getLatitude());
+		          		geoLocation.setLongitude(gps_loc.getLongitude());
+		                 return;
+		             }
+		//             if (net_loc!=null) {
+		//               	geoLocation.setLatitude(net_loc.getLatitude());
+		//           		geoLocation.setLongitude(net_loc.getLongitude());
+		//                 return;
+		//             }
+        		}
+        	});
         }
     }
     
