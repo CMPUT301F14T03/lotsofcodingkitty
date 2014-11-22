@@ -58,6 +58,14 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/textView1"
             android:hint="Enter Location" />
+        
+       	<ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true" />
 
     </RelativeLayout>
     

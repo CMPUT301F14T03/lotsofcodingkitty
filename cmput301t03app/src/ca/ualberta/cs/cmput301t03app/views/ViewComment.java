@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -256,13 +257,19 @@ public class ViewComment extends Activity
 //					location.setLatitude(53.53333);
 //					location.setLongitude(-113.5);
 					
-					cityName = pc.getCity(geoLocation);
-					
-					if (cityName != null) {
-						userLocation.setText(cityName);
-					} else {
-						userLocation.setText("Location not found.");
-					}
+					//Delay for 5 seconds
+				    Handler handler = new Handler(); 
+				    handler.postDelayed(new Runnable() { 
+				         public void run() { 
+				        	 cityName = pc.getCity(geoLocation);
+				        	 Log.d("Loc","Timer is done");
+							if (cityName != null) {
+								userLocation.setText(cityName);
+							} else {
+								userLocation.setText("Location not found.");
+							}
+				         } 
+				    }, 5000); 
 				}
 				
 			}

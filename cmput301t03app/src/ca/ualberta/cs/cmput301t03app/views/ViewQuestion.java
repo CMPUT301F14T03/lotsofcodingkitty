@@ -20,6 +20,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,6 +38,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -357,6 +359,9 @@ public class ViewQuestion extends Activity {
 				.findViewById(R.id.UsernameRespondTextView);
 		final ImageButton attachImg = (ImageButton) promptsView
 				.findViewById(R.id.attachImg);
+		final ProgressBar spinner = (ProgressBar) promptsView
+				.findViewById(R.id.progressBar1);
+		spinner.setVisibility(View.GONE);
 		attachImg.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -380,6 +385,7 @@ public class ViewQuestion extends Activity {
 				hasLocation=!hasLocation;
 				
 				if (hasLocation) {
+					spinner.setVisibility(View.VISIBLE);
 					
 					location = new GeoLocation();
 					GeoLocationTracker locationTracker = new GeoLocationTracker(ViewQuestion.this, location);
@@ -388,13 +394,20 @@ public class ViewQuestion extends Activity {
 //					location.setLatitude(53.53333);
 //					location.setLongitude(-113.5);
 					
-					cityName = pc.getCity(location);
-					
-					if (cityName != null) {
-						userLocation.setText(cityName);
-					} else {
-						userLocation.setText("Location not found.");
-					}
+					//Delay for 7 seconds
+				    Handler handler = new Handler(); 
+				    handler.postDelayed(new Runnable() { 
+				         public void run() { 
+				        	 cityName = pc.getCity(location);
+				        	 Log.d("Loc","Timer is done");
+							if (cityName != null) {
+								userLocation.setText(cityName);
+							} else {
+								userLocation.setText("Location not found.");
+							}
+							spinner.setVisibility(View.GONE);
+				         } 
+				    }, 7000); 
 				}
 				
 			}
