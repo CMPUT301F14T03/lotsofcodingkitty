@@ -3,6 +3,7 @@ package ca.ualberta.cs.cmput301t03app.controllers;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +12,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 
 /**
@@ -30,6 +32,7 @@ public class GeoLocationTracker {
 	private Timer timer;
 	private LocationManager locationManager;
 	private Context context;
+	private MyLocationListener locationListenerGPS = new MyLocationListener();
 	
 	private boolean gpsEnabled = false;
 //	private boolean networkEnabled = false;
@@ -64,7 +67,7 @@ public class GeoLocationTracker {
         }
         
         if (gpsEnabled) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListenerGps);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 35, 0, locationListenerGPS);
         }
 //        if (networkEnabled) {
 //            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListenerNetwork);
@@ -75,25 +78,53 @@ public class GeoLocationTracker {
         return true;
     }
 	
-    LocationListener locationListenerGps = new LocationListener() {
+private class MyLocationListener implements LocationListener {
+
+	@Override
+    public void onLocationChanged(Location location) {
+        timer.cancel();
+        geoLocation.setLatitude(location.getLatitude());
+        geoLocation.setLongitude(location.getLongitude());
+        Log.d("Loc", "Lat: " + location.getLatitude());
+        Log.d("Loc", "Long: " + location.getLongitude());
+
+    }
+	@Override
+    public void onProviderDisabled(String provider) {
     	
-        public void onLocationChanged(Location location) {
-            timer.cancel();
-            geoLocation.setLatitude(location.getLatitude());
-            geoLocation.setLongitude(location.getLongitude());
-            locationManager.removeUpdates(this);
-//            locationManager.removeUpdates(locationListenerNetwork);
-        }
-        public void onProviderDisabled(String provider) {
-        	
-        }
-        public void onProviderEnabled(String provider) {
-        	
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        	
-        }
-    };
+    }
+	@Override
+    public void onProviderEnabled(String provider) {
+    	
+    }
+	@Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    	
+    }
+}
+//    LocationListener locationListenerGps = new LocationListener() {
+//    	
+//    	@Override
+//        public void onLocationChanged(Location location) {
+//            timer.cancel();
+//            geoLocation.setLatitude(location.getLatitude());
+//            geoLocation.setLongitude(location.getLongitude());
+//            locationManager.removeUpdates(this);
+////            locationManager.removeUpdates(locationListenerNetwork);
+//        }
+//    	@Override
+//        public void onProviderDisabled(String provider) {
+//        	
+//        }
+//    	@Override
+//        public void onProviderEnabled(String provider) {
+//        	
+//        }
+//    	@Override
+//        public void onStatusChanged(String provider, int status, Bundle extras) {
+//        	
+//        }
+//    };
 
 //    LocationListener locationListenerNetwork = new LocationListener() {
 //    	
@@ -118,43 +149,48 @@ public class GeoLocationTracker {
     class GetLastLocation extends TimerTask {
         @Override
         public void run() {
-        	locationManager.removeUpdates(locationListenerGps);
-//        	locationManager.removeUpdates(locationListenerNetwork);
-
-             Location gps_loc=null;
-             
-             if (gpsEnabled) {
-                 gps_loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-             }
-             
-//             if (networkEnabled) {
-//                 net_loc=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-//             }
-
-             //if there are both values use the latest one
-//             if (gps_loc!=null && net_loc!=null) {
-//            	 
-//                 if (gps_loc.getTime()>net_loc.getTime()) {
-//                 	geoLocation.setLatitude(gps_loc.getLatitude());
-//             		geoLocation.setLongitude(gps_loc.getLongitude());
-//                 }
-//                 else {
-//                  	geoLocation.setLatitude(net_loc.getLatitude());
-//              		geoLocation.setLongitude(net_loc.getLongitude());
-//                 }
-//                 return;
-//             }
-
-             if (gps_loc!=null) {
-              	geoLocation.setLatitude(gps_loc.getLatitude());
-          		geoLocation.setLongitude(gps_loc.getLongitude());
-                 return;
-             }
-//             if (net_loc!=null) {
-//               	geoLocation.setLatitude(net_loc.getLatitude());
-//           		geoLocation.setLongitude(net_loc.getLongitude());
-//                 return;
-//             }
+        	((Activity) context).runOnUiThread(new Runnable() {
+        		public void run() {
+        	
+		        	locationManager.removeUpdates(locationListenerGPS);
+		//        	locationManager.removeUpdates(locationListenerNetwork);
+		
+		             Location gps_loc=null;
+		             
+		             if (gpsEnabled) {
+		                 gps_loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		             }
+		             
+		//             if (networkEnabled) {
+		//                 net_loc=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		//             }
+		
+		             //if there are both values use the latest one
+		//             if (gps_loc!=null && net_loc!=null) {
+		//            	 
+		//                 if (gps_loc.getTime()>net_loc.getTime()) {
+		//                 	geoLocation.setLatitude(gps_loc.getLatitude());
+		//             		geoLocation.setLongitude(gps_loc.getLongitude());
+		//                 }
+		//                 else {
+		//                  	geoLocation.setLatitude(net_loc.getLatitude());
+		//              		geoLocation.setLongitude(net_loc.getLongitude());
+		//                 }
+		//                 return;
+		//             }
+		
+		             if (gps_loc!=null) {
+		              	geoLocation.setLatitude(gps_loc.getLatitude());
+		          		geoLocation.setLongitude(gps_loc.getLongitude());
+		                 return;
+		             }
+		//             if (net_loc!=null) {
+		//               	geoLocation.setLatitude(net_loc.getLatitude());
+		//           		geoLocation.setLongitude(net_loc.getLongitude());
+		//                 return;
+		//             }
+        		}
+        	});
         }
     }
     
