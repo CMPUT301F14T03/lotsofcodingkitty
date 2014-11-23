@@ -160,7 +160,7 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		String qBody = "Body";
 		String qAuthor = "Author";
 		Question q = new Question(qTitle,qBody,qAuthor);
-		pc.addQuestion(q);
+		pc.getQuestionsInstance().add(q);
 		Comment c = new Comment("String","String");
 		pc.addCommentToQuestion(c, q.getId());
 		

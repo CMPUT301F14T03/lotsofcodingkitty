@@ -31,14 +31,15 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 	/**
 	 * This tests that the postcontroller is adding a question to the question 
 	 * list it holds.
+	 * @throws InterruptedException 
 	 */
 	
-	public void testGetQuestions(){
+	public void testGetQuestions() throws InterruptedException{
 		PostController controller = new PostController(getInstrumentation().getTargetContext());
 		Question q = new Question("Title1","TextBody1", "author");
-		controller.addQuestion(q);
-		ArrayList<Question> listofquestions = controller.getQuestionsInstance();
-		assertTrue("Failed to get questions, question list empty.", listofquestions.size() > 0);
+		controller.getQuestionsInstance().add(q);
+		Thread.sleep(2000);
+		assertTrue("Failed to get questions, question list empty.", controller.getQuestionsInstance().size() > 0);
 	}	
 	
 	// Creates a question and then creates an arbitrary amount of answers (it is currently 35)

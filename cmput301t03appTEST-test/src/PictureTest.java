@@ -23,7 +23,7 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	 * BE WRITTEN)
 	 */
 
-	public void ensurePicLessThan64k() {
+	public void testensurePicLessThan64k() {
 		File img1 = new File("filepath");
 
 		double img1Bytes = img1.length();
@@ -50,7 +50,7 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		//File picture = new File("picture_path");
 		String filePath = "/mnt/sdcard/QandAPictures/image.jpg";
 		Question question = new Question("Title1", "TextBody1", "author");
-		question.setPicture(filePath);
+		//question.setPicture(filePath);
 		assertEquals("Picture not attached correctly to question.",
 				question.getPicture(), "/mnt/sdcard/QandAPictures/image.jpg");
 
@@ -66,7 +66,8 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 
 		File picture = new File("picture_path");
 		Answer answer = new Answer("answer", "a author", "1");
-		answer.setPicture(picture);
+		String filePath = "/mnt/sdcard/QandAPictures/image.jpg";
+		//answer.setPicture(filePath);
 		assertEquals("Picture not attached correctly to answer.",
 				answer.getPicture(), picture);
 
