@@ -126,22 +126,29 @@ public class PostController {
 		// push all upvotes in question upvote hashtable
 
 		if (checkConnectivity()) {
-			for (HashMap.Entry<String, Integer> entry : getQuestionUpvotes()
-					.entrySet()) {
-				sdm.pushQuestionUpvote(entry.getKey(), entry.getValue());
-			}
-			try {
-				Thread.currentThread().sleep(250);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			questionUpvotes.clear();
+			pushQuestionUpvotes();
 		}
 		else {
 			ldm = new LocalDataManager(getContext());
 			ldm.savePushQuestionUpvotes(questionUpvotes);
 		}
+	}
+
+	public void pushQuestionUpvotes()
+	{
+
+		for (HashMap.Entry<String, Integer> entry : getQuestionUpvotes()
+				.entrySet()) {
+			sdm.pushQuestionUpvote(entry.getKey(), entry.getValue());
+		}
+		try {
+			Thread.currentThread().sleep(250);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		questionUpvotes.clear();
+		ldm.savePushQuestionUpvotes(questionUpvotes);
 	}
 	
 
@@ -165,24 +172,31 @@ public class PostController {
 		// push all upvotes in answer upvote hashtable
 		
 		if (checkConnectivity()){
-			for (HashMap.Entry<String, UpvoteTuple> entry : getAnswerUpvotes()
-					.entrySet()) {
-				Integer upvoteCount = entry.getValue().getUpvoteCount();
-				String qId = entry.getValue().getQuestionId();
-				sdm.pushAnswerUpvote(entry.getKey(), qId, upvoteCount);
-			}
-			try {
-				Thread.currentThread().sleep(250);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			answerUpvotes.clear();
+			pushAnswerUpvotes();
 		}
 		else {
 			ldm = new LocalDataManager(getContext());
 			ldm.savePushAnswerUpvotes(answerUpvotes);
 		}
+	}
+
+	public void pushAnswerUpvotes()
+	{
+
+		for (HashMap.Entry<String, UpvoteTuple> entry : getAnswerUpvotes()
+				.entrySet()) {
+			Integer upvoteCount = entry.getValue().getUpvoteCount();
+			String qId = entry.getValue().getQuestionId();
+			sdm.pushAnswerUpvote(entry.getKey(), qId, upvoteCount);
+		}
+		try {
+			Thread.currentThread().sleep(250);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		answerUpvotes.clear();
+		ldm.savePushAnswerUpvotes(answerUpvotes);
 	}
 	
 	public void loadToBePushed() {
@@ -703,6 +717,7 @@ public class PostController {
 				e.printStackTrace();
 			}
 			pushPosts.clear();
+			ldm.savePushPosts(pushPosts);
 			return true;
 		}
 		else {
