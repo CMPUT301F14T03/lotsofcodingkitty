@@ -91,6 +91,7 @@ public class UserHome extends Activity {
 		getMenuInflater().inflate(R.menu.view_question, menu);
 		menu.getItem(1).setVisible(false);
 		menu.getItem(2).setVisible(false);
+		menu.getItem(0).setVisible(false);
 		getActionBar().setHomeButtonEnabled(true);
 		
 		
