@@ -22,7 +22,7 @@ public class Question{
 	private String body;
 	private String author;
 	private File picture;
-	private Bitmap pictureFilePath;
+	private byte[] pictureFilePath;
 	private Date date;
 	private int rating;
 	private GeoLocation location;
@@ -88,10 +88,10 @@ public class Question{
 		this.rating++; //Rating should be incremented by 1 per upvote press; we do not need to tell the system what score is.
 	}
 	
-	public void setPicture(Bitmap pictureFilePath){
+	public void setPicture(byte[] bs){
 		//public void setPicture(File picture){
 		//this.picture = picture;
-		this.pictureFilePath = pictureFilePath;
+		this.pictureFilePath = bs;
 	}
 	
 	/**
@@ -155,7 +155,7 @@ public class Question{
 		return this.rating;
 	}
 	
-	public Bitmap getPicture(){
+	public byte[] getPicture(){
 		//return this.picture;
 		return this.pictureFilePath;
 	}

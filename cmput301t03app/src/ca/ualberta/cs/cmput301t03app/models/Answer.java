@@ -17,7 +17,7 @@ public class Answer {
 	private String author;
 	private String parentId;
 	private Date date;
-	private String pictureFilePath;
+	private byte[] pictureFilePath;
 	private int rating;
 	private GeoLocation location;
 	
@@ -47,7 +47,7 @@ public class Answer {
 	}
 	
 
-	public void setPicture(String pictureFilePath) {
+	public void setPicture(byte[] pictureFilePath) {
 		this.pictureFilePath = pictureFilePath;
 	}
 	
@@ -108,7 +108,7 @@ public class Answer {
 		return this.rating;
 	}
 	
-	public String getPicture(){
+	public byte[] getPicture(){
 		return this.pictureFilePath;
 	}
 	public String getId(){

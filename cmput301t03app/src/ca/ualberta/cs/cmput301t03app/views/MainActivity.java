@@ -7,6 +7,7 @@
 package ca.ualberta.cs.cmput301t03app.views;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -308,7 +309,9 @@ public class MainActivity extends Activity {
 								// resize the bit map
 								matrix.postScale(scaleWidth, scaleHeight);
 								Bitmap _bitmapScaled = Bitmap.createBitmap(_bitmapPreScale, 0, 0,  oldWidth, oldHeight, matrix, true);
-								q.setPicture(_bitmapScaled);
+								ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+								_bitmapScaled.compress(Bitmap.CompressFormat.PNG, 0, bytes);
+								q.setPicture(bytes.toByteArray());
 							} catch (FileNotFoundException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
