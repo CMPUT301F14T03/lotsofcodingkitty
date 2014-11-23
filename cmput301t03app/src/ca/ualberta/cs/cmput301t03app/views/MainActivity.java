@@ -39,6 +39,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -50,6 +51,12 @@ import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 import ca.ualberta.cs.cmput301t03app.models.Question;
+
+import java.io.File;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 /**
  * 
@@ -224,7 +231,8 @@ public class MainActivity extends Activity {
 //				TakePicture tp = new TakePicture();
 //				tp.takeAPhoto();
 				
-				takeAPhoto();
+				
+				pictureChooserDialog();
 				
 			}
 		});
@@ -574,15 +582,30 @@ public class MainActivity extends Activity {
 			// matches the ID to the request code in onActivityResult
 			
 	    }
+	 
+	 /**
+	  * Opens the gallery
+	  */
+	 public void takeFromGallery() {
+		 
+		 	Intent intent = new Intent(Intent.ACTION_PICK,
+		           android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		    intent.setType("image/*");
+		    intent.putExtra("return-data", true);
+		    startActivityForResult(intent, GALLERY_ACTIVITY_REQUEST_CODE);
+	 }
 	    
 	    
 	    private final int CAMERA_ACTIVITY_REQUEST_CODE = 12345;
+	    private final int GALLERY_ACTIVITY_REQUEST_CODE = 67890;
 	    
 	    
 	    //This method is run after returning back from camera activity:
 	    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    	
+	    	switch (requestCode) {
 			
-	    	if (requestCode == CAMERA_ACTIVITY_REQUEST_CODE){
+	    	case CAMERA_ACTIVITY_REQUEST_CODE:
 				//TextView tv = (TextView)findViewById(R.id.status); // THE TEXT VIEW THAT YOU SEE ON SCREEN
 				
 				if (resultCode == RESULT_OK){
@@ -593,12 +616,17 @@ public class MainActivity extends Activity {
 //					ib.setImageDrawable(Drawable.createFromPath(imageFileUri.getPath())); // need to use GETPATH
 					
 					
-				}
-				else
-					if (resultCode == RESULT_CANCELED){
+				} else if (resultCode == RESULT_CANCELED){
 						
-					}
-					
+				} 
+	    	case GALLERY_ACTIVITY_REQUEST_CODE:
+	    		
+	    		if (resultCode == RESULT_OK) {
+	    			hasPicture = true;
+	    			Uri selectedImage = data.getData();
+//	    	        imageview.setImageURI(selectedImage);
+	    		}
+	    			
 			}
 	    }
 	    
@@ -656,5 +684,30 @@ public class MainActivity extends Activity {
 	    		}
 	    		
 	    	}
+	    }
+	    
+	    public void pictureChooserDialog()
+	    {
+		    AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
+		    myAlertDialog.setTitle("Pictures Option");
+		    myAlertDialog.setMessage("Select Picture Mode");
+	
+		    myAlertDialog.setPositiveButton("Gallery", new DialogInterface.OnClickListener()
+			    {
+			    public void onClick(DialogInterface arg0, int arg1)
+			    {
+			    	takeFromGallery();
+			    }
+	    	});
+
+		    myAlertDialog.setNegativeButton("Camera", new DialogInterface.OnClickListener()
+			    {
+			    public void onClick(DialogInterface arg0, int arg1)
+			    {
+			    	takeAPhoto();
+			    }
+		    });
+	    myAlertDialog.show();
+
 	    }
 }
