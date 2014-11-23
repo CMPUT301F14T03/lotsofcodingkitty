@@ -169,7 +169,8 @@ public class MainActivity extends Activity {
 			mla.updateAdapter(pc.getQuestionsInstance());
 		}
 		if (id == R.id.sync) {
-			pc.pushNewPosts();
+			Thread thread = new PushThread();
+			thread.start();
 			//pc.pushQuestionUpvotes();
 			//pc.pushAnswerUpvotes();
 			new Thread() {
@@ -680,6 +681,23 @@ public class MainActivity extends Activity {
 	    	@Override
 	    	public void run() {
 	    		pc.addQuestion(this.question);
+	    		try {
+	    			Thread.sleep(500);
+	    		} catch(InterruptedException e) {
+	    			e.printStackTrace();
+	    		}
+	    		
+	    	}
+	    }
+	    
+	    class PushThread extends Thread {
+	    	
+	    	public PushThread() {
+	    	}
+	    	
+	    	@Override
+	    	public void run() {
+	    		pc.pushNewPosts();
 	    		try {
 	    			Thread.sleep(500);
 	    		} catch(InterruptedException e) {

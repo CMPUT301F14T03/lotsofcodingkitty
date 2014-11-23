@@ -495,7 +495,7 @@ public class LocalDataManager implements iDataManager {
 	}
 
 	public void deleteIDs() {
-		ArrayList<String> blank = null;
+		ArrayList<String> blank = new ArrayList<String>();
 		try {
 			FileOutputStream fileOutputStream = context.openFileOutput(
 					PUSH_POSTS, Context.MODE_PRIVATE);
