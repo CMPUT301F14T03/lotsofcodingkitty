@@ -327,7 +327,8 @@ public class LocalDataManager implements iDataManager {
 			GsonBuilder builder = new GsonBuilder();
 			Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
 					.create();
-			gson.toJson(posts, outputStreamWriter); // Serialize to Json
+			Type postType = new TypeToken<ArrayList<Post>>() {}.getType();
+			gson.toJson(posts, postType, outputStreamWriter); // Serialize to Json
 			builder.serializeNulls(); // Show fields with null values
 			outputStreamWriter.flush();
 			outputStreamWriter.close();

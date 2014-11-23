@@ -108,6 +108,10 @@ public class PostController {
 		}
 	}
 	
+	public void sortByLocation(GeoLocation location, ArrayList<Question> list) {
+		subQuestions = qf.sortByLocation(list, location);
+	}
+	
 	/**
 	 * Upvote question method, pushes upvotes to server
 	 * @param questionId

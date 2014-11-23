@@ -168,6 +168,14 @@ public class MainActivity extends Activity {
 			pc.sortQuestions(2);
 			mla.updateAdapter(pc.getQuestionsInstance());
 		}
+		if (id == R.id.filter_closeby) {
+			location = new GeoLocation();
+			GeoLocationTracker locationTracker = new GeoLocationTracker(MainActivity.this, location);
+			locationTracker.getLocation();
+			pc.sortByLocation(location, pc.getQuestionsInstance());
+			mla.updateAdapter(pc.getQuestionsInstance());
+			
+		}
 		if (id == R.id.sync) {
 			pc.pushNewPosts();
 			pc.pushQuestionUpvotes();
