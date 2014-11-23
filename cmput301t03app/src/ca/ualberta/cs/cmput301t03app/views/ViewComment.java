@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.controllers.GeoLocationTracker;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
+import ca.ualberta.cs.cmput301t03app.models.Question;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -55,6 +57,7 @@ public class ViewComment extends Activity
 	TextView author;
 	TextView location;
 	AlertDialog dialog;
+	private static ServerDataManager sdm = new ServerDataManager();
 
 	/**
 	 * Called when the activity is first created.
@@ -317,13 +320,18 @@ public class ViewComment extends Activity
 						{
 							pc.addCommentToQuestion(c, questionID);
 							comments = pc.getCommentsToQuestion(questionID);
+							Thread thread = new AddCommentThread(c, questionID);
+							thread.start();
 						} else if (commentType == 2)
 						{
 							pc.addCommentToAnswer(c, questionID, answerID);
 							comments = pc.getCommentsToAnswer(questionID,
 									answerID);
+							Thread thread = new AddCommentThread(c, questionID, answerID);
+							thread.start();
 						}
 						// setCommentAdapter();
+						
 						commentBodyList.add(commentBodyString);
 						cla.notifyDataSetChanged();
 						updateCommentCount(); // <-- MIGHT NOT USE THIS
@@ -433,5 +441,39 @@ public class ViewComment extends Activity
 
 		return (super.onOptionsItemSelected(item));
 	}
+	
+	class AddCommentThread extends Thread {
+    	private String qID;
+    	private String aID;
+    	private Comment comment;
+    	
+    	public AddCommentThread(Comment comment, String qID) {
+    		this.qID = qID;
+    		this.aID = null;
+    		this.comment = comment;
+    		//Log.d("push", this.question.getSubject());
+    	}
+    	
+    	public AddCommentThread(Comment comment, String qID, String aID) {
+    		this.qID = qID;
+    		this.aID = aID;
+    		this.comment = comment;
+    	}
+    	
+    	@Override
+    	public void run() {
+    		if (this.aID == null) {
+    			pc.commentAQuestion(this.comment, this.qID);
+    		} else {
+    			pc.commentAnAnswer(this.comment, this.aID, this.qID);
+    		}
+    		try {
+    			Thread.sleep(500);
+    		} catch(InterruptedException e) {
+    			e.printStackTrace();
+    		}
+    		
+    	}
+    }
 	
 }

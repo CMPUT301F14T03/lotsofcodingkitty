@@ -384,17 +384,45 @@ public class PostController {
 	/**
 	 * Adds a question to the list in the PostController.
 	 * 
-	 * @param question
-	 *            a Question object that the user wants to be added.
+	 * @param question a Question object that the user wants to be added.
 	 */
 	public void addQuestion(Question question) {
-
-		getQuestionsInstance().add(0,question);
-		getPushPostsInstance().add(new Post(question));
-		addUserPost(question);
-		pushNewPosts();
+		sdm.addQuestion(question);
 	}
-
+	
+	/**
+	 * Adds an answer to a question.
+	 * @param answer The answer that is being given.
+	 * @param question The question that is being answered.
+	 */
+	public void answerAQuestion(Answer answer, String qID) {
+		Question q = sdm.getQuestion(qID);
+		q.addAnswer(answer);
+		sdm.updateQuestion(q);
+	}
+	
+	/**
+	 * Adds a comment to a question or answer.
+	 * @param comment The comment you want to add.
+	 * @param question The question you are commenting on or the parent question of an answer you are commenting on.
+	 */
+	public void commentAQuestion(Comment comment, String qID) {
+		Question q = sdm.getQuestion(qID);
+		q.addComment(comment);
+		sdm.updateQuestion(q);
+	}
+	
+	public void commentAnAnswer(Comment comment, String aID, String qID) {
+		Question q = sdm.getQuestion(qID);
+		ArrayList<Answer> a = q.getAnswers();
+		for (int i = 0; i < a.size(); i++) {
+			if (a.get(i).getId() == aID) {
+				a.get(i).addComment(comment);
+			}
+		}
+		sdm.updateQuestion(q);
+	}
+	
 	/**
 	 * Adds a comment object to a question object.
 	 * 
