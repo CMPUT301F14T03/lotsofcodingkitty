@@ -63,6 +63,7 @@ public class PostController {
 	public PostController(Context context) {
 
 		this.context = context;
+		this.ldm = new LocalDataManager(context);
 	}
 
 	public int countAnswers(Question q) {
