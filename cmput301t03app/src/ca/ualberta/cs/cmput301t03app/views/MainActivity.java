@@ -163,6 +163,23 @@ public class MainActivity extends Activity {
 			pc.sortQuestions(2);
 			mla.updateAdapter(pc.getQuestionsInstance());
 		}
+		if (id == R.id.sync) {
+			pc.pushNewPosts();
+			new Thread() {
+				public void run() {
+					pc.executeSearch("");
+				}
+			}.start();
+			
+			// Give some time to get updated info
+			try {
+				Thread.currentThread().sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			pc.sortQuestions(0);
+			mla.updateAdapter(pc.getQuestionsInstance());
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -611,5 +628,4 @@ public class MainActivity extends Activity {
 	    		
 	    	}
 	    }
-	
 }
