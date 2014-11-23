@@ -4,6 +4,7 @@
     android:layout_height="match_parent" 
     android:clickable="false"
     android:focusable="false"
+    
  >
        
 
@@ -16,7 +17,6 @@
                     android:gravity="center"
                     android:text="000"
                     android:textColor="#2DAD98"
-                    android:background="#ffffff"
                     android:textSize="30dp"
                     />
 
@@ -27,7 +27,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignRight="@+id/answer_upvote_score"
-                    android:background="#ffffff"
+                    android:background="@null"
                     android:gravity="center"
                     android:src="@drawable/ic_upvote"
                     android:onClick="answerUpvote" />
@@ -43,7 +43,7 @@
                     android:clickable="true"
                     android:gravity="top"
                     android:onClick="toCommentActivityAnswer"
-                    android:paddingBottom="5dp"
+                    android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="5dp"
@@ -59,6 +59,7 @@
                     android:layout_toRightOf="@+id/answer_upvote_score"
                     android:layout_below="@+id/answer_text_body"
                     android:onClick="toPictureActivityAnswer"
+                    android:background="#cccccc"
                     />
 
                 <TextView
@@ -72,12 +73,12 @@
                     android:paddingBottom="0dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="5dp"
-                    android:paddingTop="2dp"
+                    android:paddingTop="0dp"
                     android:text="Posted: Oct 31, 2014"
                     android:textAlignment="center"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="#ffffff"
-                    android:textSize="11dp" />
+                    android:textSize="10dp" />
                 
                  <TextView
                     android:id="@+id/answer_author"
@@ -87,12 +88,12 @@
                      android:layout_toRightOf="@+id/answer_picture"
                     android:background="#2DAD98"
                     android:text="by: Lotso CodingKitty"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="0dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="5dp"
                     android:paddingTop="0dp"
                     android:textColor="#ffffff"
-                    android:textSize="11dp" />
+                    android:textSize="10dp" />
                  
 			     <TextView
                     android:id="@+id/answer_location"
@@ -107,7 +108,7 @@
                     android:paddingRight="5dp"
                     android:paddingTop="0dp"
                     android:textColor="#ffffff"
-                    android:textSize="11dp" />
+                    android:textSize="10dp" />
                  
                  
                  <ImageButton

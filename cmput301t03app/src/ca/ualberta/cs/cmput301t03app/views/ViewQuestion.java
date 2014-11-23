@@ -458,19 +458,9 @@ public class ViewQuestion extends Activity {
 							}
 						}
 						
-						new Thread() {
-							public void run() {
-								pc.addAnswer(a, question_id);
-							}
-						}.start();
-						// Give some time to get updated info
-						try {
-							Thread.currentThread().sleep(500);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
 						populateThisQuestionsAnswers(question_id);
 						ala.updateAdapter(answerList);
+						Thread thread = new AnswerQuestion(question_id, a);
 						updateAnswerCount();
 					}
 				}).setNegativeButton("Cancel",
@@ -698,6 +688,27 @@ public class ViewQuestion extends Activity {
 		}
 	}
 	
+	class AnswerQuestion extends Thread {
+    	private String qID;
+    	private Answer answer;
+    	
+    	public AnswerQuestion(String qID, Answer answer) {
+    		this.qID = qID;
+    		this.answer = answer;
+    		//Log.d("push", this.question.getSubject());
+    	}
+    	
+    	@Override
+    	public void run() {
+    		pc.answerAQuestion(this.answer, this.qID);
+    		try {
+    			Thread.sleep(500);
+    		} catch(InterruptedException e) {
+    			e.printStackTrace();
+    		}
+    		
+    	}
+    }
 	private Runnable doFinish = new Runnable() {
 		public void run() {
 			finish();

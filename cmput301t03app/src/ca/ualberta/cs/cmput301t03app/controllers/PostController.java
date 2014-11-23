@@ -48,6 +48,7 @@ public class PostController {
 	private static QuestionFilter qf = new QuestionFilter();
 	private static UserPostCollector upc = new UserPostCollector();
 	private static ServerDataManager sdm = new ServerDataManager();
+	private static LocalDataManager ldm;
 	private static int serverListIndex = 0;
 	private Context context;
 
@@ -125,18 +126,29 @@ public class PostController {
 		// push all upvotes in question upvote hashtable
 
 		if (checkConnectivity()) {
-			for (HashMap.Entry<String, Integer> entry : getQuestionUpvotes()
-					.entrySet()) {
-				sdm.pushQuestionUpvote(entry.getKey(), entry.getValue());
-			}
-			try {
-				Thread.currentThread().sleep(250);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			questionUpvotes.clear();
+			pushQuestionUpvotes();
 		}
+		else {
+			ldm = new LocalDataManager(getContext());
+			ldm.savePushQuestionUpvotes(questionUpvotes);
+		}
+	}
+
+	public void pushQuestionUpvotes()
+	{
+
+		for (HashMap.Entry<String, Integer> entry : getQuestionUpvotes()
+				.entrySet()) {
+			sdm.pushQuestionUpvote(entry.getKey(), entry.getValue());
+		}
+		try {
+			Thread.currentThread().sleep(250);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		questionUpvotes.clear();
+		ldm.savePushQuestionUpvotes(questionUpvotes);
 	}
 	
 
@@ -160,20 +172,38 @@ public class PostController {
 		// push all upvotes in answer upvote hashtable
 		
 		if (checkConnectivity()){
-			for (HashMap.Entry<String, UpvoteTuple> entry : getAnswerUpvotes()
-					.entrySet()) {
-				Integer upvoteCount = entry.getValue().getUpvoteCount();
-				String qId = entry.getValue().getQuestionId();
-				sdm.pushAnswerUpvote(entry.getKey(), qId, upvoteCount);
-			}
-			try {
-				Thread.currentThread().sleep(250);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			answerUpvotes.clear();
+			pushAnswerUpvotes();
 		}
+		else {
+			ldm = new LocalDataManager(getContext());
+			ldm.savePushAnswerUpvotes(answerUpvotes);
+		}
+	}
+
+	public void pushAnswerUpvotes()
+	{
+
+		for (HashMap.Entry<String, UpvoteTuple> entry : getAnswerUpvotes()
+				.entrySet()) {
+			Integer upvoteCount = entry.getValue().getUpvoteCount();
+			String qId = entry.getValue().getQuestionId();
+			sdm.pushAnswerUpvote(entry.getKey(), qId, upvoteCount);
+		}
+		try {
+			Thread.currentThread().sleep(250);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		answerUpvotes.clear();
+		ldm.savePushAnswerUpvotes(answerUpvotes);
+	}
+	
+	public void loadToBePushed() {
+		ldm = new LocalDataManager(getContext());
+		questionUpvotes = ldm.loadQuestionUpvotes();
+		answerUpvotes = ldm.loadAnswerUpvotes();
+		pushPosts = ldm.loadPosts();
 	}
 	
 	/**
@@ -384,17 +414,45 @@ public class PostController {
 	/**
 	 * Adds a question to the list in the PostController.
 	 * 
-	 * @param question
-	 *            a Question object that the user wants to be added.
+	 * @param question a Question object that the user wants to be added.
 	 */
 	public void addQuestion(Question question) {
-
-		getQuestionsInstance().add(0,question);
-		getPushPostsInstance().add(new Post(question));
-		addUserPost(question);
-		pushNewPosts();
+		sdm.addQuestion(question);
 	}
-
+	
+	/**
+	 * Adds an answer to a question.
+	 * @param answer The answer that is being given.
+	 * @param question The question that is being answered.
+	 */
+	public void answerAQuestion(Answer answer, String qID) {
+		Question q = sdm.getQuestion(qID);
+		q.addAnswer(answer);
+		sdm.updateQuestion(q);
+	}
+	
+	/**
+	 * Adds a comment to a question or answer.
+	 * @param comment The comment you want to add.
+	 * @param question The question you are commenting on or the parent question of an answer you are commenting on.
+	 */
+	public void commentAQuestion(Comment comment, String qID) {
+		Question q = sdm.getQuestion(qID);
+		q.addComment(comment);
+		sdm.updateQuestion(q);
+	}
+	
+	public void commentAnAnswer(Comment comment, String aID, String qID) {
+		Question q = sdm.getQuestion(qID);
+		ArrayList<Answer> a = q.getAnswers();
+		for (int i = 0; i < a.size(); i++) {
+			if (a.get(i).getId() == aID) {
+				a.get(i).addComment(comment);
+			}
+		}
+		sdm.updateQuestion(q);
+	}
+	
 	/**
 	 * Adds a comment object to a question object.
 	 * 
@@ -687,7 +745,12 @@ public class PostController {
 				e.printStackTrace();
 			}
 			pushPosts.clear();
+			ldm.savePushPosts(pushPosts);
 			return true;
+		}
+		else {
+			ldm = new LocalDataManager(getContext());
+			ldm.savePushPosts(pushPosts);
 		}
 		return false;
 	}

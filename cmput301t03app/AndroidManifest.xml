@@ -29,8 +29,10 @@
         android:theme="@android:style/Theme.Holo.Light" >
         <activity
             android:name=".views.MainActivity"
-            android:label="@string/app_name" >
-
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait"
+            >
+			
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,25 +41,32 @@
         </activity>
         <activity
             android:name=".incomplete.LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".views.ViewQuestion"
-            android:label="@string/title_activity_view_question" >
+            android:label="@string/title_activity_view_question" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".incomplete.DisplayPicture"
-            android:label="@string/title_activity_display_picture" >
+            android:label="@string/title_activity_display_picture" 
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".views.ViewComment" >
+        <activity android:name=".views.ViewComment"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".views.UserHome" >
+        <activity android:name=".views.UserHome" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".views.UserListsActivity"
-            android:label="@string/title_activity_user_lists" >
+            android:label="@string/title_activity_user_lists" 
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".views.ViewPicture"></activity>
+        <activity android:name=".views.ViewPicture"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
