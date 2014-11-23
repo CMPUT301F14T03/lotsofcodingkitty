@@ -6,25 +6,19 @@
  * */
 package ca.ualberta.cs.cmput301t03app.views;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
-
-import ca.ualberta.cs.cmput301t03app.R;
-import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
-import ca.ualberta.cs.cmput301t03app.controllers.GeoLocationTracker;
-import ca.ualberta.cs.cmput301t03app.controllers.PostController;
-import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
-
-import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
-import ca.ualberta.cs.cmput301t03app.models.Post;
-import ca.ualberta.cs.cmput301t03app.models.Question;
-import ca.ualberta.cs.cmput301t03app.utils.TakePicture;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -51,7 +45,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
+import ca.ualberta.cs.cmput301t03app.controllers.GeoLocationTracker;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 
@@ -126,6 +122,7 @@ public class MainActivity extends Activity {
 		//pc.getQuestionsFromServer();
 		mla.updateAdapter(pc.getQuestionsInstance());
 		pc.sortQuestions(0);
+		pc.loadToBePushed();
 	}
 
 	@Override
@@ -172,6 +169,8 @@ public class MainActivity extends Activity {
 		}
 		if (id == R.id.sync) {
 			pc.pushNewPosts();
+			pc.pushQuestionUpvotes();
+			pc.pushAnswerUpvotes();
 			new Thread() {
 				public void run() {
 					pc.executeSearch("");
@@ -297,10 +296,33 @@ public class MainActivity extends Activity {
 
 						Question q = new Question(questionTitleString,
 								questionBodyString, userNameString);
-						pc.addQuestion(q);
 
-						if(hasPicture)
-							q.setPicture(imageFileUri.getPath());
+						if(hasPicture){
+							FileInputStream in;
+							BufferedInputStream buf;
+							try {
+								in = new FileInputStream(imageFileUri.getPath());
+								buf = new BufferedInputStream(in);
+								Bitmap _bitmapPreScale = BitmapFactory.decodeStream(buf);
+								int oldWidth = _bitmapPreScale.getWidth();
+								int oldHeight = _bitmapPreScale.getHeight();
+								int newWidth = 200; 
+								int newHeight = 200;
+								
+								float scaleWidth = ((float) newWidth) / oldWidth;
+								float scaleHeight = ((float) newHeight) / oldHeight;
+								
+								Matrix matrix = new Matrix();
+								// resize the bit map
+								matrix.postScale(scaleWidth, scaleHeight);
+								Bitmap _bitmapScaled = Bitmap.createBitmap(_bitmapPreScale, 0, 0,  oldWidth, oldHeight, matrix, true);
+								q.setPicture(_bitmapScaled);
+							} catch (FileNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+				           
 						if(hasLocation){
 							
 							//Set location if location typed by user is same as location found
@@ -317,9 +339,13 @@ public class MainActivity extends Activity {
 								
 							}
 						}
-							
+					if (pc.checkConnectivity()) {
 						Thread thread = new AddThread(q);
 						thread.start();
+					}						
+						pc.addUserPost(q);
+						pc.getQuestionsInstance().add(q);
+						pc.sortQuestions(0);
 						mla.updateAdapter(pc.getQuestionsInstance());
 
 					}
@@ -647,7 +673,7 @@ public class MainActivity extends Activity {
 	    	
 	    	@Override
 	    	public void run() {
-	    		sdm.addQuestion(this.question);
+	    		pc.addQuestion(this.question);
 	    		try {
 	    			Thread.sleep(500);
 	    		} catch(InterruptedException e) {
