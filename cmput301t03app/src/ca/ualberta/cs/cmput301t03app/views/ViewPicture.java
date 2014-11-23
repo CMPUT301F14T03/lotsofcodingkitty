@@ -9,6 +9,8 @@ import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -86,7 +88,8 @@ public class ViewPicture extends Activity {
 			timeStamp
 					.setText("Posted: " + pc.getQuestion(questionID).getDate());
 			author.setText("By: " + pc.getQuestion(questionID).getAuthor());
-			picture.setImageBitmap(question.getPicture());
+			Bitmap _bitmapPreScale = BitmapFactory.decodeByteArray(question.getPicture(), 0, question.getPicture().length);
+			picture.setImageBitmap(_bitmapPreScale);
 		} else if (commentType == 2)	{ // comment for answers
 			
 		    Log.d("click", "********  Setting ANSWER stuff");
@@ -100,7 +103,8 @@ public class ViewPicture extends Activity {
 					+ pc.getAnswer(answerID, questionID).getDate());
 			author.setText("By: "
 					+ pc.getAnswer(answerID, questionID).getAuthor());
-			picture.setImageBitmap(question.getPicture());;
+			Bitmap _bitmapPreScale = BitmapFactory.decodeByteArray(question.getPicture(), 0, question.getPicture().length);
+			picture.setImageBitmap(_bitmapPreScale);;
 		}
 		
 		timeStamp.setText("Posted: " + pc.getQuestion(questionID).getDate());
