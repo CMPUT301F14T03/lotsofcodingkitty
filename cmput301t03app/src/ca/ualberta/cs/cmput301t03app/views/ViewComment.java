@@ -2,13 +2,16 @@ package ca.ualberta.cs.cmput301t03app.views;
 
 import java.util.ArrayList;
 import ca.ualberta.cs.cmput301t03app.R;
+import ca.ualberta.cs.cmput301t03app.controllers.GeoLocationTracker;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
+import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,6 +39,9 @@ public class ViewComment extends Activity
 {
 
 	int commentType;
+	protected boolean hasLocation = false;
+	protected GeoLocation geoLocation;
+	protected String cityName;
 	String questionID;
 	String answerID;
 	ArrayList<Comment> comments = new ArrayList<Comment>();
@@ -46,6 +53,7 @@ public class ViewComment extends Activity
 	TextView commentCount;
 	TextView timeStamp;
 	TextView author;
+	TextView location;
 	AlertDialog dialog;
 
 	/**
@@ -103,6 +111,7 @@ public class ViewComment extends Activity
 		commentListView = (ListView) findViewById(R.id.commentListView);
 		cla = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, commentBodyList);
+		location = (TextView) findViewById(R.id.comment_location);
 	}
 
 	public void setListeners()
@@ -136,6 +145,12 @@ public class ViewComment extends Activity
 			timeStamp
 					.setText("Posted: " + pc.getQuestion(questionID).getDate());
 			author.setText("By: " + pc.getQuestion(questionID).getAuthor());
+			
+			//Set location
+			if (pc.getQuestion(questionID).getGeoLocation() != null) {
+				location.setText("Location: " + pc.getQuestion(questionID).getGeoLocation().getCityName());
+			}
+			
 		} else if (commentType == 2)
 		{ // comment for answers
 			commentTitle.setText("Q: "
@@ -146,6 +161,10 @@ public class ViewComment extends Activity
 					+ pc.getAnswer(answerID, questionID).getDate());
 			author.setText("By: "
 					+ pc.getAnswer(answerID, questionID).getAuthor());
+			//Set location
+			if (pc.getAnswer(answerID, questionID).getGeoLocation() != null) {
+				location.setText("Location: " + pc.getAnswer(answerID, questionID).getGeoLocation().getCityName());
+			}
 		}
 	}
 	
@@ -218,6 +237,44 @@ public class ViewComment extends Activity
 				.findViewById(R.id.comment_body);
 		final EditText userName = (EditText) promptsView
 				.findViewById(R.id.UsernameRespondTextView);
+		final EditText userLocation = (EditText) promptsView
+				.findViewById(R.id.userLocation3);
+		
+		CheckBox check = (CheckBox) promptsView
+				.findViewById(R.id.enableLocation3);
+		check.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				hasLocation=!hasLocation;
+				
+				if (hasLocation) {
+					
+					geoLocation = new GeoLocation();
+					GeoLocationTracker locationTracker = new GeoLocationTracker(ViewComment.this, geoLocation);
+					locationTracker.getLocation();
+					
+//					location.setLatitude(53.53333);
+//					location.setLongitude(-113.5);
+					
+					//Delay for 5 seconds
+				    Handler handler = new Handler(); 
+				    handler.postDelayed(new Runnable() { 
+				         public void run() { 
+				        	 cityName = pc.getCity(geoLocation);
+				        	 Log.d("Loc","Timer is done");
+							if (cityName != null) {
+								userLocation.setText(cityName);
+							} else {
+								userLocation.setText("Location not found.");
+							}
+				         } 
+				    }, 5000); 
+				}
+				
+			}
+		});
+		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this); // Create
 																				// a
 																				// new
@@ -236,8 +293,26 @@ public class ViewComment extends Activity
 								.toString();
 						String userNameString = (String) userName.getText()
 								.toString();
+						String userLocationString = (String) userLocation.getText()
+								.toString();
 						Comment c = new Comment(commentBodyString,
 								userNameString);
+						if(hasLocation){
+							
+							//Set location if location typed by user is same as location found
+							if (userLocationString.equals(cityName)){
+								c.setGeoLocation(geoLocation);
+							}
+							//Find the coordinates of place entered by user and set location
+							else{
+								c.setGeoLocation(pc.turnFromCity(userLocationString));
+								//Testing
+								GeoLocation testlocation= pc.turnFromCity(userLocationString);
+								Log.d("Location",Double.toString(testlocation.getLatitude()));
+								Log.d("Location",Double.toString(testlocation.getLongitude()));
+								
+							}
+						}
 						if (commentType == 1)
 						{
 							pc.addCommentToQuestion(c, questionID);
@@ -262,6 +337,7 @@ public class ViewComment extends Activity
 					{
 
 						// Do nothing
+						hasLocation = false;
 						dialog.cancel();
 					}
 				});

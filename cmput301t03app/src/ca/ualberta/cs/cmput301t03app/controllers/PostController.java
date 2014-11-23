@@ -2,6 +2,7 @@ package ca.ualberta.cs.cmput301t03app.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,6 +15,7 @@ import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 import ca.ualberta.cs.cmput301t03app.models.Post;
 import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.models.UpvoteTuple;
 import ca.ualberta.cs.cmput301t03app.models.UserPostCollector;
 
 import android.content.Context;
@@ -36,8 +38,13 @@ import android.util.Log;
  */
 public class PostController {
 
+	private static final int SORT_BY_DATE = 0;
+	private static final int SORT_BY_UPVOTE = 1;
+	private static final int SORT_BY_PICTURE = 2;
 	private static ArrayList<Question> subQuestions = null;
 	private static ArrayList<Post> pushPosts = null;
+	private static HashMap<String, Integer> questionUpvotes = null;
+	private static HashMap<String, UpvoteTuple> answerUpvotes = null;
 	private static QuestionFilter qf = new QuestionFilter();
 	private static UserPostCollector upc = new UserPostCollector();
 	private static ServerDataManager sdm = new ServerDataManager();
@@ -66,6 +73,109 @@ public class PostController {
 		return q.countComments();
 	}
 	
+	public static HashMap<String, Integer> getQuestionUpvotes() {
+		if (questionUpvotes == null) {
+			questionUpvotes = new HashMap<String, Integer>();
+		}
+		return questionUpvotes;
+	}
+
+	public static HashMap<String, UpvoteTuple> getAnswerUpvotes() {
+		if (answerUpvotes == null) {
+			answerUpvotes = new HashMap<String, UpvoteTuple>();
+		}
+		return answerUpvotes;
+	}
+
+	/**
+	 * Sort the subQuestions list based on the specified comparison
+	 * @param type
+	 */
+	
+	public void sortQuestions(int type) {
+		switch (type) {
+			case SORT_BY_DATE:
+				qf.sortByDate(getQuestionsInstance());
+				break;
+			case SORT_BY_UPVOTE:
+				qf.sortByUpvote(getQuestionsInstance());
+				break;
+			case SORT_BY_PICTURE:
+				qf.sortByPic(getQuestionsInstance());
+				break;
+		}
+	}
+	
+	/**
+	 * Upvote question method, pushes upvotes to server
+	 * @param questionId
+	 */
+	
+	public void upvoteQuestion(String questionId) {
+		getQuestion(questionId).upRating();
+		if (getQuestionUpvotes().containsKey(questionId)) {
+			int count = getQuestionUpvotes().get(questionId);
+			count++;
+			getQuestionUpvotes().put(questionId, count);
+		}
+		else {
+			getQuestionUpvotes().put(questionId, 1);
+		}
+		
+		// push all upvotes in question upvote hashtable
+
+		if (checkConnectivity()) {
+			for (HashMap.Entry<String, Integer> entry : getQuestionUpvotes()
+					.entrySet()) {
+				sdm.pushQuestionUpvote(entry.getKey(), entry.getValue());
+			}
+			try {
+				Thread.currentThread().sleep(250);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			questionUpvotes.clear();
+		}
+	}
+	
+
+	/** 
+	 * Upvote answer method, pushes upvotes to server
+	 * @param answerId
+	 * @param questionId
+	 */
+	
+	public void upvoteAnswer(String answerId, String questionId) {
+		getAnswer(answerId, questionId).upRating();
+		if (getAnswerUpvotes().containsKey(answerId)) {
+			UpvoteTuple tuple = getAnswerUpvotes().get(answerId);
+			tuple.setUpvoteCount(tuple.getUpvoteCount()+1);
+			getAnswerUpvotes().put(answerId, tuple);
+		}
+		else {
+			UpvoteTuple tuple = new UpvoteTuple(questionId, 1);
+			getAnswerUpvotes().put(answerId, tuple);
+		}
+		// push all upvotes in answer upvote hashtable
+		
+		if (checkConnectivity()){
+			for (HashMap.Entry<String, UpvoteTuple> entry : getAnswerUpvotes()
+					.entrySet()) {
+				Integer upvoteCount = entry.getValue().getUpvoteCount();
+				String qId = entry.getValue().getQuestionId();
+				sdm.pushAnswerUpvote(entry.getKey(), qId, upvoteCount);
+			}
+			try {
+				Thread.currentThread().sleep(250);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			answerUpvotes.clear();
+		}
+	}
+	
 	/**
 	 *  Takes in a geolocation and returns a city name if available
 	 *  @param Geolocation location
@@ -91,6 +201,7 @@ public class PostController {
 		Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
 		List<Address> addresses;
 		GeoLocation location= new GeoLocation();
+		location.setCityName(cityName);
 		try {
 			addresses = gcd.getFromLocationName(cityName, 1);
 			if (addresses.size() > 0) { 
@@ -266,7 +377,7 @@ public class PostController {
 
 		getQuestion(questionID).addAnswer(answer);
 		getPushPostsInstance().add(new Post(answer, questionID, Question.class));
-		//TODO: pushNewPosts();
+		pushNewPosts();
 		updateQuestionInBank(questionID);
 	}
 
@@ -278,7 +389,7 @@ public class PostController {
 	 */
 	public void addQuestion(Question question) {
 
-		getQuestionsInstance().add(question);
+		getQuestionsInstance().add(0,question);
 		getPushPostsInstance().add(new Post(question));
 		addUserPost(question);
 		pushNewPosts();
@@ -562,10 +673,9 @@ public class PostController {
 	// pushed // returns false otherwise // This makes testing easier
 
 	public Boolean pushNewPosts() {
-		Boolean connectivity = true; // placeholder until i make a
-										// checkconnectivity function
-		if (connectivity) {
-			ServerDataManager sdm = new ServerDataManager(); // dm.save(pushQuestions);
+
+		if (checkConnectivity()) {
+			ServerDataManager sdm = new ServerDataManager();
 			sdm.pushPosts(getPushPostsInstance());
 
 			// Wait questions to be pushed before clearing

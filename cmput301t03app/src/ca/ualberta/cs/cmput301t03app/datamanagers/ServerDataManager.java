@@ -32,7 +32,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class ServerDataManager implements iDataManager{
 	
-	private static final String SEARCH_URL = "http://cmput301.softwareprocess.es:8080/cmput301f14t03/question/_search";
+	private static final String SEARCH_URL = "http://cmput301.softwareprocess.es:8080/cmput301f14t03/question/_search?size=1000000";
 	private static final String RESOURCE_URL = "http://cmput301.softwareprocess.es:8080/cmput301f14t03/question/";
 	private static final String TAG = "QuestionSearch";
 
@@ -132,10 +132,39 @@ public class ServerDataManager implements iDataManager{
 				}
 			}
 		} catch (Exception e) {
-			Log.e(TAG, e.getMessage());
+			Log.i("", e.getMessage());
 		}
 	}
 	
+	public void pushQuestionUpvote(String questionId, Integer amount) {
+		try {
+			Question q = getQuestion(questionId);
+			for (int i = 0; i < amount; i++) {
+				q.upRating();
+			}
+			updateQuestion(q);
+		} catch (Exception e) {
+			//Log.i("", e.getMessage());
+		}
+	}
+	
+	public void pushAnswerUpvote(String answerId, String questionId, Integer amount) {
+		try {
+			Question q = getQuestion(questionId);
+			ArrayList<Answer> answers = q.getAnswers();
+			for (int i = 0; i < answers.size(); i++) {
+				if (answers.get(i).getId().equals(answerId)) {
+					for (int j = 0; j < amount; j++) {
+						answers.get(i).upRating();
+					}
+				}
+			}
+			q.setAnswers(answers);
+			updateQuestion(q);
+		} catch (Exception e) {
+			//Log.i("", e.getMessage());
+		}
+	}
 	
 	public Question getQuestion(String questionId) {
 		

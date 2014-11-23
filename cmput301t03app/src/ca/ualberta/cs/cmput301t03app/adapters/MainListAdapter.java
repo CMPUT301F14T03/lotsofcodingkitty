@@ -9,7 +9,9 @@ package ca.ualberta.cs.cmput301t03app.adapters;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import ca.ualberta.cs.cmput301t03app.R;
+import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.models.UserPostCollector;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -29,6 +31,8 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 	private int layoutResourceId;
 	private Context context;
 	private ArrayList<Question> questionList;
+	private PostController pc;
+	
 	/**
 	 * Constructs a {@link #MainListAdapter() MainListAdapter}.
 	 *  @param context The context of the adapter.
@@ -43,6 +47,7 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 		this.context = context;
 		this.questionList = new ArrayList<Question>();
 		this.questionList.addAll(incQuestionList);
+		this.pc = new PostController(context);
 	}
 
 	/**
@@ -52,14 +57,17 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 
 	public static class questionListHolder {
 
+		Question q;
 		/* This is the custom holder with the custom elements for each row */
 		ImageButton question_upvote_button;
 		TextView question_upvote_score;
 		ImageView question_fav_icon;
+		ImageView question_pic_icon;
 		ImageButton question_viewed_icon;
 		TextView question_title;
 		TextView post_timestamp;
 		TextView question_author;
+		TextView question_location;
 	}
 
 
@@ -74,19 +82,36 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 		row = vi.inflate(R.layout.activity_main_question_entity, null); 
 		holder = setupHolder(row);
 		row.setTag(holder);
-		Question q = questionList.get(position);
+		
+		holder.q = questionList.get(position);
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		String date_to_string = sdf.format(q.getDate());
+		String date_to_string = sdf.format(holder.q.getDate());
 		// Set the TextViews
-		holder.question_title.setText(q.getSubject());
-		holder.question_upvote_score.setText(Integer.toString(q.getRating()));
+		holder.question_title.setText(holder.q.getSubject());
+		holder.question_upvote_score.setText(Integer.toString(holder.q.getRating()));
 		holder.post_timestamp.setText("Posted: " + date_to_string);
-		holder.question_author.setText("By: " + q.getAuthor());
+
+		holder.question_author.setText("By: " + holder.q.getAuthor());
+
+		
+		if (holder.q.getGeoLocation() != null) {
+			holder.question_location.setText("Location: " + holder.q.getGeoLocation().getCityName());
+		}
+
 		// Tell the Textviews where the info is coming from.
-		holder.question_author.setTag(q);
-		holder.post_timestamp.setTag(q);
-		holder.question_upvote_score.setTag(q);
-		holder.question_title.setTag(q);
+		holder.question_author.setTag(holder.q);
+		holder.post_timestamp.setTag(holder.q);
+		holder.question_upvote_score.setTag(holder.q);
+		holder.question_title.setTag(holder.q);
+		
+		if (holder.q.getPicture() != null) {
+			holder.question_pic_icon.setBackgroundResource(R.drawable.ic_picture_yes);
+		}
+		
+		if (pc.isQuestionInFavByID(holder.q.getId())) 
+			holder.question_fav_icon.setBackgroundResource(R.drawable.ic_fav_yes_small);
+
 		return row;
 
 	}
@@ -112,6 +137,8 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 		questionListHolder holder = new questionListHolder();
 		holder.question_fav_icon = (ImageView) row
 				.findViewById(R.id.question_fav_icon);
+		holder.question_pic_icon = (ImageView) row
+				.findViewById(R.id.question_pic_icon);
 		holder.question_title = (TextView) row
 				.findViewById(R.id.question_title);
 		holder.post_timestamp = (TextView) row
@@ -120,6 +147,8 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 				.findViewById(R.id.question_author);
 		holder.question_upvote_score = (TextView) row
 				.findViewById(R.id.question_upvote_score);
+		holder.question_location = (TextView) row
+				.findViewById(R.id.question_location1);
 		return holder;
 	}
 

@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -45,6 +46,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
@@ -60,8 +62,7 @@ import ca.ualberta.cs.cmput301t03app.models.Question;
  * 
  */
 
-public class MainActivity extends Activity
-{
+public class MainActivity extends Activity {
 	protected Uri imageFileUri;
 	protected GeoLocation location;
 	protected String cityName;
@@ -80,8 +81,7 @@ public class MainActivity extends Activity
 	 */
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -96,21 +96,17 @@ public class MainActivity extends Activity
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					final int position, long id)
-			{
+					final int position, long id) {
 
 				toQuestionActivity(position);
 			}
 		});
 
-		questionList.setOnItemLongClickListener(new OnItemLongClickListener()
-		{
+		questionList.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
-					int position, long id)
-			{
-				{
-					addToToRead(position);
+					int position, long id) {{
+						addToToRead(position);
 				}
 				return true;
 			}
@@ -119,22 +115,21 @@ public class MainActivity extends Activity
 		setupAdapter();
 		Thread thread = new SearchThread("");
 		thread.start();
-		thread.interrupt();
+		//thread.interrupt();
 		//pc.getQuestionsFromServer();
-		//mla.updateAdapter(pc.getQuestionsInstance());
+		mla.updateAdapter(pc.getQuestionsInstance());
+		pc.sortQuestions(0);
 	}
 
 	@Override
-	public void onResume()
-	{
+	public void onResume() {
 
 		super.onResume();
 		mla.updateAdapter(pc.getQuestionsInstance());
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
@@ -142,8 +137,7 @@ public class MainActivity extends Activity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
+	public boolean onOptionsItemSelected(MenuItem item) {
 
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
@@ -157,6 +151,35 @@ public class MainActivity extends Activity
 		if (id == R.id.search) {
 			searchQuestions();
 		}
+		if (id == R.id.filter_date) {
+			pc.sortQuestions(0);
+			mla.updateAdapter(pc.getQuestionsInstance());
+		}
+		if (id == R.id.filter_score) {
+			pc.sortQuestions(1);
+			mla.updateAdapter(pc.getQuestionsInstance());
+		}
+		if (id == R.id.filter_picture) {
+			pc.sortQuestions(2);
+			mla.updateAdapter(pc.getQuestionsInstance());
+		}
+		if (id == R.id.sync) {
+			pc.pushNewPosts();
+			new Thread() {
+				public void run() {
+					pc.executeSearch("");
+				}
+			}.start();
+			
+			// Give some time to get updated info
+			try {
+				Thread.currentThread().sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			pc.sortQuestions(0);
+			mla.updateAdapter(pc.getQuestionsInstance());
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -169,8 +192,7 @@ public class MainActivity extends Activity
 	 */
 
 	@SuppressWarnings("deprecation")
-	public void addQuestionButtonFunction(View view)
-	{
+	public void addQuestionButtonFunction(View view) {
 
 		// Pops up dialog box for adding a question
 		LayoutInflater li = LayoutInflater.from(this);
@@ -189,23 +211,10 @@ public class MainActivity extends Activity
 				.findViewById(R.id.attachImg);
 		final EditText userLocation = (EditText) promptsView
 				.findViewById(R.id.userLocation);
-		
-		location = new GeoLocation();
-//		GeoLocationTracker locationTracker = new GeoLocationTracker(this, location);
-//		locationTracker.getLocation();
-		
-		location.setLatitude(53.53333);
-		location.setLongitude(-113.5);
-		
-		cityName = pc.getCity(location);
-		
-//		if (cityName != null) {
-//			userLocation.setText(cityName);
-//		} else {
-//			userLocation.setText("No Location");
-//		}
-		
-		
+		final ProgressBar spinner = (ProgressBar) promptsView
+				.findViewById(R.id.progressBar1);
+		spinner.setVisibility(View.GONE);
+			
 		attachImg.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -228,6 +237,32 @@ public class MainActivity extends Activity
 			public void onClick(View v) {
 				hasLocation=!hasLocation;
 				
+				if (hasLocation) {
+					spinner.setVisibility(View.VISIBLE);
+					location = new GeoLocation();
+					GeoLocationTracker locationTracker = new GeoLocationTracker(MainActivity.this, location);
+					locationTracker.getLocation();
+					
+//					location.setLatitude(53.53333);
+//					location.setLongitude(-113.5);
+					
+					//Delay for 7 seconds
+				    Handler handler = new Handler(); 
+				    handler.postDelayed(new Runnable() { 
+				         public void run() { 
+				        	 cityName = pc.getCity(location);
+				        	 Log.d("Loc","Timer is done");
+							if (cityName != null) {
+								userLocation.setText(cityName);
+							} else {
+								userLocation.setText("Location not found.");
+							}
+							spinner.setVisibility(View.GONE);
+				         } 
+				    }, 7000); 
+									
+				}
+				
 			}
 		});
 		
@@ -237,13 +272,11 @@ public class MainActivity extends Activity
 		alertDialogBuilder.setView(promptsView);// Link the alertdialog to the
 												// XML
 		alertDialogBuilder.setPositiveButton("Ask!",
-				new DialogInterface.OnClickListener()
-				{
+				new DialogInterface.OnClickListener() {
 
 					@Override
 					// Building the dialog for adding
-					public void onClick(DialogInterface dialog, int which)
-					{
+					public void onClick(DialogInterface dialog, int which) {
 
 						String questionTitleString = (String) questionTitle
 								.getText().toString();
@@ -261,9 +294,12 @@ public class MainActivity extends Activity
 						if(hasPicture)
 							q.setPicture(imageFileUri.getPath());
 						if(hasLocation){
-							if (userLocationString==cityName){
+							
+							//Set location if location typed by user is same as location found
+							if (userLocationString.equals(cityName)){
 								q.setGeoLocation(location);
 							}
+							//Find the coordinates of place entered by user and set location
 							else{
 								q.setGeoLocation(pc.turnFromCity(userLocationString));
 								//Testing
@@ -274,8 +310,6 @@ public class MainActivity extends Activity
 							}
 						}
 							
-						
-						pc.addUserPost(q);
 						Thread thread = new AddThread(q);
 						thread.start();
 						mla.updateAdapter(pc.getQuestionsInstance());
@@ -283,13 +317,13 @@ public class MainActivity extends Activity
 					}
 
 				}).setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener()
-				{
+				new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int id)
 					{
 
 						// Do nothing
+						hasLocation = false;
 						dialog.cancel();
 					}
 				});
@@ -299,49 +333,43 @@ public class MainActivity extends Activity
 		alertDialog.show();
 		alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
 
-		TextWatcher textwatcher = new TextWatcher()
-		{
+		TextWatcher textwatcher = new TextWatcher() {
 
 			// creating a listener to see if any changes to edit text in dialog
-			private void handleText()
-			{
+			private void handleText() {
 
 				final Button button = alertDialog
 						.getButton(AlertDialog.BUTTON_POSITIVE);
-				if (questionTitle.getText().length() == 0)
-				{ // these checks the edittext to make sure not empty edit text
+				if (questionTitle.getText().length() == 0) { // these checks the edittext to make sure not empty edit text
 					button.setEnabled(false);
-				} else if (questionBody.getText().length() == 0)
-				{
+				} 
+				else if (questionBody.getText().length() == 0) {
 					button.setEnabled(false);
-				} else if (userName.getText().length() == 0)
-				{
+				} 
+				else if (userName.getText().length() == 0) {
 					button.setEnabled(false);
-				} else
-				{
+				}
+				else {
 					button.setEnabled(true);
 				}
 			}
 
 			@Override
-			public void afterTextChanged(Editable s)
-			{
+			public void afterTextChanged(Editable s) {
 
 				handleText();
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after)
-			{
+					int after) {
 
 				// do nothing
 			}
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
-					int count)
-			{
+					int count)	{
 
 				// do nothing
 			}
@@ -365,25 +393,20 @@ public class MainActivity extends Activity
 	 * 
 	 */
 
-	public void addToToRead(final int position)
-	{
+	public void addToToRead(final int position) {
 
 		AlertDialog.Builder editDialog = new AlertDialog.Builder(this);
 		editDialog.setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener()
-				{
+				new DialogInterface.OnClickListener() {
 
-					public void onClick(DialogInterface dialog, int id)
-					{
+					public void onClick(DialogInterface dialog, int id) {
 
 						dialog.cancel();
 					}
 				}).setPositiveButton("Add to To-Read",
-				new DialogInterface.OnClickListener()
-				{
+				new DialogInterface.OnClickListener() {
 
-					public void onClick(DialogInterface dialog, int id)
-					{
+					public void onClick(DialogInterface dialog, int id) {
 
 						pc.addToRead(pc.getQuestionsInstance().get(position));
 						Toast.makeText(MainActivity.this,
@@ -397,14 +420,12 @@ public class MainActivity extends Activity
 	}
 	
 
-	public AlertDialog getDialog()
-	{ // this is for testing purposes
+	public AlertDialog getDialog() { // this is for testing purposes
 
 		return alertDialog1;
 	}
 
-	public MainListAdapter getAdapter()
-	{ // this is for testing purposes
+	public MainListAdapter getAdapter() { // this is for testing purposes
 
 		return mla;
 	}
@@ -412,8 +433,7 @@ public class MainActivity extends Activity
 	/**
 	 * Sets the adapter for the list view.
 	 */
-	private void setupAdapter()
-	{
+	private void setupAdapter() {
 
 		lv = (ListView) findViewById(R.id.activity_main_question_list);
 		mla = new MainListAdapter(this, R.layout.activity_main_question_entity,
@@ -429,8 +449,7 @@ public class MainActivity extends Activity
 	 *  
 	 * @param position The position of the question clicked
 	 */
-	public void toQuestionActivity(int position)
-	{
+	public void toQuestionActivity(int position) {
 
 		Intent i = new Intent(this, ViewQuestion.class);
 		i.putExtra("question_id", pc.getQuestionsInstance().get(position)
@@ -481,6 +500,7 @@ public class MainActivity extends Activity
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
+						pc.sortQuestions(0);
 						mla.updateAdapter(pc.getQuestionsInstance());
 					}
 
@@ -556,6 +576,8 @@ public class MainActivity extends Activity
 	    public void loadMoreQuestions(View view) {
 	    	pc.loadServerQuestions(serverList);
 	    	mla.updateAdapter(pc.getQuestionsInstance());
+	    	Toast.makeText(this, "Loaded more questions", Toast.LENGTH_SHORT)
+			.show();
 	    }
 	    
 	    private Runnable doUpdateGUIList = new Runnable() {
@@ -606,5 +628,4 @@ public class MainActivity extends Activity
 	    		
 	    	}
 	    }
-	
 }

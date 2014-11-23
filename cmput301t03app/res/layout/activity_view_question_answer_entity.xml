@@ -58,8 +58,7 @@
                     android:layout_height="40dp"
                     android:layout_toRightOf="@+id/answer_upvote_score"
                     android:layout_below="@+id/answer_text_body"
-                    android:background="#ccc"
-                    android:src="@drawable/ic_picture_placeholder" 
+                    android:onClick="toPictureActivityAnswer"
                     />
 
                 <TextView
@@ -95,6 +94,21 @@
                     android:textColor="#ffffff"
                     android:textSize="11dp" />
                  
+			     <TextView
+                    android:id="@+id/answer_location"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/answer_author"
+                    android:layout_toRightOf="@+id/answer_picture"
+                    android:background="#2DAD98"
+                    android:text="@string/no_location"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="0dp"
+                    android:textColor="#ffffff"
+                    android:textSize="11dp" />
+                 
                  
                  <ImageButton
 			        android:id="@+id/answer_comment_icon"
@@ -122,16 +136,6 @@
 			           android:textStyle="bold" 
 			           android:text="5"
 			           />
-    
-<!-- 
-                <ImageButton
-                    android:id="@+id/answer_fav_icon"
-                    android:layout_width="75dp"
-                    android:layout_height="28dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/answer_upvote_score"
-                    android:background="#ffffff"
-                    android:gravity="left"
-                    android:src="@drawable/ic_fav_no" /> -->
+
     
 </RelativeLayout>
