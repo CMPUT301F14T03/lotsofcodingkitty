@@ -24,6 +24,7 @@ import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.widget.Toast;
 
 
 
@@ -203,7 +204,7 @@ public class PostController {
 		ldm = new LocalDataManager(getContext());
 		questionUpvotes = ldm.loadQuestionUpvotes();
 		answerUpvotes = ldm.loadAnswerUpvotes();
-		pushPosts = ldm.loadPosts();
+		//pushPosts = ldm.loadPosts();
 	}
 	
 	/**
@@ -394,6 +395,22 @@ public class PostController {
 		idList.add(id);
 		qList.add(q);
 		local.savePostedQuestionsID(idList);
+		local.saveToQuestionBank(qList);
+	}
+	
+	public void addPushQuestion(Question q) {
+		upc.initPushQuestionID(getContext());
+		upc.initQuestionBank(getContext());
+		LocalDataManager local = new LocalDataManager(getContext());
+		Toast.makeText(this.getContext(), "You are offline. Push your questions to the server when you regain connectivity with the 'sync' button", Toast.LENGTH_LONG).show();
+		
+		ArrayList<String> idList = upc.getPushQuestions();
+		ArrayList<Question> qList = upc.getQuestionBank();
+		
+		String id = q.getId();
+		idList.add(id);
+		qList.add(q);
+		local.savePushQuestionsID(idList);
 		local.saveToQuestionBank(qList);
 	}
 
@@ -730,29 +747,40 @@ public class PostController {
 	// Pushes new posts to server, returns true if connectivity attained and
 	// pushed // returns false otherwise // This makes testing easier
 
-	public Boolean pushNewPosts() {
+	public void pushNewPosts() {
 
 		if (checkConnectivity()) {
+			Toast.makeText(this.getContext(), "Attempting to push to server", Toast.LENGTH_SHORT).show();
 			ServerDataManager sdm = new ServerDataManager();
-			sdm.pushPosts(getPushPostsInstance());
+			LocalDataManager local = new LocalDataManager(getContext());
+			upc.initPushQuestionID(getContext());
+			upc.initQuestionBank(getContext());
+			ArrayList<String> qID = upc.getPushQuestions();
+			ArrayList<Question> qList = upc.getQuestionBank();
+			
+			for (int i=0; i < qID.size(); i++) {
+				Toast.makeText(this.getContext(), "Array size is"+qID.size(), Toast.LENGTH_SHORT).show();
+				Toast.makeText(this.getContext(), qID.get(i), Toast.LENGTH_SHORT).show();
+				if(qList.get(i).getId().equals(qID.get(i))) {
+					Toast.makeText(this.getContext(), qList.get(i).getSubject()+" should be added to server", Toast.LENGTH_SHORT).show();
+					sdm.addQuestion(qList.get(i));
+				}
+			}
 
 			// Wait questions to be pushed before clearing
-
 			try {
 				Thread.currentThread().sleep(500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			pushPosts.clear();
-			ldm.savePushPosts(pushPosts);
-			return true;
+			upc.clearPushQuestions();
+			local.deleteIDs(qID);
+			//ldm.savePushPosts(pushPosts);
+			} else {
+//			ldm = new LocalDataManager(getContext());
+//			ldm.savePushPosts(pushPosts);
 		}
-		else {
-			ldm = new LocalDataManager(getContext());
-			ldm.savePushPosts(pushPosts);
-		}
-		return false;
 	}
 	
 	public ArrayList<Question> executeSearch(String searchString) {

@@ -169,8 +169,8 @@ public class MainActivity extends Activity {
 		}
 		if (id == R.id.sync) {
 			pc.pushNewPosts();
-			pc.pushQuestionUpvotes();
-			pc.pushAnswerUpvotes();
+			//pc.pushQuestionUpvotes();
+			//pc.pushAnswerUpvotes();
 			new Thread() {
 				public void run() {
 					pc.executeSearch("");
@@ -342,13 +342,16 @@ public class MainActivity extends Activity {
 					if (pc.checkConnectivity()) {
 						Thread thread = new AddThread(q);
 						thread.start();
-					}						
+					} else {
+						pc.addPushQuestion(q);
+					}
 						pc.addUserPost(q);
 						pc.getQuestionsInstance().add(q);
 						pc.sortQuestions(0);
 						mla.updateAdapter(pc.getQuestionsInstance());
 
 					}
+
 
 				}).setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
@@ -707,4 +710,5 @@ public class MainActivity extends Activity {
 	    myAlertDialog.show();
 
 	    }
+
 }
