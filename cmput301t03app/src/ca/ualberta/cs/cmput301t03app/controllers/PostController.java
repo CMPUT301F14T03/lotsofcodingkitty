@@ -216,13 +216,13 @@ public class PostController {
 		Geocoder gcd = new Geocoder(getContext(),Locale.getDefault());               
 		List<Address> addresses;    
 		try {    
-	      addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);   
-	      
+	      addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);  
 	      if (addresses.size() > 0)               
 	         cityName=addresses.get(0).getLocality();    
 		} catch (IOException e) {              
 	        e.printStackTrace();    
 		}
+		Log.d("Loc",cityName);
 		return cityName;
 	}
 	
