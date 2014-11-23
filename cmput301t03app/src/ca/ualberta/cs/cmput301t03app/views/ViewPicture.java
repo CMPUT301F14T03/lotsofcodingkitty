@@ -86,7 +86,7 @@ public class ViewPicture extends Activity {
 			timeStamp
 					.setText("Posted: " + pc.getQuestion(questionID).getDate());
 			author.setText("By: " + pc.getQuestion(questionID).getAuthor());
-			picture.setImageDrawable(Drawable.createFromPath(question.getPicture()));
+			picture.setImageBitmap(question.getPicture());
 		} else if (commentType == 2)	{ // comment for answers
 			
 		    Log.d("click", "********  Setting ANSWER stuff");
@@ -100,7 +100,7 @@ public class ViewPicture extends Activity {
 					+ pc.getAnswer(answerID, questionID).getDate());
 			author.setText("By: "
 					+ pc.getAnswer(answerID, questionID).getAuthor());
-			picture.setImageDrawable(Drawable.createFromPath(pc.getAnswer(answerID, questionID).getPicture()));
+			picture.setImageBitmap(question.getPicture());;
 		}
 		
 		timeStamp.setText("Posted: " + pc.getQuestion(questionID).getDate());

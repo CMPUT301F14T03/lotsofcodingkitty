@@ -6,7 +6,10 @@
  * */
 package ca.ualberta.cs.cmput301t03app.views;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 
@@ -25,6 +28,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -291,8 +297,32 @@ public class MainActivity extends Activity {
 								questionBodyString, userNameString);
 						pc.addQuestion(q);
 
-						if(hasPicture)
-							q.setPicture(imageFileUri.getPath());
+						if(hasPicture){
+							FileInputStream in;
+							BufferedInputStream buf;
+							try {
+								in = new FileInputStream(imageFileUri.getPath());
+								buf = new BufferedInputStream(in);
+								Bitmap _bitmapPreScale = BitmapFactory.decodeStream(buf);
+								int oldWidth = _bitmapPreScale.getWidth();
+								int oldHeight = _bitmapPreScale.getHeight();
+								int newWidth = 200; 
+								int newHeight = 200;
+								
+								float scaleWidth = ((float) newWidth) / oldWidth;
+								float scaleHeight = ((float) newHeight) / oldHeight;
+								
+								Matrix matrix = new Matrix();
+								// resize the bit map
+								matrix.postScale(scaleWidth, scaleHeight);
+								Bitmap _bitmapScaled = Bitmap.createBitmap(_bitmapPreScale, 0, 0,  oldWidth, oldHeight, matrix, true);
+								q.setPicture(_bitmapScaled);
+							} catch (FileNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+				           
 						if(hasLocation){
 							
 							//Set location if location typed by user is same as location found
