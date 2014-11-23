@@ -36,8 +36,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:text="L O A D  M O R E"
-        android:textColor="#ffffff"
-        android:background="@drawable/ic_picture_placeholder"
+        android:textColor="#000000"
+        android:background="#88676767"
         android:onClick="loadMoreQuestions"  />
     
 </RelativeLayout>
