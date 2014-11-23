@@ -1,6 +1,7 @@
 package ca.ualberta.cs.cmput301t03app.views;
 
 import ca.ualberta.cs.cmput301t03app.R;
+import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -88,6 +89,11 @@ public class UserHome extends Activity {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.view_question, menu);
+		menu.getItem(1).setVisible(false);
+		menu.getItem(2).setVisible(false);
+		getActionBar().setHomeButtonEnabled(true);
+		
+		
 		return true;
 	}
 	
@@ -97,25 +103,39 @@ public class UserHome extends Activity {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-
-		int id = item.getItemId();
-		if (id == R.id.home) {
-			Intent intent = new Intent(this, MainActivity.class);
-			startActivity(intent);
+		
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			runOnUiThread(doFinish);
+			break;
+		
+		
+		case R.id.sync:
+			final PostController pc = new PostController(this);
+			pc.pushNewPosts();
+			new Thread() {
+				public void run() {
+					pc.executeSearch("");
+					
+				}
+			}.start();
 			
-		}
-		if (id == R.id.user_home) {
-			Log.d("click", "Inside menu user home");
+			// Give some time to get updated info
+			try {
+				Thread.currentThread().sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			pc.sortQuestions(0);
 			
-			Intent intent = new Intent(this, UserHome.class);
-			startActivity(intent);
 		}
 		
-//		if (id == R.id.search) {
-//			searchQuestions();
-//		}
-				
-	
 		return (super.onOptionsItemSelected(item));
 	}
+	
+	private Runnable doFinish = new Runnable() {
+		public void run() {
+			finish();
+		}
+	};
 }
