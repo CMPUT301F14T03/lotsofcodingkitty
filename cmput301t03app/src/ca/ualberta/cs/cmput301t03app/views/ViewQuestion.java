@@ -605,8 +605,7 @@ public class ViewQuestion extends Activity {
 
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			Intent intent = new Intent(this, MainActivity.class);
-			startActivity(intent);
+			runOnUiThread(doFinish);
 			break;
 
 		}
@@ -698,6 +697,13 @@ public class ViewQuestion extends Activity {
 
 		}
 	}
+	
+	private Runnable doFinish = new Runnable() {
+		public void run() {
+			finish();
+		}
+	};
+	
 	
 
 }
