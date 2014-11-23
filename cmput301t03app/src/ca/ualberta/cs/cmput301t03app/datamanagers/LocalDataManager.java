@@ -7,13 +7,17 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.content.Context;
 import ca.ualberta.cs.cmput301t03app.interfaces.iDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.models.Post;
+import ca.ualberta.cs.cmput301t03app.models.UpvoteTuple;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import android.content.Context;
 
 /**
  * Manages the saving and loading of an array list of Questions to
@@ -31,6 +35,9 @@ public class LocalDataManager implements iDataManager {
 	private static final String FAVORITE_FILE = "favorite.sav";
 	private static final String POSTED_QUESTIONS_FILE = "post_questions.sav";
 	private static final String QUESTION_BANK = "question_bank.sav";
+	private static final String QUESTION_UPVOTES = "question_upvotes.sav";
+	private static final String ANSWER_UPVOTES = "answer_upvotes.sav";
+	private static final String PUSH_POSTS = "push_posts.sav";
 	// private static final String POSTED_ANSWERS_FILE = "post_answers.sav";
 	// private static final String ANSWER_BANK = "answer_bank.sav"; // This is
 	// required and use to save the posted answers ONLY.
@@ -52,6 +59,27 @@ public class LocalDataManager implements iDataManager {
 
 	/*********************************** SAVE METHODS **************************************/
 
+	
+	/**
+	 * New methods related to saving things that need to be pushed to server locally.
+	 * @param posts
+	 */
+	
+	public void savePushPosts(ArrayList<Post> posts) {
+		SAVE_FILE = PUSH_POSTS;
+		saveFilePushPosts(posts);
+	}
+	
+	public void savePushQuestionUpvotes(HashMap<String, Integer> upvotes){
+		SAVE_FILE = QUESTION_UPVOTES;
+		saveFileQuestionUpvotes(upvotes);
+	}
+	
+	public void savePushAnswerUpvotes(HashMap<String, UpvoteTuple> upvotes) {
+		SAVE_FILE = ANSWER_UPVOTES;
+		saveFileAnswerUpvotes(upvotes);
+		
+	}
 	/**
 	 * Saves a list of question IDs of favorite questions to cache.
 	 * 
@@ -116,6 +144,33 @@ public class LocalDataManager implements iDataManager {
 	}
 
 
+	/**
+	 * New methods for loading posts and upvotes that need to be pushed
+	 * @return
+	 */
+	
+	public ArrayList<Post> loadPosts() {
+		SAVE_FILE = PUSH_POSTS;
+		ArrayList<Post> posts = loadPushPosts();
+		return posts;
+		
+	}
+	
+	public HashMap<String, Integer> loadQuestionUpvotes() {
+		SAVE_FILE = QUESTION_UPVOTES;
+		HashMap<String, Integer> upvotes = loadFileQuestionUpvotes();
+		return upvotes;
+		
+	}
+	
+	public HashMap<String, UpvoteTuple> loadAnswerUpvotes() {
+		SAVE_FILE = ANSWER_UPVOTES;
+		HashMap<String, UpvoteTuple> upvotes = loadFileAnswerUpvotes();
+		return upvotes;
+		
+	}
+	
+	
 	/**
 	 * Loads a list of question ID's of favorite questions from cache.
 	 * 
@@ -212,6 +267,77 @@ public class LocalDataManager implements iDataManager {
 	/*********************************** PRIVATE METHODS *****************************************/
 
 	/**
+	 * Method for saving question upvotes to local file.
+	 * @param upvotes
+	 */
+	
+	private void saveFileQuestionUpvotes(HashMap<String, Integer> upvotes) {
+		try
+		{
+			FileOutputStream fileOutputStream = context.openFileOutput(
+					SAVE_FILE, Context.MODE_PRIVATE);
+			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+					fileOutputStream);
+			GsonBuilder builder = new GsonBuilder();
+			Gson gson = builder.create();
+			gson.toJson(upvotes, outputStreamWriter); // Serialize to Json
+			outputStreamWriter.flush();
+			outputStreamWriter.close();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Method for saving answer upvotes to local file.
+	 * @param upvotes
+	 */
+	
+	private void saveFileAnswerUpvotes(HashMap<String, UpvoteTuple> upvotes) {
+		try
+		{
+			FileOutputStream fileOutputStream = context.openFileOutput(
+					SAVE_FILE, Context.MODE_PRIVATE);
+			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+					fileOutputStream);
+			GsonBuilder builder = new GsonBuilder();
+			Gson gson = builder.create();
+			gson.toJson(upvotes, outputStreamWriter); // Serialize to Json
+			outputStreamWriter.flush();
+			outputStreamWriter.close();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Method for saving posts that need to be pushed to local file.
+	 * @param posts
+	 */
+	
+	private void saveFilePushPosts(ArrayList<Post> posts) {
+		try
+		{
+			FileOutputStream fileOutputStream = context.openFileOutput(
+					SAVE_FILE, Context.MODE_PRIVATE);
+			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+					fileOutputStream);
+			GsonBuilder builder = new GsonBuilder();
+			Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+					.create();
+			gson.toJson(posts, outputStreamWriter); // Serialize to Json
+			builder.serializeNulls(); // Show fields with null values
+			outputStreamWriter.flush();
+			outputStreamWriter.close();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Saves an array of IDs to the local drive
 	 * 
 	 * @param idList A list of strings pertaining to question IDs that will be saved to local drive
@@ -295,6 +421,83 @@ public class LocalDataManager implements iDataManager {
 			e.printStackTrace();
 		}
 		return idArray;
+	}
+	
+	/**
+	 * Method for loading posts that need to be pushed to the server.
+	 * @return
+	 */
+	
+	private ArrayList<Post> loadPushPosts() {
+		ArrayList<Post> posts = new ArrayList<Post>();
+		try
+		{
+			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);
+			InputStreamReader inputStreamReader = new InputStreamReader(
+					fileInputStream);
+			Type listType = new TypeToken<ArrayList<Post>>()
+			{
+			}.getType();
+			GsonBuilder builder = new GsonBuilder();
+			Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+					.create();
+			builder.serializeNulls(); // Show fields with null values
+			posts = gson.fromJson(inputStreamReader, listType);
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return posts;
+	}
+	
+	/**
+	 * Method for loading question upvotes that need to be pushed to the server.
+	 * @return
+	 */
+	
+	private HashMap<String, Integer> loadFileQuestionUpvotes() {
+		HashMap<String, Integer> upvotes = new HashMap<String, Integer>();
+		try
+		{
+			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);
+			InputStreamReader inputStreamReader = new InputStreamReader(
+					fileInputStream);
+			Type listType = new TypeToken<HashMap<String, Integer>>()
+			{
+			}.getType();
+			GsonBuilder builder = new GsonBuilder();
+			Gson gson = builder.create();
+			upvotes = gson.fromJson(inputStreamReader, listType);
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return upvotes;
+	}
+	
+	/**
+	 * Method for loading answer upvotes that need to be pushed to the server.
+	 * @return
+	 */
+	
+	private HashMap<String, UpvoteTuple> loadFileAnswerUpvotes() {
+		HashMap<String, UpvoteTuple> upvotes = new HashMap<String, UpvoteTuple>();
+		try
+		{
+			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);
+			InputStreamReader inputStreamReader = new InputStreamReader(
+					fileInputStream);
+			Type listType = new TypeToken<HashMap<String, UpvoteTuple>>()
+			{
+			}.getType();
+			GsonBuilder builder = new GsonBuilder();
+			Gson gson = builder.create();
+			upvotes = gson.fromJson(inputStreamReader, listType);
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return upvotes;
 	}
 }
 

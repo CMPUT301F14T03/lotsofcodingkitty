@@ -48,6 +48,7 @@ public class PostController {
 	private static QuestionFilter qf = new QuestionFilter();
 	private static UserPostCollector upc = new UserPostCollector();
 	private static ServerDataManager sdm = new ServerDataManager();
+	private static LocalDataManager ldm;
 	private static int serverListIndex = 0;
 	private Context context;
 
@@ -137,6 +138,10 @@ public class PostController {
 			}
 			questionUpvotes.clear();
 		}
+		else {
+			ldm = new LocalDataManager(getContext());
+			ldm.savePushQuestionUpvotes(questionUpvotes);
+		}
 	}
 	
 
@@ -174,6 +179,17 @@ public class PostController {
 			}
 			answerUpvotes.clear();
 		}
+		else {
+			ldm = new LocalDataManager(getContext());
+			ldm.savePushAnswerUpvotes(answerUpvotes);
+		}
+	}
+	
+	public void loadToBePushed() {
+		ldm = new LocalDataManager(getContext());
+		questionUpvotes = ldm.loadQuestionUpvotes();
+		answerUpvotes = ldm.loadAnswerUpvotes();
+		pushPosts = ldm.loadPosts();
 	}
 	
 	/**
@@ -688,6 +704,10 @@ public class PostController {
 			}
 			pushPosts.clear();
 			return true;
+		}
+		else {
+			ldm = new LocalDataManager(getContext());
+			ldm.savePushPosts(pushPosts);
 		}
 		return false;
 	}
