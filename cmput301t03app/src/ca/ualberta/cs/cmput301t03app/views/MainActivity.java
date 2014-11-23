@@ -109,6 +109,7 @@ public class MainActivity extends Activity {
 		//pc.getQuestionsFromServer();
 		mla.updateAdapter(pc.getQuestionsInstance());
 		pc.sortQuestions(0);
+		pc.loadToBePushed();
 	}
 
 	@Override
@@ -155,6 +156,8 @@ public class MainActivity extends Activity {
 		}
 		if (id == R.id.sync) {
 			pc.pushNewPosts();
+			pc.pushQuestionUpvotes();
+			pc.pushAnswerUpvotes();
 			new Thread() {
 				public void run() {
 					pc.executeSearch("");
