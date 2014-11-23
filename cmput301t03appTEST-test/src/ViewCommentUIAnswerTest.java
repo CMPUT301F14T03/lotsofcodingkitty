@@ -49,6 +49,7 @@ ActivityInstrumentationTestCase2<ViewComment> {
 		String qAuthor = "Author";
 		q = new Question(qTitle, qBody, qAuthor);
 		pc.addQuestion(q);
+		pc.getQuestionsInstance().add(q);
 		c = new Comment("String", "String");
 
 	}
@@ -140,6 +141,7 @@ ActivityInstrumentationTestCase2<ViewComment> {
 	public void testCommentBodyIsCorrectWithOneComment() {
 
 		Answer a = new Answer("aTitle", "aAuthor", "1");
+		pc.getQuestionsInstance();
 		pc.addAnswer(a, q.getId());
 		pc.addCommentToAnswer(c, q.getId(), a.getId());
 
@@ -160,6 +162,7 @@ ActivityInstrumentationTestCase2<ViewComment> {
 	 */
 	public void testCommentBodyIsCorretWithTwoComments() {
 		Answer a = new Answer("aTitle", "aAuthor", "1");
+		q.addAnswer(a);
 		pc.addAnswer(a, q.getId());
 		Comment c1 = new Comment("String1", "String1");
 		pc.addCommentToAnswer(c, q.getId(), a.getId());
