@@ -89,9 +89,6 @@ public class UserHome extends Activity {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.view_question, menu);
-		menu.getItem(1).setVisible(false);
-		menu.getItem(2).setVisible(false);
-		menu.getItem(0).setVisible(false);
 		getActionBar().setHomeButtonEnabled(true);
 		
 		
@@ -109,26 +106,6 @@ public class UserHome extends Activity {
 		case android.R.id.home:
 			runOnUiThread(doFinish);
 			break;
-		
-		
-		case R.id.sync:
-			final PostController pc = new PostController(this);
-			pc.pushNewPosts();
-			new Thread() {
-				public void run() {
-					pc.executeSearch("");
-					
-				}
-			}.start();
-			
-			// Give some time to get updated info
-			try {
-				Thread.currentThread().sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			pc.sortQuestions(0);
-			
 		}
 		
 		return (super.onOptionsItemSelected(item));
