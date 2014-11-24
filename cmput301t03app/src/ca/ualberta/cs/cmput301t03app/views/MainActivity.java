@@ -299,31 +299,11 @@ public class MainActivity extends Activity {
 								questionBodyString, userNameString);
 
 						if(hasPicture){
-							FileInputStream in;
-							BufferedInputStream buf;
-							try {
-								in = new FileInputStream(imageFileUri.getPath());
-								buf = new BufferedInputStream(in);
-								Bitmap _bitmapPreScale = BitmapFactory.decodeStream(buf);
-								int oldWidth = _bitmapPreScale.getWidth();
-								int oldHeight = _bitmapPreScale.getHeight();
-								int newWidth = 200; 
-								int newHeight = 200;
-								
-								float scaleWidth = ((float) newWidth) / oldWidth;
-								float scaleHeight = ((float) newHeight) / oldHeight;
-								
-								Matrix matrix = new Matrix();
-								// resize the bit map
-								matrix.postScale(scaleWidth, scaleHeight);
-								Bitmap _bitmapScaled = Bitmap.createBitmap(_bitmapPreScale, 0, 0,  oldWidth, oldHeight, matrix, true);
+							Bitmap _bitmapScaled= ShrinkBitmap(imageFileUri.getPath(),10,10);
 								ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 								_bitmapScaled.compress(Bitmap.CompressFormat.PNG, 0, bytes);
 								q.setPicture(bytes.toByteArray());
-							} catch (FileNotFoundException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+						
 						}
 				           
 						if(hasLocation){
@@ -426,7 +406,7 @@ public class MainActivity extends Activity {
 	 * ToRead list so that they can read the question later.
 	 * @param position A final int from the question position the 
 	 * 	long click was called from
-	 * 			
+	 * 			with bitmapfactory
 	 * 
 	 */
 
@@ -623,7 +603,6 @@ public class MainActivity extends Activity {
 	    		
 	    		if (resultCode == RESULT_OK) {
 	    			hasPicture = true;
-	    			Uri selectedImage = data.getData();
 //	    	        imageview.setImageURI(selectedImage);
 	    		}
 	    			
@@ -710,4 +689,29 @@ public class MainActivity extends Activity {
 	    myAlertDialog.show();
 
 	    }
-}
+	    
+	    Bitmap ShrinkBitmap(String file, int width, int height){
+	    	  
+	        BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
+	           bmpFactoryOptions.inJustDecodeBounds = true;
+	           Bitmap bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+	           
+	           int heightRatio = (int)Math.ceil(bmpFactoryOptions.outHeight/(float)height);
+	           int widthRatio = (int)Math.ceil(bmpFactoryOptions.outWidth/(float)width);
+	           
+	           if (heightRatio > 1 || widthRatio > 1)
+	           {
+	            if (heightRatio > widthRatio)
+	            {
+	             bmpFactoryOptions.inSampleSize = heightRatio;
+	            } else {
+	             bmpFactoryOptions.inSampleSize = widthRatio; 
+	            }
+	           }
+	           
+	           bmpFactoryOptions.inJustDecodeBounds = false;
+	           bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+	        return bitmap;
+	       }
+	   }
+
