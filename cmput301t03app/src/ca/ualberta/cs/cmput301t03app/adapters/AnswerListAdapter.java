@@ -75,7 +75,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		row.setTag(holder);
 		// Date to string
 		// http://javarevisited.blogspot.ca/2011/09/convert-date-to-string-simpledateformat.html
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		String date_to_string = sdf.format(holder.answer.getDate());
 		holder.answer_text_body.setText(holder.answer.getAnswer());
 		holder.answer_author.setText("By: " + holder.answer.getAuthor());
