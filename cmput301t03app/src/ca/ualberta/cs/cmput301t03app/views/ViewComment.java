@@ -415,32 +415,38 @@ public class ViewComment extends Activity
 	
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
 
+		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.view_question, menu);
+		getActionBar().setHomeButtonEnabled(true);
+		
+		
 		return true;
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-
-		int id = item.getItemId();
-		if (id == R.id.home) {
-			Intent intent = new Intent(this, MainActivity.class);
-			startActivity(intent);
-			
-		} else if (id == R.id.user_home) {
-			Intent intent = new Intent(this, UserHome.class);
-			startActivity(intent);
+		
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			runOnUiThread(doFinish);
+			break;
 		}
 		
-
 		return (super.onOptionsItemSelected(item));
 	}
+	
+	private Runnable doFinish = new Runnable() {
+		public void run() {
+			finish();
+		}
+	};
 	
 	class AddCommentThread extends Thread {
     	private String qID;

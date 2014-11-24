@@ -14,6 +14,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -110,8 +112,39 @@ public class ViewPicture extends Activity {
 		timeStamp.setText("Posted: " + pc.getQuestion(questionID).getDate());
 		author.setText("By: " + pc.getQuestion(questionID).getAuthor());
 		
-		
-		
 	}
+	
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.view_question, menu);
+		getActionBar().setHomeButtonEnabled(true);
+		
+		
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			runOnUiThread(doFinish);
+			break;
+		}
+		
+		return (super.onOptionsItemSelected(item));
+	}
+	
+	private Runnable doFinish = new Runnable() {
+		public void run() {
+			finish();
+		}
+	};
 
 }
