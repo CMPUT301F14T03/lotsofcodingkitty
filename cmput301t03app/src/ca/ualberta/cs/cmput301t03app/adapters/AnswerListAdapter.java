@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		TextView post_timestamp;
 		TextView answer_author;
 		TextView answer_comment_count;
+		TextView answer_location;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -73,7 +75,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		row.setTag(holder);
 		// Date to string
 		// http://javarevisited.blogspot.ca/2011/09/convert-date-to-string-simpledateformat.html
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		String date_to_string = sdf.format(holder.answer.getDate());
 		holder.answer_text_body.setText(holder.answer.getAnswer());
 		holder.answer_author.setText("By: " + holder.answer.getAuthor());
@@ -87,6 +89,10 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		} else {
 			holder.answer_picture.setBackgroundResource(R.drawable.ic_picture_no);
 		}
+		
+		if (holder.answer.getGeoLocation() != null) {
+			holder.answer_location.setText("Location: " + holder.answer.getGeoLocation().getCityName());
+		}
 				
 		return row;
 	}
@@ -97,9 +103,9 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 	 *@param answerList The new list of answers that will be shown in the listview.
 	 */
 
-	public synchronized void updateAdapter(ArrayList<Answer> answerList) {
+	public synchronized void updateAdapter(ArrayList<Answer> List) {
 		answerList.clear();
-		answerList.addAll(answerList);
+		answerList.addAll(List);
 		notifyDataSetChanged();
 	}
 
@@ -128,6 +134,7 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		holder.answer_comment_icon = (ImageButton) row.findViewById(R.id.answer_comment_icon);
 		holder.answer_comment_count = (TextView) row.findViewById(R.id.answer_comment_count);
 		holder.answer_picture = (ImageButton) row.findViewById(R.id.answer_picture);
+		holder.answer_location = (TextView) row.findViewById(R.id.answer_location);
 		
 		return holder;
 	}

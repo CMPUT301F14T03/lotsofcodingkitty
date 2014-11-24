@@ -2,6 +2,7 @@ package ca.ualberta.cs.cmput301t03app.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,6 +15,7 @@ import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 import ca.ualberta.cs.cmput301t03app.models.Post;
 import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.models.UpvoteTuple;
 import ca.ualberta.cs.cmput301t03app.models.UserPostCollector;
 
 import android.content.Context;
@@ -22,31 +24,37 @@ import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
-
-
+import android.widget.Toast;
 
 /**
- 	* Responsible for all of the model manipulation in the program. <p>
- 	* This class uses a UserPostCollector
-	 * which contains all of the local data information (including posted
-	 * questions, favorites, to read, read, etc.). It also uses a DataManager which
-	 * is used for loading and saving.
-	 * 
- *
+ * Responsible for all of the model manipulation in the program.
+ * <p>
+ * This class uses a UserPostCollector which contains all of the local data
+ * information (including posted questions, favorites, to read, read, etc.). It
+ * also uses a DataManager which is used for loading and saving.
+ * 
+ * 
  */
 public class PostController {
 
+	private static final int SORT_BY_DATE = 0;
+	private static final int SORT_BY_UPVOTE = 1;
+	private static final int SORT_BY_PICTURE = 2;
 	private static ArrayList<Question> subQuestions = null;
 	private static ArrayList<Post> pushPosts = null;
+	private static HashMap<String, Integer> questionUpvotes = null;
+	private static HashMap<String, UpvoteTuple> answerUpvotes = null;
 	private static QuestionFilter qf = new QuestionFilter();
 	private static UserPostCollector upc = new UserPostCollector();
 	private static ServerDataManager sdm = new ServerDataManager();
+	private static LocalDataManager ldm;
 	private static int serverListIndex = 0;
 	private Context context;
 
 	/**
 	 * 
 	 * Constructs a {@link #PostController() PostController}
+	 * 
 	 * @param context
 	 *            The context of the PostController
 	 */
@@ -54,6 +62,7 @@ public class PostController {
 	public PostController(Context context) {
 
 		this.context = context;
+		this.ldm = new LocalDataManager(context);
 	}
 
 	public int countAnswers(Question q) {
@@ -65,19 +74,152 @@ public class PostController {
 
 		return q.countComments();
 	}
-	
+
+	public static HashMap<String, Integer> getQuestionUpvotes() {
+		if (questionUpvotes == null) {
+			questionUpvotes = new HashMap<String, Integer>();
+		}
+		return questionUpvotes;
+	}
+
+	public static HashMap<String, UpvoteTuple> getAnswerUpvotes() {
+		if (answerUpvotes == null) {
+			answerUpvotes = new HashMap<String, UpvoteTuple>();
+		}
+		return answerUpvotes;
+	}
+
 	/**
-	 *  Takes in a geolocation and returns a city name if available
-	 *  @param Geolocation location
-	 *  @return a string with the city name
+	 * Sort the subQuestions list based on the specified comparison
+	 * 
+	 * @param type
+	 */
+
+	public void sortQuestions(int type) {
+		switch (type) {
+		case SORT_BY_DATE:
+			qf.sortByDate(getQuestionsInstance());
+			break;
+		case SORT_BY_UPVOTE:
+			qf.sortByUpvote(getQuestionsInstance());
+			break;
+		case SORT_BY_PICTURE:
+			qf.sortByPic(getQuestionsInstance());
+			break;
+		}
+	}
+
+	public void sortByLocation(GeoLocation location, ArrayList<Question> list) {
+		subQuestions = qf.sortByLocation(list, location);
+	}
+
+	/**
+	 * Upvote question method, pushes upvotes to server
+	 * 
+	 * @param questionId
+	 */
+
+	public void upvoteQuestion(String questionId) {
+		getQuestion(questionId).upRating();
+		if (getQuestionUpvotes().containsKey(questionId)) {
+			int count = getQuestionUpvotes().get(questionId);
+			count++;
+			getQuestionUpvotes().put(questionId, count);
+		} else {
+			getQuestionUpvotes().put(questionId, 1);
+		}
+
+		// push all upvotes in question upvote hashtable
+
+		if (checkConnectivity()) {
+			pushQuestionUpvotes();
+		} else {
+			ldm = new LocalDataManager(getContext());
+			ldm.savePushQuestionUpvotes(questionUpvotes);
+		}
+	}
+
+	public void pushQuestionUpvotes() {
+
+		for (HashMap.Entry<String, Integer> entry : getQuestionUpvotes()
+				.entrySet()) {
+			sdm.pushQuestionUpvote(entry.getKey(), entry.getValue());
+		}
+		try {
+			Thread.currentThread().sleep(250);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		questionUpvotes.clear();
+		ldm.savePushQuestionUpvotes(questionUpvotes);
+	}
+
+	/**
+	 * Upvote answer method, pushes upvotes to server
+	 * 
+	 * @param answerId
+	 * @param questionId
+	 */
+
+	public void upvoteAnswer(String answerId, String questionId) {
+		getAnswer(answerId, questionId).upRating();
+		if (getAnswerUpvotes().containsKey(answerId)) {
+			UpvoteTuple tuple = getAnswerUpvotes().get(answerId);
+			tuple.setUpvoteCount(tuple.getUpvoteCount() + 1);
+			getAnswerUpvotes().put(answerId, tuple);
+		} else {
+			UpvoteTuple tuple = new UpvoteTuple(questionId, 1);
+			getAnswerUpvotes().put(answerId, tuple);
+		}
+		// push all upvotes in answer upvote hashtable
+
+		if (checkConnectivity()) {
+			pushAnswerUpvotes();
+		} else {
+			ldm = new LocalDataManager(getContext());
+			ldm.savePushAnswerUpvotes(answerUpvotes);
+		}
+	}
+
+	public void pushAnswerUpvotes() {
+
+		for (HashMap.Entry<String, UpvoteTuple> entry : getAnswerUpvotes()
+				.entrySet()) {
+			Integer upvoteCount = entry.getValue().getUpvoteCount();
+			String qId = entry.getValue().getQuestionId();
+			sdm.pushAnswerUpvote(entry.getKey(), qId, upvoteCount);
+		}
+		try {
+			Thread.currentThread().sleep(250);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		answerUpvotes.clear();
+		ldm.savePushAnswerUpvotes(answerUpvotes);
+	}
+
+	public void loadToBePushed() {
+		ldm = new LocalDataManager(getContext());
+		questionUpvotes = ldm.loadQuestionUpvotes();
+		answerUpvotes = ldm.loadAnswerUpvotes();
+		// pushPosts = ldm.loadPosts();
+	}
+
+	/**
+	 * Takes in a geolocation and returns a city name if available
+	 * 
+	 * @param Geolocation
+	 *            location
+	 * @return a string with the city name
 	 */
 	public String getCity(GeoLocation location) {
 		String cityName = null;                
 		Geocoder gcd = new Geocoder(getContext(),Locale.getDefault());               
 		List<Address> addresses;    
 		try {    
-	      addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);   
-	      
+	      addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);  
 	      if (addresses.size() > 0)               
 	         cityName=addresses.get(0).getLocality();    
 		} catch (IOException e) {              
@@ -85,26 +227,28 @@ public class PostController {
 		}
 		return cityName;
 	}
-	
-	public GeoLocation turnFromCity(String cityName){
-		
+
+	public GeoLocation turnFromCity(String cityName) {
+
 		Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
 		List<Address> addresses;
-		GeoLocation location= new GeoLocation();
+		GeoLocation location = new GeoLocation();
+		location.setCityName(cityName);
 		try {
 			addresses = gcd.getFromLocationName(cityName, 1);
-			if (addresses.size() > 0) { 
+			if (addresses.size() > 0) {
 				location.setLatitude(addresses.get(0).getLatitude());
 				location.setLongitude(addresses.get(0).getLongitude());
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return location;
 	}
-	
+
 	/**
 	 * Returns true if the application is connected to the internet
+	 * 
 	 * @return A boolean stating if connected to internet
 	 */
 	public Boolean checkConnectivity() {
@@ -117,10 +261,12 @@ public class PostController {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Returns true if a question is favorited by the user.
-	 * @param  questionID the question ID of the question being checked.
+	 * 
+	 * @param questionID
+	 *            the question ID of the question being checked.
 	 * 
 	 * */
 	public Boolean isQuestionInFavByID(String questionID) {
@@ -128,8 +274,7 @@ public class PostController {
 		upc.initFavoriteID(getContext());
 		// Log.d("click", "Size of Fav array: "+
 		// upc.getFavoriteQuestions().size());
-		for (int i = 0; i < upc.getFavoriteQuestions().size(); i++)
-		{
+		for (int i = 0; i < upc.getFavoriteQuestions().size(); i++) {
 			if (upc.getFavoriteQuestions().get(i).equals(questionID))
 				return true;
 		}
@@ -137,8 +282,11 @@ public class PostController {
 	}
 
 	/**
-	 * Returns true if a question is in the cache or has already been read by the user.
-	 * @param  questionID the question ID of the question being checked.
+	 * Returns true if a question is in the cache or has already been read by
+	 * the user.
+	 * 
+	 * @param questionID
+	 *            the question ID of the question being checked.
 	 * 
 	 * */
 	public Boolean isQuestionInReadByID(String questionID) {
@@ -151,31 +299,34 @@ public class PostController {
 	}
 
 	/**
-	 * This method replaces the old question with the updated question
-	 * in the question bank and saves to local storage.
+	 * This method replaces the old question with the updated question in the
+	 * question bank and saves to local storage.
 	 * 
-	 * @param qId A String representing a Question ID
+	 * @param qId
+	 *            A String representing a Question ID
 	 */
 	public void updateQuestionInBank(String qId) {
-		
+
 		Question q = getQuestion(qId);
 		LocalDataManager local = new LocalDataManager(getContext());
 		ArrayList<Question> questionArray = upc.getQuestionBank();
-		
-		//Replace the old question with the updated question at the specified index
-		for (int i = 0; i<questionArray.size(); i++) {
+
+		// Replace the old question with the updated question at the specified
+		// index
+		for (int i = 0; i < questionArray.size(); i++) {
 			if (q.getId().equals(questionArray.get(i).getId())) {
 				questionArray.set(i, q);
 			}
 		}
-		
-		local.saveToQuestionBank(questionArray);	
+
+		local.saveToQuestionBank(questionArray);
 	}
-	
+
 	/**
 	 * Adds a question to the favorite questions list and saves it locally.
 	 * 
-	 * @param q the Question object to be saved.
+	 * @param q
+	 *            the Question object to be saved.
 	 */
 	public void addFavoriteQuestion(Question q) {
 
@@ -195,7 +346,8 @@ public class PostController {
 	/**
 	 * Adds a question to the read questions list and saves it locally
 	 * 
-	 * @param q the previously read question that must be saved.
+	 * @param q
+	 *            the previously read question that must be saved.
 	 */
 	public void addReadQuestion(Question q) {
 
@@ -216,7 +368,8 @@ public class PostController {
 	/**
 	 * Adds a question to the "to read" list and saves it locally
 	 * 
-	 * @param q the question object that the user wants to read later.
+	 * @param q
+	 *            the question object that the user wants to read later.
 	 */
 	public void addToRead(Question q) {
 
@@ -237,7 +390,8 @@ public class PostController {
 	/**
 	 * Adds a question to the posted questions list and saves it locally
 	 * 
-	 * @param q a Question object that the user wants to post
+	 * @param q
+	 *            a Question object that the user wants to post
 	 */
 	public void addUserPost(Question q) {
 
@@ -256,17 +410,39 @@ public class PostController {
 		local.saveToQuestionBank(qList);
 	}
 
+	public void addPushQuestion(Question q) {
+		upc.initPushQuestionID(getContext());
+		upc.initQuestionBank(getContext());
+		LocalDataManager local = new LocalDataManager(getContext());
+		Toast.makeText(
+				this.getContext(),
+				"You are offline. Push your questions to the server when you regain connectivity with the 'sync' button",
+				Toast.LENGTH_LONG).show();
+
+		ArrayList<String> idList = upc.getPushQuestions();
+		ArrayList<Question> qList = upc.getQuestionBank();
+
+		String id = q.getId();
+		idList.add(id);
+		qList.add(q);
+		local.savePushQuestionsID(idList);
+		local.saveToQuestionBank(qList);
+	}
+
 	/**
 	 * Adds an Answer object to the question object
 	 * 
-	 * @param answer the answer object that the user has made
-	 * @param questionID The ID of the question that the answer will be added to
+	 * @param answer
+	 *            the answer object that the user has made
+	 * @param questionID
+	 *            The ID of the question that the answer will be added to
 	 */
 	public void addAnswer(Answer answer, String questionID) {
 
 		getQuestion(questionID).addAnswer(answer);
-		getPushPostsInstance().add(new Post(answer, questionID, Question.class));
-		//TODO: pushNewPosts();
+		getPushPostsInstance()
+				.add(new Post(answer, questionID, Question.class));
+		pushNewPosts();
 		updateQuestionInBank(questionID);
 	}
 
@@ -277,30 +453,69 @@ public class PostController {
 	 *            a Question object that the user wants to be added.
 	 */
 	public void addQuestion(Question question) {
+		sdm.addQuestion(question);
+	}
 
-		getQuestionsInstance().add(question);
-		getPushPostsInstance().add(new Post(question));
-		addUserPost(question);
-		pushNewPosts();
+	/**
+	 * Adds an answer to a question.
+	 * 
+	 * @param answer
+	 *            The answer that is being given.
+	 * @param question
+	 *            The question that is being answered.
+	 */
+	public void answerAQuestion(Answer answer, String qID) {
+		Question q = sdm.getQuestion(qID);
+		q.addAnswer(answer);
+		sdm.updateQuestion(q);
+	}
+
+	/**
+	 * Adds a comment to a question or answer.
+	 * 
+	 * @param comment
+	 *            The comment you want to add.
+	 * @param question
+	 *            The question you are commenting on or the parent question of
+	 *            an answer you are commenting on.
+	 */
+	public void commentAQuestion(Comment comment, String qID) {
+		Question q = sdm.getQuestion(qID);
+		q.addComment(comment);
+		sdm.updateQuestion(q);
+	}
+
+	public void commentAnAnswer(Comment comment, String aID, String qID) {
+		Question q = sdm.getQuestion(qID);
+		ArrayList<Answer> a = q.getAnswers();
+		for (int i = 0; i < a.size(); i++) {
+			if (a.get(i).getId().equals(aID)) {
+				a.get(i).addComment(comment);
+			}
+		}
+		sdm.updateQuestion(q);
 	}
 
 	/**
 	 * Adds a comment object to a question object.
 	 * 
 	 * @param comment
-	 *            A comment object that the user wants to be added to a question.
-	 * @param parentId The ID of the question that the comment will be added to
+	 *            A comment object that the user wants to be added to a
+	 *            question.
+	 * @param parentId
+	 *            The ID of the question that the comment will be added to
 	 */
 	public void addCommentToQuestion(Comment comment, String parentId) {
 		for (int i = 0; i < subQuestions.size(); i++) {
 			if (subQuestions.get(i).getId().equals(parentId)) {
 				subQuestions.get(i).addComment(comment);
-				getPushPostsInstance().add(new Post(comment, parentId, Question.class));
+				getPushPostsInstance().add(
+						new Post(comment, parentId, Question.class));
 			}
 		}
-		//TODO: pushNewPosts();
+		// TODO: pushNewPosts();
 		updateQuestionInBank(parentId);
-		
+
 	}
 
 	/**
@@ -308,8 +523,10 @@ public class PostController {
 	 * 
 	 * @param comment
 	 *            A comment object that will be added to the answer
-	 * @param answerID The ID of the answer that the comment will be added to
-	 * @param questionID the question that the answer is pertaining to.
+	 * @param answerID
+	 *            The ID of the answer that the comment will be added to
+	 * @param questionID
+	 *            the question that the answer is pertaining to.
 	 */
 	public void addCommentToAnswer(Comment comment, String questionID,
 			String answerID) {
@@ -319,13 +536,13 @@ public class PostController {
 		for (int i = 0; i < a.size(); i++) {
 			if (a.get(i).getId().equals(answerID)) {
 				a.get(i).addComment(comment);
-				getPushPostsInstance().add(new Post(comment, answerID, questionID, Answer.class));
+				getPushPostsInstance().add(
+						new Post(comment, answerID, questionID, Answer.class));
 			}
 		}
-		//TODO: pushNewPosts();
+		// TODO: pushNewPosts();
 		updateQuestionInBank(questionID);
 	}
-
 
 	public Context getContext() {
 
@@ -349,42 +566,43 @@ public class PostController {
 		}
 		return subQuestions;
 	}
-	
+
 	// new
-	
+
 	public ArrayList<Question> getQuestionsFromServer() {
 		ArrayList<Question> serverList = new ArrayList<Question>();
 		serverList = sdm.searchQuestions("", null);
 		serverList = qf.sortByDate(serverList);
-		//Log.d("size", "size:"+serverList.size());
+		// Log.d("size", "size:"+serverList.size());
 		return serverList;
 	}
-	
+
 	public void loadServerQuestions(ArrayList<Question> list) {
-		//Log.d("size", "passed size:"+list.size());
+		// Log.d("size", "passed size:"+list.size());
 		int checkListSize = list.size();
 		int increment = 10;
 		if (checkListSize - serverListIndex < 10) {
 			increment = checkListSize - serverListIndex;
 		}
 		for (int i = serverListIndex; i < (serverListIndex + increment); i++) {
-			//Log.d("size", "passed size:"+list.size());
+			// Log.d("size", "passed size:"+list.size());
 			subQuestions.add(list.get(i));
 		}
 		serverListIndex = serverListIndex + increment;
 	}
-	
+
 	public ArrayList<Post> getPushPostsInstance() {
 		if (pushPosts == null) {
 			pushPosts = new ArrayList<Post>();
 		}
 		return pushPosts;
 	}
-	
+
 	/**
 	 * Returns the list of comments to the specified question object
 	 * 
-	 * @param questionID the question that the comments pertain to.
+	 * @param questionID
+	 *            the question that the comments pertain to.
 	 * @return A list of Comment objects
 	 */
 	public ArrayList<Comment> getCommentsToQuestion(String questionID) {
@@ -419,8 +637,10 @@ public class PostController {
 	/**
 	 * Returns an answer object of a given answer id.
 	 * 
-	 * @param answerId The ID of the answer object being returned.
-	 * @param questionId The ID of the question that the answer pertains to.
+	 * @param answerId
+	 *            The ID of the answer object being returned.
+	 * @param questionId
+	 *            The ID of the question that the answer pertains to.
 	 * @return An Answer object
 	 */
 	public Answer getAnswer(String answerId, String questionId) {
@@ -452,8 +672,9 @@ public class PostController {
 	}
 
 	/**
-	 * Returns the list of favorited questions. <p>This method only pulls from the
-	 * question bank of favorite IDs list .
+	 * Returns the list of favorited questions.
+	 * <p>
+	 * This method only pulls from the question bank of favorite IDs list .
 	 * 
 	 * @return A list of the users favorited questions.
 	 */
@@ -466,8 +687,9 @@ public class PostController {
 	}
 
 	/**
-	 * Returns the list of read questions. <p> This method only pulls from the
-	 * question bank of read IDs list .
+	 * Returns the list of read questions.
+	 * <p>
+	 * This method only pulls from the question bank of read IDs list .
 	 * 
 	 * @return A list of the user's previously read Questions.
 	 */
@@ -480,8 +702,9 @@ public class PostController {
 	}
 
 	/**
-	 * Returns the list of "To-read" questions. <p>This method only pulls from the
-	 * question bank of "to-read" IDs list .
+	 * Returns the list of "To-read" questions.
+	 * <p>
+	 * This method only pulls from the question bank of "to-read" IDs list .
 	 * 
 	 * @return A list of questions that the user has marked "To-Read".
 	 */
@@ -495,8 +718,7 @@ public class PostController {
 
 	/**
 	 * Returns the list of posted questions. This method only pulls from the
-	 * question bank of posted questions IDs list
-	 * .
+	 * question bank of posted questions IDs list .
 	 * 
 	 * @return A list of questions that the user has posted.
 	 */
@@ -510,7 +732,9 @@ public class PostController {
 
 	/**
 	 * 
-	 * Returns an ArrayList of Question objects from local memory using a list of Question IDs.
+	 * Returns an ArrayList of Question objects from local memory using a list
+	 * of Question IDs.
+	 * 
 	 * @param idArray
 	 *            An array of Question IDs
 	 * @param local
@@ -536,17 +760,20 @@ public class PostController {
 
 	/**
 	 * 
-	 * Saves a question to local memory given that, that question does not exist in local memory.
+	 * Saves a question to local memory given that, that question does not exist
+	 * in local memory.
 	 * 
-	 * @param q The question to be saved.
-	 * @param local The datamanager that saves to local memory
+	 * @param q
+	 *            The question to be saved.
+	 * @param local
+	 *            The datamanager that saves to local memory
 	 */
 
 	private void checkExistanceOfQuestion(Question q, LocalDataManager local) {
 
 		boolean found = false;
 		for (int i = 0; i < upc.getQuestionBank().size(); i++) {
-			if (upc.getQuestionBank().get(i).getId().equals(q.getId()))	{
+			if (upc.getQuestionBank().get(i).getId().equals(q.getId())) {
 				found = true;
 				break;
 			}
@@ -557,40 +784,63 @@ public class PostController {
 			local.saveToQuestionBank(questionList);
 		}
 	}
-	
+
 	// Pushes new posts to server, returns true if connectivity attained and
 	// pushed // returns false otherwise // This makes testing easier
 
-	public Boolean pushNewPosts() {
-		Boolean connectivity = true; // placeholder until i make a
-										// checkconnectivity function
-		if (connectivity) {
-			ServerDataManager sdm = new ServerDataManager(); // dm.save(pushQuestions);
-			sdm.pushPosts(getPushPostsInstance());
+	public void pushNewPosts() {
+
+		if (checkConnectivity()) {
+			// Toast.makeText(this.getContext(), "Attempting to push to server",
+			// Toast.LENGTH_SHORT).show();
+			ServerDataManager sdm = new ServerDataManager();
+			// sdm.pushPosts(getPushPostsInstance());
+			LocalDataManager local = new LocalDataManager(getContext());
+			upc.initPushQuestionID(getContext());
+			upc.initQuestionBank(getContext());
+			ArrayList<String> qID = upc.getPushQuestions();
+			ArrayList<Question> qList = upc.getQuestionBank();
+
+			for (int i = 0; i < qID.size(); i++) {
+				// Toast.makeText(this.getContext(), "Array size is"+qID.size(),
+				// Toast.LENGTH_SHORT).show();
+				// Toast.makeText(this.getContext(), qID.get(i),
+				// Toast.LENGTH_SHORT).show();
+				for (int j = 0; j < qList.size(); j++) {
+					if (qList.get(j).getId().equals(qID.get(i))) {
+						// Toast.makeText(this.getContext(),
+						// qList.get(j).getSubject()+" should be added to server",
+						// Toast.LENGTH_SHORT).show();
+						sdm.addQuestion(qList.get(j));
+					}
+				}
+			}
 
 			// Wait questions to be pushed before clearing
-
 			try {
 				Thread.currentThread().sleep(500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			pushPosts.clear();
-			return true;
+			upc.clearPushQuestions();
+			local.deleteIDs();
+			// ldm.savePushPosts(pushPosts);
+		} else {
+			// ldm = new LocalDataManager(getContext());
+			// ldm.savePushPosts(pushPosts);
 		}
-		return false;
 	}
-	
+
 	public ArrayList<Question> executeSearch(String searchString) {
 		ServerDataManager sdm = new ServerDataManager();
 		ArrayList<Question> qList = sdm.searchQuestions(searchString, null);
-//		try {
-//			Thread.currentThread().sleep(250);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		// try {
+		// Thread.currentThread().sleep(250);
+		// } catch (InterruptedException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 		getQuestionsInstance().clear();
 		getQuestionsInstance().addAll(qList);
 		return qList;

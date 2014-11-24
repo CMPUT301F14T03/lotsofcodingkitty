@@ -10,6 +10,7 @@ public class GeoLocation {
 	
 	private double latitude;
 	private double longitude;
+	private String cityName = "None";
 
 	public GeoLocation() {}
 	
@@ -21,11 +22,19 @@ public class GeoLocation {
 		this.longitude = longitude;
 	}
 	
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+	
 	public double getLatitude() {
 		return latitude;
 	}
 	
 	public double getLongitude() {
 		return longitude;
+	}
+	
+	public String getCityName() {
+		return cityName;
 	}
 }

@@ -1,23 +1,33 @@
 package ca.ualberta.cs.cmput301t03app.views;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.AnswerListAdapter;
+import ca.ualberta.cs.cmput301t03app.controllers.GeoLocationTracker;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
+import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.views.MainActivity.PushThread;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -30,10 +40,12 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -59,6 +71,9 @@ public class ViewQuestion extends Activity {
 	public static final int COMMENT_ON_ANSWER_KEY = 2;
 	public static final String QUESTION_ID_KEY = "3";
 	public static final String ANSWER_ID_KEY = "4";
+	protected boolean hasLocation = false;
+	protected GeoLocation location;
+	protected String cityName;
 	AnswerListAdapter ala;
 	ListView answerListView;
 	private static ImageButton favIcon;
@@ -181,6 +196,7 @@ public class ViewQuestion extends Activity {
 	public void populateThisQuestionsAnswers(String question_id) {
 
 		answerList.clear();
+		Log.v("THIS", pc.getQuestion(question_id).getAnswers().toString());
 		answerList.addAll(pc.getQuestion(question_id).getAnswers());
 	}
 
@@ -215,17 +231,24 @@ public class ViewQuestion extends Activity {
 		TextView q_body = (TextView) findViewById(R.id.question_text_body);
 		TextView q_author = (TextView) findViewById(R.id.question_author);
 		TextView q_date = (TextView) findViewById(R.id.post_timestamp);
+		TextView q_location = (TextView) findViewById(R.id.question_location1);
 		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
 				.getRating()));
 		q_title.setText(q.getSubject());
 		q_body.setText(q.getBody());
 		q_author.setText("By: " + q.getAuthor());
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		String date_to_string = sdf.format(q.getDate());
 		q_date.setText("Posted: " + date_to_string);
 
 		if (q.getPicture() != null)
 			questionPictureButton.setImageResource(R.drawable.ic_picture_yes);
+
+		
+		//Sets city name for location
+		if (q.getGeoLocation()!= null) {
+			q_location.setText("Location: " + q.getGeoLocation().getCityName());
+		}
 	}
 
 	/**
@@ -300,11 +323,14 @@ public class ViewQuestion extends Activity {
 	public void toPictureActivityQuestion(View v) {
 		/* This method takes user to ViewPicture activity for questions */
 
-		Intent i = new Intent(this, ViewPicture.class);
-		i.putExtra(SET_COMMENT_TYPE, 1);
-		i.putExtra(QUESTION_ID_KEY, question_id);
-		Log.d("click", "Leaving View picture");
-		startActivity(i);
+		if (pc.getQuestion(question_id).getPicture() != null) {
+					
+			Intent i = new Intent(this, ViewPicture.class);
+			i.putExtra(SET_COMMENT_TYPE, 1);
+			i.putExtra(QUESTION_ID_KEY, question_id);
+			Log.d("click", "Leaving View picture");
+			startActivity(i);
+		}
 	}
 
 	/**
@@ -343,6 +369,9 @@ public class ViewQuestion extends Activity {
 				.findViewById(R.id.UsernameRespondTextView);
 		final ImageButton attachImg = (ImageButton) promptsView
 				.findViewById(R.id.attachImg);
+		final ProgressBar spinner = (ProgressBar) promptsView
+				.findViewById(R.id.progressBar1);
+		spinner.setVisibility(View.GONE);
 		attachImg.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -350,6 +379,48 @@ public class ViewQuestion extends Activity {
 
 				takeAPhoto();
 
+			}
+		});
+
+
+		final EditText userLocation = (EditText) promptsView
+				.findViewById(R.id.userLocation2);
+		
+		CheckBox check = (CheckBox) promptsView
+				.findViewById(R.id.enableLocation2);
+		check.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				hasLocation=!hasLocation;
+				
+				if (hasLocation) {
+					spinner.setVisibility(View.VISIBLE);
+					
+					location = new GeoLocation();
+					GeoLocationTracker locationTracker = new GeoLocationTracker(ViewQuestion.this, location);
+					locationTracker.getLocation();
+					
+//					location.setLatitude(53.53333);
+//					location.setLongitude(-113.5);
+					
+					//Delay for 7 seconds
+				    Handler handler = new Handler(); 
+				    handler.postDelayed(new Runnable() { 
+				         public void run() { 
+				        	 cityName = pc.getCity(location);
+				        	 Log.d("Loc","Timer is done");
+							if (cityName != null) {
+								userLocation.setText(cityName);
+								location.setCityName(cityName);
+							} else {
+								userLocation.setText("Location not found.");
+							}
+							spinner.setVisibility(View.GONE);
+				         } 
+				    }, 7000); 
+				}
+				
 			}
 		});
 
@@ -369,26 +440,72 @@ public class ViewQuestion extends Activity {
 								.toString();
 						String userNameString = (String) userName.getText()
 								.toString();
-						final Answer a = new Answer(answerBodyString,
-								userNameString, question_id);
 
-						if (hasPicture)
-							a.setPicture(imageFileUri.getPath());
-
-						new Thread() {
-							public void run() {
-								pc.addAnswer(a, question_id);
-							}
-						}.start();
-						// Give some time to get updated info
+						final Answer a = new Answer(answerBodyString, userNameString,
+								question_id);
+						
+						if (hasPicture){
+							FileInputStream in;
+						BufferedInputStream buf;
 						try {
-							Thread.currentThread().sleep(500);
+							in = new FileInputStream(imageFileUri.getPath());
+							buf = new BufferedInputStream(in);
+							Bitmap _bitmapPreScale = BitmapFactory.decodeStream(buf);
+							int oldWidth = _bitmapPreScale.getWidth();
+							int oldHeight = _bitmapPreScale.getHeight();
+							int newWidth = 200; 
+							int newHeight = 200;
+							
+							float scaleWidth = ((float) newWidth) / oldWidth;
+							float scaleHeight = ((float) newHeight) / oldHeight;
+							
+							Matrix matrix = new Matrix();
+							// resize the bit map
+							matrix.postScale(scaleWidth, scaleHeight);
+							Bitmap _bitmapScaled = Bitmap.createBitmap(_bitmapPreScale, 0, 0,  oldWidth, oldHeight, matrix, true);
+							ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+							_bitmapScaled.compress(Bitmap.CompressFormat.PNG, 0, bytes);
+							a.setPicture(bytes.toByteArray());
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						}
+
+						String userLocationString = (String) userLocation.getText()
+								.toString();
+						
+						
+						
+						if(hasLocation){
+							//Set location if location typed by user is same as location found
+							if (userLocationString.equals(cityName)){
+								a.setGeoLocation(location);
+							}
+							//Find the coordinates of place entered by user and set location
+							else{
+								a.setGeoLocation(pc.turnFromCity(userLocationString));
+								//Testing
+								GeoLocation testlocation= pc.turnFromCity(userLocationString);
+								Log.d("Location",Double.toString(testlocation.getLatitude()));
+								Log.d("Location",Double.toString(testlocation.getLongitude()));
+								
+							}
+						}
+						
+						populateThisQuestionsAnswers(question_id);
+						pc.getQuestion(question_id).addAnswer(a);
+						Thread thread = new AnswerQuestion(question_id, a);
+						thread.start();
+						updateAnswerCount();
+						try {
+							Thread.currentThread().sleep(250);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
 						populateThisQuestionsAnswers(question_id);
 						ala.updateAdapter(answerList);
-						updateAnswerCount();
+						hasLocation = false;
 					}
 				}).setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
@@ -396,6 +513,7 @@ public class ViewQuestion extends Activity {
 					public void onClick(DialogInterface dialog, int id) {
 
 						// Do nothing
+						hasLocation = false;
 						dialog.cancel();
 					}
 				});
@@ -465,7 +583,17 @@ public class ViewQuestion extends Activity {
 
 	public void increment_upvote() {
 
-		pc.getQuestion(question_id).upRating();
+		new Thread() {
+			public void run() {
+				pc.upvoteQuestion(question_id);
+			}
+		}.start();
+		// Give some time to get updated info
+		try {
+			Thread.currentThread().sleep(250);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
 				.getRating()));
 		pc.updateQuestionInBank(question_id);
@@ -499,6 +627,7 @@ public class ViewQuestion extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		http://stackoverflow.com/questions/2173936/how-to-set-background-color-of-a-view
 		getMenuInflater().inflate(R.menu.view_question, menu);
+		getActionBar().setHomeButtonEnabled(true);
 		return true;
 	}
 
@@ -508,17 +637,16 @@ public class ViewQuestion extends Activity {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-
+		
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			Intent intent = new Intent(this, MainActivity.class);
-			startActivity(intent);
+			runOnUiThread(doFinish);
 			break;
-
 		}
+		
 		return (super.onOptionsItemSelected(item));
 	}
-
+	
 	/**
 	 * onClick method for updating answers
 	 * 
@@ -529,8 +657,18 @@ public class ViewQuestion extends Activity {
 	// This on upvotes an answer
 	public void answerUpvote(View v) {
 
-		Answer answer = (Answer) v.getTag();
-		answer.upRating();
+		final Answer answer = (Answer) v.getTag();
+		new Thread() {
+			public void run() {
+				pc.upvoteAnswer(answer.getId(), question_id);
+			}
+		}.start();
+		// Give some time to get updated info
+		try {
+			Thread.currentThread().sleep(250);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		ala.notifyChange();
 		pc.updateQuestionInBank(answer.getParentId());
 	}
@@ -594,6 +732,34 @@ public class ViewQuestion extends Activity {
 
 		}
 	}
+	
+	class AnswerQuestion extends Thread {
+    	private String qID;
+    	private Answer answer;
+    	
+    	public AnswerQuestion(String qID, Answer answer) {
+    		this.qID = qID;
+    		this.answer = answer;
+    		//Log.d("push", this.question.getSubject());
+    	}
+    	
+    	@Override
+    	public void run() {
+    		pc.answerAQuestion(this.answer, this.qID);
+    		try {
+    			Thread.sleep(500);
+    		} catch(InterruptedException e) {
+    			e.printStackTrace();
+    		}
+    		
+    	}
+    }
+	private Runnable doFinish = new Runnable() {
+		public void run() {
+			finish();
+		}
+	};
+	
 	
 
 }

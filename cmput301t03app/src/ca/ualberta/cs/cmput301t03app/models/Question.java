@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
+import android.graphics.Bitmap;
+
 
 /**
  * This class represents a question. <p>
@@ -20,7 +22,7 @@ public class Question{
 	private String body;
 	private String author;
 	private File picture;
-	private String pictureFilePath;
+	private byte[] pictureFilePath;
 	private Date date;
 	private int rating;
 	private GeoLocation location;
@@ -86,10 +88,19 @@ public class Question{
 		this.rating++; //Rating should be incremented by 1 per upvote press; we do not need to tell the system what score is.
 	}
 	
-	public void setPicture(String pictureFilePath){
+	public void setPicture(byte[] bs){
 		//public void setPicture(File picture){
 		//this.picture = picture;
-		this.pictureFilePath = pictureFilePath;
+		this.pictureFilePath = bs;
+	}
+	
+	/**
+	 * Used for replacing answer list with newly upvoted answers
+	 * @param answers
+	 */
+	
+	public void setAnswers(ArrayList<Answer> answers) {
+		this.answers = answers;
 	}
 	
 	public void setGeoLocation(GeoLocation location) {
@@ -144,7 +155,7 @@ public class Question{
 		return this.rating;
 	}
 	
-	public String getPicture(){
+	public byte[] getPicture(){
 		//return this.picture;
 		return this.pictureFilePath;
 	}

@@ -111,7 +111,7 @@ public class QuestionModelTest extends
 		assertEquals("Answer count is not 2 in Test2", 2, q1.countAnswers());
 		Answer a3 = new Answer("a body", "a author", "1");
 		q1.addAnswer(a3);
-		assertEquals("Answer count is not 3 in Test2", 2, q1.countAnswers());
+		assertEquals("Answer count is not 3 in Test2", 3, q1.countAnswers());
 	}
 
 	/**

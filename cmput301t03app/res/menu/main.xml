@@ -22,15 +22,10 @@
         android:orderInCategory="100"
         android:title="Filter" >
         <item
-            android:id="@+id/filter_popular"
+            android:id="@+id/filter_score"
             android:orderInCategory="100"
             android:showAsAction="collapseActionView"
             android:title="Popular"/>
-        <item
-            android:id="@+id/filter_newest"
-            android:orderInCategory="100"
-            android:showAsAction="collapseActionView"
-            android:title="Newest"/>
         <item
             android:id="@+id/filter_date"
             android:orderInCategory="100"
@@ -41,6 +36,12 @@
             android:orderInCategory="100"
             android:showAsAction="collapseActionView"
             android:title="Picture"/>
+        
+        <item
+            android:id="@+id/filter_closeby"
+            android:orderInCategory="100"
+            android:showAsAction="collapseActionView"
+            android:title="Closest"/>
     </group>
 
     <item

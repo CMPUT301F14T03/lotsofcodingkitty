@@ -64,6 +64,7 @@
         android:gravity="top|center_horizontal"
         android:text="42"
         android:textSize="30dp"
+        android:textColor="#000000"
        />
 
     <ImageButton
@@ -103,8 +104,8 @@
         android:text="Posted: Oct 31, 2014"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="11dp"
-        android:textColor="#000000"
+        android:textSize="10dp"
+        android:textColor="#333333"
          />
 
     <TextView
@@ -113,21 +114,31 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/question_picture_button"
         android:layout_below="@+id/post_timestamp"
-        android:layout_marginRight="10dp"
-
         android:clickable="false"
         android:focusable="false"
         android:text="by: Lotso CodingKitty"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="11dp"
-        android:textColor="#000000"
+        android:textSize="10dp"
+        android:textColor="#333333"
         />
+    <TextView
+        android:id="@+id/question_location1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/answer_count"
+        android:layout_toRightOf="@+id/question_picture_button"
+        android:layout_below="@+id/question_author"
+        android:text="@string/no_location"
+        android:textSize="10dp"
+        android:textColor="#333333"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
     
     <TextView
         android:id="@+id/answer_count"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:paddingLeft="10dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/question_picture_button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
@@ -205,6 +216,5 @@
         
         tools:listitem="@layout/activity_view_question_answer_entity" >
     </ListView>
-
     
 </RelativeLayout>

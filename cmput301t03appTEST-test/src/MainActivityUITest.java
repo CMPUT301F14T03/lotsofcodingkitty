@@ -2,6 +2,7 @@
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 import ca.ualberta.cs.cmput301t03app.views.ViewQuestion;
@@ -60,12 +61,14 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	/**Testing that when the dialog pops up to add a question 
 	 * and you enter information, but click cancel there should be
 	 * no added question to the listView
+	 * @throws InterruptedException 
 	 * 
 	 */
-	public void testAddnoQuestion(){		//testing if clicking cancel works if adding a question
+	public void testAddnoQuestion() throws InterruptedException{		//testing if clicking cancel works if adding a question
 		activity = (MainActivity) getActivity();
 		assertNotNull("The button is null when returned",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
 		MainListAdapter adapter = activity.getAdapter();
+		Thread.sleep(2000);
 		int oldCount = adapter.getCount();
 		getInstrumentation().runOnMainSync(new Runnable(){	//clicking on an item automatically
 				@Override
@@ -99,11 +102,13 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	 * and you click "OK"
 	 * the question should show up on the screen and the adapter 
 	 * should have a new Question object and that question object should be correct
+	 * @throws InterruptedException 
 	 */
-	public void testAddQuestion(){		//testing if adding 1 question works
+	public void testAddQuestion() throws InterruptedException{		//testing if adding 1 question works
 		activity = (MainActivity) getActivity();
 		assertNotNull("The button returned null when called",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
 		MainListAdapter adapter = activity.getAdapter();
+		Thread.sleep(2000);
 		int oldCount = adapter.getCount();
 		getInstrumentation().runOnMainSync(new Runnable(){	//clicking on an item automatically
 				@Override
@@ -130,7 +135,8 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 		assertEquals("New question was not added to list", oldCount+1, newCount); 
 		
 		//this snippet tests that the question just added to the list is the correct question
-		PostController pc = new PostController(activity);
+		PostController pc = new PostController(getInstrumentation()
+				.getTargetContext());
 		int i = pc.getQuestionsInstance().size();
 		final int lastquestionindex = i - 1;
 		Question qCheck = (Question) adapter1.getItem(lastquestionindex);
@@ -141,11 +147,13 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	/**
 	 * Testing adding 2 Questions
 	 * at a time will not break the adapter
+	 * @throws InterruptedException 
 	 */
-	public void testAdd2Question(){		//testing if adding 1 question works
+	public void testAdd1Question() throws InterruptedException{		//testing if adding 1 question works
 		activity = (MainActivity) getActivity();
 		assertNotNull("button not null",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
 		MainListAdapter adapter = activity.getAdapter();
+		Thread.sleep(2000);
 		int oldCount = adapter.getCount();
 		getInstrumentation().runOnMainSync(new Runnable(){	//clicking on an item automatically
 				@Override
@@ -177,18 +185,27 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 		MainListAdapter adapter1 = activity.getAdapter();
 		int newCount = adapter1.getCount();
 		assertEquals("new question added", oldCount+2, newCount); 
+		ServerDataManager sdm = new ServerDataManager();
+		PostController pc = new PostController(getInstrumentation()
+				.getTargetContext());
+		int size = pc.getQuestionsInstance().size();
+		sdm.deleteQuestion(pc.getQuestionsInstance().get(0).getId());
+
 
 	}
 	
 	/**
 	 * Testing adding 30 questions 
 	 * will not break the adapter and should work
+	 * @throws InterruptedException 
 	 */
-	public void testAdd30Question(){		//testing if adding 1 question works
+	public void testAdd30Question() throws InterruptedException{		//testing if adding 1 question works
 		activity = (MainActivity) getActivity();
 		assertNotNull("button not null",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
 		MainListAdapter adapter = activity.getAdapter();
+		Thread.sleep(2000);
 		int oldCount = adapter.getCount();
+		//assertTrue("oldcount is not 10",oldCount==10);
 		getInstrumentation().runOnMainSync(new Runnable(){	//clicking on an item automatically
 				@Override
 				public void run() {
@@ -215,6 +232,13 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 		MainListAdapter adapter1 = activity.getAdapter();
 		int newCount = adapter1.getCount();
 		assertEquals("new question added", oldCount+30, newCount); 
+		PostController pc = new PostController(getInstrumentation()
+				.getTargetContext());
+		ServerDataManager sdm = new ServerDataManager();
+		int size = pc.getQuestionsInstance().size();
+		for (int i = 0; i<size; i++){
+			sdm.deleteQuestion(pc.getQuestionsInstance().get(i).getId());
+		}
 
 	}
 	/**
@@ -236,12 +260,14 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 	/**
 	 * Testing that when an question is clicked in the ListView it opens up a new activity with the
 	 * correct question being shown in the new activity.
+	 * @throws InterruptedException 
 	 */
-	public void testzQuestionDetailClick(){
+	public void testzQuestionDetailClick() throws InterruptedException{
 		ActivityMonitor activityMonitor = getInstrumentation().addMonitor(ViewQuestion.class.getName(), null, false);
 		assertNotNull("The listView is null",listview);
 		//creating a new question here
 		instrumentation.waitForIdleSync();
+		Thread.sleep(2000);
 		PostController pc = new PostController(activity);
 		int i = pc.getQuestionsInstance().size();
 		final int lastquestionindex = i-1;
