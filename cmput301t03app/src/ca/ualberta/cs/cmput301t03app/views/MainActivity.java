@@ -168,10 +168,19 @@ public class MainActivity extends Activity {
 			pc.sortQuestions(2);
 			mla.updateAdapter(pc.getQuestionsInstance());
 		}
+		if (id == R.id.filter_closeby) {
+			location = new GeoLocation();
+			GeoLocationTracker locationTracker = new GeoLocationTracker(MainActivity.this, location);
+			locationTracker.getLocation();
+			pc.sortByLocation(location, pc.getQuestionsInstance());
+			mla.updateAdapter(pc.getQuestionsInstance());
+			
+		}
 		if (id == R.id.sync) {
-			pc.pushNewPosts();
-			pc.pushQuestionUpvotes();
-			pc.pushAnswerUpvotes();
+			Thread thread = new PushThread();
+			thread.start();
+			//pc.pushQuestionUpvotes();
+			//pc.pushAnswerUpvotes();
 			new Thread() {
 				public void run() {
 					pc.executeSearch("");
@@ -325,13 +334,16 @@ public class MainActivity extends Activity {
 					if (pc.checkConnectivity()) {
 						Thread thread = new AddThread(q);
 						thread.start();
-					}						
+					} else {
+						pc.addPushQuestion(q);
+					}
 						pc.addUserPost(q);
 						pc.getQuestionsInstance().add(q);
 						pc.sortQuestions(0);
 						mla.updateAdapter(pc.getQuestionsInstance());
 
 					}
+
 
 				}).setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
@@ -665,6 +677,23 @@ public class MainActivity extends Activity {
 	    	}
 	    }
 	    
+	    class PushThread extends Thread {
+	    	
+	    	public PushThread() {
+	    	}
+	    	
+	    	@Override
+	    	public void run() {
+	    		pc.pushNewPosts();
+	    		try {
+	    			Thread.sleep(500);
+	    		} catch(InterruptedException e) {
+	    			e.printStackTrace();
+	    		}
+	    		
+	    	}
+	    }
+	    
 	    public void pictureChooserDialog()
 	    {
 		    AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
@@ -714,4 +743,8 @@ public class MainActivity extends Activity {
 	        return bitmap;
 	       }
 	   }
+
+
+
+
 

@@ -36,6 +36,12 @@
             android:orderInCategory="100"
             android:showAsAction="collapseActionView"
             android:title="Picture"/>
+        
+        <item
+            android:id="@+id/filter_closeby"
+            android:orderInCategory="100"
+            android:showAsAction="collapseActionView"
+            android:title="Closest"/>
     </group>
 
     <item

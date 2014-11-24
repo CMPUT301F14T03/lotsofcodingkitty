@@ -77,10 +77,11 @@ public final class R {
         public static final int enableLocation2=0x7f080015;
         public static final int enableLocation3=0x7f08003b;
         public static final int filter=0x7f080046;
+        public static final int filter_closeby=0x7f08004a;
         public static final int filter_date=0x7f080048;
         public static final int filter_picture=0x7f080049;
         public static final int filter_score=0x7f080047;
-        public static final int home=0x7f08004b;
+        public static final int home=0x7f08004c;
         public static final int inputUsername=0x7f080006;
         public static final int load_more_button=0x7f08000a;
         public static final int picture_post_author=0x7f080003;
@@ -106,7 +107,7 @@ public final class R {
         public static final int question_viewed_icon=0x7f08003d;
         public static final int search=0x7f080044;
         public static final int searchField=0x7f080042;
-        public static final int sync=0x7f08004a;
+        public static final int sync=0x7f08004b;
         public static final int textView1=0x7f080014;
         public static final int userLocation=0x7f080041;
         public static final int userLocation2=0x7f080016;
