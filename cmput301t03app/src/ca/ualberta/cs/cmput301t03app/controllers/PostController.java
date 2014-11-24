@@ -223,7 +223,6 @@ public class PostController {
 		} catch (IOException e) {              
 	        e.printStackTrace();    
 		}
-		Log.d("Loc",cityName);
 		return cityName;
 	}
 	
