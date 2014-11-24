@@ -311,9 +311,9 @@ public class MainActivity extends Activity {
 								questionBodyString, userNameString);
 
 						if(hasPicture){
-							Bitmap _bitmapScaled= ShrinkBitmap(imageFileUri.getPath(),10,10);
+							Bitmap _bitmapScaled= ShrinkBitmap(imageFileUri.getPath(),200,200);
 								ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-								_bitmapScaled.compress(Bitmap.CompressFormat.PNG, 0, bytes);
+								_bitmapScaled.compress(Bitmap.CompressFormat.JPEG, 64, bytes);
 								q.setPicture(bytes.toByteArray());
 						
 						}
@@ -585,8 +585,6 @@ public class MainActivity extends Activity {
 		 
 		 	Intent intent = new Intent(Intent.ACTION_PICK,
 		           android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		    intent.setType("image/*");
-		    intent.putExtra("return-data", true);
 		    startActivityForResult(intent, GALLERY_ACTIVITY_REQUEST_CODE);
 	 }
 	    
