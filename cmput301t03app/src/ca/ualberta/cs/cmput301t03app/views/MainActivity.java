@@ -184,6 +184,7 @@ public class MainActivity extends Activity {
 			new Thread() {
 				public void run() {
 					pc.executeSearch("");
+					runOnUiThread(doUpdateGUIList);
 				}
 			}.start();
 			
@@ -193,8 +194,7 @@ public class MainActivity extends Activity {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			pc.sortQuestions(0);
-			mla.updateAdapter(pc.getQuestionsInstance());
+			
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -633,6 +633,7 @@ public class MainActivity extends Activity {
 	    
 	    private Runnable doUpdateGUIList = new Runnable() {
 	    	public void run() {
+	    		pc.sortQuestions(0);
 	    		mla.updateAdapter(pc.getQuestionsInstance());
 	    	}
 	    };
