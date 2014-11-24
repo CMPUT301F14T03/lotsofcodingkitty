@@ -125,10 +125,10 @@ class picComparator implements Comparator<Question> {
 class distanceComparator implements Comparator<QuestionDistance> {
 	@Override
 	public int compare(QuestionDistance q1, QuestionDistance q2) {
-		if(q1.getDistance() < q2.getDistance()) {
+		if(q1.getDistance() > q2.getDistance()) {
 			return 1;
 		}
-		else if (q1.getDistance() > q2.getDistance()) {
+		else if (q1.getDistance() < q2.getDistance()) {
 			return -1;
 		}
 		else {
