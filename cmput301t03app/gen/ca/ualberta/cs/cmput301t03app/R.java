@@ -46,7 +46,7 @@ public final class R {
     }
     public static final class id {
         public static final int UsernameRespondTextView=0x7f080013;
-        public static final int action_settings=0x7f080043;
+        public static final int action_settings=0x7f080041;
         public static final int activity_main_question_button=0x7f080008;
         public static final int activity_main_question_list=0x7f080009;
         public static final int answerListView=0x7f080030;
@@ -73,15 +73,14 @@ public final class R {
         public static final int comment_title=0x7f080023;
         public static final int displayPicture=0x7f080004;
         public static final int doneBtn=0x7f080005;
-        public static final int enableLocation=0x7f080040;
+        public static final int enableLocation=0x7f08003e;
         public static final int enableLocation2=0x7f080015;
-        public static final int enableLocation3=0x7f08003b;
-        public static final int filter=0x7f080046;
-        public static final int filter_closeby=0x7f08004a;
-        public static final int filter_date=0x7f080048;
-        public static final int filter_picture=0x7f080049;
-        public static final int filter_score=0x7f080047;
-        public static final int home=0x7f08004c;
+        public static final int filter=0x7f080044;
+        public static final int filter_closeby=0x7f080048;
+        public static final int filter_date=0x7f080046;
+        public static final int filter_picture=0x7f080047;
+        public static final int filter_score=0x7f080045;
+        public static final int home=0x7f08004a;
         public static final int inputUsername=0x7f080006;
         public static final int load_more_button=0x7f08000a;
         public static final int picture_post_author=0x7f080003;
@@ -90,8 +89,8 @@ public final class R {
         public static final int postBody=0x7f080012;
         public static final int post_timestamp=0x7f08000f;
         public static final int progressBar1=0x7f080017;
-        public static final int questionBody=0x7f08003f;
-        public static final int questionTitle=0x7f08003e;
+        public static final int questionBody=0x7f08003d;
+        public static final int questionTitle=0x7f08003c;
         public static final int question_answer_button=0x7f080029;
         public static final int question_author=0x7f080010;
         public static final int question_comment_count=0x7f08002f;
@@ -104,17 +103,16 @@ public final class R {
         public static final int question_title=0x7f08000e;
         public static final int question_upvote_button=0x7f08002a;
         public static final int question_upvote_score=0x7f08000b;
-        public static final int question_viewed_icon=0x7f08003d;
-        public static final int search=0x7f080044;
-        public static final int searchField=0x7f080042;
-        public static final int sync=0x7f08004b;
+        public static final int question_viewed_icon=0x7f08003b;
+        public static final int search=0x7f080042;
+        public static final int searchField=0x7f080040;
+        public static final int sync=0x7f080049;
         public static final int textView1=0x7f080014;
-        public static final int userLocation=0x7f080041;
+        public static final int userLocation=0x7f08003f;
         public static final int userLocation2=0x7f080016;
-        public static final int userLocation3=0x7f08003c;
         public static final int user_cached_button=0x7f08001d;
         public static final int user_fav_button=0x7f08001c;
-        public static final int user_home=0x7f080045;
+        public static final int user_home=0x7f080043;
         public static final int user_home_description=0x7f08001b;
         public static final int user_home_title=0x7f08001a;
         public static final int user_list_title=0x7f080020;
