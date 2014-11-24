@@ -273,6 +273,7 @@ public class MainActivity extends Activity {
 				        	 Log.d("Loc","Long after: " + location.getLongitude());
 							if (cityName != null) {
 								userLocation.setText(cityName);
+								location.setCityName(cityName);
 							} else {
 								userLocation.setText("Location not found.");
 							}
