@@ -15,6 +15,7 @@ import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.views.MainActivity.PushThread;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -622,6 +623,7 @@ public class ViewQuestion extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		http://stackoverflow.com/questions/2173936/how-to-set-background-color-of-a-view
 		getMenuInflater().inflate(R.menu.view_question, menu);
+		getActionBar().setHomeButtonEnabled(true);
 		return true;
 	}
 
@@ -631,16 +633,16 @@ public class ViewQuestion extends Activity {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-
+		
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			runOnUiThread(doFinish);
 			break;
-
 		}
+		
 		return (super.onOptionsItemSelected(item));
 	}
-
+	
 	/**
 	 * onClick method for updating answers
 	 * 

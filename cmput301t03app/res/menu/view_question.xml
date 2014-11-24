@@ -6,13 +6,5 @@
         android:id="@+id/home"
         />
    
-    
-    <item
-        android:id="@+id/sync"
-        android:icon="@drawable/ic_sync"
-        android:orderInCategory="100"
-        android:showAsAction="always"
-        android:title="Sync">
-    </item>
-
+   
 </menu>
