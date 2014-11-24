@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
-import ca.ualberta.cs.cmput301t03app.incomplete.ServerDataManager;
+import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.interfaces.iDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.models.UserPostCollector;
@@ -60,6 +60,7 @@ public class DataManagerTest extends
 		postController.addFavoriteQuestion(q2);
 		postController.addFavoriteQuestion(q3);
 		questionArray = postController.getFavoriteQuestions();
+		int size = questionArray.size();
 		assertNotNull("Loaded array is empty", questionArray);
 		assertEquals("Loaded array is the not the same size as ql",
 				questionArray.size(), ql.size());
@@ -69,6 +70,11 @@ public class DataManagerTest extends
 		assertEquals(
 				"The second index of the loaded array does not have the same question as the second question added",
 				q.getId(), questionArray.get(0).getId());
+		ServerDataManager sdm=new ServerDataManager();
+		sdm.deleteQuestion(q.getId());
+		sdm.deleteQuestion(q2.getId());
+		sdm.deleteQuestion(q3.getId());
+		
 	}
 
 	/**
@@ -108,6 +114,11 @@ public class DataManagerTest extends
 		assertEquals(
 				"The second index of the loaded array does not have the same question as the second question added",
 				q.getId(), questionArray.get(0).getId());
+		ServerDataManager sdm=new ServerDataManager();
+		sdm.deleteQuestion(q.getId());
+		sdm.deleteQuestion(q2.getId());
+		sdm.deleteQuestion(q3.getId());
+		
 	}
 
 	/**
@@ -147,6 +158,11 @@ public class DataManagerTest extends
 		assertEquals(
 				"The second index of the loaded array does not have the same question as the second question added",
 				q.getId(), questionArray.get(0).getId());
+		ServerDataManager sdm=new ServerDataManager();
+		sdm.deleteQuestion(q.getId());
+		sdm.deleteQuestion(q2.getId());
+		sdm.deleteQuestion(q3.getId());
+		
 	}
 
 	/**
@@ -185,6 +201,11 @@ public class DataManagerTest extends
 		assertEquals(
 				"The second index of the loaded array does not have the same question as the second question added",
 				q.getId(), questionArray.get(0).getId());
+		ServerDataManager sdm=new ServerDataManager();
+		sdm.deleteQuestion(q.getId());
+		sdm.deleteQuestion(q2.getId());
+		sdm.deleteQuestion(q3.getId());
+		
 	}
 
 	/**
@@ -215,10 +236,16 @@ public class DataManagerTest extends
 		postController.addReadQuestion(q3);
 		postController.addFavoriteQuestion(q2);
 		questionArray = postController.getFavoriteQuestions();
+		int size = questionArray.size();
 		assertEquals("Parser did not find correct question", q2.getId(),
-				questionArray.get(0).getId());
+				questionArray.get(size-1).getId());
 		UserPostCollector upc = postController.getUPC();
 		upc.clearLists();
+		ServerDataManager sdm=new ServerDataManager();
+		sdm.deleteQuestion(q.getId());
+		sdm.deleteQuestion(q2.getId());
+		sdm.deleteQuestion(q3.getId());
+		
 	}
 
 	/**
@@ -227,7 +254,9 @@ public class DataManagerTest extends
 	 */
 	public void testSuccessfulSavingAndLoadingToServer() {
 		// testing if question posted saved to cache
-		iDataManager dataManager = new ServerDataManager();
+		ServerDataManager dataManager = new ServerDataManager();
+		postController = new PostController(getInstrumentation()
+				.getTargetContext());
 		ArrayList<Question> q = new ArrayList<Question>();
 		Question q1 = new Question("Title1", "TextBody1", "author");
 		Question q2 = new Question("Title1", "TextBody1", "author");
@@ -236,9 +265,11 @@ public class DataManagerTest extends
 
 		dataManager.saveToQuestionBank(q);
 
-		Object newQuestionArray;
+		ArrayList<Question> newQuestionArray= new ArrayList<Question>();
 
-		newQuestionArray = dataManager.loadQuestions();
+		postController.loadServerQuestions(newQuestionArray);
+		dataManager.deleteQuestion(q1.getId());
+		dataManager.deleteQuestion(q2.getId());
 		assertNotNull("No questions loaded.", newQuestionArray);
 	}
 }

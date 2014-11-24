@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import android.test.ActivityInstrumentationTestCase2;
-import ca.ualberta.cs.cmput301t03app.incomplete.QuestionFilter;
+import ca.ualberta.cs.cmput301t03app.datamanagers.QuestionFilter;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.views.MainActivity;
@@ -124,4 +124,5 @@ public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 		assertTrue("Question list not sorted properly by score.", sortedList
 				.get(0).getRating() > sortedList.get(1).getRating());
 	}
+
 }

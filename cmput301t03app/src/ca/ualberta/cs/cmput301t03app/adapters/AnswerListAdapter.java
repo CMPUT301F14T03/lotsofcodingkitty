@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,11 +46,15 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 
 		Answer answer;
 		ImageButton answer_upvote_button;
+		ImageButton answer_comment_icon;
+		ImageButton answer_picture;
 		TextView answer_upvote_score;
 		ImageView answer_fav_icon;
 		TextView answer_text_body;
 		TextView post_timestamp;
 		TextView answer_author;
+		TextView answer_comment_count;
+		TextView answer_location;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -65,16 +70,30 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 		holder.answer = answerList.get(position);
 		holder.answer_upvote_button.setTag(holder.answer);
 		holder.answer_text_body.setTag(holder.answer);
+		holder.answer_comment_icon.setTag(holder.answer);
+		holder.answer_picture.setTag(holder.answer);
 		row.setTag(holder);
 		// Date to string
 		// http://javarevisited.blogspot.ca/2011/09/convert-date-to-string-simpledateformat.html
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		String date_to_string = sdf.format(holder.answer.getDate());
 		holder.answer_text_body.setText(holder.answer.getAnswer());
 		holder.answer_author.setText("By: " + holder.answer.getAuthor());
 		holder.post_timestamp.setText("Posted: " + date_to_string);
 		holder.answer_upvote_score.setText(Integer.toString(holder.answer
 				.getRating()));
+		holder.answer_comment_count.setText(Integer.toString(holder.answer.getComments().size()));
+		
+		if (holder.answer.getPicture() != null) {
+			holder.answer_picture.setBackgroundResource(R.drawable.ic_picture_yes);
+		} else {
+			holder.answer_picture.setBackgroundResource(R.drawable.ic_picture_no);
+		}
+		
+		if (holder.answer.getGeoLocation() != null) {
+			holder.answer_location.setText("Location: " + holder.answer.getGeoLocation().getCityName());
+		}
+				
 		return row;
 	}
 	
@@ -84,9 +103,9 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 	 *@param answerList The new list of answers that will be shown in the listview.
 	 */
 
-	public synchronized void updateAdapter(ArrayList<Answer> answerList) {
+	public synchronized void updateAdapter(ArrayList<Answer> List) {
 		answerList.clear();
-		answerList.addAll(answerList);
+		answerList.addAll(List);
 		notifyDataSetChanged();
 	}
 
@@ -112,6 +131,11 @@ public class AnswerListAdapter extends ArrayAdapter<Answer> {
 				.findViewById(R.id.answer_upvote_score);
 		holder.answer_upvote_button = (ImageButton) row
 				.findViewById(R.id.answer_upvote_button);
+		holder.answer_comment_icon = (ImageButton) row.findViewById(R.id.answer_comment_icon);
+		holder.answer_comment_count = (TextView) row.findViewById(R.id.answer_comment_count);
+		holder.answer_picture = (ImageButton) row.findViewById(R.id.answer_picture);
+		holder.answer_location = (TextView) row.findViewById(R.id.answer_location);
+		
 		return holder;
 	}
 

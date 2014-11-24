@@ -62,8 +62,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/question_upvote_button"
         android:gravity="top|center_horizontal"
-        android:text="0"
+        android:text="42"
         android:textSize="30dp"
+        android:textColor="#000000"
        />
 
     <ImageButton
@@ -79,52 +80,68 @@
         android:src="@drawable/ic_upvote" />
 
    
-   
-    
+   <ImageButton 
+        android:id="@+id/question_picture_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@+id/question_upvote_score"
+        android:layout_below="@+id/question_text_body"
+        android:background="#cccccc"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_picture_no" 
+        />
+
     
     
     <TextView
         android:id="@+id/post_timestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/question_text_body"
+        android:layout_toRightOf="@+id/question_picture_button"
         android:layout_below="@+id/question_text_body"
-        android:layout_marginBottom="10dp"
         android:clickable="false"
         android:focusable="false"
         android:text="Posted: Oct 31, 2014"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="11dp"
-        android:textColor="#000000"
+        android:textSize="10dp"
+        android:textColor="#333333"
          />
 
     <TextView
         android:id="@+id/question_author"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/post_timestamp"
-        android:layout_alignBottom="@+id/post_timestamp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/question_picture_button"
+        android:layout_below="@+id/post_timestamp"
         android:clickable="false"
         android:focusable="false"
-        android:gravity="right"
         android:text="by: Lotso CodingKitty"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="11dp"
-        android:textColor="#000000"
+        android:textSize="10dp"
+        android:textColor="#333333"
         />
+    <TextView
+        android:id="@+id/question_location1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/answer_count"
+        android:layout_toRightOf="@+id/question_picture_button"
+        android:layout_below="@+id/question_author"
+        android:text="@string/no_location"
+        android:textSize="10dp"
+        android:textColor="#333333"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
     
     <TextView
         android:id="@+id/answer_count"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:paddingLeft="10dp"
-        android:layout_below="@+id/question_author"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/question_picture_button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="10dp"
         android:background="#eeeeee"
         android:gravity="center_vertical|left"
         android:textStyle="bold"/>
@@ -153,21 +170,23 @@
         android:layout_alignBottom="@+id/answer_count"
         android:layout_marginRight="-5dp"
         android:background="#eeeeee"
-        android:clickable="false"
-        android:focusable="false"
         android:gravity="right"
-        android:src="@drawable/ic_comment" />
+        android:clickable="true"
+        android:src="@drawable/ic_comment"
+        android:onClick="toCommentActivityQuestion" />
       
        <TextView
         android:id="@+id/question_comment_count"
-        android:layout_width="40dp"
+        android:layout_width="30dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_alignBottom="@+id/answer_count"
         android:background="#eeeeee"
         android:gravity="center_vertical|left"
-        android:paddingLeft="10dp"
+        android:paddingLeft="5dp"
         android:textStyle="bold"
+        android:clickable="true"
+        android:text="421"
         android:onClick="toCommentActivityQuestion" />
     
  <!--    <TextView
@@ -197,6 +216,5 @@
         
         tools:listitem="@layout/activity_view_question_answer_entity" >
     </ListView>
-
     
 </RelativeLayout>

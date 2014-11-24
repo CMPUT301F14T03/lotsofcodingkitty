@@ -18,6 +18,7 @@ public class UserPostCollector {
 	private ArrayList<String> readQuestions;
 	private ArrayList<String> toReadQuestions;
 	private ArrayList<String> postedQuestions;
+	private ArrayList<String> pushQuestions;
 	private LocalDataManager local;
 //	private ArrayList<String> postedAnswers;
 
@@ -68,7 +69,7 @@ public class UserPostCollector {
 	public void initToReadID(Context context) {
 		if (this.toReadQuestions == null) {
 			local = new LocalDataManager(context);
-			this.toReadQuestions = local.loadRead();
+			this.toReadQuestions = local.loadToRead();
 		}
 	}
 
@@ -82,6 +83,17 @@ public class UserPostCollector {
 			this.postedQuestions = local.loadPostedQuestions();
 		}
 	}
+	/**
+	 * Initializes the list of questions id's of questions that need to be pushed
+	 * @param context The Activity context
+	 */
+	public void initPushQuestionID(Context context) {
+		if (this.pushQuestions == null) {
+			local = new LocalDataManager(context);
+			this.pushQuestions = local.loadPostedQuestions();
+		}
+	}
+	
 	
 	/**
 	 * Initializes the question bank
@@ -111,10 +123,14 @@ public class UserPostCollector {
 	public ArrayList<String> getToReadQuestions() {
 		return this.toReadQuestions;
 	}
+	
+	public ArrayList<String> getPushQuestions() {
+		return this.pushQuestions;
+	}
 
 	public ArrayList<String> getPostedQuestions() {
 		return this.postedQuestions;
-	}	
+	}
 
 	/*--------------------------------------------------------*/
 
@@ -150,6 +166,10 @@ public class UserPostCollector {
 	public void addtoReadQuestion(String qId) {
 		toReadQuestions.add(qId);
 	}
+	
+	public void addToPushQuestions(String qID) {
+		pushQuestions.add(qID);
+	}
 
 	/**
 	 * Adds a string which represents an ID to the user posted question list
@@ -179,6 +199,11 @@ public class UserPostCollector {
 		if (questionBank != null) {
 			questionBank.clear();
 		}
+	}
+
+	public void clearPushQuestions() {
+		this.pushQuestions.clear();
+		
 	}
 }
 

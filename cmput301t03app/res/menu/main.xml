@@ -1,60 +1,55 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ca.ualberta.cs.cmput301t03app.MainActivity"> 
+    tools:context="ca.ualberta.cs.cmput301t03app.MainActivity" >
 
-    <item android:id="@+id/user_home" 
-        android:orderInCategory="100"
-          android:showAsAction="always"
-         android:title="User" 
-         android:icon="@drawable/ic_user"/>
-    
-    <item android:id="@+id/search" 
-        android:orderInCategory="100"
-          android:showAsAction="always"
-         android:title="Search" 
-         android:icon="@drawable/ic_action_search"/>
-    
-   
-    <group android:id="@+id/filter" 
-        android:orderInCategory="100"
-        android:checkableBehavior="single" 
-        android:menuCategory="container" 
-        android:title="Filter" 
-        android:icon="@drawable/ic_filter">
-        
-        <item android:id="@+id/filter_popular" 
-        android:orderInCategory="100"
-          android:showAsAction="collapseActionView"
-         android:title="Popular" 
-        />
-        
-        <item android:id="@+id/filter_newest" 
-        android:orderInCategory="100"
-          android:showAsAction="collapseActionView"
-         android:title="Newest" 
-        />
-        
-        <item android:id="@+id/filter_date" 
-        android:orderInCategory="100"
-          android:showAsAction="collapseActionView"
-         android:title="Date" 
-        />
-        
-        <item android:id="@+id/filter_picture" 
-        android:orderInCategory="100"
-          android:showAsAction="collapseActionView"
-         android:title="Picture" 
-        />
-        
-        </group>
-    
-    <item android:id="@+id/sync" 
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_action_search"
+        android:showAsAction="always"
+        android:title="@string/search_title"/>
+    <item
+        android:id="@+id/user_home"
+        android:icon="@drawable/ic_user"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:title="Sync" 
-        android:icon="@drawable/ic_sync"></item>
-    
-    
-    
+        android:title="User"/>
+
+    <group
+        android:id="@+id/filter"
+        android:checkableBehavior="single"
+        android:icon="@drawable/ic_filter"
+        android:menuCategory="container"
+        android:orderInCategory="100"
+        android:title="Filter" >
+        <item
+            android:id="@+id/filter_score"
+            android:orderInCategory="100"
+            android:showAsAction="collapseActionView"
+            android:title="Popular"/>
+        <item
+            android:id="@+id/filter_date"
+            android:orderInCategory="100"
+            android:showAsAction="collapseActionView"
+            android:title="Date"/>
+        <item
+            android:id="@+id/filter_picture"
+            android:orderInCategory="100"
+            android:showAsAction="collapseActionView"
+            android:title="Picture"/>
+        
+        <item
+            android:id="@+id/filter_closeby"
+            android:orderInCategory="100"
+            android:showAsAction="collapseActionView"
+            android:title="Closest"/>
+    </group>
+
+    <item
+        android:id="@+id/sync"
+        android:icon="@drawable/ic_sync"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="Sync">
+    </item>
 
 </menu>
