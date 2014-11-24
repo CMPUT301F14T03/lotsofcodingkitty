@@ -489,10 +489,17 @@ public class ViewQuestion extends Activity {
 						}
 						
 						populateThisQuestionsAnswers(question_id);
-						ala.updateAdapter(answerList);
+						pc.getQuestion(question_id).addAnswer(a);
 						Thread thread = new AnswerQuestion(question_id, a);
 						thread.start();
 						updateAnswerCount();
+						try {
+							Thread.currentThread().sleep(250);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						populateThisQuestionsAnswers(question_id);
+						ala.updateAdapter(answerList);
 					}
 				}).setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {

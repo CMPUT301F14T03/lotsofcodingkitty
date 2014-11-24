@@ -124,4 +124,5 @@ public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 		assertTrue("Question list not sorted properly by score.", sortedList
 				.get(0).getRating() > sortedList.get(1).getRating());
 	}
+
 }

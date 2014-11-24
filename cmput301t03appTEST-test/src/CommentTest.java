@@ -46,6 +46,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		Question q1 = new Question("Question title", "Question body", "author");
 		pc.addQuestion(q1);
+		pc.getQuestionsInstance().add(q1);
 		Answer a1 = new Answer("My answer", "author","1");
 		pc.addAnswer(a1, q1.getId());
 		Comment c1 = new Comment("My comment", "author");
@@ -73,6 +74,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		Question q1 = new Question("Question title", "Question body", "author");
 		pc.addQuestion(q1);
+		pc.getQuestionsInstance().add(q1);
 		Answer a1 = new Answer("My answer", "author","2");
 		pc.addAnswer(a1, q1.getId());
 		Comment c1 = new Comment("My comment", "author");
