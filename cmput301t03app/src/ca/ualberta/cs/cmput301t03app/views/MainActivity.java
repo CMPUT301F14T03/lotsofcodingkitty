@@ -269,6 +269,8 @@ public class MainActivity extends Activity {
 				         public void run() { 
 				        	 cityName = pc.getCity(location);
 				        	 Log.d("Loc","Timer is done");
+				        	 Log.d("Loc","Lat after: " + location.getLatitude());
+				        	 Log.d("Loc","Long after: " + location.getLongitude());
 							if (cityName != null) {
 								userLocation.setText(cityName);
 							} else {
@@ -277,7 +279,7 @@ public class MainActivity extends Activity {
 							spinner.setVisibility(View.GONE);
 				         } 
 				    }, 7000); 
-									
+				    
 				}
 				
 			}

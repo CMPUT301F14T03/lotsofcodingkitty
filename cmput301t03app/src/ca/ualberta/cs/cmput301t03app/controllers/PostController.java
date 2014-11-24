@@ -215,17 +215,15 @@ public class PostController {
 	 * @return a string with the city name
 	 */
 	public String getCity(GeoLocation location) {
-		String cityName = null;
-		Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
-		List<Address> addresses;
-		try {
-			addresses = gcd.getFromLocation(location.getLatitude(),
-					location.getLongitude(), 1);
-
-			if (addresses.size() > 0)
-				cityName = addresses.get(0).getLocality();
-		} catch (IOException e) {
-			e.printStackTrace();
+		String cityName = null;                
+		Geocoder gcd = new Geocoder(getContext(),Locale.getDefault());               
+		List<Address> addresses;    
+		try {    
+	      addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);  
+	      if (addresses.size() > 0)               
+	         cityName=addresses.get(0).getLocality();    
+		} catch (IOException e) {              
+	        e.printStackTrace();    
 		}
 		return cityName;
 	}

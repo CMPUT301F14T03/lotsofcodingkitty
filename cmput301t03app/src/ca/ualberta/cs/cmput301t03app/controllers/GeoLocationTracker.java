@@ -83,6 +83,8 @@ public class GeoLocationTracker {
             timer.cancel();
             geoLocation.setLatitude(location.getLatitude());
             geoLocation.setLongitude(location.getLongitude());
+            Log.d("Loc","Lat: " + location.getLatitude());
+            Log.d("Loc","Long: " + location.getLongitude());
             locationManager.removeUpdates(this);
         }
     	@Override
