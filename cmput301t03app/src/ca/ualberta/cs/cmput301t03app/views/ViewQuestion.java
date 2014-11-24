@@ -491,6 +491,7 @@ public class ViewQuestion extends Activity {
 						populateThisQuestionsAnswers(question_id);
 						ala.updateAdapter(answerList);
 						Thread thread = new AnswerQuestion(question_id, a);
+						thread.start();
 						updateAnswerCount();
 					}
 				}).setNegativeButton("Cancel",

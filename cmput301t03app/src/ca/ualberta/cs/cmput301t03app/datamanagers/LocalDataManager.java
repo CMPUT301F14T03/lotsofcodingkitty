@@ -20,15 +20,17 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * Manages the saving and loading of an array list of Questions to
- * local storage.<p> Previously read questions, questions the user wants to read later and
+ * Manages the saving and loading of an array list of Questions to local
+ * storage.
+ * <p>
+ * Previously read questions, questions the user wants to read later and
  * favorited questions will be saved to local storage.
  * 
  * 
  */
 
 public class LocalDataManager implements iDataManager {
-	
+
 	// File names
 	private static final String READ_FILE = "read.sav";
 	private static final String TO_READ_FILE = "read_later.sav";
@@ -45,10 +47,11 @@ public class LocalDataManager implements iDataManager {
 
 	private Context context;
 	private String SAVE_FILE; // This will be equal to one of the filenames
-	
+
 	/**
 	 * 
 	 * Constructs a {@link #LocalDataManager() LocalDataManager}
+	 * 
 	 * @param context
 	 *            The context of the LocalDataManager
 	 */
@@ -59,27 +62,29 @@ public class LocalDataManager implements iDataManager {
 
 	/*********************************** SAVE METHODS **************************************/
 
-	
 	/**
-	 * New methods related to saving things that need to be pushed to server locally.
+	 * New methods related to saving things that need to be pushed to server
+	 * locally.
+	 * 
 	 * @param posts
 	 */
-	
+
 	public void savePushPosts(ArrayList<Post> posts) {
 		SAVE_FILE = PUSH_POSTS;
 		saveFilePushPosts(posts);
 	}
-	
-	public void savePushQuestionUpvotes(HashMap<String, Integer> upvotes){
+
+	public void savePushQuestionUpvotes(HashMap<String, Integer> upvotes) {
 		SAVE_FILE = QUESTION_UPVOTES;
 		saveFileQuestionUpvotes(upvotes);
 	}
-	
+
 	public void savePushAnswerUpvotes(HashMap<String, UpvoteTuple> upvotes) {
 		SAVE_FILE = ANSWER_UPVOTES;
 		saveFileAnswerUpvotes(upvotes);
-		
+
 	}
+
 	/**
 	 * Saves a list of question IDs of favorite questions to cache.
 	 * 
@@ -96,7 +101,7 @@ public class LocalDataManager implements iDataManager {
 	 * Saves a list of question IDs of read questions to cache.
 	 * 
 	 * @param idList
-	 *              A list of strings pertaining to question IDs
+	 *            A list of strings pertaining to question IDs
 	 */
 	public void saveReadID(ArrayList<String> idList) {
 
@@ -110,8 +115,7 @@ public class LocalDataManager implements iDataManager {
 	 * @param idList
 	 *            A list of strings pertaining to question IDs
 	 */
-	public void saveToReadID(ArrayList<String> idList)
-	{
+	public void saveToReadID(ArrayList<String> idList) {
 
 		SAVE_FILE = TO_READ_FILE;
 		saveIds(idList);
@@ -123,10 +127,21 @@ public class LocalDataManager implements iDataManager {
 	 * @param idList
 	 *            A list of strings pertaining to question IDs
 	 */
-	public void savePostedQuestionsID(ArrayList<String> idList)
-	{
+	public void savePostedQuestionsID(ArrayList<String> idList) {
 
 		SAVE_FILE = POSTED_QUESTIONS_FILE;
+		saveIds(idList);
+	}
+	
+	/**
+	 * Saves a list of question IDs of questions .
+	 * 
+	 * @param idList
+	 *            A list of strings pertaining to question IDs
+	 */
+	public void savePushQuestionsID(ArrayList<String> idList) {
+
+		SAVE_FILE = PUSH_POSTS;
 		saveIds(idList);
 	}
 
@@ -134,50 +149,40 @@ public class LocalDataManager implements iDataManager {
 	 * Saves a list of Question Objects to the local memory
 	 * 
 	 * @param list
-	 *            A list of Question Objects 
+	 *            A list of Question Objects
 	 */
-	public void saveToQuestionBank(ArrayList<Question> list)
-	{
+	public void saveToQuestionBank(ArrayList<Question> list) {
 
 		SAVE_FILE = QUESTION_BANK;
 		saveQuestions(list);
 	}
 
-
 	/**
 	 * New methods for loading posts and upvotes that need to be pushed
+	 * 
 	 * @return
 	 */
-	
-	public ArrayList<Post> loadPosts() {
-		SAVE_FILE = PUSH_POSTS;
-		ArrayList<Post> posts = loadPushPosts();
-		return posts;
-		
-	}
-	
+
 	public HashMap<String, Integer> loadQuestionUpvotes() {
 		SAVE_FILE = QUESTION_UPVOTES;
 		HashMap<String, Integer> upvotes = loadFileQuestionUpvotes();
 		return upvotes;
-		
+
 	}
-	
+
 	public HashMap<String, UpvoteTuple> loadAnswerUpvotes() {
 		SAVE_FILE = ANSWER_UPVOTES;
 		HashMap<String, UpvoteTuple> upvotes = loadFileAnswerUpvotes();
 		return upvotes;
-		
+
 	}
-	
-	
+
 	/**
 	 * Loads a list of question ID's of favorite questions from cache.
 	 * 
-	 * @return  A list of strings pertaining to question IDs
+	 * @return A list of strings pertaining to question IDs
 	 */
-	public ArrayList<String> loadFavorites()
-	{
+	public ArrayList<String> loadFavorites() {
 
 		SAVE_FILE = FAVORITE_FILE;
 		ArrayList<String> list = new ArrayList<String>();
@@ -190,8 +195,7 @@ public class LocalDataManager implements iDataManager {
 	 * 
 	 * @return A list of strings pertaining to question IDs
 	 */
-	public ArrayList<String> loadRead()
-	{
+	public ArrayList<String> loadRead() {
 
 		SAVE_FILE = READ_FILE;
 		ArrayList<String> list = new ArrayList<String>();
@@ -204,8 +208,7 @@ public class LocalDataManager implements iDataManager {
 	 * 
 	 * @return A list of strings pertaining to question IDs
 	 */
-	public ArrayList<String> loadToRead()
-	{
+	public ArrayList<String> loadToRead() {
 
 		SAVE_FILE = TO_READ_FILE;
 		ArrayList<String> list = new ArrayList<String>();
@@ -218,8 +221,7 @@ public class LocalDataManager implements iDataManager {
 	 * 
 	 * @return A list of strings pertaining to question IDs
 	 */
-	public ArrayList<String> loadPostedQuestions()
-	{
+	public ArrayList<String> loadPostedQuestions() {
 
 		SAVE_FILE = POSTED_QUESTIONS_FILE;
 		ArrayList<String> list = new ArrayList<String>();
@@ -228,23 +230,32 @@ public class LocalDataManager implements iDataManager {
 	}
 
 	/**
+	 * Loads a list of question ID's of questions that were made while offline.
+	 * 
+	 * @return A list of strings pertaining to question IDs
+	 */
+	public ArrayList<String> loadPosts() {
+		SAVE_FILE = PUSH_POSTS;
+		ArrayList<String> posts = loadIds();
+		return posts;
+
+	}
+
+	/**
 	 * Returns a list of Question objects from the question bank.
 	 * 
 	 * @return A list of Question objects.
 	 */
 	@Override
-	public ArrayList<Question> loadQuestions()
-	{
+	public ArrayList<Question> loadQuestions() {
 
 		ArrayList<Question> questionArray = new ArrayList<Question>();
-		try
-		{
+		try {
 			FileInputStream fileInputStream = context
 					.openFileInput(QUESTION_BANK);
 			InputStreamReader inputStreamReader = new InputStreamReader(
 					fileInputStream);
-			Type listType = new TypeToken<ArrayList<Question>>()
-			{
+			Type listType = new TypeToken<ArrayList<Question>>() {
 			}.getType();
 			GsonBuilder builder = new GsonBuilder();
 
@@ -257,8 +268,7 @@ public class LocalDataManager implements iDataManager {
 			ArrayList<Question> list = gson.fromJson(inputStreamReader,
 					listType);
 			questionArray = list;
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return questionArray;
@@ -268,12 +278,12 @@ public class LocalDataManager implements iDataManager {
 
 	/**
 	 * Method for saving question upvotes to local file.
+	 * 
 	 * @param upvotes
 	 */
-	
+
 	private void saveFileQuestionUpvotes(HashMap<String, Integer> upvotes) {
-		try
-		{
+		try {
 			FileOutputStream fileOutputStream = context.openFileOutput(
 					SAVE_FILE, Context.MODE_PRIVATE);
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
@@ -283,20 +293,19 @@ public class LocalDataManager implements iDataManager {
 			gson.toJson(upvotes, outputStreamWriter); // Serialize to Json
 			outputStreamWriter.flush();
 			outputStreamWriter.close();
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Method for saving answer upvotes to local file.
+	 * 
 	 * @param upvotes
 	 */
-	
+
 	private void saveFileAnswerUpvotes(HashMap<String, UpvoteTuple> upvotes) {
-		try
-		{
+		try {
 			FileOutputStream fileOutputStream = context.openFileOutput(
 					SAVE_FILE, Context.MODE_PRIVATE);
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
@@ -306,20 +315,19 @@ public class LocalDataManager implements iDataManager {
 			gson.toJson(upvotes, outputStreamWriter); // Serialize to Json
 			outputStreamWriter.flush();
 			outputStreamWriter.close();
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Method for saving posts that need to be pushed to local file.
+	 * 
 	 * @param posts
 	 */
-	
+
 	private void saveFilePushPosts(ArrayList<Post> posts) {
-		try
-		{
+		try {
 			FileOutputStream fileOutputStream = context.openFileOutput(
 					SAVE_FILE, Context.MODE_PRIVATE);
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
@@ -327,27 +335,27 @@ public class LocalDataManager implements iDataManager {
 			GsonBuilder builder = new GsonBuilder();
 			Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
 					.create();
-			gson.toJson(posts, outputStreamWriter); // Serialize to Json
+			Type postType = new TypeToken<ArrayList<Post>>() {}.getType();
+			gson.toJson(posts, postType, outputStreamWriter); // Serialize to Json
 			builder.serializeNulls(); // Show fields with null values
 			outputStreamWriter.flush();
 			outputStreamWriter.close();
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Saves an array of IDs to the local drive
 	 * 
-	 * @param idList A list of strings pertaining to question IDs that will be saved to local drive
+	 * @param idList
+	 *            A list of strings pertaining to question IDs that will be
+	 *            saved to local drive
 	 */
 
-	private void saveIds(ArrayList<String> idList)
-	{
+	private void saveIds(ArrayList<String> idList) {
 
-		try
-		{
+		try {
 			FileOutputStream fileOutputStream = context.openFileOutput(
 					SAVE_FILE, Context.MODE_PRIVATE);
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
@@ -357,8 +365,7 @@ public class LocalDataManager implements iDataManager {
 			gson.toJson(idList, outputStreamWriter); // Serialize to Json
 			outputStreamWriter.flush();
 			outputStreamWriter.close();
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -366,14 +373,13 @@ public class LocalDataManager implements iDataManager {
 	/**
 	 * Saves an array of Questions to the local drive
 	 * 
-	 * @param list A List of question objects that will be saved to local drive
+	 * @param list
+	 *            A List of question objects that will be saved to local drive
 	 */
 
-	private void saveQuestions(ArrayList<Question> list)
-	{
+	private void saveQuestions(ArrayList<Question> list) {
 
-		try
-		{
+		try {
 			FileOutputStream fileOutputStream = context.openFileOutput(
 					SAVE_FILE, Context.MODE_PRIVATE);
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
@@ -388,8 +394,7 @@ public class LocalDataManager implements iDataManager {
 			gson.toJson(list, outputStreamWriter); // Serialize to Json
 			outputStreamWriter.flush();
 			outputStreamWriter.close();
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -400,104 +405,111 @@ public class LocalDataManager implements iDataManager {
 	 * @return A list of strings pertaining to question IDs
 	 */
 
-	private ArrayList<String> loadIds()
-	{
+	private ArrayList<String> loadIds() {
 
 		ArrayList<String> idArray = new ArrayList<String>();
-		try
-		{
+		try {
 			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);
 			InputStreamReader inputStreamReader = new InputStreamReader(
 					fileInputStream);
-			Type listType = new TypeToken<ArrayList<String>>()
-			{
+			Type listType = new TypeToken<ArrayList<String>>() {
 			}.getType();
 			GsonBuilder builder = new GsonBuilder();
 			Gson gson = builder.create();
 			ArrayList<String> list = gson.fromJson(inputStreamReader, listType);
 			idArray = list;
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return idArray;
 	}
-	
+
 	/**
 	 * Method for loading posts that need to be pushed to the server.
+	 * 
 	 * @return
 	 */
-	
+
 	private ArrayList<Post> loadPushPosts() {
 		ArrayList<Post> posts = new ArrayList<Post>();
-		try
-		{
+		try {
 			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);
 			InputStreamReader inputStreamReader = new InputStreamReader(
 					fileInputStream);
-			Type listType = new TypeToken<ArrayList<Post>>()
-			{
+			Type listType = new TypeToken<ArrayList<Post>>() {
 			}.getType();
 			GsonBuilder builder = new GsonBuilder();
 			Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
 					.create();
 			builder.serializeNulls(); // Show fields with null values
 			posts = gson.fromJson(inputStreamReader, listType);
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return posts;
 	}
-	
+
 	/**
 	 * Method for loading question upvotes that need to be pushed to the server.
+	 * 
 	 * @return
 	 */
-	
+
 	private HashMap<String, Integer> loadFileQuestionUpvotes() {
 		HashMap<String, Integer> upvotes = new HashMap<String, Integer>();
-		try
-		{
+		try {
 			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);
 			InputStreamReader inputStreamReader = new InputStreamReader(
 					fileInputStream);
-			Type listType = new TypeToken<HashMap<String, Integer>>()
-			{
+			Type listType = new TypeToken<HashMap<String, Integer>>() {
 			}.getType();
 			GsonBuilder builder = new GsonBuilder();
 			Gson gson = builder.create();
 			upvotes = gson.fromJson(inputStreamReader, listType);
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return upvotes;
 	}
-	
+
 	/**
 	 * Method for loading answer upvotes that need to be pushed to the server.
+	 * 
 	 * @return
 	 */
-	
+
 	private HashMap<String, UpvoteTuple> loadFileAnswerUpvotes() {
 		HashMap<String, UpvoteTuple> upvotes = new HashMap<String, UpvoteTuple>();
-		try
-		{
+		try {
 			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);
 			InputStreamReader inputStreamReader = new InputStreamReader(
 					fileInputStream);
-			Type listType = new TypeToken<HashMap<String, UpvoteTuple>>()
-			{
+			Type listType = new TypeToken<HashMap<String, UpvoteTuple>>() {
 			}.getType();
 			GsonBuilder builder = new GsonBuilder();
 			Gson gson = builder.create();
 			upvotes = gson.fromJson(inputStreamReader, listType);
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return upvotes;
+	}
+
+	public void deleteIDs() {
+		ArrayList<String> blank = new ArrayList<String>();
+		try {
+			FileOutputStream fileOutputStream = context.openFileOutput(
+					PUSH_POSTS, Context.MODE_PRIVATE);
+			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+					fileOutputStream);
+			GsonBuilder builder = new GsonBuilder();
+			Gson gson = builder.create();
+			gson.toJson(blank, outputStreamWriter); // Serialize to Json
+			outputStreamWriter.flush();
+			outputStreamWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
 
