@@ -323,11 +323,14 @@ public class ViewQuestion extends Activity {
 	public void toPictureActivityQuestion(View v) {
 		/* This method takes user to ViewPicture activity for questions */
 
-		Intent i = new Intent(this, ViewPicture.class);
-		i.putExtra(SET_COMMENT_TYPE, 1);
-		i.putExtra(QUESTION_ID_KEY, question_id);
-		Log.d("click", "Leaving View picture");
-		startActivity(i);
+		if (pc.getQuestion(question_id).getPicture() != null) {
+					
+			Intent i = new Intent(this, ViewPicture.class);
+			i.putExtra(SET_COMMENT_TYPE, 1);
+			i.putExtra(QUESTION_ID_KEY, question_id);
+			Log.d("click", "Leaving View picture");
+			startActivity(i);
+		}
 	}
 
 	/**
