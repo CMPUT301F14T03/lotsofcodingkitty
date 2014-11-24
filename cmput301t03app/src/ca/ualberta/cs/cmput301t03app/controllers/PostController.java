@@ -489,7 +489,7 @@ public class PostController {
 		Question q = sdm.getQuestion(qID);
 		ArrayList<Answer> a = q.getAnswers();
 		for (int i = 0; i < a.size(); i++) {
-			if (a.get(i).getId() == aID) {
+			if (a.get(i).getId().equals(aID)) {
 				a.get(i).addComment(comment);
 			}
 		}
