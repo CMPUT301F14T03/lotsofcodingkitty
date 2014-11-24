@@ -105,8 +105,8 @@ public class ViewPicture extends Activity {
 					+ pc.getAnswer(answerID, questionID).getDate());
 			author.setText("By: "
 					+ pc.getAnswer(answerID, questionID).getAuthor());
-			Bitmap _bitmapPreScale = BitmapFactory.decodeByteArray(question.getPicture(), 0, question.getPicture().length);
-			picture.setImageBitmap(_bitmapPreScale);;
+			Bitmap _bitmapPreScale = BitmapFactory.decodeByteArray(pc.getAnswer(answerID, questionID).getPicture(), 0, pc.getAnswer(answerID, questionID).getPicture().length);
+			picture.setImageBitmap(_bitmapPreScale);
 		}
 		
 		timeStamp.setText("Posted: " + pc.getQuestion(questionID).getDate());
