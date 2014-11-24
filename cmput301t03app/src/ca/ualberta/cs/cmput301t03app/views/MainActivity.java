@@ -170,8 +170,8 @@ public class MainActivity extends Activity {
 		}
 		if (id == R.id.filter_closeby) {
 			location = new GeoLocation();
-			GeoLocationTracker locationTracker = new GeoLocationTracker(MainActivity.this, location);
-			locationTracker.getLocation();
+			location.setLatitude(53.53);
+			location.setLongitude(-113.5);
 			pc.sortByLocation(location, pc.getQuestionsInstance());
 			mla.updateAdapter(pc.getQuestionsInstance());
 			
