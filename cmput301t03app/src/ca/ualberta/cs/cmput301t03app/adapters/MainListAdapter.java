@@ -85,7 +85,7 @@ public class MainListAdapter extends ArrayAdapter<Question> {
 		
 		holder.q = questionList.get(position);
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		String date_to_string = sdf.format(holder.q.getDate());
 		// Set the TextViews
 		holder.question_title.setText(holder.q.getSubject());
