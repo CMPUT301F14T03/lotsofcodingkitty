@@ -240,43 +240,7 @@ public class ViewComment extends Activity
 				.findViewById(R.id.comment_body);
 		final EditText userName = (EditText) promptsView
 				.findViewById(R.id.UsernameRespondTextView);
-		final EditText userLocation = (EditText) promptsView
-				.findViewById(R.id.userLocation3);
 		
-		CheckBox check = (CheckBox) promptsView
-				.findViewById(R.id.enableLocation3);
-		check.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				hasLocation=!hasLocation;
-				
-				if (hasLocation) {
-					
-					geoLocation = new GeoLocation();
-					GeoLocationTracker locationTracker = new GeoLocationTracker(ViewComment.this, geoLocation);
-					locationTracker.getLocation();
-					
-//					location.setLatitude(53.53333);
-//					location.setLongitude(-113.5);
-					
-					//Delay for 5 seconds
-				    Handler handler = new Handler(); 
-				    handler.postDelayed(new Runnable() { 
-				         public void run() { 
-				        	 cityName = pc.getCity(geoLocation);
-				        	 Log.d("Loc","Timer is done");
-							if (cityName != null) {
-								userLocation.setText(cityName);
-							} else {
-								userLocation.setText("Location not found.");
-							}
-				         } 
-				    }, 5000); 
-				}
-				
-			}
-		});
 		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this); // Create
 																				// a
@@ -296,26 +260,8 @@ public class ViewComment extends Activity
 								.toString();
 						String userNameString = (String) userName.getText()
 								.toString();
-						String userLocationString = (String) userLocation.getText()
-								.toString();
 						Comment c = new Comment(commentBodyString,
 								userNameString);
-						if(hasLocation){
-							
-							//Set location if location typed by user is same as location found
-							if (userLocationString.equals(cityName)){
-								c.setGeoLocation(geoLocation);
-							}
-							//Find the coordinates of place entered by user and set location
-							else{
-								c.setGeoLocation(pc.turnFromCity(userLocationString));
-								//Testing
-								GeoLocation testlocation= pc.turnFromCity(userLocationString);
-								Log.d("Location",Double.toString(testlocation.getLatitude()));
-								Log.d("Location",Double.toString(testlocation.getLongitude()));
-								
-							}
-						}
 						if (commentType == 1)
 						{
 							pc.addCommentToQuestion(c, questionID);
