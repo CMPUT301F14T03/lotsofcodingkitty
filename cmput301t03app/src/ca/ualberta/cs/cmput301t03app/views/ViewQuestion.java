@@ -502,6 +502,7 @@ public class ViewQuestion extends Activity {
 						}
 						populateThisQuestionsAnswers(question_id);
 						ala.updateAdapter(answerList);
+						hasLocation = false;
 					}
 				}).setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {

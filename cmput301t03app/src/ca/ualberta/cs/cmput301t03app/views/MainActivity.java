@@ -325,7 +325,7 @@ public class MainActivity extends Activity {
 								q.setGeoLocation(location);
 							}
 							//Find the coordinates of place entered by user and set location
-							else{
+							else {
 								q.setGeoLocation(pc.turnFromCity(userLocationString));
 								//Testing
 								GeoLocation testlocation= pc.turnFromCity(userLocationString);
@@ -345,6 +345,7 @@ public class MainActivity extends Activity {
 						pc.sortQuestions(0);
 						mla.updateAdapter(pc.getQuestionsInstance());
 
+						hasLocation = false;
 					}
 
 
