@@ -408,6 +408,7 @@ public class ViewQuestion extends Activity {
 				        	 Log.d("Loc","Timer is done");
 							if (cityName != null) {
 								userLocation.setText(cityName);
+								location.setCityName(cityName);
 							} else {
 								userLocation.setText("Location not found.");
 							}
