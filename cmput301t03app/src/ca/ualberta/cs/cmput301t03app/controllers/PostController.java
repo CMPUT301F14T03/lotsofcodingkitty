@@ -454,6 +454,8 @@ public class PostController {
 	 */
 	public void addQuestion(Question question) {
 		sdm.addQuestion(question);
+		addUserPost(question);
+		getQuestionsInstance().add(question);
 	}
 
 	/**
