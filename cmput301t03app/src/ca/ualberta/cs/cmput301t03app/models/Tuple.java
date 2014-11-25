@@ -1,14 +1,14 @@
 package ca.ualberta.cs.cmput301t03app.models;
 
 
-public class tuple
+public class Tuple
 {
 	private String qId;
 	private String aId;
 	private Comment comment;
 	
 	
-	public tuple(String qId,String aId, Comment comment){
+	public Tuple(String qId,String aId, Comment comment){
 		this.qId=qId;
 		this.aId=aId;
 		this.comment=comment;

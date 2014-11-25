@@ -10,10 +10,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Context;
-import ca.ualberta.cs.cmput301t03app.interfaces.iDataManager;
+import ca.ualberta.cs.cmput301t03app.interfaces.IDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.models.Post;
 import ca.ualberta.cs.cmput301t03app.models.UpvoteTuple;
+import ca.ualberta.cs.cmput301t03app.models.Tuple;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -29,7 +30,7 @@ import com.google.gson.reflect.TypeToken;
  * 
  */
 
-public class LocalDataManager implements iDataManager {
+public class LocalDataManager implements IDataManager {
 
 	// File names
 	private static final String READ_FILE = "read.sav";
@@ -40,6 +41,7 @@ public class LocalDataManager implements iDataManager {
 	private static final String QUESTION_UPVOTES = "question_upvotes.sav";
 	private static final String ANSWER_UPVOTES = "answer_upvotes.sav";
 	private static final String PUSH_POSTS = "push_posts.sav";
+	private static final String PUSH_ANS_AND_COMM = "push_ac.sav";
 	// private static final String POSTED_ANSWERS_FILE = "post_answers.sav";
 	// private static final String ANSWER_BANK = "answer_bank.sav"; // This is
 	// required and use to save the posted answers ONLY.
@@ -144,6 +146,12 @@ public class LocalDataManager implements iDataManager {
 		SAVE_FILE = PUSH_POSTS;
 		saveIds(idList);
 	}
+	
+	public void savePushAnsAndComm(ArrayList<Tuple> tupleList) {
+
+		SAVE_FILE = PUSH_ANS_AND_COMM;
+		saveTuple(tupleList);
+	}
 
 	/**
 	 * Saves a list of Question Objects to the local memory
@@ -238,7 +246,12 @@ public class LocalDataManager implements iDataManager {
 		SAVE_FILE = PUSH_POSTS;
 		ArrayList<String> posts = loadIds();
 		return posts;
-
+	}
+	
+	public ArrayList<Tuple> loadTupleArray() {
+		SAVE_FILE = PUSH_ANS_AND_COMM;
+		ArrayList<Tuple> tupleList = loadTuple();
+		return tupleList;
 	}
 
 	/**
@@ -369,6 +382,29 @@ public class LocalDataManager implements iDataManager {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Saves an array of tuples, each containing (question Id, answer ID, comment Object)
+	 * that are used to push answer and comments made offline to the server.
+	 * 
+	 * @param tupleList The list of tuples to be saved 
+	 */
+	private void saveTuple(ArrayList<Tuple> tupleList) {
+
+		try {
+			FileOutputStream fileOutputStream = context.openFileOutput(
+					SAVE_FILE, Context.MODE_PRIVATE);
+			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+					fileOutputStream);
+			GsonBuilder builder = new GsonBuilder();
+			Gson gson = builder.create();
+			gson.toJson(tupleList, outputStreamWriter); // Serialize to Json
+			outputStreamWriter.flush();
+			outputStreamWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Saves an array of Questions to the local drive
@@ -424,6 +460,30 @@ public class LocalDataManager implements iDataManager {
 		return idArray;
 	}
 
+	/**
+	 * Retrieves an array of tuples from the local drive
+	 * 
+	 * @return A list of tuples, each containing (questionID, answerID, comment Object)
+	 */
+	private ArrayList<Tuple> loadTuple() {
+		ArrayList<Tuple> idArray = new ArrayList<Tuple>();
+		
+		try {
+			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);
+			InputStreamReader inputStreamReader = new InputStreamReader(
+					fileInputStream);
+			Type listType = new TypeToken<ArrayList<Tuple>>() {
+			}.getType();
+			GsonBuilder builder = new GsonBuilder();
+			Gson gson = builder.create();
+			ArrayList<Tuple> list = gson.fromJson(inputStreamReader, listType);
+			idArray = list;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return idArray;
+	}
+	
 	/**
 	 * Method for loading posts that need to be pushed to the server.
 	 * 
@@ -511,6 +571,8 @@ public class LocalDataManager implements iDataManager {
 			e.printStackTrace();
 		}
 	}
+
+	
 }
 
 // These two methods set the same mode!

@@ -17,7 +17,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.util.Log;
-import ca.ualberta.cs.cmput301t03app.interfaces.iDataManager;
+import ca.ualberta.cs.cmput301t03app.interfaces.IDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.Hits;
@@ -30,7 +30,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-public class ServerDataManager implements iDataManager{
+public class ServerDataManager implements IDataManager{
 	
 	private static final String SEARCH_URL = "http://cmput301.softwareprocess.es:8080/cmput301f14t03/question/_search?size=1000000";
 	private static final String RESOURCE_URL = "http://cmput301.softwareprocess.es:8080/cmput301f14t03/question/";
