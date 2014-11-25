@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Lotso</string>
+    <string name="app_name">Curious Cat</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="questionTitle">Question Title</string>
