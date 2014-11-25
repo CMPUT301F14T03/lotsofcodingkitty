@@ -19,6 +19,7 @@ public class UserPostCollector {
 	private ArrayList<String> toReadQuestions;
 	private ArrayList<String> postedQuestions;
 	private ArrayList<String> pushQuestions;
+	private ArrayList<Tuple> pushAnswersAndComments;
 	private LocalDataManager local;
 //	private ArrayList<String> postedAnswers;
 
@@ -35,7 +36,7 @@ public class UserPostCollector {
 		readQuestions = null;
 		toReadQuestions = null;
 		postedQuestions = null;
-//		postedAnswers = null;
+		pushAnswersAndComments = null;
 	}
 	
 	/*---------------------------Initializers-----------------------------*/
@@ -93,6 +94,17 @@ public class UserPostCollector {
 			this.pushQuestions = local.loadPostedQuestions();
 		}
 	}
+	/**
+	 * Initializes the list of tuples that contains the question ID, answer ID and comment object that is 
+	 * required for pushing answers and comments made offline to the server
+	 * @param context The Activity context
+	 */
+	public void initPushAnsCommTuple(Context context) {
+		if (this.pushAnswersAndComments == null) {
+			local = new LocalDataManager(context);
+			this.pushAnswersAndComments = local.loadTupleArray();
+		}
+	}
 	
 	
 	/**
@@ -127,10 +139,16 @@ public class UserPostCollector {
 	public ArrayList<String> getPushQuestions() {
 		return this.pushQuestions;
 	}
+	
+	public ArrayList<Tuple> getPushAnswersAndComments() {
+		return this.pushAnswersAndComments;
+	}
 
 	public ArrayList<String> getPostedQuestions() {
 		return this.postedQuestions;
 	}
+	
+	
 
 	/*--------------------------------------------------------*/
 
@@ -178,7 +196,6 @@ public class UserPostCollector {
 	public void addPostedQuestion(String qId) {
 		postedQuestions.add(qId);
 	}
-
 
 	//This method is for testing since each test needs to start with a fresh list
 	//TODO: Delete this later

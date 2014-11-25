@@ -9,7 +9,7 @@ import ca.ualberta.cs.cmput301t03app.models.Question;
  * load the whole Question list.
  * 
  */
-public interface iDataManager
+public interface IDataManager
 {
 
 	public void saveToQuestionBank(ArrayList<Question> list);

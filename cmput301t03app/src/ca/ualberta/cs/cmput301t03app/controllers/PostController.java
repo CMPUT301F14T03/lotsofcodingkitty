@@ -9,7 +9,7 @@ import java.util.Locale;
 import ca.ualberta.cs.cmput301t03app.datamanagers.LocalDataManager;
 import ca.ualberta.cs.cmput301t03app.datamanagers.QuestionFilter;
 import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
-import ca.ualberta.cs.cmput301t03app.interfaces.iDataManager;
+import ca.ualberta.cs.cmput301t03app.interfaces.IDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
@@ -17,6 +17,7 @@ import ca.ualberta.cs.cmput301t03app.models.Post;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.models.UpvoteTuple;
 import ca.ualberta.cs.cmput301t03app.models.UserPostCollector;
+import ca.ualberta.cs.cmput301t03app.models.Tuple;
 
 import android.content.Context;
 import android.location.Address;
@@ -417,7 +418,7 @@ public class PostController {
 		LocalDataManager local = new LocalDataManager(getContext());
 		Toast.makeText(
 				this.getContext(),
-				"You are offline. Push your questions to the server when you regain connectivity with the 'sync' button",
+				"You are offline. Push your posts to the server when you regain connectivity with the 'sync' button",
 				Toast.LENGTH_LONG).show();
 
 		ArrayList<String> idList = upc.getPushQuestions();
@@ -430,6 +431,20 @@ public class PostController {
 		local.saveToQuestionBank(qList);
 	}
 
+	public void addPushAnsAndComm(String qID, String aID, Comment comment) {
+		upc.initPushAnsCommTuple(getContext());
+
+		LocalDataManager local = new LocalDataManager(getContext());
+		Toast.makeText(
+				this.getContext(),
+				"You are offline. Push your posts to the server when you regain connectivity with the 'sync' button",
+				Toast.LENGTH_LONG).show();
+		
+		ArrayList<Tuple> tupleList = upc.getPushAnswersAndComments();
+		Tuple tuple = new Tuple(qID, aID, comment);
+		tupleList.add(tuple);
+		local.savePushAnsAndComm(tupleList);
+	}
 	/**
 	 * Adds an Answer object to the question object
 	 * 
@@ -732,7 +747,22 @@ public class PostController {
 		ArrayList<Question> postedArray = getQuestionsFromID(idArray, local);
 		return postedArray;
 	}
-
+	
+	public Answer getAnswerToPush(String questionID, String answerID) {
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<String> idArray = new ArrayList<String>();
+		idArray.add(questionID);
+		ArrayList<Question> associatedQuestion = getQuestionsFromID(idArray, local);
+		Question unpackQuestion = associatedQuestion.get(0);
+		ArrayList<Answer> answerArray = unpackQuestion.getAnswers();
+		
+		for (int i = 0; i < answerArray.size(); i++) {
+			if (answerArray.get(i).getId().equals(answerID)) {
+				return answerArray.get(i);
+			}
+		}
+		return null;
+	}
 	/**
 	 * 
 	 * Returns an ArrayList of Question objects from local memory using a list
@@ -800,9 +830,11 @@ public class PostController {
 			// sdm.pushPosts(getPushPostsInstance());
 			LocalDataManager local = new LocalDataManager(getContext());
 			upc.initPushQuestionID(getContext());
+			upc.initPushAnsCommTuple(getContext());
 			upc.initQuestionBank(getContext());
 			ArrayList<String> qID = upc.getPushQuestions();
 			ArrayList<Question> qList = upc.getQuestionBank();
+			ArrayList<Tuple> tupleList = upc.getPushAnswersAndComments();
 
 			for (int i = 0; i < qID.size(); i++) {
 				// Toast.makeText(this.getContext(), "Array size is"+qID.size(),
@@ -818,7 +850,7 @@ public class PostController {
 					}
 				}
 			}
-
+			
 			// Wait questions to be pushed before clearing
 			try {
 				Thread.currentThread().sleep(500);
