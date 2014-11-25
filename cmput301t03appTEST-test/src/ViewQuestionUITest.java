@@ -50,17 +50,16 @@ public class ViewQuestionUITest extends
     @Override
     protected void setUp() throws Exception{
         super.setUp();
-		pc = new PostController(getInstrumentation().getContext());
+		pc = new PostController(getInstrumentation().getTargetContext());
 		q = new Question("Test subject", "Body", "Author");
 		qId = q.getId();
-		Comment comment = new Comment("Test", "test");
-		q.addComment(comment);
-		a = new Answer("test", "test", qId);
-		answers = new ArrayList<Answer>();
-		answers.add(a);
-		q.addAnswer(a);
 		pc.addQuestion(q);
+		Comment comment = new Comment("Test", "test");
+		pc.addCommentToQuestion(comment, qId);
+		a = new Answer("test", "test", qId);
+		pc.addAnswer(a, qId);
 		Intent intent = new Intent();
+//		intent.putExtra(ViewQuestion.QUESTION_ID_KEY, q.getId());
 		intent.putExtra("question_id", qId);
 		setActivityIntent(intent);
 		activity = (ViewQuestion) getActivity();
