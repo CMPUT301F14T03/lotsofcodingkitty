@@ -408,6 +408,7 @@ public class PostController {
 		qList.add(q);
 		local.savePostedQuestionsID(idList);
 		local.saveToQuestionBank(qList);
+		upc.initQuestionBank(getContext()); //Need to refresh questionBank list in upc
 	}
 
 	public void addPushQuestion(Question q) {
