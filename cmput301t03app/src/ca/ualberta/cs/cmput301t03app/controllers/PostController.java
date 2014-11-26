@@ -472,17 +472,19 @@ public class PostController {
 	/**
 	 * Adds a question to the list in the PostController.
 	 * 
+	 * READ THIS: DO NOT CHANGE THE ADAPTOR OR ADD TO THE SUBQUESTIONS LIST IN THIS METHOD
+	 * 
 	 * @param question
 	 *            a Question object that the user wants to be added.
 	 */
 	public void addQuestion(Question question) {
 		sdm.addQuestion(question);
-		addUserPost(question);
-		getQuestionsInstance().add(question);
 	}
 
 	/**
 	 * Adds an answer to a question.
+	 * 
+	 * READ THIS: DO NOT CHANGE THE ADAPTOR OR ADD TO THE SUBQUESTIONS LIST IN THIS METHOD
 	 * 
 	 * @param answer
 	 *            The answer that is being given.
@@ -498,6 +500,8 @@ public class PostController {
 	/**
 	 * Adds a comment to a question or answer.
 	 * 
+	 * READ THIS: DO NOT CHANGE THE ADAPTOR OR ADD TO THE SUBQUESTIONS LIST IN THIS METHOD
+	 * 
 	 * @param comment
 	 *            The comment you want to add.
 	 * @param question
@@ -510,6 +514,15 @@ public class PostController {
 		sdm.updateQuestion(q);
 	}
 
+	/**
+	 * Adds a comment to an answer
+	 * 
+	 * READ THIS: DO NOT CHANGE THE ADAPTOR OR ADD TO THE SUBQUESTIONS LIST IN THIS METHOD
+	 * 
+	 * @param comment The comment you want to add
+	 * @param aID The ID of the answer you wish to comment
+	 * @param qID The ID of the question the answer belongs to
+	 */
 	public void commentAnAnswer(Comment comment, String aID, String qID) {
 		Question q = sdm.getQuestion(qID);
 		ArrayList<Answer> a = q.getAnswers();

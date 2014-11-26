@@ -336,18 +336,19 @@ public class MainActivity extends Activity {
 								
 							}
 						}
-					if (pc.checkConnectivity()) {
-						Thread thread = new AddThread(q);
-						thread.start();
-						thread.interrupt();
-					} else {
-						pc.addPushQuestion(q);
-					}
 						pc.addUserPost(q);
 						pc.getQuestionsInstance().add(q);
 						pc.sortQuestions(0);
-						mla.updateAdapter(pc.getQuestionsInstance());
-
+						if (pc.checkConnectivity()) {
+							Thread thread = new AddThread(q);
+							thread.start();
+							// thread.interrupt();
+						} else {
+							pc.addPushQuestion(q);
+						}
+						
+						//mla.updateAdapter(pc.getQuestionsInstance());
+						Log.d("Debug", "Finishes adding");
 						hasLocation = false;
 					}
 
@@ -668,6 +669,7 @@ public class MainActivity extends Activity {
 	    	public AddThread(Question question) {
 	    		this.question = question;
 	    		Log.d("push", this.question.getSubject());
+	    		runOnUiThread(doUpdateGUIList);
 	    	}
 	    	
 	    	@Override
