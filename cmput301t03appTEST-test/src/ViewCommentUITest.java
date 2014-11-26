@@ -52,7 +52,9 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		String qAuthor = "Author";
 		Date date = new Date();
 		Question q = new Question(qTitle,qBody,qAuthor);
+
 		pc.addQuestionToServer(q);
+		pc.getQuestionsInstance().add(q);
 		
 		Intent intent = new Intent();
 		intent.putExtra(ViewQuestion.SET_COMMENT_TYPE,ViewQuestion.COMMENT_ON_QUESTION_KEY);
@@ -81,6 +83,7 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		String qAuthor = "Author";
 		Question q = new Question(qTitle,qBody,qAuthor);
 		pc.addQuestionToServer(q);
+		pc.getQuestionsInstance().add(q);
 		
 		Intent intent = new Intent();
 		intent.putExtra(ViewQuestion.SET_COMMENT_TYPE,ViewQuestion.COMMENT_ON_QUESTION_KEY);
@@ -100,6 +103,7 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		String qAuthor = "Author";
 		Question q = new Question(qTitle,qBody,qAuthor);
 		pc.addQuestionToServer(q);
+		pc.getQuestionsInstance().add(q);
 		Comment c = new Comment("String","String");
 		pc.addCommentToQuestion(c, q.getId());
 		
@@ -126,6 +130,7 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		String qAuthor = "Author";
 		Question q = new Question(qTitle,qBody,qAuthor);
 		pc.addQuestionToServer(q);
+		pc.getQuestionsInstance().add(q);
 		Intent intent = new Intent();
 		intent.putExtra(ViewQuestion.SET_COMMENT_TYPE,ViewQuestion.COMMENT_ON_QUESTION_KEY);
 		intent.putExtra(ViewQuestion.QUESTION_ID_KEY, q.getId());
@@ -161,6 +166,8 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		String qAuthor = "Author";
 		Question q = new Question(qTitle,qBody,qAuthor);
 		pc.addQuestionToServer(q);
+		pc.addUserPost(q);
+		pc.getQuestionsInstance().add(q);
 		Comment c = new Comment("String","String");
 		pc.addCommentToQuestion(c, q.getId());
 		
@@ -186,7 +193,8 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		String qBody = "Body";
 		String qAuthor = "Author";
 		Question q = new Question(qTitle,qBody,qAuthor);
-		pc.addQuestionToServer(q);
+		pc.addQuestionToServer(q);	
+		pc.getQuestionsInstance().add(q);
 		Comment c = new Comment("String","String");
 		Comment c1 = new Comment("String1","String1");
 		pc.addCommentToQuestion(c, q.getId());
@@ -218,6 +226,7 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 		String qAuthor = "Author";
 		Question q = new Question(qTitle,qBody,qAuthor);
 		pc.addQuestionToServer(q);
+		pc.getQuestionsInstance().add(q);
 		
 		Intent intent = new Intent();
 		intent.putExtra(ViewQuestion.SET_COMMENT_TYPE,ViewQuestion.COMMENT_ON_QUESTION_KEY);
