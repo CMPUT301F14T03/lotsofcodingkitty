@@ -23,12 +23,12 @@ public class PushController
 	}
 	
 		
-	public void getMode(){
+	public void pushAnswersAndComments(){
 		ArrayList<Tuple> tupleArray = pc.getTupleForPush();
+		Tuple tuple;
 		//ArrayList<Question> returnedQuestions;
 		//Question q;
 		//String qId = null;
-		Tuple tuple;
 		for (int i=0;i<tupleArray.size();i++){
 			tuple = tupleArray.get(i);
 			if (tuple.getaId()!=null && tuple.getComment()!=null){

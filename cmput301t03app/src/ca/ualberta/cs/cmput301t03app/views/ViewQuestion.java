@@ -162,9 +162,12 @@ public class ViewQuestion extends Activity {
 
 			@Override
 			public void onClick(View v) {
-
-				Integer.toString(pc.getQuestion(question_id).getRating());
-				increment_upvote();
+				if (pc.checkConnectivity()) {
+					Integer.toString(pc.getQuestion(question_id).getRating());
+					increment_upvote();
+				} else {
+					pc.cantUpvoteMsg();
+				}
 			}
 		});
 		questionPictureButton.setOnClickListener(new OnClickListener() {
@@ -495,9 +498,14 @@ public class ViewQuestion extends Activity {
 						
 						populateThisQuestionsAnswers(question_id);
 						pc.getQuestion(question_id).addAnswer(a);
-						Thread thread = new AnswerQuestion(question_id, a);
-						thread.start();
 						updateAnswerCount();
+						if(pc.checkConnectivity()) {
+							Thread thread = new AnswerQuestion(question_id, a);
+							thread.start();
+						} else {
+							pc.addPushAnsAndComm(question_id, a.getId(), null);
+						}
+
 						try {
 							Thread.currentThread().sleep(250);
 						} catch (InterruptedException e) {

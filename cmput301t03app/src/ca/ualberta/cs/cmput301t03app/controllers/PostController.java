@@ -902,6 +902,10 @@ public class PostController {
 		return qList;
 	}
 
+	public void cantUpvoteMsg() {
+		Toast.makeText(getContext(), "Please re-connect to upvote", Toast.LENGTH_SHORT).show();
+	}
+
 	/*
 	 * These methods are currently not being used and are commented out We may
 	 * want to re-implement them later so they are saved down here. Not revised

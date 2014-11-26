@@ -266,15 +266,24 @@ public class ViewComment extends Activity
 						{
 							pc.addCommentToQuestion(c, questionID);
 							comments = pc.getCommentsToQuestion(questionID);
-							Thread thread = new AddCommentThread(c, questionID);
-							thread.start();
+							if (pc.checkConnectivity()) {
+								Thread thread = new AddCommentThread(c,
+										questionID);
+								thread.start();
+							} else {
+								pc.addPushAnsAndComm(questionID, null, c);
+							}
 						} else if (commentType == 2)
 						{
 							pc.addCommentToAnswer(c, questionID, answerID);
 							comments = pc.getCommentsToAnswer(questionID,
 									answerID);
-							Thread thread = new AddCommentThread(c, questionID, answerID);
-							thread.start();
+							if (pc.checkConnectivity()) {
+								Thread thread = new AddCommentThread(c, questionID, answerID);
+								thread.start();
+							} else {
+								pc.addPushAnsAndComm(questionID, answerID, c);
+							}
 						}
 						// setCommentAdapter();
 						
