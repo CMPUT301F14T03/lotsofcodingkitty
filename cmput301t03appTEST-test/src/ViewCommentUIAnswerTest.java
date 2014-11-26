@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.app.Instrumentation;
@@ -69,6 +70,7 @@ ActivityInstrumentationTestCase2<ViewComment> {
 		Date date = new Date();
 		Question q1 = new Question(qTitle, qBody, qAuthor);
 		pc.addQuestion(q1);
+		pc.getQuestionsInstance().add(q1);
 
 		Answer a = new Answer("aTitle", "aAuthor", "1");
 		pc.addAnswer(a, q1.getId());
@@ -164,7 +166,7 @@ ActivityInstrumentationTestCase2<ViewComment> {
 	 */
 	public void testCommentBodyIsCorretWithTwoComments() {
 		Question q1 = new Question("New Title", "Body", "Author");
-		pc.addQuestion(q1);
+		pc.getQuestionsInstance().add(q1);
 		Answer a1 = new Answer("twoTitle", "twoAuthor", q1.getId());
 		pc.addAnswer(a1, q1.getId());
 		Comment c1 = new Comment("String1", "String1");

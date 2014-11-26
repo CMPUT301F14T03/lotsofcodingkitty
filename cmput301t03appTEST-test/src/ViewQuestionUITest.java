@@ -54,10 +54,14 @@ public class ViewQuestionUITest extends
 		q = new Question("Test subject", "Body", "Author");
 		qId = q.getId();
 		pc.addQuestion(q);
+		pc.getQuestionsInstance().add(q);
+		pc.addUserPost(q);
 		Comment comment = new Comment("Test", "test");
 		pc.addCommentToQuestion(comment, qId);
 		a = new Answer("test", "test", qId);
 		pc.addAnswer(a, qId);
+		answers = new ArrayList<Answer>();
+		answers.add(a);
 		Intent intent = new Intent();
 //		intent.putExtra(ViewQuestion.QUESTION_ID_KEY, q.getId());
 		intent.putExtra("question_id", qId);
@@ -232,11 +236,11 @@ public class ViewQuestionUITest extends
 		// questions rating
 
 		assertTrue("Question upvote not incrementing score", q.getRating() == 1);
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 10; i++) {
 			upvote.performClick();
 		}
 		assertTrue("Upvoting question 1000 times not working",
-				q.getRating() == 1001);
+				q.getRating() == 11);
 	}
 
 	/**
@@ -264,11 +268,11 @@ public class ViewQuestionUITest extends
 
 		assertTrue("Answer upvote not incrementing score",
 				a.getRating() == 1);
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 10; i++) {
 			upvote.performClick();
 		}
 		assertTrue("Upvoting answer 1000 times not working",
-				a.getRating() == 1001);
+				a.getRating() == 11);
 	}
 
 	/**
