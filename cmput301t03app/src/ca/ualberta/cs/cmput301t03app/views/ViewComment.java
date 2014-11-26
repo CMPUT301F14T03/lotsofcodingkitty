@@ -390,18 +390,14 @@ public class ViewComment extends Activity
 		
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			runOnUiThread(doFinish);
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
 			break;
 		}
 		
 		return (super.onOptionsItemSelected(item));
 	}
-	
-	private Runnable doFinish = new Runnable() {
-		public void run() {
-			finish();
-		}
-	};
 	
 	class AddCommentThread extends Thread {
     	private String qID;
