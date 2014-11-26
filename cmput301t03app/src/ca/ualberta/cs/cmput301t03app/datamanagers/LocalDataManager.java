@@ -555,11 +555,28 @@ public class LocalDataManager implements IDataManager {
 		return upvotes;
 	}
 
-	public void deleteIDs() {
+	public void deletePushQuestionsIDList() {
 		ArrayList<String> blank = new ArrayList<String>();
 		try {
 			FileOutputStream fileOutputStream = context.openFileOutput(
 					PUSH_POSTS, Context.MODE_PRIVATE);
+			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+					fileOutputStream);
+			GsonBuilder builder = new GsonBuilder();
+			Gson gson = builder.create();
+			gson.toJson(blank, outputStreamWriter); // Serialize to Json
+			outputStreamWriter.flush();
+			outputStreamWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deletePushTuplelist() {
+		ArrayList<Tuple> blank = new ArrayList<Tuple>();
+		try {
+			FileOutputStream fileOutputStream = context.openFileOutput(
+					PUSH_ANS_AND_COMM, Context.MODE_PRIVATE);
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
 					fileOutputStream);
 			GsonBuilder builder = new GsonBuilder();

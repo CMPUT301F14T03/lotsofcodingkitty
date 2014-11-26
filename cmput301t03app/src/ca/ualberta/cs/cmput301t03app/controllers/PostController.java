@@ -422,7 +422,7 @@ public class PostController {
 				this.getContext(),
 				"You are offline. Push your posts to the server when you regain connectivity with the 'sync' button",
 				Toast.LENGTH_LONG).show();
-
+		Log.d("Debug", "Question was asked offline");
 		ArrayList<String> idList = upc.getPushQuestions();
 		ArrayList<Question> qList = upc.getQuestionBank();
 
@@ -614,7 +614,14 @@ public class PostController {
 		serverList = sdm.searchQuestions("", null);
 		serverList = qf.sortByDate(serverList);
 		// Log.d("size", "size:"+serverList.size());
-		return serverList;
+		for (int i=0; i<serverList.size(); i++) {
+			if (i > 9) {
+				return subQuestions;
+			} else {
+				subQuestions.add(serverList.get(i));
+			}
+		}
+		return subQuestions;
 	}
 
 	public void loadServerQuestions(ArrayList<Question> list) {
@@ -870,23 +877,27 @@ public class PostController {
 			upc.initQuestionBank(getContext());
 			ArrayList<String> qID = upc.getPushQuestions();
 			ArrayList<Question> qList = upc.getQuestionBank();
-			ArrayList<Tuple> tupleList = upc.getPushAnswersAndComments();
 
-			for (int i = 0; i < qID.size(); i++) {
-				// Toast.makeText(this.getContext(), "Array size is"+qID.size(),
-				// Toast.LENGTH_SHORT).show();
-				// Toast.makeText(this.getContext(), qID.get(i),
-				// Toast.LENGTH_SHORT).show();
-				for (int j = 0; j < qList.size(); j++) {
-					if (qList.get(j).getId().equals(qID.get(i))) {
-						// Toast.makeText(this.getContext(),
-						// qList.get(j).getSubject()+" should be added to server",
-						// Toast.LENGTH_SHORT).show();
-						sdm.addQuestion(qList.get(j));
+			if (qID.size() != 0) {
+				Log.d("Debug", "Array size is" + qID.size());
+				for (int i = 0; i < qID.size(); i++) {
+					// Toast.makeText(this.getContext(),
+					// "Array size is"+qID.size(),
+					// Toast.LENGTH_SHORT).show();
+					// Toast.makeText(this.getContext(), qID.get(i),
+					// Toast.LENGTH_SHORT).show();
+					for (int j = 0; j < qList.size(); j++) {
+						if (qList.get(j).getId().equals(qID.get(i))) {
+							// Toast.makeText(this.getContext(),
+							// qList.get(j).getSubject()+" should be added to server",
+							// Toast.LENGTH_SHORT).show();
+							sdm.addQuestion(qList.get(j));
+						}
 					}
 				}
+			} else {
+				Log.d("Debug", "Array size should be == 0");
 			}
-			
 			// Wait questions to be pushed before clearing
 			try {
 				Thread.currentThread().sleep(500);
@@ -895,7 +906,7 @@ public class PostController {
 				e.printStackTrace();
 			}
 			upc.clearPushQuestions();
-			local.deleteIDs();
+			local.deletePushQuestionsIDList();
 			// ldm.savePushPosts(pushPosts);
 		} else {
 			// ldm = new LocalDataManager(getContext());
