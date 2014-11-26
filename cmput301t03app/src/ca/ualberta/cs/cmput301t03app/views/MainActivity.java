@@ -125,7 +125,7 @@ public class MainActivity extends Activity {
 		//pc.getQuestionsFromServer();
 		mla.updateAdapter(pc.getQuestionsInstance());
 		pc.sortQuestions(0);
-		pc.loadToBePushed();
+		//pc.loadToBePushed();
 	}
 
 	@Override
