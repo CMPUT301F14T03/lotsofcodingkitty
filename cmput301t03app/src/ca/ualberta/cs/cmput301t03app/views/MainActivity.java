@@ -48,6 +48,7 @@ import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
 import ca.ualberta.cs.cmput301t03app.controllers.GeoLocationTracker;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.controllers.PushController;
 import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 import ca.ualberta.cs.cmput301t03app.models.Question;
@@ -78,6 +79,7 @@ public class MainActivity extends Activity {
 	private ArrayList<Question> serverList = new ArrayList<Question>();
 	public AlertDialog alertDialog1; // for testing purposes
 	private ServerDataManager sdm = new ServerDataManager();
+	private PushController pushCtrl = new PushController(this);
 	
 	/**
 	 * onCreate sets up the listview,sets the click listeners
@@ -334,17 +336,19 @@ public class MainActivity extends Activity {
 								
 							}
 						}
-					if (pc.checkConnectivity()) {
-						Thread thread = new AddThread(q);
-						thread.start();
-					} else {
-						pc.addPushQuestion(q);
-					}
 						pc.addUserPost(q);
 						pc.getQuestionsInstance().add(q);
 						pc.sortQuestions(0);
-						mla.updateAdapter(pc.getQuestionsInstance());
-
+						if (pc.checkConnectivity()) {
+							Thread thread = new AddThread(q);
+							thread.start();
+							// thread.interrupt();
+						} else {
+							pc.addPushQuestion(q);
+						}
+						
+						//mla.updateAdapter(pc.getQuestionsInstance());
+						Log.d("Debug", "Finishes adding");
 						hasLocation = false;
 					}
 
@@ -656,7 +660,6 @@ public class MainActivity extends Activity {
 	    		serverList = pc.getQuestionsFromServer();
 	    		pc.loadServerQuestions(serverList);
 	    		runOnUiThread(doUpdateGUIList);
-	    		
 	    	};
 	    }
 	    
@@ -666,6 +669,7 @@ public class MainActivity extends Activity {
 	    	public AddThread(Question question) {
 	    		this.question = question;
 	    		Log.d("push", this.question.getSubject());
+	    		runOnUiThread(doUpdateGUIList);
 	    	}
 	    	
 	    	@Override
@@ -688,6 +692,7 @@ public class MainActivity extends Activity {
 	    	@Override
 	    	public void run() {
 	    		pc.pushNewPosts();
+	    		pushCtrl.pushAnswersAndComments();
 	    		try {
 	    			Thread.sleep(500);
 	    		} catch(InterruptedException e) {

@@ -182,7 +182,7 @@ public class PostController {
 			ldm.savePushAnswerUpvotes(answerUpvotes);
 		}
 	}
-
+//
 	public void pushAnswerUpvotes() {
 
 		for (HashMap.Entry<String, UpvoteTuple> entry : getAnswerUpvotes()
@@ -431,6 +431,13 @@ public class PostController {
 		local.saveToQuestionBank(qList);
 	}
 
+	/**
+	 * Adds and saves the question ID, answer ID and comment object needed to push offline posts to the server
+	 * when the user re-syncs
+	 * @param qID The ID of the question corresponding to the question object
+	 * @param aID The ID of the answer corresponding to the answer object
+	 * @param comment The comment object
+	 */
 	public void addPushAnsAndComm(String qID, String aID, Comment comment) {
 		upc.initPushAnsCommTuple(getContext());
 
@@ -465,17 +472,19 @@ public class PostController {
 	/**
 	 * Adds a question to the list in the PostController.
 	 * 
+	 * READ THIS: DO NOT CHANGE THE ADAPTOR OR ADD TO THE SUBQUESTIONS LIST IN THIS METHOD
+	 * 
 	 * @param question
 	 *            a Question object that the user wants to be added.
 	 */
 	public void addQuestion(Question question) {
 		sdm.addQuestion(question);
-		addUserPost(question);
-		getQuestionsInstance().add(question);
 	}
 
 	/**
 	 * Adds an answer to a question.
+	 * 
+	 * READ THIS: DO NOT CHANGE THE ADAPTOR OR ADD TO THE SUBQUESTIONS LIST IN THIS METHOD
 	 * 
 	 * @param answer
 	 *            The answer that is being given.
@@ -491,6 +500,8 @@ public class PostController {
 	/**
 	 * Adds a comment to a question or answer.
 	 * 
+	 * READ THIS: DO NOT CHANGE THE ADAPTOR OR ADD TO THE SUBQUESTIONS LIST IN THIS METHOD
+	 * 
 	 * @param comment
 	 *            The comment you want to add.
 	 * @param question
@@ -503,6 +514,15 @@ public class PostController {
 		sdm.updateQuestion(q);
 	}
 
+	/**
+	 * Adds a comment to an answer
+	 * 
+	 * READ THIS: DO NOT CHANGE THE ADAPTOR OR ADD TO THE SUBQUESTIONS LIST IN THIS METHOD
+	 * 
+	 * @param comment The comment you want to add
+	 * @param aID The ID of the answer you wish to comment
+	 * @param qID The ID of the question the answer belongs to
+	 */
 	public void commentAnAnswer(Comment comment, String aID, String qID) {
 		Question q = sdm.getQuestion(qID);
 		ArrayList<Answer> a = q.getAnswers();
@@ -748,6 +768,20 @@ public class PostController {
 		return postedArray;
 	}
 	
+	public ArrayList<Tuple> getTupleForPush() {
+		
+		LocalDataManager local = new LocalDataManager(getContext());
+		ArrayList<Tuple> tupleArray = local.loadTupleArray();
+		return tupleArray;
+	}
+	/**
+	 * Gets answer object corresponding to the answerID from the question object corresponding
+	 * to the question ID
+	 * 
+	 * @param questionID ID of the question object to find
+	 * @param answerID ID of the answer object within the question object
+	 * @return Answer object
+	 */
 	public Answer getAnswerToPush(String questionID, String answerID) {
 		LocalDataManager local = new LocalDataManager(getContext());
 		ArrayList<String> idArray = new ArrayList<String>();
@@ -879,6 +913,10 @@ public class PostController {
 		getQuestionsInstance().clear();
 		getQuestionsInstance().addAll(qList);
 		return qList;
+	}
+
+	public void cantUpvoteMsg() {
+		Toast.makeText(getContext(), "Please re-connect to upvote", Toast.LENGTH_SHORT).show();
 	}
 
 	/*
