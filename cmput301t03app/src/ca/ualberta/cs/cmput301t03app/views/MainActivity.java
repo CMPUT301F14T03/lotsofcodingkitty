@@ -674,7 +674,7 @@ public class MainActivity extends Activity {
 	    	
 	    	@Override
 	    	public void run() {
-	    		pc.addQuestion(this.question);
+	    		pc.addQuestionToServer(this.question);
 	    		try {
 	    			Thread.sleep(500);
 	    		} catch(InterruptedException e) {

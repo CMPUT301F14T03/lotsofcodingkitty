@@ -753,7 +753,7 @@ public class ViewQuestion extends Activity {
     	
     	@Override
     	public void run() {
-    		pc.answerAQuestion(this.answer, this.qID);
+    		pc.answerAQuestionToServer(this.answer, this.qID);
     		try {
     			Thread.sleep(500);
     		} catch(InterruptedException e) {

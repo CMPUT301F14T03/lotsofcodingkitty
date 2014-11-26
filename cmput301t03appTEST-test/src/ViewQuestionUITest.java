@@ -53,7 +53,7 @@ public class ViewQuestionUITest extends
 		pc = new PostController(getInstrumentation().getTargetContext());
 		q = new Question("Test subject", "Body", "Author");
 		qId = q.getId();
-		pc.addQuestion(q);
+		pc.addQuestionToServer(q);
 		Comment comment = new Comment("Test", "test");
 		pc.addCommentToQuestion(comment, qId);
 		a = new Answer("test", "test", qId);

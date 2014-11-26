@@ -477,7 +477,7 @@ public class PostController {
 	 * @param question
 	 *            a Question object that the user wants to be added.
 	 */
-	public void addQuestion(Question question) {
+	public void addQuestionToServer(Question question) {
 		sdm.addQuestion(question);
 	}
 
@@ -491,7 +491,7 @@ public class PostController {
 	 * @param question
 	 *            The question that is being answered.
 	 */
-	public void answerAQuestion(Answer answer, String qID) {
+	public void answerAQuestionToServer(Answer answer, String qID) {
 		Question q = sdm.getQuestion(qID);
 		q.addAnswer(answer);
 		sdm.updateQuestion(q);
@@ -508,7 +508,7 @@ public class PostController {
 	 *            The question you are commenting on or the parent question of
 	 *            an answer you are commenting on.
 	 */
-	public void commentAQuestion(Comment comment, String qID) {
+	public void commentAQuestionToServer(Comment comment, String qID) {
 		Question q = sdm.getQuestion(qID);
 		q.addComment(comment);
 		sdm.updateQuestion(q);
@@ -523,7 +523,7 @@ public class PostController {
 	 * @param aID The ID of the answer you wish to comment
 	 * @param qID The ID of the question the answer belongs to
 	 */
-	public void commentAnAnswer(Comment comment, String aID, String qID) {
+	public void commentAnAnswerToServer(Comment comment, String aID, String qID) {
 		Question q = sdm.getQuestion(qID);
 		ArrayList<Answer> a = q.getAnswers();
 		for (int i = 0; i < a.size(); i++) {
