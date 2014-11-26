@@ -3,6 +3,7 @@ package ca.ualberta.cs.cmput301t03app.controllers;
 import java.util.ArrayList;
 
 import android.content.Context;
+import ca.ualberta.cs.cmput301t03app.datamanagers.LocalDataManager;
 import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Question;
@@ -39,6 +40,8 @@ public class PushController
 				addAnswerToQuestion(tuple);
 			}
 		}
+		LocalDataManager local = new LocalDataManager(getContext());
+		local.deletePushTuplelist();
 	}
 	
 	private Question getQuestionFromServer(Tuple tuple) {
@@ -92,4 +95,7 @@ public class PushController
 		
 	}
 	
+	public Context getContext() {
+		return this.context;
+	}
 }

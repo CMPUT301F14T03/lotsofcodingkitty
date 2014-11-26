@@ -125,7 +125,7 @@ public class MainActivity extends Activity {
 		//pc.getQuestionsFromServer();
 		mla.updateAdapter(pc.getQuestionsInstance());
 		pc.sortQuestions(0);
-		pc.loadToBePushed();
+		//pc.loadToBePushed();
 	}
 
 	@Override
@@ -179,22 +179,28 @@ public class MainActivity extends Activity {
 			
 		}
 		if (id == R.id.sync) {
-			Thread thread = new PushThread();
-			thread.start();
-			//pc.pushQuestionUpvotes();
-			//pc.pushAnswerUpvotes();
-			new Thread() {
-				public void run() {
-					pc.executeSearch("");
-					runOnUiThread(doUpdateGUIList);
-				}
-			}.start();
-			
-			// Give some time to get updated info
-			try {
-				Thread.currentThread().sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			if (pc.checkConnectivity()) {
+				Thread thread = new PushThread();
+				thread.start();
+				// pc.pushQuestionUpvotes();
+				// pc.pushAnswerUpvotes();
+				Thread refreshThread = new SearchThread("");
+				refreshThread.start();
+//				new Thread() {
+//					public void run() {
+//						pc.executeSearch("");
+//						runOnUiThread(doUpdateGUIList);
+//					}
+//				}.start();
+//
+//				// Give some time to get updated info
+//				try {
+//					Thread.currentThread().sleep(500);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+			} else {
+				Toast.makeText(this, "No connection found.  Cannot sync with the server.", Toast.LENGTH_LONG).show();
 			}
 			
 		}
@@ -336,9 +342,7 @@ public class MainActivity extends Activity {
 								
 							}
 						}
-						pc.addUserPost(q);
-						pc.getQuestionsInstance().add(q);
-						pc.sortQuestions(0);
+						
 						if (pc.checkConnectivity()) {
 							Thread thread = new AddThread(q);
 							thread.start();
@@ -346,8 +350,10 @@ public class MainActivity extends Activity {
 						} else {
 							pc.addPushQuestion(q);
 						}
-						
-						//mla.updateAdapter(pc.getQuestionsInstance());
+						pc.addUserPost(q);
+						pc.getQuestionsInstance().add(q);
+						pc.sortQuestions(0);
+						mla.updateAdapter(pc.getQuestionsInstance());
 						Log.d("Debug", "Finishes adding");
 						hasLocation = false;
 					}
@@ -658,8 +664,13 @@ public class MainActivity extends Activity {
 	    	public void run() {
 	    		pc.getQuestionsInstance().clear();
 	    		serverList = pc.getQuestionsFromServer();
-	    		pc.loadServerQuestions(serverList);
+	    		//pc.loadServerQuestions(serverList);
 	    		runOnUiThread(doUpdateGUIList);
+	    		try {
+	    			Thread.sleep(500);
+	    		} catch(InterruptedException e) {
+	    			e.printStackTrace();
+	    		}
 	    	};
 	    }
 	    

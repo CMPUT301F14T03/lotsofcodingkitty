@@ -1,14 +1,14 @@
 package ca.ualberta.cs.cmput301t03app.models;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * This class represents a comment or reply to an answer or question.
  * 
  */
 
-public class Comment {
-		
+public class Comment {		
 	private Date date;
 	private String comment;
 	private String author;
