@@ -174,7 +174,7 @@ public class MainActivity extends Activity {
 			location = new GeoLocation();
 			location.setLatitude(53.53);
 			location.setLongitude(-113.5);
-			pc.sortByLocation(location, pc.getQuestionsInstance());
+			pc.sortByLocation(location);
 			mla.updateAdapter(pc.getQuestionsInstance());
 			
 		}

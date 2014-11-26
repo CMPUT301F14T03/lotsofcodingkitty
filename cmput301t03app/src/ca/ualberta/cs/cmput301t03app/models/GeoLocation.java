@@ -12,7 +12,15 @@ public class GeoLocation {
 	private double longitude;
 	private String cityName = "None";
 
-	public GeoLocation() {}
+	public GeoLocation() {
+	}
+
+	// method for testing geolocation
+
+	public GeoLocation(double latitude, double longitude) {
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
 	
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;

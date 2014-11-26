@@ -117,6 +117,7 @@ public class ViewQuestion extends Activity {
 
 		super.onResume();
 		updateCommentCount();
+		ala.updateAdapter(answerList);
 		setFavoriteIcon();
 	}
 
@@ -345,13 +346,17 @@ public class ViewQuestion extends Activity {
 
 	public void toPictureActivityAnswer(View v) {
 		/* This method takes user to ViewPicture activity for answers */
+			
 		Answer answer = (Answer) v.getTag();
-
-		Intent i = new Intent(this, ViewPicture.class);
-		i.putExtra(SET_COMMENT_TYPE, 2);
-		i.putExtra(QUESTION_ID_KEY, question_id);
-		i.putExtra(ANSWER_ID_KEY, answer.getId());
-		startActivity(i);
+		
+		if (pc.getAnswer(answer.getId(), question_id).getPicture() != null) {
+	
+			Intent i = new Intent(this, ViewPicture.class);
+			i.putExtra(SET_COMMENT_TYPE, 2);
+			i.putExtra(QUESTION_ID_KEY, question_id);
+			i.putExtra(ANSWER_ID_KEY, answer.getId());
+			startActivity(i);
+		}
 	}
 
 	/**

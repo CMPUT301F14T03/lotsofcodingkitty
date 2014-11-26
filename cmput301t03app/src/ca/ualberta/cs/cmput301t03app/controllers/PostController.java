@@ -110,8 +110,10 @@ public class PostController {
 		}
 	}
 
-	public void sortByLocation(GeoLocation location, ArrayList<Question> list) {
-		subQuestions = qf.sortByLocation(list, location);
+	public void sortByLocation(GeoLocation location) {
+		ArrayList<Question> filtered = qf.sortByLocation(getQuestionsInstance(), location);
+		getQuestionsInstance().clear();
+		getQuestionsInstance().addAll(filtered);
 	}
 
 	/**
