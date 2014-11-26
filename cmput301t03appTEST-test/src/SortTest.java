@@ -4,6 +4,7 @@ import java.util.Date;
 import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.cmput301t03app.datamanagers.QuestionFilter;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
+import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 
@@ -123,6 +124,31 @@ public class SortTest extends ActivityInstrumentationTestCase2<MainActivity> {
 		ArrayList<Question> sortedList = qFilter.sortByUpvote(qList);
 		assertTrue("Question list not sorted properly by score.", sortedList
 				.get(0).getRating() > sortedList.get(1).getRating());
+	}
+	
+	public void testSortByLocation() {
+		QuestionFilter qFilter = new QuestionFilter();
+		ArrayList<Question> qList = new ArrayList<Question>();
+		Question q = new Question("test", "test", "test");
+		GeoLocation geo1 = new GeoLocation(10,10);
+		q.setGeoLocation(geo1);
+		
+		Question q2 = new Question("test", "test", "test");
+		GeoLocation geo2 = new GeoLocation(0,0);
+		q2.setGeoLocation(geo2);
+		
+		Question q3 = new Question("test", "test", "test");
+		GeoLocation geo3 = new GeoLocation(30,0);
+		q3.setGeoLocation(geo3);
+		
+		qList.add(q);
+		qList.add(q2);
+		qList.add(q3);
+		
+		qList = qFilter.sortByLocation(qList, new GeoLocation(0,0));
+		assertEquals("Questions not sorted properly by location q2", q2, qList.get(0));
+		assertEquals("Questions not sorted properly by location q", q, qList.get(1));
+		assertEquals("Questions not sorted properly by location q3", q3, qList.get(2));
 	}
 
 }
