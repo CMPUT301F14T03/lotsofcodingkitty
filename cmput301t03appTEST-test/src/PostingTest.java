@@ -35,7 +35,7 @@ public class PostingTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		PostController pc = new PostController(getInstrumentation()
 				.getTargetContext());
 		Question q1 = new Question("Title1", "TextBody1", "author");
-		pc.addQuestion(q1);
+		pc.addQuestionToServer(q1);
 
 		assertEquals("Question not posted correctly.",
 				pc.getQuestion(q1.getId()), q1);
@@ -56,7 +56,7 @@ public class PostingTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		Question q1 = new Question("Title1", "TextBody1", "author");
 		Answer a1 = new Answer("answer", "author", "1");
 		q1.addAnswer(a1);
-		pc.addQuestion(q1);
+		pc.addQuestionToServer(q1);
 		Answer al = pc.getAnswer(a1.getId(), q1.getId());
 		assertEquals("Answer not posted correctly.", al, a1);
 	}
@@ -77,7 +77,7 @@ public class PostingTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		PostController pc = new PostController(getInstrumentation()
 				.getTargetContext());
 		Question q1 = new Question("Title1", "TextBody1", "author");
-		pc.addQuestion(q1);
+		pc.addQuestionToServer(q1);
 		Comment c1 = new Comment("Hello World.", "author2");
 		pc.addCommentToQuestion(c1, q1.getId());
 
@@ -97,7 +97,7 @@ public class PostingTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		PostController pc = new PostController(getInstrumentation()
 				.getTargetContext());
 		Question q1 = new Question("Title1", "TextBody1", "author");
-		pc.addQuestion(q1);
+		pc.addQuestionToServer(q1);
 		Answer a1 = new Answer("Title1", "TextBody1", "author");
 		q1.addAnswer(a1);
 		Comment c1 = new Comment("Hello World.", "author2");

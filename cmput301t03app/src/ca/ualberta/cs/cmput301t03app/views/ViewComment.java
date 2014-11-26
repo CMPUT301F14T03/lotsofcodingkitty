@@ -390,18 +390,14 @@ public class ViewComment extends Activity
 		
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			runOnUiThread(doFinish);
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
 			break;
 		}
 		
 		return (super.onOptionsItemSelected(item));
 	}
-	
-	private Runnable doFinish = new Runnable() {
-		public void run() {
-			finish();
-		}
-	};
 	
 	class AddCommentThread extends Thread {
     	private String qID;
@@ -424,9 +420,9 @@ public class ViewComment extends Activity
     	@Override
     	public void run() {
     		if (this.aID == null) {
-    			pc.commentAQuestion(this.comment, this.qID);
+    			pc.commentAQuestionToServer(this.comment, this.qID);
     		} else {
-    			pc.commentAnAnswer(this.comment, this.aID, this.qID);
+    			pc.commentAnAnswerToServer(this.comment, this.aID, this.qID);
     		}
     		try {
     			Thread.sleep(500);

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -120,6 +121,8 @@ public class UserListsActivity extends Activity
 
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.user_lists, menu);
+		getActionBar().setHomeButtonEnabled(true);
+		
 		return true;
 	}
 
@@ -155,6 +158,25 @@ public class UserListsActivity extends Activity
 				userQuestionList);
 		userListView.setAdapter(mla);
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			break;
+		}
+		
+		return (super.onOptionsItemSelected(item));
+	}
+	
 	/**
 	 * This method is called when a Question object is clicked.  The Question's position
 	 * in the list is used to determine which Question is selected and to get that Question's
@@ -178,7 +200,7 @@ public class UserListsActivity extends Activity
 		i.putExtra("question_id", qId);
 		if (pc.getQuestion(qId) == null)
 		{
-			pc.addQuestion(userQuestionList.get(position));
+			pc.addQuestionToServer(userQuestionList.get(position));
 		}
 		pc.addReadQuestion(userQuestionList.get(position));
 		startActivity(i);
