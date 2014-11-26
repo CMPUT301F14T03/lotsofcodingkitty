@@ -32,7 +32,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		Question question = new Question("Question title", "Question body", "author");
-		pc.addQuestion(question);
+		pc.addQuestionToServer(question);
 		//while (!pc.checkConnectivity()) {
 		}
 		//pc.pushNewPosts();
@@ -45,7 +45,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 			
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		Question q1 = new Question("Question title", "Question body", "author");
-		pc.addQuestion(q1);
+		pc.addQuestionToServer(q1);
 		pc.getQuestionsInstance().add(q1);
 		Answer a1 = new Answer("My answer", "author","1");
 		pc.addAnswer(a1, q1.getId());
@@ -73,7 +73,7 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		Question q1 = new Question("Question title", "Question body", "author");
-		pc.addQuestion(q1);
+		pc.addQuestionToServer(q1);
 		pc.getQuestionsInstance().add(q1);
 		Answer a1 = new Answer("My answer", "author","2");
 		pc.addAnswer(a1, q1.getId());

@@ -178,7 +178,7 @@ public class UserListsActivity extends Activity
 		i.putExtra("question_id", qId);
 		if (pc.getQuestion(qId) == null)
 		{
-			pc.addQuestion(userQuestionList.get(position));
+			pc.addQuestionToServer(userQuestionList.get(position));
 		}
 		pc.addReadQuestion(userQuestionList.get(position));
 		startActivity(i);

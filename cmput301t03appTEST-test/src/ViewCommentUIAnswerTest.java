@@ -49,7 +49,7 @@ ActivityInstrumentationTestCase2<ViewComment> {
 		String qBody = "Body";
 		String qAuthor = "Author";
 		q = new Question(qTitle, qBody, qAuthor);
-		pc.addQuestion(q);
+		pc.addQuestionToServer(q);
 		pc.getQuestionsInstance().add(q);
 		c = new Comment("String", "String");
 
@@ -68,7 +68,7 @@ ActivityInstrumentationTestCase2<ViewComment> {
 		String qAuthor = "Author";
 		Date date = new Date();
 		Question q1 = new Question(qTitle, qBody, qAuthor);
-		pc.addQuestion(q1);
+		pc.addQuestionToServer(q1);
 
 		Answer a = new Answer("aTitle", "aAuthor", "1");
 		pc.addAnswer(a, q1.getId());
@@ -164,7 +164,7 @@ ActivityInstrumentationTestCase2<ViewComment> {
 	 */
 	public void testCommentBodyIsCorretWithTwoComments() {
 		Question q1 = new Question("New Title", "Body", "Author");
-		pc.addQuestion(q1);
+		pc.addQuestionToServer(q1);
 		Answer a1 = new Answer("twoTitle", "twoAuthor", q1.getId());
 		pc.addAnswer(a1, q1.getId());
 		Comment c1 = new Comment("String1", "String1");

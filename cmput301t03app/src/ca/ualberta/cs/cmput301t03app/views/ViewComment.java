@@ -424,9 +424,9 @@ public class ViewComment extends Activity
     	@Override
     	public void run() {
     		if (this.aID == null) {
-    			pc.commentAQuestion(this.comment, this.qID);
+    			pc.commentAQuestionToServer(this.comment, this.qID);
     		} else {
-    			pc.commentAnAnswer(this.comment, this.aID, this.qID);
+    			pc.commentAnAnswerToServer(this.comment, this.aID, this.qID);
     		}
     		try {
     			Thread.sleep(500);
