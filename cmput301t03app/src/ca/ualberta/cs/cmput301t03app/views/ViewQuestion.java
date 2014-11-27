@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -388,7 +389,7 @@ public class ViewQuestion extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				takeAPhoto();
+				pictureChooserDialog();
 
 			}
 		});
@@ -457,30 +458,30 @@ public class ViewQuestion extends Activity {
 						
 						if (hasPicture){
 							FileInputStream in;
-						BufferedInputStream buf;
-						try {
-							in = new FileInputStream(imageFileUri.getPath());
-							buf = new BufferedInputStream(in);
-							Bitmap _bitmapPreScale = BitmapFactory.decodeStream(buf);
-							int oldWidth = _bitmapPreScale.getWidth();
-							int oldHeight = _bitmapPreScale.getHeight();
-							int newWidth = 200; 
-							int newHeight = 200;
-							
-							float scaleWidth = ((float) newWidth) / oldWidth;
-							float scaleHeight = ((float) newHeight) / oldHeight;
-							
-							Matrix matrix = new Matrix();
-							// resize the bit map
-							matrix.postScale(scaleWidth, scaleHeight);
-							Bitmap _bitmapScaled = Bitmap.createBitmap(_bitmapPreScale, 0, 0,  oldWidth, oldHeight, matrix, true);
-							ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-							_bitmapScaled.compress(Bitmap.CompressFormat.PNG, 0, bytes);
-							a.setPicture(bytes.toByteArray());
-						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+							BufferedInputStream buf;
+							try {
+								in = new FileInputStream(imageFileUri.getPath());
+								buf = new BufferedInputStream(in);
+								Bitmap _bitmapPreScale = BitmapFactory.decodeStream(buf);
+								int oldWidth = _bitmapPreScale.getWidth();
+								int oldHeight = _bitmapPreScale.getHeight();
+								int newWidth = 200; 
+								int newHeight = 200;
+								
+								float scaleWidth = ((float) newWidth) / oldWidth;
+								float scaleHeight = ((float) newHeight) / oldHeight;
+								
+								Matrix matrix = new Matrix();
+								// resize the bit map
+								matrix.postScale(scaleWidth, scaleHeight);
+								Bitmap _bitmapScaled = Bitmap.createBitmap(_bitmapPreScale, 0, 0,  oldWidth, oldHeight, matrix, true);
+								ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+								_bitmapScaled.compress(Bitmap.CompressFormat.PNG, 0, bytes);
+								a.setPicture(bytes.toByteArray());
+							} catch (FileNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 
 						String userLocationString = (String) userLocation.getText()
@@ -723,32 +724,89 @@ public class ViewQuestion extends Activity {
 
 	}
 
+	public void takeFromGallery() {
+
+		Intent intent = new Intent(Intent.ACTION_PICK,
+				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,
+                "Select Picture"), GALLERY_ACTIVITY_REQUEST_CODE);
+	}
+	
 	private final int CAMERA_ACTIVITY_REQUEST_CODE = 12345;
+	private final int GALLERY_ACTIVITY_REQUEST_CODE = 67890;
 
 	// This method is run after returning back from camera activity:
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		if (requestCode == CAMERA_ACTIVITY_REQUEST_CODE) {
+		switch (requestCode) {
+
+		case CAMERA_ACTIVITY_REQUEST_CODE:
 			// TextView tv = (TextView)findViewById(R.id.status); // THE TEXT
 			// VIEW THAT YOU SEE ON SCREEN
 
 			if (resultCode == RESULT_OK) {
 				hasPicture = true;
-				Log.d("click",
-						"Answer Image file path: " + imageFileUri.getPath());
-
-				// Trying to set the thumbail. Ging to just change icon for now
-				// Bundle extras = data.getExtras();
-				// Bitmap imageBitmap = (Bitmap) extras.get("data");
-				// questionPictureButton.setImageBitmap(imageBitmap);
+				Log.d("click", "Imag efile path: " + imageFileUri.getPath());
+				// tv.setText("Photo completed");
+				// ImageButton ib = (ImageButton) findViewById(R.id.TakeAPhoto);
+				// ib.setImageDrawable(Drawable.createFromPath(imageFileUri.getPath()));
+				// // need to use GETPATH
 
 			} else if (resultCode == RESULT_CANCELED) {
 
+			}
+		case GALLERY_ACTIVITY_REQUEST_CODE:
+
+			if (resultCode == RESULT_OK) {
+				hasPicture = true;
+				Uri galleryImageUri = data.getData();
+				File imageFile = new File(getRealPathFromURI(galleryImageUri));
+				imageFileUri = Uri.fromFile(imageFile);
+				Log.d("Picture","Path: " + getRealPathFromURI(galleryImageUri));
 			}
 
 		}
 	}
 	
+	//Method taken from: http://stackoverflow.com/questions/2789276/android-get-real-path-by-uri-getpath
+	//Author: m3n0R http://stackoverflow.com/users/689723/m3n0r
+	private String getRealPathFromURI(Uri contentURI) {
+	    String result;
+	    Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+	    if (cursor == null) { // Source is Dropbox or other similar local file path
+	        result = contentURI.getPath();
+	    } else { 
+	        cursor.moveToFirst(); 
+	        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA); 
+	        result = cursor.getString(idx);
+	        cursor.close();
+	    }
+	    return result;
+	}
+	
+	public void pictureChooserDialog() {
+		AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
+		myAlertDialog.setTitle("Pictures Option");
+		myAlertDialog.setMessage("Select Picture Mode");
+
+		myAlertDialog.setPositiveButton("Gallery",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface arg0, int arg1) {
+						takeFromGallery();
+					}
+				});
+
+		myAlertDialog.setNegativeButton("Camera",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface arg0, int arg1) {
+						takeAPhoto();
+					}
+				});
+		myAlertDialog.show();
+
+	}
 	class AnswerQuestion extends Thread {
     	private String qID;
     	private Answer answer;
