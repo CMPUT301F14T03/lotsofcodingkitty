@@ -95,6 +95,9 @@ public class ViewQuestion extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_view_question);
+		
+		/* Removes the actionbar title text */
+		getActionBar().setDisplayShowTitleEnabled(false);
 
 		// enables the activity icon as a 'home' button. required if
 		// "android:targetSdkVersion" > 14

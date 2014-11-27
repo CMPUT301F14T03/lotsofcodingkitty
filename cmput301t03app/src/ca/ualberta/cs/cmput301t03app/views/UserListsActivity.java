@@ -51,12 +51,17 @@ public class UserListsActivity extends Activity
 	 * 
 	 * A new listener for the adaptor is also created.
 	 */
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_lists);
+		
+		/* Removes the actionbar title text */
+		getActionBar().setDisplayShowTitleEnabled(false);
+		
 		Bundle extras = getIntent().getExtras();
 		userListMode = extras.getInt("userListMode");
 		user_list_title = (TextView) findViewById(R.id.user_list_title);
