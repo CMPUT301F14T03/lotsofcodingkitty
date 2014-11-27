@@ -160,7 +160,11 @@ public class MainActivity extends Activity {
 			startActivity(intent);
 		}
 		if (id == R.id.search) {
-			searchQuestions();
+			if (pc.checkConnectivity()) {
+				searchQuestions();
+			} else {
+				Toast.makeText(this, "No connection found.  Re-connect to search.", Toast.LENGTH_LONG).show();
+			}
 		}
 		if (id == R.id.filter_date) {
 			pc.sortQuestions(0);
