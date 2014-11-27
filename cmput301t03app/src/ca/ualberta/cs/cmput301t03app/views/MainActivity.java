@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -315,8 +316,9 @@ public class MainActivity extends Activity {
 								questionBodyString, userNameString);
 
 						if (hasPicture) {
+							Log.d("Picture","After: " + imageFileUri.getPath());
 							Bitmap _bitmapScaled = ShrinkBitmap(
-									imageFileUri.getPath(), 200, 200);
+										imageFileUri.getPath(), 200, 200);
 							ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 							_bitmapScaled.compress(Bitmap.CompressFormat.JPEG,
 									64, bytes);
@@ -591,18 +593,8 @@ public class MainActivity extends Activity {
 
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
-		startActivityForResult(intent, CAMERA_ACTIVITY_REQUEST_CODE); // sets
-																		// the
-																		// ID
-																		// for
-																		// when
-																		// the
-																		// CAmera
-																		// app
-																		// sends
-																		// it
-																		// back
-																		// here.
+		//Sets the ID for when the Camera app sends it back here.
+		startActivityForResult(intent, CAMERA_ACTIVITY_REQUEST_CODE); 
 		// matches the ID to the request code in onActivityResult
 
 	}
@@ -614,7 +606,10 @@ public class MainActivity extends Activity {
 
 		Intent intent = new Intent(Intent.ACTION_PICK,
 				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		startActivityForResult(intent, GALLERY_ACTIVITY_REQUEST_CODE);
+		intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,
+                "Select Picture"), GALLERY_ACTIVITY_REQUEST_CODE);
 	}
 
 	private final int CAMERA_ACTIVITY_REQUEST_CODE = 12345;
@@ -644,12 +639,31 @@ public class MainActivity extends Activity {
 
 			if (resultCode == RESULT_OK) {
 				hasPicture = true;
-				// imageview.setImageURI(selectedImage);
+				Uri galleryImageUri = data.getData();
+				File imageFile = new File(getRealPathFromURI(galleryImageUri));
+				imageFileUri = Uri.fromFile(imageFile);
+				Log.d("Picture","Path: " + getRealPathFromURI(galleryImageUri));
 			}
 
 		}
 	}
 
+	//Method taken from: http://stackoverflow.com/questions/2789276/android-get-real-path-by-uri-getpath
+	//Author: m3n0R http://stackoverflow.com/users/689723/m3n0r
+	private String getRealPathFromURI(Uri contentURI) {
+	    String result;
+	    Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+	    if (cursor == null) { // Source is Dropbox or other similar local file path
+	        result = contentURI.getPath();
+	    } else { 
+	        cursor.moveToFirst(); 
+	        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA); 
+	        result = cursor.getString(idx);
+	        cursor.close();
+	    }
+	    return result;
+	}
+	
 	public void loadMoreQuestions(View view) {
 		pc.loadServerQuestions(serverList);
 		mla.updateAdapter(pc.getQuestionsInstance());
