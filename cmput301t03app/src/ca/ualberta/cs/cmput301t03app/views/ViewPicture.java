@@ -41,6 +41,9 @@ public class ViewPicture extends Activity {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_display_picture);
 	    
+	    /* Removes the actionbar title text */
+		getActionBar().setDisplayShowTitleEnabled(false);
+	    
 	    Log.d("click", "in picture activity");
 	    
 	    Bundle extras = getIntent().getExtras();

@@ -28,6 +28,9 @@ public class UserHome extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_home);
 		
+		/* Removes the actionbar title text */
+		getActionBar().setDisplayShowTitleEnabled(false);
+		
 		getActionBar().setHomeButtonEnabled(true);
 	}
 
