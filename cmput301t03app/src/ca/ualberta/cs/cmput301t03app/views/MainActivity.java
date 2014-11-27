@@ -784,6 +784,7 @@ public class MainActivity extends Activity {
 	    	progress = new ProgressDialog(MainActivity.this);
 	    	progress.setMessage("Searching...");
 	    	progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	    	progress.setCanceledOnTouchOutside(false);
 	    	progress.show();
 	    }
 	    
@@ -794,7 +795,6 @@ public class MainActivity extends Activity {
 		
 		protected void onPostExecute(Void result) {
 			progress.dismiss();
-			progress.hide();
 			pc.sortQuestions(0);
 			mla.updateAdapter(pc.getQuestionsInstance());
 		}
@@ -808,6 +808,7 @@ public class MainActivity extends Activity {
 	    	progress = new ProgressDialog(MainActivity.this);
 	    	progress.setMessage("Syncing...");
 	    	progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	    	progress.setCanceledOnTouchOutside(false);
 	    	progress.show();
 	    }
 	    
@@ -820,7 +821,6 @@ public class MainActivity extends Activity {
 		
 		protected void onPostExecute(Void result) {
 			progress.dismiss();
-			progress.hide();
 			pc.sortQuestions(0);
 			mla.updateAdapter(pc.getQuestionsInstance());
 		}
