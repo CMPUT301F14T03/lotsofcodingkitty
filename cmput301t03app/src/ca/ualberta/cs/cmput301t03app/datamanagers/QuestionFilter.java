@@ -38,7 +38,7 @@ public class QuestionFilter {
 			Question q = subQuestions.get(i);
 			double distance;
 			if (q.getGeoLocation() == null) {
-				distance = 9999999;
+				distance = Double.POSITIVE_INFINITY;;
 			}
 			else {
 				distance = Math.abs((q.getGeoLocation().getLongitude()-userLong)) + Math.abs((q.getGeoLocation().getLatitude()-userLat));
