@@ -199,6 +199,7 @@ public class MainActivity extends Activity {
 //				} catch (InterruptedException e) {
 //					e.printStackTrace();
 //				}
+				pc.resetServerListIndex();
 			} else {
 				Toast.makeText(this, "No connection found.  Cannot sync with the server.", Toast.LENGTH_LONG).show();
 			}
