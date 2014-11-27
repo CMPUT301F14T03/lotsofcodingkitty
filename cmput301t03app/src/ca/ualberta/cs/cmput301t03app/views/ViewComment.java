@@ -73,6 +73,9 @@ public class ViewComment extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_comment);
 		
+		/* Removes the actionbar title text */
+		getActionBar().setDisplayShowTitleEnabled(false);
+		
 		// enables the activity icon as a 'home' button. required if
 		// "android:targetSdkVersion" > 14
 		getActionBar().setHomeButtonEnabled(true);

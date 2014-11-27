@@ -91,6 +91,10 @@ public class MainActivity extends Activity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		/* Removes the actionbar title text */
+		getActionBar().setDisplayShowTitleEnabled(false);
+		
 		if (pc.checkConnectivity() == false) {
 		Toast.makeText(this,
 				"You are not connected to the server. To access your locally saved data go to your userhome.",
