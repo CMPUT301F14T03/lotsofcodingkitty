@@ -623,7 +623,11 @@ public class PostController {
 		}
 		return subQuestions;
 	}
-
+	/**
+	 * Parses the sub-question list of the PC to load the next 10 questions in the list
+	 * 
+	 * @param list The sub-question list to be parsed.
+	 */
 	public void loadServerQuestions(ArrayList<Question> list) {
 		// Log.d("size", "passed size:"+list.size());
 		int checkListSize = list.size();
@@ -643,6 +647,10 @@ public class PostController {
 			pushPosts = new ArrayList<Post>();
 		}
 		return pushPosts;
+	}
+	
+	public void resetServerListIndex() {
+		serverListIndex = 0;
 	}
 
 	/**
