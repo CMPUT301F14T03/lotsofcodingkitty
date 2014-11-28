@@ -1,5 +1,6 @@
 import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.Question;
@@ -57,8 +58,11 @@ public class PostingTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		Answer a1 = new Answer("answer", "author", "1");
 		q1.addAnswer(a1);
 		pc.addQuestionToServer(q1);
+		pc.getQuestionsInstance().add(q1);
 		Answer al = pc.getAnswer(a1.getId(), q1.getId());
 		assertEquals("Answer not posted correctly.", al, a1);
+		ServerDataManager sdm = new ServerDataManager();
+		sdm.deleteQuestion(q1.getId());
 	}
 
 	// Makes an instance of post controller, adds a comment to a question and
@@ -78,11 +82,14 @@ public class PostingTest extends ActivityInstrumentationTestCase2<MainActivity> 
 				.getTargetContext());
 		Question q1 = new Question("Title1", "TextBody1", "author");
 		pc.addQuestionToServer(q1);
+		pc.getQuestionsInstance().add(q1);
 		Comment c1 = new Comment("Hello World.", "author2");
 		pc.addCommentToQuestion(c1, q1.getId());
 
 		assertEquals("Comment not posted correctly.", pc
 				.getQuestion(q1.getId()).getComments().get(0), c1);
+		ServerDataManager sdm = new ServerDataManager();
+		sdm.deleteQuestion(q1.getId());
 	}
 
 	
@@ -98,6 +105,7 @@ public class PostingTest extends ActivityInstrumentationTestCase2<MainActivity> 
 				.getTargetContext());
 		Question q1 = new Question("Title1", "TextBody1", "author");
 		pc.addQuestionToServer(q1);
+		pc.getQuestionsInstance().add(q1);
 		Answer a1 = new Answer("Title1", "TextBody1", "author");
 		q1.addAnswer(a1);
 		Comment c1 = new Comment("Hello World.", "author2");
@@ -106,5 +114,7 @@ public class PostingTest extends ActivityInstrumentationTestCase2<MainActivity> 
 
 		assertEquals("Comment not posted correctly.", a2.getComments().get(0),
 				c1);
+		ServerDataManager sdm = new ServerDataManager();
+		sdm.deleteQuestion(q1.getId());
 	}
 }
