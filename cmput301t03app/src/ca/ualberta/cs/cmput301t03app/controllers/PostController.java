@@ -700,6 +700,7 @@ public class PostController {
 					// Toast.LENGTH_SHORT).show();
 					for (int j = 0; j < qList.size(); j++) {
 						if (qList.get(j).getId().equals(qID.get(i))) {
+							
 							// Toast.makeText(this.getContext(),
 							// qList.get(j).getSubject()+" should be added to server",
 							// Toast.LENGTH_SHORT).show();
