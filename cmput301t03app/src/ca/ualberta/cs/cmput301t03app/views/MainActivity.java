@@ -50,6 +50,7 @@ import android.widget.Toast;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.MainListAdapter;
 import ca.ualberta.cs.cmput301t03app.controllers.GeoLocationTracker;
+import ca.ualberta.cs.cmput301t03app.controllers.PictureController;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.controllers.PushController;
 import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
@@ -71,18 +72,26 @@ import android.widget.LinearLayout;
  */
 
 public class MainActivity extends Activity {
+	public AlertDialog alertDialog1; // for testing purposes
+	
+	protected boolean hasPicture = false;
+	protected boolean hasLocation = false;
+	
+	private final int CAMERA_ACTIVITY_REQUEST_CODE = 12345;
+	private final int GALLERY_ACTIVITY_REQUEST_CODE = 67890;
+	
 	protected Uri imageFileUri;
 	protected GeoLocation location;
 	protected String cityName;
-	protected boolean hasPicture = false;
-	protected boolean hasLocation = false;
+	
+	private PostController pc = new PostController(this);
+	private PushController pushCtrl = new PushController(this);
+	private PictureController pictureController = new PictureController(this);
+	private ArrayList<Question> serverList = new ArrayList<Question>();
+	private ServerDataManager sdm = new ServerDataManager();
+	
 	private ListView lv;
 	private MainListAdapter mla;
-	private PostController pc = new PostController(this);
-	private ArrayList<Question> serverList = new ArrayList<Question>();
-	public AlertDialog alertDialog1; // for testing purposes
-	private ServerDataManager sdm = new ServerDataManager();
-	private PushController pushCtrl = new PushController(this);
 
 	/**
 	 * onCreate sets up the listview,sets the click listeners and runs the
@@ -109,6 +118,7 @@ public class MainActivity extends Activity {
 			}
 		});
 
+		//Long clicking a question will add it to the "To Read" list of questions
 		questionList.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
@@ -122,13 +132,13 @@ public class MainActivity extends Activity {
 
 		setupAdapter();
 		
+		//Check for connectivity
 		if (pc.checkConnectivity() == false) {
 			Toast.makeText(
 					this,
 					"You are not connected to the server. To access your locally saved data go to your userhome.",
 					Toast.LENGTH_LONG).show();
-		}
-		
+		}	
 		else {
 			new PushAsyncTask().execute();
 		}
@@ -203,6 +213,7 @@ public class MainActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+/*##########################################----START OF ADDING QUESTION----#############################################*/
 	/**
 	 * onClick method for calling the dialog box to ask a question Dialog box
 	 * requires a Question Title, Question Body, and Author
@@ -317,7 +328,7 @@ public class MainActivity extends Activity {
 
 						if (hasPicture) {
 							Log.d("Picture","After: " + imageFileUri.getPath());
-							Bitmap _bitmapScaled = ShrinkBitmap(
+							Bitmap _bitmapScaled = pictureController.ShrinkBitmap(
 										imageFileUri.getPath(), 200, 200);
 							ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 							_bitmapScaled.compress(Bitmap.CompressFormat.JPEG,
@@ -430,6 +441,122 @@ public class MainActivity extends Activity {
 		Toast.makeText(this, "Please write your question", Toast.LENGTH_SHORT)
 				.show();
 	}
+/*#######################################----END OF ADDING QUESTION----#############################################*/
+	
+
+/*###############################----START OF PICTURE METHODS----###################################*/
+	
+	public void pictureChooserDialog() {
+		AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
+		myAlertDialog.setTitle("Pictures Option");
+		myAlertDialog.setMessage("Select Picture Mode");
+
+		myAlertDialog.setPositiveButton("Gallery",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface arg0, int arg1) {
+						takeFromGallery();
+					}
+				});
+
+		myAlertDialog.setNegativeButton("Camera",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface arg0, int arg1) {
+						takeAPhoto();
+					}
+				});
+		myAlertDialog.show();
+
+	}
+	
+	private void takeAPhoto() {
+		/*
+		 * Main Activity is getting pretty bloated so I'm trying to move this
+		 * out into the Utils package
+		 */
+		String path = Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + "/MyCameraTest";
+		File folder = new File(path);
+
+		if (!folder.exists()) {
+			folder.mkdir();
+		}
+		//Makes the time stamp as part of the filename
+		String imagePathAndFileName = path + File.separator
+				+ String.valueOf(System.currentTimeMillis()) + ".jpg"; 
+
+		File imageFile = new File(imagePathAndFileName);
+		imageFileUri = Uri.fromFile(imageFile);
+
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+		//Sets the ID for when the Camera app sends it back here.
+		startActivityForResult(intent, CAMERA_ACTIVITY_REQUEST_CODE); 
+		// matches the ID to the request code in onActivityResult
+
+	}
+
+	/**
+	 * Opens the gallery
+	 */
+	private void takeFromGallery() {
+
+		Intent intent = new Intent(Intent.ACTION_PICK,
+				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,
+                "Select Picture"), GALLERY_ACTIVITY_REQUEST_CODE);
+	}
+
+	// This method is run after returning back from camera activity:
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		switch (requestCode) {
+
+		case CAMERA_ACTIVITY_REQUEST_CODE:
+			// TextView tv = (TextView)findViewById(R.id.status); // THE TEXT
+			// VIEW THAT YOU SEE ON SCREEN
+
+			if (resultCode == RESULT_OK) {
+				hasPicture = true;
+				Log.d("click", "Imag efile path: " + imageFileUri.getPath());
+				// tv.setText("Photo completed");
+				// ImageButton ib = (ImageButton) findViewById(R.id.TakeAPhoto);
+				// ib.setImageDrawable(Drawable.createFromPath(imageFileUri.getPath()));
+				// // need to use GETPATH
+
+			} else if (resultCode == RESULT_CANCELED) {
+
+			}
+		case GALLERY_ACTIVITY_REQUEST_CODE:
+
+			if (resultCode == RESULT_OK) {
+				hasPicture = true;
+				Uri galleryImageUri = data.getData();
+				File imageFile = new File(pictureController.getRealPathFromURI(galleryImageUri));
+				imageFileUri = Uri.fromFile(imageFile);
+			}
+
+		}
+	}
+/*#################################----END OF PICTURE METHODS----#####################################*/
+	
+	/**
+	 * This method runs when the user chooses to answer a question. It creates
+	 * an intent and adds the question ID to the intent then it starts the
+	 * ViewQuestion activity.
+	 * 
+	 * @param position
+	 *            The position of the question clicked
+	 */
+	public void toQuestionActivity(int position) {
+
+		Intent i = new Intent(this, ViewQuestion.class);
+		i.putExtra("question_id", pc.getQuestionsInstance().get(position)
+				.getId());
+		pc.addReadQuestion(pc.getQuestionsInstance().get(position));
+		startActivity(i);
+	}
 
 	/**
 	 * This function is called when the user long clicks on a question in the
@@ -478,6 +605,7 @@ public class MainActivity extends Activity {
 		return mla;
 	}
 
+
 	/**
 	 * Sets the adapter for the list view.
 	 */
@@ -490,24 +618,7 @@ public class MainActivity extends Activity {
 		// not connected
 		lv.setAdapter(mla);
 	}
-
-	/**
-	 * This method runs when the user chooses to answer a question. It creates
-	 * an intent and adds the question ID to the intent then it starts the
-	 * ViewQuestion activity.
-	 * 
-	 * @param position
-	 *            The position of the question clicked
-	 */
-	public void toQuestionActivity(int position) {
-
-		Intent i = new Intent(this, ViewQuestion.class);
-		i.putExtra("question_id", pc.getQuestionsInstance().get(position)
-				.getId());
-		pc.addReadQuestion(pc.getQuestionsInstance().get(position));
-		startActivity(i);
-	}
-
+	
 	/**
 	 * This is the onClic
 	 * 
@@ -565,105 +676,6 @@ public class MainActivity extends Activity {
 		// alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
 	}
 
-	public void takeAPhoto() {
-		/*
-		 * Main Activity is getting pretty bloated so I'm trying to move this
-		 * out into the Utils package
-		 */
-		String path = Environment.getExternalStorageDirectory()
-				.getAbsolutePath() + "/MyCameraTest";
-		File folder = new File(path);
-
-		if (!folder.exists()) {
-			folder.mkdir();
-		}
-
-		String imagePathAndFileName = path + File.separator
-				+ String.valueOf(System.currentTimeMillis()) + ".jpg"; // makes
-																		// the
-																		// timestamp
-																		// as
-																		// part
-																		// of
-																		// the
-																		// filename
-
-		File imageFile = new File(imagePathAndFileName);
-		imageFileUri = Uri.fromFile(imageFile);
-
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
-		//Sets the ID for when the Camera app sends it back here.
-		startActivityForResult(intent, CAMERA_ACTIVITY_REQUEST_CODE); 
-		// matches the ID to the request code in onActivityResult
-
-	}
-
-	/**
-	 * Opens the gallery
-	 */
-	public void takeFromGallery() {
-
-		Intent intent = new Intent(Intent.ACTION_PICK,
-				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,
-                "Select Picture"), GALLERY_ACTIVITY_REQUEST_CODE);
-	}
-
-	private final int CAMERA_ACTIVITY_REQUEST_CODE = 12345;
-	private final int GALLERY_ACTIVITY_REQUEST_CODE = 67890;
-
-	// This method is run after returning back from camera activity:
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-		switch (requestCode) {
-
-		case CAMERA_ACTIVITY_REQUEST_CODE:
-			// TextView tv = (TextView)findViewById(R.id.status); // THE TEXT
-			// VIEW THAT YOU SEE ON SCREEN
-
-			if (resultCode == RESULT_OK) {
-				hasPicture = true;
-				Log.d("click", "Imag efile path: " + imageFileUri.getPath());
-				// tv.setText("Photo completed");
-				// ImageButton ib = (ImageButton) findViewById(R.id.TakeAPhoto);
-				// ib.setImageDrawable(Drawable.createFromPath(imageFileUri.getPath()));
-				// // need to use GETPATH
-
-			} else if (resultCode == RESULT_CANCELED) {
-
-			}
-		case GALLERY_ACTIVITY_REQUEST_CODE:
-
-			if (resultCode == RESULT_OK) {
-				hasPicture = true;
-				Uri galleryImageUri = data.getData();
-				File imageFile = new File(getRealPathFromURI(galleryImageUri));
-				imageFileUri = Uri.fromFile(imageFile);
-				Log.d("Picture","Path: " + getRealPathFromURI(galleryImageUri));
-			}
-
-		}
-	}
-
-	//Method taken from: http://stackoverflow.com/questions/2789276/android-get-real-path-by-uri-getpath
-	//Author: m3n0R http://stackoverflow.com/users/689723/m3n0r
-	private String getRealPathFromURI(Uri contentURI) {
-	    String result;
-	    Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-	    if (cursor == null) { // Source is Dropbox or other similar local file path
-	        result = contentURI.getPath();
-	    } else { 
-	        cursor.moveToFirst(); 
-	        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA); 
-	        result = cursor.getString(idx);
-	        cursor.close();
-	    }
-	    return result;
-	}
-	
 	public void loadMoreQuestions(View view) {
 		pc.loadServerQuestions(serverList);
 		mla.updateAdapter(pc.getQuestionsInstance());
@@ -684,6 +696,7 @@ public class MainActivity extends Activity {
 		}
 	};
 
+/*##################################----CLASSES----#####################################*/
 	class SearchThread extends Thread {
 		private String search;
 
@@ -744,51 +757,6 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	public void pictureChooserDialog() {
-		AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
-		myAlertDialog.setTitle("Pictures Option");
-		myAlertDialog.setMessage("Select Picture Mode");
-
-		myAlertDialog.setPositiveButton("Gallery",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface arg0, int arg1) {
-						takeFromGallery();
-					}
-				});
-
-		myAlertDialog.setNegativeButton("Camera",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface arg0, int arg1) {
-						takeAPhoto();
-					}
-				});
-		myAlertDialog.show();
-
-	}
-
-	Bitmap ShrinkBitmap(String file, int width, int height) {
-
-		BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
-		bmpFactoryOptions.inJustDecodeBounds = true;
-		Bitmap bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
-
-		int heightRatio = (int) Math.ceil(bmpFactoryOptions.outHeight
-				/ (float) height);
-		int widthRatio = (int) Math.ceil(bmpFactoryOptions.outWidth
-				/ (float) width);
-
-		if (heightRatio > 1 || widthRatio > 1) {
-			if (heightRatio > widthRatio) {
-				bmpFactoryOptions.inSampleSize = heightRatio;
-			} else {
-				bmpFactoryOptions.inSampleSize = widthRatio;
-			}
-		}
-
-		bmpFactoryOptions.inJustDecodeBounds = false;
-		bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
-		return bitmap;
-	}
 	
 	private class SearchAsyncTask extends AsyncTask<String, Void, Void> {
 		

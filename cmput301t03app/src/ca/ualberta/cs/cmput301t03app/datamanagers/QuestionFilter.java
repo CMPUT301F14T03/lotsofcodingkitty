@@ -8,6 +8,13 @@ import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 
+/**
+ * This class is a filter for sorting through the list of questions
+ * in the MainActivity. The list of questions can be filtered by
+ * most number of upvotes, newest, closest, and if there is an image
+ * attached.
+ *
+ */
 public class QuestionFilter {
 	
 	public ArrayList<Question> sortByUpvote(ArrayList<Question> subQuestions){
@@ -55,6 +62,8 @@ public class QuestionFilter {
 	}
 	
 }
+
+/*########################----COMPARATOR CLASSES----#############################*/
 
 class upvoteComparator implements Comparator<Question> {
 	@Override
@@ -137,6 +146,11 @@ class distanceComparator implements Comparator<QuestionDistance> {
 	}
 }
 
+/**
+ * This class is used as a data class to store the distance between
+ * the location of the question and the location of the user.
+ *
+ */
 class QuestionDistance {
 	private Question question;
 	private double distance;

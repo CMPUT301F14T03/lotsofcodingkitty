@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.AnswerListAdapter;
 import ca.ualberta.cs.cmput301t03app.controllers.GeoLocationTracker;
+import ca.ualberta.cs.cmput301t03app.controllers.PictureController;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
@@ -64,20 +65,29 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ViewQuestion extends Activity {
 
-	PostController pc = new PostController(this);
-	ArrayList<Answer> answerList = new ArrayList<Answer>();
-	public AlertDialog dialog; // for testing
 	public static final String SET_COMMENT_TYPE = "0";
 	public static final int COMMENT_ON_QUESTION_KEY = 1;
 	public static final int COMMENT_ON_ANSWER_KEY = 2;
 	public static final String QUESTION_ID_KEY = "3";
 	public static final String ANSWER_ID_KEY = "4";
+	
+	private final int CAMERA_ACTIVITY_REQUEST_CODE = 12345;
+	private final int GALLERY_ACTIVITY_REQUEST_CODE = 67890;
+	
 	protected boolean hasLocation = false;
+	protected boolean hasPicture = false;
 	protected GeoLocation location;
 	protected String cityName;
+	private PostController pc = new PostController(this);
+	private PictureController pictureController = new PictureController(this);	
+	private ArrayList<Answer> answerList = new ArrayList<Answer>();
+	public AlertDialog dialog; // for testing
 	AnswerListAdapter ala;
-	ListView answerListView;
+	Uri imageFileUri;	
+	
+	//UI Objects
 	private static ImageButton favIcon;
+	ListView answerListView;
 	ImageButton upvoteButton;
 	ImageButton commentButton;
 	TextView upvote_score;
@@ -86,9 +96,6 @@ public class ViewQuestion extends Activity {
 	TextView answerCounter;
 	TextView commentCounter;
 	ImageView questionPictureButton;
-
-	Uri imageFileUri;
-	boolean hasPicture = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -695,6 +702,28 @@ public class ViewQuestion extends Activity {
 
 		return this.dialog;
 	}
+	
+	public void pictureChooserDialog() {
+		AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
+		myAlertDialog.setTitle("Pictures Option");
+		myAlertDialog.setMessage("Select Picture Mode");
+
+		myAlertDialog.setPositiveButton("Gallery",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface arg0, int arg1) {
+						takeFromGallery();
+					}
+				});
+
+		myAlertDialog.setNegativeButton("Camera",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface arg0, int arg1) {
+						takeAPhoto();
+					}
+				});
+		myAlertDialog.show();
+
+	}
 
 	public void takeAPhoto() {
 		/*
@@ -734,9 +763,6 @@ public class ViewQuestion extends Activity {
                 "Select Picture"), GALLERY_ACTIVITY_REQUEST_CODE);
 	}
 	
-	private final int CAMERA_ACTIVITY_REQUEST_CODE = 12345;
-	private final int GALLERY_ACTIVITY_REQUEST_CODE = 67890;
-
 	// This method is run after returning back from camera activity:
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -762,51 +788,13 @@ public class ViewQuestion extends Activity {
 			if (resultCode == RESULT_OK) {
 				hasPicture = true;
 				Uri galleryImageUri = data.getData();
-				File imageFile = new File(getRealPathFromURI(galleryImageUri));
+				File imageFile = new File(pictureController.getRealPathFromURI(galleryImageUri));
 				imageFileUri = Uri.fromFile(imageFile);
-				Log.d("Picture","Path: " + getRealPathFromURI(galleryImageUri));
 			}
 
 		}
-	}
-	
-	//Method taken from: http://stackoverflow.com/questions/2789276/android-get-real-path-by-uri-getpath
-	//Author: m3n0R http://stackoverflow.com/users/689723/m3n0r
-	private String getRealPathFromURI(Uri contentURI) {
-	    String result;
-	    Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-	    if (cursor == null) { // Source is Dropbox or other similar local file path
-	        result = contentURI.getPath();
-	    } else { 
-	        cursor.moveToFirst(); 
-	        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA); 
-	        result = cursor.getString(idx);
-	        cursor.close();
-	    }
-	    return result;
-	}
-	
-	public void pictureChooserDialog() {
-		AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
-		myAlertDialog.setTitle("Pictures Option");
-		myAlertDialog.setMessage("Select Picture Mode");
+	}	
 
-		myAlertDialog.setPositiveButton("Gallery",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface arg0, int arg1) {
-						takeFromGallery();
-					}
-				});
-
-		myAlertDialog.setNegativeButton("Camera",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface arg0, int arg1) {
-						takeAPhoto();
-					}
-				});
-		myAlertDialog.show();
-
-	}
 	class AnswerQuestion extends Thread {
     	private String qID;
     	private Answer answer;
