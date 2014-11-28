@@ -688,6 +688,7 @@ public class MainActivity extends Activity {
 			pc.sortQuestions(0);
 			mla.updateAdapter(pc.getQuestionsInstance());
 		}
+		
 	};
 
 	private Runnable doFinish = new Runnable() {
