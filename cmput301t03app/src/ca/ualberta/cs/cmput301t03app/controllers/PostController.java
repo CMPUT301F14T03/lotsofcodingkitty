@@ -50,6 +50,7 @@ public class PostController {
 	private static ServerDataManager sdm = new ServerDataManager();
 	private static LocalDataManager ldm;
 	private static int serverListIndex = 0;
+	private static ArrayList<Question> serverList = new ArrayList<Question>();
 	private Context context;
 
 	/**
@@ -659,16 +660,16 @@ public class PostController {
 	 * 
 	 * @param list The sub-question list to be parsed.
 	 */
-	public void loadServerQuestions(ArrayList<Question> list) {
+	public void loadServerQuestions() {
 		// Log.d("size", "passed size:"+list.size());
-		int checkListSize = list.size();
+		int checkListSize = serverList.size();
 		int increment = 10;
 		if (checkListSize - serverListIndex < 10) {
 			increment = checkListSize - serverListIndex;
 		}
 		for (int i = serverListIndex; i < (serverListIndex + increment); i++) {
 			// Log.d("size", "passed size:"+list.size());
-			subQuestions.add(list.get(i));
+			subQuestions.add(serverList.get(i));
 		}
 		serverListIndex = serverListIndex + increment;
 	}
@@ -700,7 +701,6 @@ public class PostController {
 					// Toast.LENGTH_SHORT).show();
 					for (int j = 0; j < qList.size(); j++) {
 						if (qList.get(j).getId().equals(qID.get(i))) {
-							
 							// Toast.makeText(this.getContext(),
 							// qList.get(j).getSubject()+" should be added to server",
 							// Toast.LENGTH_SHORT).show();
@@ -757,9 +757,9 @@ public class PostController {
 	// new
 
 	public ArrayList<Question> getQuestionsFromServer() {
-		ArrayList<Question> serverList = new ArrayList<Question>();
 		serverList = sdm.searchQuestions("", null);
 		serverList = qf.sortByDate(serverList);
+		subQuestions.clear();
 		// Log.d("size", "size:"+serverList.size());
 		for (int i=0; i<serverList.size(); i++) {
 			if (i > 9) {

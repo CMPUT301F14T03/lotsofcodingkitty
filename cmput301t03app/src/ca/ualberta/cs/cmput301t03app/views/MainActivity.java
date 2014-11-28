@@ -87,7 +87,7 @@ public class MainActivity extends Activity {
 	private PostController pc = new PostController(this);
 	private PushController pushCtrl = new PushController(this);
 	private PictureController pictureController = new PictureController(this);
-	private ArrayList<Question> serverList = new ArrayList<Question>();
+	//private ArrayList<Question> serverList = new ArrayList<Question>();
 	private ServerDataManager sdm = new ServerDataManager();
 	
 	private ListView lv;
@@ -677,7 +677,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void loadMoreQuestions(View view) {
-		pc.loadServerQuestions(serverList);
+		pc.loadServerQuestions();
 		mla.updateAdapter(pc.getQuestionsInstance());
 		Toast.makeText(this, "Loaded more questions", Toast.LENGTH_SHORT)
 				.show();
@@ -688,36 +688,29 @@ public class MainActivity extends Activity {
 			pc.sortQuestions(0);
 			mla.updateAdapter(pc.getQuestionsInstance());
 		}
-		
-	};
-
-	private Runnable doFinish = new Runnable() {
-		public void run() {
-			finish();
-		}
 	};
 
 /*##################################----CLASSES----#####################################*/
-	class SearchThread extends Thread {
-		private String search;
-
-		public SearchThread(String s) {
-			search = s;
-		}
-
-		@Override
-		public void run() {
-			pc.getQuestionsInstance().clear();
-			serverList = pc.getQuestionsFromServer();
-			// pc.loadServerQuestions(serverList);
-			runOnUiThread(doUpdateGUIList);
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		};
-	}
+//	class SearchThread extends Thread {
+//		private String search;
+//
+//		public SearchThread(String s) {
+//			search = s;
+//		}
+//
+//		@Override
+//		public void run() {
+//			pc.getQuestionsInstance().clear();
+//			serverList = pc.getQuestionsFromServer();
+//			// pc.loadServerQuestions(serverList);
+//			runOnUiThread(doUpdateGUIList);
+//			try {
+//				Thread.sleep(500);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		};
+//	}
 
 	class AddThread extends Thread {
 		private Question question;
@@ -785,7 +778,8 @@ public class MainActivity extends Activity {
 	
 	private class PushAsyncTask extends AsyncTask<Void, Void, Void> {
 		
-		ProgressDialog progress;
+		private ProgressDialog progress;
+		private ArrayList<Question> initList;
 		
 	    protected void onPreExecute() {
 	    	progress = new ProgressDialog(MainActivity.this);
@@ -798,17 +792,21 @@ public class MainActivity extends Activity {
 		protected Void doInBackground(Void... values) {
 			pc.pushNewPosts();
 			pushCtrl.pushAnswersAndComments();
-			pc.executeSearch("");
+			initList = pc.getQuestionsFromServer();
 			return null;
 		}
 		
 		protected void onPostExecute(Void result) {
 			progress.dismiss();
-			pc.sortQuestions(0);
-			mla.updateAdapter(pc.getQuestionsInstance());
+			//pc.sortQuestions(0);
+			mla.updateAdapter(initList);
 		}
 	}
 }
 	
 
-
+//private Runnable doFinish = new Runnable() {
+//public void run() {
+//	finish();
+//}
+//};
