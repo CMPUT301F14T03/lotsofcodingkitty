@@ -3,10 +3,9 @@ import java.util.ArrayList;
 import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
-import ca.ualberta.cs.cmput301t03app.interfaces.IDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.models.UserPostCollector;
-import ca.ualberta.cs.cmput301t03app.views.MainActivity;
+import ca.ualberta.cs.cmput301t03app.views.UserHome;
 
 /**
  * Tests all saving and loading methods in both the LocalDataManager and
@@ -17,7 +16,7 @@ import ca.ualberta.cs.cmput301t03app.views.MainActivity;
  */
 
 public class DataManagerTest extends
-		ActivityInstrumentationTestCase2<MainActivity> {
+		ActivityInstrumentationTestCase2<UserHome> {
 
 	ArrayList<Question> questionArray;
 	PostController postController;
@@ -28,7 +27,7 @@ public class DataManagerTest extends
 
 	public DataManagerTest() {
 
-		super(MainActivity.class);
+		super(UserHome.class);
 	}
 
 	/**
@@ -81,8 +80,9 @@ public class DataManagerTest extends
 	 * This test uses the readQuestions list to test the saving and loading. <br>
 	 * Asserts all questions have the same content when being loaded from the
 	 * local data
+	 * @throws InterruptedException 
 	 */
-	public void testSuccessfulSavingAndLoadingReadFromCache() {
+	public void testSuccessfulSavingAndLoadingReadFromCache() throws InterruptedException {
 		postController = new PostController(getInstrumentation()
 				.getTargetContext());
 		ql = new ArrayList<Question>();
@@ -118,6 +118,7 @@ public class DataManagerTest extends
 		sdm.deleteQuestion(q.getId());
 		sdm.deleteQuestion(q2.getId());
 		sdm.deleteQuestion(q3.getId());
+
 		
 	}
 
@@ -125,8 +126,9 @@ public class DataManagerTest extends
 	 * This test uses the toReadQuestions list to test the saving and loading. <br>
 	 * Asserts all questions have the same content when saved then loaded from
 	 * local data.
+	 * @throws InterruptedException 
 	 */
-	public void testSuccessfulSavingAndLoadingToReadFromCache() {
+	public void testSuccessfulSavingAndLoadingToReadFromCache() throws InterruptedException {
 		postController = new PostController(getInstrumentation()
 				.getTargetContext());
 		ql = new ArrayList<Question>();
@@ -162,6 +164,7 @@ public class DataManagerTest extends
 		sdm.deleteQuestion(q.getId());
 		sdm.deleteQuestion(q2.getId());
 		sdm.deleteQuestion(q3.getId());
+
 		
 	}
 
@@ -251,9 +254,11 @@ public class DataManagerTest extends
 	/**
 	 * This test should test the server loading and saving.
 	 * <br><br>TODO: Still in progress.
+	 * @throws InterruptedException 
 	 */
-	public void testSuccessfulSavingAndLoadingToServer() {
+	public void testSuccessfulSavingAndLoadingToServer() throws InterruptedException {
 		// testing if question posted saved to cache
+		//Thread.sleep(50000);
 		ServerDataManager dataManager = new ServerDataManager();
 		postController = new PostController(getInstrumentation()
 				.getTargetContext());
@@ -267,7 +272,7 @@ public class DataManagerTest extends
 
 		ArrayList<Question> newQuestionArray= new ArrayList<Question>();
 
-		postController.loadServerQuestions(newQuestionArray);
+		postController.loadServerQuestions();
 		dataManager.deleteQuestion(q1.getId());
 		dataManager.deleteQuestion(q2.getId());
 		assertNotNull("No questions loaded.", newQuestionArray);

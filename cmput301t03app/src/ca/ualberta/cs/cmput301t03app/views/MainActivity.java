@@ -92,6 +92,8 @@ public class MainActivity extends Activity {
 	
 	private ListView lv;
 	private MainListAdapter mla;
+	
+	private PushAsyncTask mTask;
 
 	/**
 	 * onCreate sets up the listview,sets the click listeners and runs the
@@ -140,7 +142,8 @@ public class MainActivity extends Activity {
 					Toast.LENGTH_LONG).show();
 		}	
 		else {
-			new PushAsyncTask().execute();
+			mTask = new PushAsyncTask();
+			mTask.execute();
 		}
 	}
 
@@ -149,6 +152,24 @@ public class MainActivity extends Activity {
 
 		super.onResume();
 		mla.updateAdapter(pc.getQuestionsInstance());
+	}
+	
+	public void onStop(){
+		 if (mTask != null && mTask.getStatus() != AsyncTask.Status.FINISHED)
+		 {
+		    mTask.cancel(true);
+		  }  
+		super.onStop();
+		
+	}
+	
+	public void onDestroy(){
+		 if (mTask != null && mTask.getStatus() != AsyncTask.Status.FINISHED)
+		 {
+		    mTask.cancel(true);
+		  }  
+		super.onDestroy();
+		
 	}
 
 	@Override

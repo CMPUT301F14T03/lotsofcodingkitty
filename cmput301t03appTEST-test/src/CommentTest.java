@@ -1,4 +1,5 @@
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.Question;
@@ -29,10 +30,11 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	// and posted object are the same.
 	
 	public void testPushToServer() {
-		
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		Question question = new Question("Question title", "Question body", "author");
 		pc.addQuestionToServer(question);
+		ServerDataManager sdm = new ServerDataManager();
+		sdm.deleteQuestion(question.getId());
 		//while (!pc.checkConnectivity()) {
 		}
 		//pc.pushNewPosts();
@@ -51,6 +53,8 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		pc.addAnswer(a1, q1.getId());
 		Comment c1 = new Comment("My comment", "author");
 		a1.addComment(c1);
+		ServerDataManager sdm = new ServerDataManager();
+		sdm.deleteQuestion(q1.getId());
 		
 		
 		// loop until you gain connectivity? I don't know
@@ -79,6 +83,8 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		pc.addAnswer(a1, q1.getId());
 		Comment c1 = new Comment("My comment", "author");
 		a1.addComment(c1);
+		ServerDataManager sdm = new ServerDataManager();
+		sdm.deleteQuestion(q1.getId());
 		
 		//if (pc.checkConnectivity()) {
 			/* save to server */
