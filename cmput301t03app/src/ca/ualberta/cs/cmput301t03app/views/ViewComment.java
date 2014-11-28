@@ -39,17 +39,20 @@ import android.widget.Toast;
 
 public class ViewComment extends Activity
 {
-
-	int commentType;
-	protected boolean hasLocation = false;
+	private static ServerDataManager sdm = new ServerDataManager();
+	private PostController pc = new PostController(this);
+	private ArrayList<Comment> comments = new ArrayList<Comment>();
+	private ArrayList<String> commentBodyList = new ArrayList<String>();
+	
+	protected boolean hasLocation = false;	
 	protected GeoLocation geoLocation;
 	protected String cityName;
-	String questionID;
-	String answerID;
-	ArrayList<Comment> comments = new ArrayList<Comment>();
-	PostController pc = new PostController(this);
-	ArrayList<String> commentBodyList = new ArrayList<String>();
+	private int commentType;
+	private String questionID;
+	private String answerID;
 	ArrayAdapter<String> cla;
+	
+	//UI objects
 	ListView commentListView;
 	Button commentButton;
 	TextView commentCount;
@@ -57,7 +60,7 @@ public class ViewComment extends Activity
 	TextView author;
 	TextView location;
 	AlertDialog dialog;
-	private static ServerDataManager sdm = new ServerDataManager();
+	
 
 	/**
 	 * Called when the activity is first created.

@@ -39,7 +39,7 @@ public class UserPostCollector {
 		pushAnswersAndComments = null;
 	}
 	
-	/*---------------------------Initializers-----------------------------*/
+	/*###########################-----Initializers----##############################*/
 	
 	/**
 	 * Initializes the favorites list
@@ -119,7 +119,8 @@ public class UserPostCollector {
 	}
 	
 
-	/*=====================Getters=====================*/
+	/*############################----GETTERS----################################*/
+	
 	public ArrayList<Question> getQuestionBank() {
 		return this.questionBank;
 	}
@@ -147,12 +148,9 @@ public class UserPostCollector {
 	public ArrayList<String> getPostedQuestions() {
 		return this.postedQuestions;
 	}
-	
-	
 
-	/*--------------------------------------------------------*/
 
-	/*=====================Adding=====================*/
+	/*########################----ADDING METHODS----###########################/
 	/**
 	 * Adds a question object to the question bank
 	 * @param A question object to be added
@@ -198,7 +196,6 @@ public class UserPostCollector {
 	}
 
 	//This method is for testing since each test needs to start with a fresh list
-	//TODO: Delete this later
 	public void clearLists() {
 		if (favoriteQuestions != null){
 		favoriteQuestions.clear();

@@ -41,6 +41,11 @@ public class GeoLocationTracker {
 		this.context = context;
 	}
 	
+	/**
+	 * Gets the location of the user using GPS.
+	 * If GPS is not enabled, the user will be prompted to enable it.
+	 * 
+	 */
 	public boolean getLocation() {
         if (locationManager==null) {
             locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -121,6 +126,10 @@ public class GeoLocationTracker {
 //        }
 //    };
 	
+    /**
+     * This class gets the last known location of the user if 
+     * getLocation() fails to get the current location.
+     */
     class GetLastLocation extends TimerTask {
         @Override
         public void run() {
