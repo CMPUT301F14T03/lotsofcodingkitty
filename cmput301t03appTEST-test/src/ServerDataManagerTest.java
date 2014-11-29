@@ -56,7 +56,7 @@ public class ServerDataManagerTest extends ActivityInstrumentationTestCase2<Main
 		q = new Question("This", "this", "this");
 		sdm.addQuestion(q);
 		String expectedId = q.getId();
-		Log.i("WantedId", expectedId);
+		//Log.i("WantedId", expectedId);
 		
 		// This thread sleep is required in order for the server
 		// to have correctly added the question
@@ -69,19 +69,22 @@ public class ServerDataManagerTest extends ActivityInstrumentationTestCase2<Main
 		}
 		ArrayList<Question> qList = sdm.searchQuestions("this", null);
 		for(int i = 0; i < qList.size(); i++){
-			Log.i("ExistingIds", qList.get(i).getId());
+			//Log.i("ExistingIds", qList.get(i).getId());
 			if(qList.get(i).getId().equals(expectedId)) {
 				foundId = true;
 			}
 		}
 		assertTrue("No results returned", qList.size() > 0);
 		assertTrue("Expected question not found using search term", foundId);
+		sdm.deleteQuestion(q.getId());
 	}
 	
 	public void testAddAnswerToQuestion() {
+		sdm = new ServerDataManager();
 		pc = new PostController(getInstrumentation().getContext());
 		q = new Question("b", "b", "b");
 		pc.addQuestionToServer(q);
+		pc.getQuestionsInstance().add(q);
 		Answer answer = new Answer("that","that","n/a");
 		pc.addAnswer(answer, q.getId());
 		try {
@@ -90,6 +93,7 @@ public class ServerDataManagerTest extends ActivityInstrumentationTestCase2<Main
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		sdm.deleteQuestion(q.getId());
 	}
 
 

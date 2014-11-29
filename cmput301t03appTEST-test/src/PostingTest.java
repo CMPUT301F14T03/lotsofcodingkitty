@@ -37,9 +37,12 @@ public class PostingTest extends ActivityInstrumentationTestCase2<MainActivity> 
 				.getTargetContext());
 		Question q1 = new Question("Title1", "TextBody1", "author");
 		pc.addQuestionToServer(q1);
+		pc.getQuestionsInstance().add(q1);
 
 		assertEquals("Question not posted correctly.",
 				pc.getQuestion(q1.getId()), q1);
+		ServerDataManager sdm =new ServerDataManager();
+		sdm.deleteQuestion(q1.getId());
 	}
 
 	/**
