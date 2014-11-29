@@ -97,56 +97,6 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 
 	}
 	
-	/**
-	 * Testing that when you click the add question button,
-	 * a dialog box pops up and when the fields are completed 
-	 * and you click "OK"
-	 * the question should show up on the screen and the adapter 
-	 * should have a new Question object and that question object should be correct
-	 * @throws InterruptedException 
-	 */
-	public void testAddQuestion() throws InterruptedException{		//testing if adding 1 question works
-		activity = (MainActivity) getActivity();
-		assertNotNull("The button returned null when called",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
-		MainListAdapter adapter = activity.getAdapter();
-		Thread.sleep(2000);
-		int oldCount = adapter.getCount();
-		getInstrumentation().runOnMainSync(new Runnable(){	//clicking on an item automatically
-				@Override
-				public void run() {
-					assertNotNull("The button returned null when called",activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button));
-					((Button) activity.findViewById(ca.ualberta.cs.cmput301t03app.R.id.activity_main_question_button)).performClick();
-				    AlertDialog dialog = activity.getDialog();	//grabbing the dialog box that opens up when button clicked	
-				     EditText questionTitle = (EditText) 		//grabbing all edit texts in teh dialog box
-							dialog.findViewById(R.id.questionTitle);
-					 EditText questionBody = (EditText) 
-							dialog.findViewById(R.id.questionBody);
-					 EditText userName = (EditText) 
-							dialog.findViewById(R.id.UsernameRespondTextView);
-					questionTitle.setText("This is a test question title when a question should be added");	//setting them up with arguments
-					questionBody.setText("This is a test question body when a question should be added");
-					userName.setText("me");
-					dialog.getButton(
-							 DialogInterface.BUTTON_POSITIVE).performClick();
-				}
-				});
-		instrumentation.waitForIdleSync();
-		MainListAdapter adapter1 = activity.getAdapter();
-		int newCount = adapter1.getCount();
-		assertEquals("New question was not added to list", oldCount+1, newCount); 
-		
-		//this snippet tests that the question just added to the list is the correct question
-		PostController pc = new PostController(getInstrumentation()
-				.getTargetContext());
-		int i = pc.getQuestionsInstance().size();
-		final int lastquestionindex = i - 1;
-		Question qCheck = (Question) adapter1.getItem(lastquestionindex);
-		assertEquals("The question just added has the correct information", "This is a test question title when a question should be added", qCheck.getSubject() );
-		ServerDataManager sdm = new ServerDataManager();
-		sdm.deleteQuestion(qCheck.getId());
-		
-
-	}
 	
 	/**
 	 * Testing adding 2 Questions
@@ -186,6 +136,8 @@ public class MainActivityUITest extends ActivityInstrumentationTestCase2<MainAct
 		ServerDataManager sdm = new ServerDataManager();
 		PostController pc = new PostController(getInstrumentation()
 				.getTargetContext());
+		Question qCheck=pc.getQuestionsInstance().get(0);
+		assertEquals("The question just added has the correct information", "This is a test question title when a question should be added", qCheck.getSubject() );
 		int size = pc.getQuestionsInstance().size();
 		sdm.deleteQuestion(pc.getQuestionsInstance().get(0).getId());
 

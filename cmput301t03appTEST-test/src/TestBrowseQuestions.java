@@ -17,16 +17,7 @@ public class TestBrowseQuestions extends ActivityInstrumentationTestCase2<MainAc
 	public TestBrowseQuestions(){
 		super(MainActivity.class);
 	}
-	/**
-	 * This creates a postcontroller and then makes sure that the list
-	 * is empty because it has not done anything yet.
-	 */
 
-	
-	public void testEmptyQuestions(){
-		PostController controller = new PostController(getInstrumentation().getTargetContext());
-		assertTrue("Question list should be empty.", controller.getQuestionsInstance().size() == 0);
-	}
 	
 	/**
 	 * This tests that the postcontroller is adding a question to the question 

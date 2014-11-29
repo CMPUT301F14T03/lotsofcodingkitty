@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 import android.test.ActivityInstrumentationTestCase2;
@@ -20,14 +21,15 @@ public class SearchTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	public void testSearch() {
 
 		// in real search should have a data manager class here
-
-		ArrayList<Question> qList = new ArrayList<Question>();
-		Question q1 = new Question("Title1", "TextBody1", "author");
+		ServerDataManager sdm = new ServerDataManager(); 
+		Question q1 = new Question("TestSearch", "TextBody1", "author");
 		Question q2 = new Question("Title1", "TextBody1", "author");
 		ArrayList<Question> searchResults = new ArrayList<Question>();
-
-		qList.add(q1);
-		qList.add(q2);
+		
+		sdm.addQuestion(q1);
+		sdm.addQuestion(q2);
+		
+		searchResults=sdm.searchQuestions("TestSearch",null);
 
 		// Save questionArray into the server
 
@@ -47,6 +49,8 @@ public class SearchTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
 		assertEquals("Search results inconsistent with expected results.",
 				q3.getSubject(), q1.getSubject());
+		sdm.deleteQuestion(q1.getId());
+		sdm.deleteQuestion(q2.getId());
 
 	}
 
