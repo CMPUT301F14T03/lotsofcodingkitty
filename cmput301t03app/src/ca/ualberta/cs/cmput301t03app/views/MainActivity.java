@@ -201,15 +201,15 @@ public class MainActivity extends Activity {
 			}
 		}
 		if (id == R.id.filter_date) {
-			pc.sortQuestions(0);
+			pc.sortQuestionsByDate();
 			mla.updateAdapter(pc.getQuestionsInstance());
 		}
 		if (id == R.id.filter_score) {
-			pc.sortQuestions(1);
+			pc.sortQuestionsByUpvote();
 			mla.updateAdapter(pc.getQuestionsInstance());
 		}
 		if (id == R.id.filter_picture) {
-			pc.sortQuestions(2);
+			pc.sortQuestionsByPic();;
 			mla.updateAdapter(pc.getQuestionsInstance());
 		}
 		if (id == R.id.filter_closeby) {
@@ -390,7 +390,7 @@ public class MainActivity extends Activity {
 						}
 						pc.addUserPost(q);
 						pc.getQuestionsInstance().add(q);
-						pc.sortQuestions(0);
+						pc.sortQuestionsByDate();
 						mla.updateAdapter(pc.getQuestionsInstance());
 						Log.d("Debug", "Finishes adding");
 						hasLocation = false;
@@ -696,7 +696,11 @@ public class MainActivity extends Activity {
 		alertDialog.show();
 		// alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
 	}
-
+	
+	/**
+	 * Method for the LOAD MORE button, which loads the next 10 questions from the server into the sub-questions list and displays them. 
+	 * @param view The View it gets called from.
+	 */
 	public void loadMoreQuestions(View view) {
 		pc.loadServerQuestions();
 		mla.updateAdapter(pc.getQuestionsInstance());
@@ -704,9 +708,12 @@ public class MainActivity extends Activity {
 				.show();
 	}
 
+	/**
+	 * Private method that tells the GUI to update itself when another Thread is running.
+	 */
 	private Runnable doUpdateGUIList = new Runnable() {
 		public void run() {
-			pc.sortQuestions(0);
+			pc.sortQuestionsByDate();
 			mla.updateAdapter(pc.getQuestionsInstance());
 		}
 	};
@@ -733,18 +740,22 @@ public class MainActivity extends Activity {
 //		};
 //	}
 
+	/**
+	 * This Thread is used to push a new Question to the server and updates the GUI after adding
+	 *
+	 */
 	class AddThread extends Thread {
 		private Question question;
 
 		public AddThread(Question question) {
 			this.question = question;
 			Log.d("push", this.question.getSubject());
-			runOnUiThread(doUpdateGUIList);
 		}
 
 		@Override
 		public void run() {
-			pc.addQuestionToServer(this.question);
+			pushCtrl.addQuestionToServer(this.question);
+			runOnUiThread(doUpdateGUIList);
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
@@ -754,6 +765,10 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	/**
+	 * This Thread is used to push any objects made while offline to the server.
+	 *
+	 */
 	class PushThread extends Thread {
 
 		public PushThread() {
@@ -761,7 +776,7 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void run() {
-			pc.pushNewPosts();
+			pushCtrl.pushNewPosts();
 			pushCtrl.pushAnswersAndComments();
 			try {
 				Thread.sleep(500);
@@ -792,7 +807,7 @@ public class MainActivity extends Activity {
 		
 		protected void onPostExecute(Void result) {
 			progress.dismiss();
-			pc.sortQuestions(0);
+			pc.sortQuestionsByDate();
 			mla.updateAdapter(pc.getQuestionsInstance());
 		}
 	}
@@ -811,7 +826,7 @@ public class MainActivity extends Activity {
 	    }
 	    
 		protected Void doInBackground(Void... values) {
-			pc.pushNewPosts();
+			pushCtrl.pushNewPosts();
 			pushCtrl.pushAnswersAndComments();
 			initList = pc.getQuestionsFromServer();
 			return null;

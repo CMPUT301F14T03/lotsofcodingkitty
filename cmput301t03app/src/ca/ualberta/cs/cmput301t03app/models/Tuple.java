@@ -1,59 +1,69 @@
 package ca.ualberta.cs.cmput301t03app.models;
 
+/**
+ * A custom tuple object that is used to save information about Questions,
+ * Answer and Comments made while offline. More importantly, it helps save the
+ * correct association, so that the objects get placed with the correct
+ * corresponding ones (ie. Answer A belongs to Question A, but not to Question
+ * B).
+ * 
+ */
 
-public class Tuple
-{
+public class Tuple {
 	private String qId;
 	private String aId;
 	private Comment comment;
-	
-	
-	public Tuple(String qId,String aId, Comment comment){
-		this.qId=qId;
-		this.aId=aId;
-		this.comment=comment;
-	}
-	
-	public String getqId()
-	{
-	
-		return qId;
-	}
 
-	
-	public void setqId(String qId)
-	{
-	
+	/**
+	 * Constructor for the Tuple
+	 * 
+	 * @param qId
+	 *            ID of the Question
+	 * @param aId
+	 *            ID of the Answer
+	 * @param comment
+	 *            Comment object
+	 */
+	public Tuple(String qId, String aId, Comment comment) {
 		this.qId = qId;
-	}
-
-	
-	public String getaId()
-	{
-	
-		return aId;
-	}
-
-	
-	public void setaId(String aId)
-	{
-	
 		this.aId = aId;
-	}
-
-	
-	public Comment getComment()
-	{
-	
-		return comment;
-	}
-
-	
-	public void setComment(Comment comment)
-	{
-	
 		this.comment = comment;
 	}
 
+	/**
+	 * Returns the question ID
+	 * @return A question ID string
+	 */
+	public String getQuestionID() {
+		return qId;
+	}
+
+//	public void setQuestionID(String qId) {
+//		this.qId = qId;
+//	}
+
+	/**
+	 * Returns the answer ID
+	 * @return A answer ID string
+	 */
+	public String getAnswerID() {
+		return aId;
+	}
+
+//	public void setAnswerID(String aId) {
+//		this.aId = aId;
+//	}
+
+	/**
+	 * Returns the Comment object
+	 * @return A Comment Object
+	 */
+	public Comment getComment() {
+		return comment;
+	}
+
+//	public void setComment(Comment comment) {
+//		this.comment = comment;
+//	}
 
 }

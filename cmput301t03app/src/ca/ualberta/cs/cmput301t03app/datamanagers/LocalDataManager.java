@@ -12,7 +12,7 @@ import java.util.HashMap;
 import android.content.Context;
 import ca.ualberta.cs.cmput301t03app.interfaces.IDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Question;
-import ca.ualberta.cs.cmput301t03app.models.Post;
+//import ca.ualberta.cs.cmput301t03app.models.Post;
 import ca.ualberta.cs.cmput301t03app.models.UpvoteTuple;
 import ca.ualberta.cs.cmput301t03app.models.Tuple;
 
@@ -71,10 +71,10 @@ public class LocalDataManager implements IDataManager {
 	 * @param posts
 	 */
 
-	public void savePushPosts(ArrayList<Post> posts) {
-		SAVE_FILE = PUSH_POSTS;
-		saveFilePushPosts(posts);
-	}
+//	public void savePushPosts(ArrayList<Post> posts) {
+//		SAVE_FILE = PUSH_POSTS;
+//		saveFilePushPosts(posts);
+//	}
 
 	public void savePushQuestionUpvotes(HashMap<String, Integer> upvotes) {
 		SAVE_FILE = QUESTION_UPVOTES;
@@ -375,24 +375,24 @@ public class LocalDataManager implements IDataManager {
 	 * @param posts
 	 */
 
-	private void saveFilePushPosts(ArrayList<Post> posts) {
-		try {
-			FileOutputStream fileOutputStream = context.openFileOutput(
-					SAVE_FILE, Context.MODE_PRIVATE);
-			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
-					fileOutputStream);
-			GsonBuilder builder = new GsonBuilder();
-			Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
-					.create();
-			Type postType = new TypeToken<ArrayList<Post>>() {}.getType();
-			gson.toJson(posts, postType, outputStreamWriter); // Serialize to Json
-			builder.serializeNulls(); // Show fields with null values
-			outputStreamWriter.flush();
-			outputStreamWriter.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	private void saveFilePushPosts(ArrayList<Post> posts) {
+//		try {
+//			FileOutputStream fileOutputStream = context.openFileOutput(
+//					SAVE_FILE, Context.MODE_PRIVATE);
+//			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+//					fileOutputStream);
+//			GsonBuilder builder = new GsonBuilder();
+//			Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+//					.create();
+//			Type postType = new TypeToken<ArrayList<Post>>() {}.getType();
+//			gson.toJson(posts, postType, outputStreamWriter); // Serialize to Json
+//			builder.serializeNulls(); // Show fields with null values
+//			outputStreamWriter.flush();
+//			outputStreamWriter.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * Saves an array of IDs to the local drive
@@ -520,30 +520,30 @@ public class LocalDataManager implements IDataManager {
 		return idArray;
 	}
 	
-	/**
-	 * Method for loading posts that need to be pushed to the server.
-	 * 
-	 * @return
-	 */
-
-	private ArrayList<Post> loadPushPosts() {
-		ArrayList<Post> posts = new ArrayList<Post>();
-		try {
-			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);
-			InputStreamReader inputStreamReader = new InputStreamReader(
-					fileInputStream);
-			Type listType = new TypeToken<ArrayList<Post>>() {
-			}.getType();
-			GsonBuilder builder = new GsonBuilder();
-			Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
-					.create();
-			builder.serializeNulls(); // Show fields with null values
-			posts = gson.fromJson(inputStreamReader, listType);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return posts;
-	}
+//	/**
+//	 * Method for loading posts that need to be pushed to the server.
+//	 * 
+//	 * @return
+//	 */
+//
+//	private ArrayList<Post> loadPushPosts() {
+//		ArrayList<Post> posts = new ArrayList<Post>();
+//		try {
+//			FileInputStream fileInputStream = context.openFileInput(SAVE_FILE);
+//			InputStreamReader inputStreamReader = new InputStreamReader(
+//					fileInputStream);
+//			Type listType = new TypeToken<ArrayList<Post>>() {
+//			}.getType();
+//			GsonBuilder builder = new GsonBuilder();
+//			Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+//					.create();
+//			builder.serializeNulls(); // Show fields with null values
+//			posts = gson.fromJson(inputStreamReader, listType);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return posts;
+//	}
 
 	/**
 	 * Method for loading question upvotes that need to be pushed to the server.

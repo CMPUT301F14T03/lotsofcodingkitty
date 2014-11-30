@@ -51,5 +51,6 @@
         android:showAsAction="always"
         android:title="Sync">
     </item>
+    
 
 </menu>

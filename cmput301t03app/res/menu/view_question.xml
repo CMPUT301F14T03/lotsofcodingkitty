@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="ca.ualberta.cs.cmput301t03app.ViewQuestion" >
     
-    <item
+<!--     <item
         android:id="@+id/home"
         />
-   
+    -->
    
 </menu>
