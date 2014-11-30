@@ -73,10 +73,7 @@ public class PushController
 	public void pushNewPosts() {
 
 		if (pc.checkConnectivity()) {
-			// Toast.makeText(this.getContext(), "Attempting to push to server",
-			// Toast.LENGTH_SHORT).show();
 			ServerDataManager sdm = new ServerDataManager();
-			// sdm.pushPosts(getPushPostsInstance());
 			LocalDataManager local = new LocalDataManager(getContext());
 			UserPostCollector upc = new UserPostCollector();
 			upc.initPushQuestionID(getContext());
@@ -90,9 +87,6 @@ public class PushController
 				for (int i = 0; i < qID.size(); i++) {
 					for (int j = 0; j < qList.size(); j++) {
 						if (qList.get(j).getId().equals(qID.get(i))) {
-							// Toast.makeText(this.getContext(),
-							// qList.get(j).getSubject()+" should be added to server",
-							// Toast.LENGTH_SHORT).show();
 							sdm.addQuestion(qList.get(j));
 						}
 					}
@@ -103,10 +97,8 @@ public class PushController
 			// Wait questions to be pushed before clearing
 			upc.clearPushQuestions();
 			local.deletePushQuestionsIDList();
-			// ldm.savePushPosts(pushPosts);
 		} else {
-			// ldm = new LocalDataManager(getContext());
-			// ldm.savePushPosts(pushPosts);
+			//do nothing
 		}
 	}
 	
@@ -123,16 +115,6 @@ public class PushController
 			question.getAnswers().add(answer);
 			sdm.updateQuestion(question);
 		}
-//		for (int i=0; i<question.getAnswers().size(); i++) {
-//			if (question.getAnswers().get(i).getId().equals(answer.getId())) {
-//				break;
-//			}
-//			if (i == question.getAnswers().size()-1 && 
-//					!question.getAnswers().get(i).getId().equals(answer.getId())) {
-//				question.getAnswers().add(answer);
-//				sdm.updateQuestion(question);
-//			}
-//		}		
 	}
 
 	/**

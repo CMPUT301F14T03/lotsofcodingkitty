@@ -22,7 +22,7 @@ public class QuestionFilter {
 	 * @param subQuestions - list that needs to be sorted
 	 * @return list that is sorted by number of upvotes
 	 */
-	public ArrayList<Question> sortByUpvote(ArrayList<Question> subQuestions){
+	public ArrayList<Question> sortByUpvote(ArrayList<Question> subQuestions) {
 		Collections.sort(subQuestions,new upvoteComparator());
 		return subQuestions;
 	}
@@ -32,7 +32,7 @@ public class QuestionFilter {
 	 * @param subQuestions - list that needs to be sorted
 	 * @return list that is sorted by date
 	 */
-	public ArrayList<Question> sortByDate(ArrayList<Question> subQuestions){
+	public ArrayList<Question> sortByDate(ArrayList<Question> subQuestions) {
 		Collections.sort(subQuestions,new dateComparator());
 		return subQuestions;
 	}
@@ -42,7 +42,7 @@ public class QuestionFilter {
 	 * @param subQuestions - list that needs to be sorted
 	 * @return list that is sorted with the questions having pictures first
 	 */
-	public ArrayList<Question> sortByPic(ArrayList<Question> subQuestions){
+	public ArrayList<Question> sortByPic(ArrayList<Question> subQuestions) {
 		Collections.sort(subQuestions,new picComparator());
 		return subQuestions;
 	}
@@ -52,7 +52,7 @@ public class QuestionFilter {
 	 * @param subQuestions - list that needs to be sorted
 	 * @return list that is sorted by number of upvotes
 	 */
-	public ArrayList<Answer> sortByScore(ArrayList<Answer> subAnswers){
+	public ArrayList<Answer> sortByScore(ArrayList<Answer> subAnswers) {
 		Collections.sort(subAnswers, new ansUpvoteComparator());
 		return subAnswers;
 	}
@@ -212,29 +212,25 @@ class QuestionDistance {
 		this.distance = distance;
 	}
 	
-	public Question getQuestion()
-	{
+	public Question getQuestion() {
 	
 		return question;
 	}
 
 	
-	public void setQuestion(Question question)
-	{
+	public void setQuestion(Question question) {
 	
 		this.question = question;
 	}
 
 	
-	public double getDistance()
-	{
+	public double getDistance() {
 	
 		return distance;
 	}
 
 	
-	public void setDistance(double distance)
-	{
+	public void setDistance(double distance) {
 	
 		this.distance = distance;
 	}
