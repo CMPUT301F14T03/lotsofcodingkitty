@@ -703,7 +703,7 @@ public class MainActivity extends Activity {
 	 * @param view The View it gets called from.
 	 */
 	public void loadMoreQuestions(View view) {
-		pc.loadServerQuestions();
+		pc.loadMoreServerQuestions();
 		mla.updateAdapter(pc.getQuestionsInstance());
 		Toast.makeText(this, "Loaded more questions", Toast.LENGTH_SHORT)
 				.show();
