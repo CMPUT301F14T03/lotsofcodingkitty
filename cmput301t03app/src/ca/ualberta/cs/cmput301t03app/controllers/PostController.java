@@ -107,84 +107,42 @@ public class PostController {
 
 	public void upvoteQuestion(String questionId) {
 		getQuestion(questionId).upRating();
-		if (getQuestionUpvotes().containsKey(questionId)) {
-			int count = getQuestionUpvotes().get(questionId);
-			count++;
-			getQuestionUpvotes().put(questionId, count);
-		} else {
-			getQuestionUpvotes().put(questionId, 1);
-		}
-
-		// push all upvotes in question upvote hashtable
-
-		if (checkConnectivity()) {
-			pushQuestionUpvotes();
-		} else {
-			ldm = new LocalDataManager(getContext());
-			ldm.savePushQuestionUpvotes(questionUpvotes);
-		}
+//		if (getQuestionUpvotes().containsKey(questionId)) {
+//			int count = getQuestionUpvotes().get(questionId);
+//			count++;
+//			getQuestionUpvotes().put(questionId, count);
+//		} else {
+//			getQuestionUpvotes().put(questionId, 1);
+//		}
+//
+//		// push all upvotes in question upvote hashtable
+//
+//		if (checkConnectivity()) {
+//			pushQuestionUpvotes();
+//		} else {
+//			ldm = new LocalDataManager(getContext());
+//			ldm.savePushQuestionUpvotes(questionUpvotes);
 	}
-
-	public void pushQuestionUpvotes() {
-
-		for (HashMap.Entry<String, Integer> entry : getQuestionUpvotes()
-				.entrySet()) {
-			sdm.pushQuestionUpvote(entry.getKey(), entry.getValue());
-		}
-		try {
-			Thread.currentThread().sleep(250);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		questionUpvotes.clear();
-		ldm.savePushQuestionUpvotes(questionUpvotes);
-	}
-
-	/**
-	 * Upvote answer method, pushes upvotes to server
-	 * 
-	 * @param answerId
-	 * @param questionId
-	 */
-
+	
 	public void upvoteAnswer(String answerId, String questionId) {
 		getAnswer(answerId, questionId).upRating();
-		if (getAnswerUpvotes().containsKey(answerId)) {
-			UpvoteTuple tuple = getAnswerUpvotes().get(answerId);
-			tuple.setUpvoteCount(tuple.getUpvoteCount() + 1);
-			getAnswerUpvotes().put(answerId, tuple);
-		} else {
-			UpvoteTuple tuple = new UpvoteTuple(questionId, 1);
-			getAnswerUpvotes().put(answerId, tuple);
-		}
-		// push all upvotes in answer upvote hashtable
-
-		if (checkConnectivity()) {
-			pushAnswerUpvotes();
-		} else {
-			ldm = new LocalDataManager(getContext());
-			ldm.savePushAnswerUpvotes(answerUpvotes);
-		}
 	}
 
-	public void pushAnswerUpvotes() {
-
-		for (HashMap.Entry<String, UpvoteTuple> entry : getAnswerUpvotes()
-				.entrySet()) {
-			Integer upvoteCount = entry.getValue().getUpvoteCount();
-			String qId = entry.getValue().getQuestionId();
-			sdm.pushAnswerUpvote(entry.getKey(), qId, upvoteCount);
-		}
-		try {
-			Thread.currentThread().sleep(250);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		answerUpvotes.clear();
-		ldm.savePushAnswerUpvotes(answerUpvotes);
-	}
+//	public void pushQuestionUpvotes() {
+//
+//		for (HashMap.Entry<String, Integer> entry : getQuestionUpvotes()
+//				.entrySet()) {
+//			sdm.pushQuestionUpvote(entry.getKey(), entry.getValue());
+//		}
+//		try {
+//			Thread.currentThread().sleep(250);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		questionUpvotes.clear();
+//		ldm.savePushQuestionUpvotes(questionUpvotes);
+//	}
 
 	public void loadToBePushed() {
 		ldm = new LocalDataManager(getContext());
@@ -821,19 +779,7 @@ public class PostController {
 		return null;
 	}
 	
-	public static HashMap<String, Integer> getQuestionUpvotes() {
-		if (questionUpvotes == null) {
-			questionUpvotes = new HashMap<String, Integer>();
-		}
-		return questionUpvotes;
-	}
 
-	public static HashMap<String, UpvoteTuple> getAnswerUpvotes() {
-		if (answerUpvotes == null) {
-			answerUpvotes = new HashMap<String, UpvoteTuple>();
-		}
-		return answerUpvotes;
-	}
 	
 /*##############################----END OF GETTER METHODS----################################*/
 
@@ -959,4 +905,62 @@ public class PostController {
 //			break;
 //		}
 //	}
+	
+	/**
+	 * Upvote answer method, pushes upvotes to server
+	 * 
+	 * @param answerId
+	 * @param questionId
+	 */
+
+
+//		if (getAnswerUpvotes().containsKey(answerId)) {
+//			UpvoteTuple tuple = getAnswerUpvotes().get(answerId);
+//			tuple.setUpvoteCount(tuple.getUpvoteCount() + 1);
+//			getAnswerUpvotes().put(answerId, tuple);
+//		} else {
+//			UpvoteTuple tuple = new UpvoteTuple(questionId, 1);
+//			getAnswerUpvotes().put(answerId, tuple);
+//		}
+//		// push all upvotes in answer upvote hashtable
+//
+//		if (checkConnectivity()) {
+//			pushAnswerUpvotes();
+//		} else {
+//			ldm = new LocalDataManager(getContext());
+//			ldm.savePushAnswerUpvotes(answerUpvotes);
+//		}
+//	}
+
+//	public void pushAnswerUpvotes() {
+//
+//		for (HashMap.Entry<String, UpvoteTuple> entry : getAnswerUpvotes()
+//				.entrySet()) {
+//			Integer upvoteCount = entry.getValue().getUpvoteCount();
+//			String qId = entry.getValue().getQuestionId();
+//			sdm.pushAnswerUpvote(entry.getKey(), qId, upvoteCount);
+//		}
+//		try {
+//			Thread.currentThread().sleep(250);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		answerUpvotes.clear();
+//		ldm.savePushAnswerUpvotes(answerUpvotes);
+//	}
+	
+//	public static HashMap<String, Integer> getQuestionUpvotes() {
+//	if (questionUpvotes == null) {
+//		questionUpvotes = new HashMap<String, Integer>();
+//	}
+//	return questionUpvotes;
+//}
+
+//public static HashMap<String, UpvoteTuple> getAnswerUpvotes() {
+//	if (answerUpvotes == null) {
+//		answerUpvotes = new HashMap<String, UpvoteTuple>();
+//	}
+//	return answerUpvotes;
+//}
 }
