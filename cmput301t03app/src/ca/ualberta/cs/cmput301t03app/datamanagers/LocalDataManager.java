@@ -76,16 +76,16 @@ public class LocalDataManager implements IDataManager {
 //		saveFilePushPosts(posts);
 //	}
 
-	public void savePushQuestionUpvotes(HashMap<String, Integer> upvotes) {
-		SAVE_FILE = QUESTION_UPVOTES;
-		saveFileQuestionUpvotes(upvotes);
-	}
-
-	public void savePushAnswerUpvotes(HashMap<String, UpvoteTuple> upvotes) {
-		SAVE_FILE = ANSWER_UPVOTES;
-		saveFileAnswerUpvotes(upvotes);
-
-	}
+//	public void savePushQuestionUpvotes(HashMap<String, Integer> upvotes) {
+//		SAVE_FILE = QUESTION_UPVOTES;
+//		saveFileQuestionUpvotes(upvotes);
+//	}
+//
+//	public void savePushAnswerUpvotes(HashMap<String, UpvoteTuple> upvotes) {
+//		SAVE_FILE = ANSWER_UPVOTES;
+//		saveFileAnswerUpvotes(upvotes);
+//
+//	}
 
 	/**
 	 * Saves a list of question IDs of favorite questions to cache.

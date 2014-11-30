@@ -138,7 +138,7 @@ public class MainActivity extends Activity {
 		if (pc.checkConnectivity() == false) {
 			Toast.makeText(
 					this,
-					"You are not connected to the server. To access your locally saved data go to your userhome.",
+					"You are not connected to the server. To access your locally saved data go to your User home screen.",
 					Toast.LENGTH_LONG).show();
 		}	
 		else {

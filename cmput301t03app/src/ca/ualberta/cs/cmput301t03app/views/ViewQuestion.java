@@ -185,6 +185,7 @@ public class ViewQuestion extends Activity {
 				}
 			}
 		});
+		
 		questionPictureButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -609,25 +610,28 @@ public class ViewQuestion extends Activity {
 	// }
 
 	/**
-	 * onClick method for upvoting the questionhttp://stackoverflow.com/questions/2173936/how-to-set-background-color-of-a-view
+	 * onClick method for upvoting the question http://stackoverflow.com/questions/2173936/how-to-set-background-color-of-a-view
 	 */
 
 	public void increment_upvote() {
 
-		new Thread() {
-			public void run() {
-				pc.upvoteQuestion(question_id);
-			}
-		}.start();
-		// Give some time to get updated info
-		try {
-			Thread.currentThread().sleep(250);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		new Thread() {
+//			public void run() {
+//				pc.upvoteQuestion(question_id);
+//			}
+//		}.start();
+//		// Give some time to get updated info
+//		try {
+//			Thread.currentThread().sleep(250);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+		pc.upvoteQuestion(question_id);
 		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
 				.getRating()));
 		pc.updateQuestionInBank(question_id);
+		Thread upvoteQuestion = new Upvote(question_id);
+		upvoteQuestion.start();
 	}
 
 	/**
@@ -688,19 +692,22 @@ public class ViewQuestion extends Activity {
 	public void answerUpvote(View v) {
 
 		final Answer answer = (Answer) v.getTag();
-		new Thread() {
-			public void run() {
-				pc.upvoteAnswer(answer.getId(), question_id);
-			}
-		}.start();
-		// Give some time to get updated info
-		try {
-			Thread.currentThread().sleep(250);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		new Thread() {
+//			public void run() {
+//				pc.upvoteAnswer(answer.getId(), question_id);
+//			}
+//		}.start();
+//		// Give some time to get updated info
+//		try {
+//			Thread.currentThread().sleep(250);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+		pc.upvoteAnswer(answer.getId(), question_id);
 		ala.notifyChange();
 		pc.updateQuestionInBank(answer.getParentId());
+		Thread upvoteAnswer = new Upvote(question_id);
+		upvoteAnswer.start();
 	}
 
 	// Used for testing
@@ -819,15 +826,26 @@ public class ViewQuestion extends Activity {
     	
     	@Override
     	public void run() {
-    		pushCtrl.answerAQuestionToServer(this.answer, this.qID);
-    		try {
-    			Thread.sleep(500);
-    		} catch(InterruptedException e) {
-    			e.printStackTrace();
-    		}
-    		
+    		pushCtrl.answerAQuestionToServer(this.answer, this.qID);    		
     	}
     }
+	
+	class Upvote extends Thread {
+		private String qID;
+		
+		public Upvote(String qID) {
+			this.qID = qID;
+		}
+		
+		public void run() {
+			sdm.updateQuestion(pc.getQuestion(this.qID));
+			try {
+				Thread.sleep(250);
+			} catch(InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	/**
 	 * Instructs the Thread to terminate
