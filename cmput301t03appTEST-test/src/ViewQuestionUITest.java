@@ -56,13 +56,15 @@ public class ViewQuestionUITest extends
 
 		q = new Question("Test subject", "Body", "Author");
 		qId = q.getId();
+		a = new Answer("test", "test", qId);
+		q.addAnswer(a);
+		Comment comment = new Comment("Test", "test");
+		q.addComment(comment);
+		pushCtrl.addQuestionToServer(q);
+
 		pushCtrl.addQuestionToServer(q);
 		pc.getQuestionsInstance().add(q);
-		pc.addUserPost(q);
-		Comment comment = new Comment("Test", "test");
-		pc.addCommentToQuestion(comment, qId);
-		a = new Answer("test", "test", qId);
-		pc.addAnswer(a, qId);
+
 		answers = new ArrayList<Answer>();
 		answers.add(a);
 		Intent intent = new Intent();
@@ -226,13 +228,15 @@ public class ViewQuestionUITest extends
 	 * Tests the questions upvote button
 	 * 
 	 * Part of UC6: Upvote questions
+	 * @throws InterruptedException 
 	 * 
 	 */
 	
 	@UiThreadTest
-	public void testViewQuestionUIQuestionUpvote() {
+	public void testViewQuestionUIQuestionUpvote() throws InterruptedException {
 		ImageView upvote = (ImageView) activity
 				.findViewById(R.id.question_upvote_button);
+		Thread.sleep(5000);
 		upvote.performClick();
 
 		// Asserts that upvote clicks are correctly changing the
@@ -250,12 +254,13 @@ public class ViewQuestionUITest extends
 	 * Tests the answer upvote button in the view
 	 * 
 	 * Part of UC7: Upvote answers
+	 * @throws InterruptedException 
 	 * 
 	 */
 
 	
 	@UiThreadTest
-	public void testViewQuestionUIAnswerUpvote()
+	public void testViewQuestionUIAnswerUpvote() throws InterruptedException
 	{
 		ListView answerListView = (ListView) activity
 				.findViewById(R.id.answerListView);
@@ -264,6 +269,7 @@ public class ViewQuestionUITest extends
 		View answerItem = (View) answerListView.getChildAt(0);
 		ImageView upvote = (ImageView) answerItem
 				.findViewById(R.id.answer_upvote_button);
+		Thread.sleep(5000);
 		upvote.performClick();
 
 		// Asserts that answer upvote clicks are correctly changing
