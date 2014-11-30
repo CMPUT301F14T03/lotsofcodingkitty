@@ -251,7 +251,11 @@ public class ServerDataManager implements IDataManager{
 	}
 
 	/**
-	 * Creates a search request from a search string and a field
+	 * creates a searchRequest that will be used by elastic search to return the results of the search
+	 * @param searchString - the word that will be used to search through the server
+	 * @param field - the field that the word will be searched through
+	 * @return HttpPost - an httpPost that will be needed to be parsed
+	 * @throws UnsupportedEncodingException
 	 */
 	private HttpPost createSearchRequest(String searchString, String field)	throws UnsupportedEncodingException {
 		
@@ -277,6 +281,11 @@ public class ServerDataManager implements IDataManager{
 		return searchRequest;
 	}
 	
+	/**
+	 * Returns the search hit from elastic search server
+	 * @param response -the httpResponse that is returned when connected to server
+	 * @return the search hit from elastic search server
+	 */
 	private SearchHit<Question> parseQuestionHit(HttpResponse response) {
 		
 		try {
@@ -294,7 +303,10 @@ public class ServerDataManager implements IDataManager{
 	}
 
 	/**
-	 * Parses the response of a search
+	 * Returns a SearchResponse after being parsed 
+	 * @param response - the httpResponse that is returned when connected to server
+	 * @return a search response 
+	 * @throws IOException
 	 */
 	private SearchResponse<Question> parseSearchResponse(HttpResponse response) throws IOException {
 		String json;
@@ -309,7 +321,10 @@ public class ServerDataManager implements IDataManager{
 	}
 
 	/**
-	 * Gets content from an HTTP response
+	 * Returns the content of a http response
+	 * @param response - the http response to be parsed
+	 * @return a string that pertains to the content of the http response
+	 * @throws IOException
 	 */
 	public String getEntityContent(HttpResponse response) throws IOException {
 		BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
