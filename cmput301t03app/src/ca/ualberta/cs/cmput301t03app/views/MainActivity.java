@@ -549,6 +549,7 @@ public class MainActivity extends Activity {
 			} else if (resultCode == RESULT_CANCELED) {
 
 			}
+			break;
 		case GALLERY_ACTIVITY_REQUEST_CODE:
 
 			if (resultCode == RESULT_OK) {
