@@ -46,7 +46,7 @@ public class PostController {
 	private static UserPostCollector upc = new UserPostCollector();
 	private static ServerDataManager sdm = new ServerDataManager();
 	private static LocalDataManager ldm;
-	private static int serverListIndex = 0;
+	private static int serverListIndex = 10;
 	private static ArrayList<Question> serverList = new ArrayList<Question>();
 	private Context context;
 
@@ -573,15 +573,20 @@ public class PostController {
 	 * @param list The sub-question list to be parsed.
 	 */
 	public void loadServerQuestions() {
-		// Log.d("size", "passed size:"+list.size());
+		//Log.d("Debug", "passed size:"+serverList.size());
+		//Log.d("Debug", "serverListIndex is at "+serverListIndex);
 		int checkListSize = serverList.size();
 		int increment = 10;
 		if (checkListSize - serverListIndex < 10) {
 			increment = checkListSize - serverListIndex;
+			//Log.d("Debug", "Increment "+increment+" times");
 		}
-		for (int i = serverListIndex; i < (serverListIndex + increment); i++) {
-			// Log.d("size", "passed size:"+list.size());
-			subQuestions.add(serverList.get(i));
+		if (checkListSize > 10) { 
+			for (int i = serverListIndex; i < (serverListIndex + increment); i++) {
+				//Log.d("Debug", "Increment "+increment+" times");
+				//Log.d("Debug", "i is:"+i);
+				subQuestions.add(serverList.get(i));
+			}
 		}
 		serverListIndex = serverListIndex + increment;
 	}
