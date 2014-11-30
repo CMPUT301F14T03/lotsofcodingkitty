@@ -21,7 +21,7 @@ import ca.ualberta.cs.cmput301t03app.interfaces.IDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.Hits;
-import ca.ualberta.cs.cmput301t03app.models.Post;
+//import ca.ualberta.cs.cmput301t03app.models.Post;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.models.SearchHit;
 import ca.ualberta.cs.cmput301t03app.models.SearchResponse;
@@ -65,77 +65,7 @@ public class ServerDataManager implements IDataManager{
 	public void saveToQuestionBank(ArrayList<Question> list) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	/**
-	 * Iterates through an array of posts, looking for three cases 
-	 * 
-	 * 1) The parent of the post is a question (check if it is an answer or comment, 
-	 * append the answer or comment)
-	 * 
-	 * 2) The parent of the post is an answer (it is a comment, find the answer
-	 * and append the comment)
-	 * 
-	 * 3) There is not parent of the post (it is a new question, add it to the
-	 * server)
-	 * 
-	 * Included in the post array is the parentId which is what allows us to
-	 * easily append to a question or answer without too many comparison.
-	 * 
-	 * @param posts
-	 */
-	
-	public void pushPosts(final ArrayList<Post> posts) {
-		try {
-			for (int i = 0; i < posts.size(); i++) {
-				Post post = posts.get(i);
-				Question q = null;
-
-				// If the parent is a Question
-
-				if (post.getClassofParent().equals(Question.class)) {
-
-					// If the post is an Answer
-
-					if (post.getSelf().getClass().equals(Answer.class)) {
-						q = getQuestion(post.getParentId());
-						Log.i("AnswerToQuestion", post.getParentId());
-						q.addAnswer((Answer) post.getSelf());
-						updateQuestion(q);
-
-					}
-
-					// If the post is a Comment
-
-					else if (post.getSelf().getClass().equals(Comment.class)) {
-						q = getQuestion(post.getParentId());
-						Log.i("CommentToQuestion", post.getParentId());
-						q.addComment((Comment) post.getSelf());
-						updateQuestion(q);
-					}
-
-					// If the parent is an Answer
-
-				} else if (post.getClassofParent().equals(Answer.class)) {
-					q = getQuestion(post.getQuestionParentId());
-					Log.i("CommentToAnswer", post.getParentId());
-					q.addComment((Comment) post.getSelf());
-					updateQuestion(q);
-				}
-
-				// If the post is a Question
-
-				else {
-					q = (Question) post.getSelf();
-					Log.i("Question", q.getId());
-					addQuestion(q);
-				}
-			}
-		} catch (Exception e) {
-				//Log.i("", e.getMessage());
-		}
-	}
-	
+	}	
 	public void pushQuestionUpvote(String questionId, Integer amount) {
 		try {
 			Question q = getQuestion(questionId);
@@ -367,3 +297,71 @@ public class ServerDataManager implements IDataManager{
 	}
 	
 }
+
+/**
+ * Iterates through an array of posts, looking for three cases 
+ * 
+ * 1) The parent of the post is a question (check if it is an answer or comment, 
+ * append the answer or comment)
+ * 
+ * 2) The parent of the post is an answer (it is a comment, find the answer
+ * and append the comment)
+ * 
+ * 3) There is not parent of the post (it is a new question, add it to the
+ * server)
+ * 
+ * Included in the post array is the parentId which is what allows us to
+ * easily append to a question or answer without too many comparison.
+ * 
+ * @param posts
+ */
+//public void pushPosts(final ArrayList<Post> posts) {
+//	try {
+//		for (int i = 0; i < posts.size(); i++) {
+//			Post post = posts.get(i);
+//			Question q = null;
+//
+//			// If the parent is a Question
+//
+//			if (post.getClassofParent().equals(Question.class)) {
+//
+//				// If the post is an Answer
+//
+//				if (post.getSelf().getClass().equals(Answer.class)) {
+//					q = getQuestion(post.getParentId());
+//					Log.i("AnswerToQuestion", post.getParentId());
+//					q.addAnswer((Answer) post.getSelf());
+//					updateQuestion(q);
+//
+//				}
+//
+//				// If the post is a Comment
+//
+//				else if (post.getSelf().getClass().equals(Comment.class)) {
+//					q = getQuestion(post.getParentId());
+//					Log.i("CommentToQuestion", post.getParentId());
+//					q.addComment((Comment) post.getSelf());
+//					updateQuestion(q);
+//				}
+//
+//				// If the parent is an Answer
+//
+//			} else if (post.getClassofParent().equals(Answer.class)) {
+//				q = getQuestion(post.getQuestionParentId());
+//				Log.i("CommentToAnswer", post.getParentId());
+//				q.addComment((Comment) post.getSelf());
+//				updateQuestion(q);
+//			}
+//
+//			// If the post is a Question
+//
+//			else {
+//				q = (Question) post.getSelf();
+//				Log.i("Question", q.getId());
+//				addQuestion(q);
+//			}
+//		}
+//	} catch (Exception e) {
+//			//Log.i("", e.getMessage());
+//	}
+//}

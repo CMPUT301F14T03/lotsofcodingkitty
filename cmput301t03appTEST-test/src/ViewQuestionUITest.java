@@ -20,6 +20,7 @@ import android.widget.TextView;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.adapters.AnswerListAdapter;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.controllers.PushController;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.Question;
@@ -51,9 +52,11 @@ public class ViewQuestionUITest extends
     protected void setUp() throws Exception{
         super.setUp();
 		pc = new PostController(getInstrumentation().getTargetContext());
+		PushController pushCtrl = new PushController(getInstrumentation().getTargetContext());
+
 		q = new Question("Test subject", "Body", "Author");
 		qId = q.getId();
-		pc.addQuestionToServer(q);
+		pushCtrl.addQuestionToServer(q);
 		pc.getQuestionsInstance().add(q);
 		pc.addUserPost(q);
 		Comment comment = new Comment("Test", "test");

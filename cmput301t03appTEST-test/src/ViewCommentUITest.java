@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.controllers.PushController;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.views.ViewComment;
@@ -47,13 +48,15 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 	*/
 	public void testDisplayQuestionInfo(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
+		PushController pushCtrl = new PushController(getInstrumentation().getTargetContext());
+
 		String qTitle = "Title";
 		String qBody = "Body";
 		String qAuthor = "Author";
 		Date date = new Date();
 		Question q = new Question(qTitle,qBody,qAuthor);
 
-		pc.addQuestionToServer(q);
+		pushCtrl.addQuestionToServer(q);
 		pc.getQuestionsInstance().add(q);
 		
 		Intent intent = new Intent();
@@ -78,11 +81,13 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 	
 	public void testDisplayQuestionCommentCountZero(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
+		PushController pushCtrl = new PushController(getInstrumentation().getTargetContext());
+
 		String qTitle = "Title";
 		String qBody = "Body";
 		String qAuthor = "Author";
 		Question q = new Question(qTitle,qBody,qAuthor);
-		pc.addQuestionToServer(q);
+		pushCtrl.addQuestionToServer(q);
 		pc.getQuestionsInstance().add(q);
 		
 		Intent intent = new Intent();
@@ -98,11 +103,13 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 	// Tests if the Comment Count is one.
 	public void testDisplayQuestionCommentCountOne(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
+		PushController pushCtrl = new PushController(getInstrumentation().getTargetContext());
+
 		String qTitle = "Title";
 		String qBody = "Body";
 		String qAuthor = "Author";
 		Question q = new Question(qTitle,qBody,qAuthor);
-		pc.addQuestionToServer(q);
+		pushCtrl.addQuestionToServer(q);
 		pc.getQuestionsInstance().add(q);
 		Comment c = new Comment("String","String");
 		pc.addCommentToQuestion(c, q.getId());
@@ -125,11 +132,13 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 	
 	public void testView(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
+		PushController pushCtrl = new PushController(getInstrumentation().getTargetContext());
+
 		String qTitle = "Title";
 		String qBody = "Body";
 		String qAuthor = "Author";
 		Question q = new Question(qTitle,qBody,qAuthor);
-		pc.addQuestionToServer(q);
+		pushCtrl.addQuestionToServer(q);
 		pc.getQuestionsInstance().add(q);
 		Intent intent = new Intent();
 		intent.putExtra(ViewQuestion.SET_COMMENT_TYPE,ViewQuestion.COMMENT_ON_QUESTION_KEY);
@@ -161,11 +170,13 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 	// This comment tests if the comments body shows correctly with only one comment.
 	public void testCommentBodyIsCorrectWithOneComment(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
+		PushController pushCtrl = new PushController(getInstrumentation().getTargetContext());
+
 		String qTitle = "Title";
 		String qBody = "Body";
 		String qAuthor = "Author";
 		Question q = new Question(qTitle,qBody,qAuthor);
-		pc.addQuestionToServer(q);
+		pushCtrl.addQuestionToServer(q);
 		pc.addUserPost(q);
 		pc.getQuestionsInstance().add(q);
 		Comment c = new Comment("String","String");
@@ -189,11 +200,13 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 	// Tests if the view shows two comments correctly.
 	public void testCommentBodyIsCorretWithTwoComments(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
+		PushController pushCtrl = new PushController(getInstrumentation().getTargetContext());
+
 		String qTitle = "Title";
 		String qBody = "Body";
 		String qAuthor = "Author";
 		Question q = new Question(qTitle,qBody,qAuthor);
-		pc.addQuestionToServer(q);	
+		pushCtrl.addQuestionToServer(q);	
 		pc.getQuestionsInstance().add(q);
 		Comment c = new Comment("String","String");
 		Comment c1 = new Comment("String1","String1");
@@ -221,11 +234,13 @@ public class ViewCommentUITest extends ActivityInstrumentationTestCase2<ViewComm
 	*/
 	public void testCommentIsAddedAndShown(){
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
+		PushController pushCtrl = new PushController(getInstrumentation().getTargetContext());
+
 		String qTitle = "Title";
 		String qBody = "Body";
 		String qAuthor = "Author";
 		Question q = new Question(qTitle,qBody,qAuthor);
-		pc.addQuestionToServer(q);
+		pushCtrl.addQuestionToServer(q);
 		pc.getQuestionsInstance().add(q);
 		
 		Intent intent = new Intent();

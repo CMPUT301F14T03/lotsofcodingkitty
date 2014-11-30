@@ -13,11 +13,12 @@ import ca.ualberta.cs.cmput301t03app.adapters.AnswerListAdapter;
 import ca.ualberta.cs.cmput301t03app.controllers.GeoLocationTracker;
 import ca.ualberta.cs.cmput301t03app.controllers.PictureController;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.controllers.PushController;
+import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.views.MainActivity.PushThread;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -79,8 +80,10 @@ public class ViewQuestion extends Activity {
 	protected GeoLocation location;
 	protected String cityName;
 	private PostController pc = new PostController(this);
+	private PushController pushCtrl = new PushController(this);
 	private PictureController pictureController = new PictureController(this);	
 	private ArrayList<Answer> answerList = new ArrayList<Answer>();
+	private static ServerDataManager sdm = new ServerDataManager();
 	public AlertDialog dialog; // for testing
 	AnswerListAdapter ala;
 	Uri imageFileUri;	
@@ -240,15 +243,19 @@ public class ViewQuestion extends Activity {
 
 	public void setQuestionText(String ID) {
 
-		Question q = pc.getQuestion(ID);
+		Question q;
+		if (pc.getQuestionsInstance().contains(ID)) {
+			q = pc.getQuestion(ID);
+		} else {
+			q = pc.getQuestionFromLocalSave(ID);
+		}
 		TextView q_title = (TextView) findViewById(R.id.question_title);
 		TextView upvote_score = (TextView) findViewById(R.id.question_upvote_score);
 		TextView q_body = (TextView) findViewById(R.id.question_text_body);
 		TextView q_author = (TextView) findViewById(R.id.question_author);
 		TextView q_date = (TextView) findViewById(R.id.post_timestamp);
 		TextView q_location = (TextView) findViewById(R.id.question_location1);
-		upvote_score.setText(Integer.toString(pc.getQuestion(question_id)
-				.getRating()));
+		upvote_score.setText(Integer.toString(q.getRating()));
 		q_title.setText(q.getSubject());
 		q_body.setText(q.getBody());
 		q_author.setText("By: " + q.getAuthor());
@@ -678,7 +685,6 @@ public class ViewQuestion extends Activity {
 	 *            View where the click happened
 	 */
 
-	// This on upvotes an answer
 	public void answerUpvote(View v) {
 
 		final Answer answer = (Answer) v.getTag();
@@ -763,7 +769,9 @@ public class ViewQuestion extends Activity {
                 "Select Picture"), GALLERY_ACTIVITY_REQUEST_CODE);
 	}
 	
-	// This method is run after returning back from camera activity:
+	/**
+	 *  This method is run after returning back from camera activity:
+	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		switch (requestCode) {
@@ -794,7 +802,11 @@ public class ViewQuestion extends Activity {
 
 		}
 	}	
-
+	
+	/**
+	 * Thread that is used to push an Answer to the server.
+	 *
+	 */
 	class AnswerQuestion extends Thread {
     	private String qID;
     	private Answer answer;
@@ -807,7 +819,7 @@ public class ViewQuestion extends Activity {
     	
     	@Override
     	public void run() {
-    		pc.answerAQuestionToServer(this.answer, this.qID);
+    		pushCtrl.answerAQuestionToServer(this.answer, this.qID);
     		try {
     			Thread.sleep(500);
     		} catch(InterruptedException e) {
@@ -816,6 +828,10 @@ public class ViewQuestion extends Activity {
     		
     	}
     }
+	
+	/**
+	 * Instructs the Thread to terminate
+	 */
 	private Runnable doFinish = new Runnable() {
 		public void run() {
 			finish();

@@ -1,9 +1,11 @@
 package ca.ualberta.cs.cmput301t03app.views;
 
 import java.util.ArrayList;
+
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.controllers.GeoLocationTracker;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.controllers.PushController;
 import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.GeoLocation;
@@ -40,6 +42,7 @@ import android.widget.Toast;
 public class ViewComment extends Activity
 {
 	private static ServerDataManager sdm = new ServerDataManager();
+	private PushController pushCtrl = new PushController(this);
 	private PostController pc = new PostController(this);
 	private ArrayList<Comment> comments = new ArrayList<Comment>();
 	private ArrayList<String> commentBodyList = new ArrayList<String>();
@@ -50,7 +53,7 @@ public class ViewComment extends Activity
 	private int commentType;
 	private String questionID;
 	private String answerID;
-	ArrayAdapter<String> cla;
+	private ArrayAdapter<String> cla;
 	
 	//UI objects
 	ListView commentListView;
@@ -405,6 +408,11 @@ public class ViewComment extends Activity
 		return (super.onOptionsItemSelected(item));
 	}
 	
+	/**
+	 * Thread that pushes a Comment to the server.  The constructor is overloaded to allow for distinction between a Comment to a Question
+	 * and a Comment to an Answer.
+	 *
+	 */
 	class AddCommentThread extends Thread {
     	private String qID;
     	private String aID;
@@ -426,9 +434,9 @@ public class ViewComment extends Activity
     	@Override
     	public void run() {
     		if (this.aID == null) {
-    			pc.commentAQuestionToServer(this.comment, this.qID);
+    			pushCtrl.commentAQuestionToServer(this.comment, this.qID);
     		} else {
-    			pc.commentAnAnswerToServer(this.comment, this.aID, this.qID);
+    			pushCtrl.commentAnAnswerToServer(this.comment, this.aID, this.qID);
     		}
     		try {
     			Thread.sleep(500);

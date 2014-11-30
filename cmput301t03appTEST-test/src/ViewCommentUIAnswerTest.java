@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import ca.ualberta.cs.cmput301t03app.R;
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.controllers.PushController;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.Question;
@@ -30,6 +31,7 @@ ActivityInstrumentationTestCase2<ViewComment> {
 	PostController pc;
 	Question q;
 	Comment c;
+	PushController pushCtrl;
 
 	public ViewCommentUIAnswerTest() {
 		super(ViewComment.class);
@@ -50,7 +52,7 @@ ActivityInstrumentationTestCase2<ViewComment> {
 		String qBody = "Body";
 		String qAuthor = "Author";
 		q = new Question(qTitle, qBody, qAuthor);
-		pc.addQuestionToServer(q);
+		pushCtrl.addQuestionToServer(q);
 		pc.getQuestionsInstance().add(q);
 		c = new Comment("String", "String");
 
@@ -70,11 +72,11 @@ ActivityInstrumentationTestCase2<ViewComment> {
 		Date date = new Date();
 		Question q1 = new Question(qTitle, qBody, qAuthor);
 
-		pc.addQuestionToServer(q1);
+		pushCtrl.addQuestionToServer(q1);
 		pc.getQuestionsInstance().add(q1);
 
 		Answer a = new Answer("aTitle", "aAuthor", "1");
-		pc.addAnswer(a, q1.getId());
+		pushCtrl.answerAQuestionToServer(a, q1.getId());
 
 		intent.putExtra(ViewQuestion.QUESTION_ID_KEY, q1.getId());
 		intent.putExtra(ViewQuestion.ANSWER_ID_KEY, a.getId());
@@ -168,9 +170,9 @@ ActivityInstrumentationTestCase2<ViewComment> {
 	public void testCommentBodyIsCorretWithTwoComments() {
 		Question q1 = new Question("New Title", "Body", "Author");
 		pc.getQuestionsInstance().add(q1);
-		pc.addQuestionToServer(q1);
+		pushCtrl.addQuestionToServer(q1);
 		Answer a1 = new Answer("twoTitle", "twoAuthor", q1.getId());
-		pc.addAnswer(a1, q1.getId());
+		pc.addAnswer(a1, q.getId());
 		Comment c1 = new Comment("String1", "String1");
 		Comment c2 = new Comment("String2", "String2");
 		pc.addCommentToAnswer(c1, q1.getId(), a1.getId());
