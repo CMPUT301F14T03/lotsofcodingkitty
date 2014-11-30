@@ -272,7 +272,7 @@ public class DataManagerTest extends
 
 		ArrayList<Question> newQuestionArray= new ArrayList<Question>();
 
-		postController.loadServerQuestions();
+		postController.loadMoreServerQuestions();
 		dataManager.deleteQuestion(q1.getId());
 		dataManager.deleteQuestion(q2.getId());
 		assertNotNull("No questions loaded.", newQuestionArray);
