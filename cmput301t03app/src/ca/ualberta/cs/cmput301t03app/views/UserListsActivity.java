@@ -203,11 +203,10 @@ public class UserListsActivity extends Activity
 		Intent i = new Intent(this, ViewQuestion.class);
 		String qId = userQuestionList.get(position).getId();
 		i.putExtra("question_id", qId);
-		if (pc.getQuestion(qId) == null)
-		{
-			pc.addQuestionToServer(userQuestionList.get(position));
+		if (pc.getQuestion(qId) == null) {
+			pc.getQuestionsInstance().add(userQuestionList.get(position));
 		}
-		pc.addReadQuestion(userQuestionList.get(position));
+		//pc.addReadQuestion(userQuestionList.get(position));
 		startActivity(i);
 
 	}

@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
+import ca.ualberta.cs.cmput301t03app.controllers.PushController;
 import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Question;
@@ -82,11 +83,18 @@ public class ServerDataManagerTest extends ActivityInstrumentationTestCase2<Main
 	public void testAddAnswerToQuestion() {
 		sdm = new ServerDataManager();
 		pc = new PostController(getInstrumentation().getContext());
+		PushController pushCtrl = new PushController(getInstrumentation().getTargetContext());
+
 		q = new Question("b", "b", "b");
-		pc.addQuestionToServer(q);
+		pushCtrl.addQuestionToServer(q);
 		pc.getQuestionsInstance().add(q);
 		Answer answer = new Answer("that","that","n/a");
-		pc.addAnswer(answer, q.getId());
+		
+		/*
+		 * I changed this to what I think you want (to answer a question and push that answer to the server).
+		 */
+		pushCtrl.answerAQuestionToServer(answer, q.getId());
+		
 		try {
 			Thread.currentThread().sleep(2000);
 		} catch (InterruptedException e) {

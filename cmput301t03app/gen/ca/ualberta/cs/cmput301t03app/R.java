@@ -37,8 +37,8 @@ public final class R {
         public static final int ic_fav_yes_small=0x7f020008;
         public static final int ic_filter=0x7f020009;
         public static final int ic_launcher=0x7f02000a;
-        public static final int ic_picture_no=0x7f02000b;
-        public static final int ic_picture_placeholder=0x7f02000c;
+        public static final int ic_must_sync=0x7f02000b;
+        public static final int ic_picture_no=0x7f02000c;
         public static final int ic_picture_yes=0x7f02000d;
         public static final int ic_sync=0x7f02000e;
         public static final int ic_upvote=0x7f02000f;
@@ -80,7 +80,6 @@ public final class R {
         public static final int filter_date=0x7f080046;
         public static final int filter_picture=0x7f080047;
         public static final int filter_score=0x7f080045;
-        public static final int home=0x7f08004a;
         public static final int inputUsername=0x7f080006;
         public static final int load_more_button=0x7f08000a;
         public static final int picture_post_author=0x7f080003;
