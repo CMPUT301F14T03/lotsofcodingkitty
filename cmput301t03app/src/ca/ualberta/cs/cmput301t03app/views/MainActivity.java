@@ -87,7 +87,6 @@ public class MainActivity extends Activity {
 	private PostController pc = new PostController(this);
 	private PushController pushCtrl = new PushController(this);
 	private PictureController pictureController = new PictureController(this);
-	//private ArrayList<Question> serverList = new ArrayList<Question>();
 	private ServerDataManager sdm = new ServerDataManager();
 	
 	private ListView lv;
@@ -535,16 +534,12 @@ public class MainActivity extends Activity {
 		switch (requestCode) {
 
 		case CAMERA_ACTIVITY_REQUEST_CODE:
-			// TextView tv = (TextView)findViewById(R.id.status); // THE TEXT
-			// VIEW THAT YOU SEE ON SCREEN
+
 
 			if (resultCode == RESULT_OK) {
 				hasPicture = true;
 				Log.d("click", "Imag efile path: " + imageFileUri.getPath());
-				// tv.setText("Photo completed");
-				// ImageButton ib = (ImageButton) findViewById(R.id.TakeAPhoto);
-				// ib.setImageDrawable(Drawable.createFromPath(imageFileUri.getPath()));
-				// // need to use GETPATH
+
 
 			} else if (resultCode == RESULT_CANCELED) {
 
@@ -672,14 +667,6 @@ public class MainActivity extends Activity {
 
 						final String finalString = searchString;
 						new SearchAsyncTask().execute(finalString);
-//						new Thread() {
-//							public void run() {
-//								pc.executeSearch(finalString);
-//							}
-//						}.start();
-//
-//						pc.sortQuestions(0);
-//						mla.updateAdapter(pc.getQuestionsInstance());
 					}
 
 				}).setNegativeButton("Cancel",
@@ -719,27 +706,6 @@ public class MainActivity extends Activity {
 		}
 	};
 
-/*##################################----CLASSES----#####################################*/
-//	class SearchThread extends Thread {
-//		private String search;
-//
-//		public SearchThread(String s) {
-//			search = s;
-//		}
-//
-//		@Override
-//		public void run() {
-//			pc.getQuestionsInstance().clear();
-//			serverList = pc.getQuestionsFromServer();
-//			// pc.loadServerQuestions(serverList);
-//			runOnUiThread(doUpdateGUIList);
-//			try {
-//				Thread.sleep(500);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		};
-//	}
 
 	/**
 	 * This Thread is used to push a new Question to the server and updates the GUI after adding
@@ -835,15 +801,8 @@ public class MainActivity extends Activity {
 		
 		protected void onPostExecute(Void result) {
 			progress.dismiss();
-			//pc.sortQuestions(0);
 			mla.updateAdapter(initList);
 		}
 	}
 }
 	
-
-//private Runnable doFinish = new Runnable() {
-//public void run() {
-//	finish();
-//}
-//};

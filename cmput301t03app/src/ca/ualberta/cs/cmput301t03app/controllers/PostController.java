@@ -38,9 +38,6 @@ import android.widget.Toast;
 public class PostController {
 
 	private static ArrayList<Question> subQuestions = null;
-	// private static ArrayList<Post> pushPosts = null;
-	// private static HashMap<String, Integer> questionUpvotes = null;
-	// private static HashMap<String, UpvoteTuple> answerUpvotes = null;
 	private static QuestionFilter qf = new QuestionFilter();
 	private static UserPostCollector upc = new UserPostCollector();
 	private static ServerDataManager sdm = new ServerDataManager();
@@ -200,8 +197,6 @@ public class PostController {
 	public Boolean isQuestionInFavByID(String questionID) {
 
 		upc.initFavoriteID(getContext());
-		// Log.d("click", "Size of Fav array: "+
-		// upc.getFavoriteQuestions().size());
 		for (int i = 0; i < upc.getFavoriteQuestions().size(); i++) {
 			if (upc.getFavoriteQuestions().get(i).equals(questionID))
 				return true;
@@ -276,8 +271,6 @@ public class PostController {
 		LocalDataManager local = new LocalDataManager(getContext());
 		ArrayList<Question> questionArray = upc.getQuestionBank();
 
-		// Replace the old question with the updated question at the specified
-		// index
 		for (int i = 0; i < questionArray.size(); i++) {
 			if (q.getId().equals(questionArray.get(i).getId())) {
 				questionArray.set(i, q);
@@ -413,9 +406,6 @@ public class PostController {
 	public void addAnswer(Answer answer, String questionID) {
 
 		getQuestion(questionID).addAnswer(answer);
-		// getPushPostsInstance()
-		// .add(new Post(answer, questionID, Question.class));
-		// pushNewPosts();
 		updateQuestionInBank(questionID);
 	}
 
@@ -432,8 +422,6 @@ public class PostController {
 		for (int i = 0; i < subQuestions.size(); i++) {
 			if (subQuestions.get(i).getId().equals(questionId)) {
 				subQuestions.get(i).addComment(comment);
-				// getPushPostsInstance().add(
-				// new Post(comment, parentId, Question.class));
 			}
 		}
 		// TODO: pushNewPosts();
@@ -459,8 +447,6 @@ public class PostController {
 		for (int i = 0; i < a.size(); i++) {
 			if (a.get(i).getId().equals(answerID)) {
 				a.get(i).addComment(comment);
-				// getPushPostsInstance().add(
-				// new Post(comment, answerID, questionID, Answer.class));
 			}
 		}
 		// TODO: pushNewPosts();
@@ -576,19 +562,18 @@ public class PostController {
 	 * @param list
 	 *            The sub-question list to be parsed.
 	 */
+
 	public void loadMoreServerQuestions() {
 		// Log.d("Debug", "passed size:"+serverList.size());
 		// Log.d("Debug", "serverListIndex is at "+serverListIndex);
+
 		int checkListSize = serverList.size();
 		int increment = 10;
 		if (checkListSize - serverListIndex < 10) {
 			increment = checkListSize - serverListIndex;
-			// Log.d("Debug", "Increment "+increment+" times");
 		}
 		if (checkListSize > 10) {
 			for (int i = serverListIndex; i < (serverListIndex + increment); i++) {
-				// Log.d("Debug", "Increment "+increment+" times");
-				// Log.d("Debug", "i is:"+i);
 				subQuestions.add(serverList.get(i));
 			}
 		}
@@ -635,7 +620,6 @@ public class PostController {
 		serverList = sdm.searchQuestions("", null);
 		serverList = qf.sortByDate(serverList);
 		subQuestions.clear();
-		// Log.d("size", "size:"+serverList.size());
 		for (int i = 0; i < serverList.size(); i++) {
 			if (i > 9) {
 				return subQuestions;
@@ -803,12 +787,6 @@ public class PostController {
 	public ArrayList<Question> executeSearch(String searchString) {
 		ServerDataManager sdm = new ServerDataManager();
 		ArrayList<Question> qList = sdm.searchQuestions(searchString, null);
-		// try {
-		// Thread.currentThread().sleep(250);
-		// } catch (InterruptedException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
 		getQuestionsInstance().clear();
 		getQuestionsInstance().addAll(qList);
 		return qList;
@@ -832,181 +810,4 @@ public class PostController {
 
 		return q.countComments();
 	}
-
-	/*
-	 * These methods are currently not being used and are commented out We may
-	 * want to re-implement them later so they are saved down here. Not revised
-	 * for style or correctness.
-	 */
-
-	/*
-	 * public void setUsername(String name){ this.username = name; }
-	 */
-
-	/*
-	 * public String getUsername(){ return username; }
-	 */
-
-	/*
-	*/
-
-	/*
-	 * // Creates a LocalDataManager and then calls all the saving methods // on
-	 * each of the UPC's arrays. // I don't understand why this exists --- Eric
-	 * //This is for updating the lists in the data manager --Carly public void
-	 * saveUserPosts(){ dm = new LocalDataManager(context); ((LocalDataManager)
-	 * dm).saveFavoritesID(upc.getFavoriteQuestions()); ((LocalDataManager)
-	 * dm).savePostedQuestionsID(upc.getPostedQuestions()); ((LocalDataManager)
-	 * dm).saveReadID(upc.getReadQuestions()); ((LocalDataManager)
-	 * dm).saveToReadID(upc.getToReadQuestions()); }
-	 */
-
-	/*
-	 * // when we load server posts, it should be based on a query // add code
-	 * to reflect this later // Returns false if no questions loaded // Returns
-	 * true otherwise // This makes testing easier public Boolean
-	 * loadServerPosts(){ if (!checkConnectivity()) return false; dm = new
-	 * ServerDataManager(); //subQuestions = dm.load(); // subAnswers =
-	 * dm.loadAnswers() // this answers will be all of the children of the //
-	 * questions we just loaded if (subQuestions == null) return false; return
-	 * true;
-	 * 
-	 * }
-	 */
-
-	/*
-	 * This method is not needed, but if we decide to need to save user posted
-	 * answers then just uncomment.
-	 * 
-	 * public void addUserPost(Answer a, Context context) { LocalDataManager
-	 * local = new LocalDataManager(context); String id = a.getId();
-	 * local.savePostedAnswersID(id); local.saveAnswer(a); }
-	 */
-
-	// This should not be needed anymore. Unless we're saving answers
-	// independent of questions.
-	// public void addFavoriteAnswer(Answer a) {
-	// LocalDataManager local = new LocalDataManager(getContext());
-	// String id = a.getId();
-	// // local.saveFavoriteAnswerID(id);
-	// // local.saveAnswer(a);
-	// }
-
-	/**
-	 * Sort the subQuestions list based on the specified comparison
-	 * 
-	 * @param type
-	 */
-	// private static final int SORT_BY_DATE = 0;
-	// private static final int SORT_BY_UPVOTE = 1;
-	// private static final int SORT_BY_PICTURE = 2;
-	// public void sortQuestions(int type) {
-	// switch (type) {
-	// case SORT_BY_DATE:
-	// sortQuestionsByDate();
-	// break;
-	// case SORT_BY_UPVOTE:
-	// sortQuestionsByUpvote();
-	// break;
-	// case SORT_BY_PICTURE:
-	// sortQuestionsByPic();
-	// break;
-	// }
-	// }
-
-	/**
-	 * Upvote answer method, pushes upvotes to server
-	 * 
-	 * @param answerId
-	 * @param questionId
-	 */
-
-	// if (getAnswerUpvotes().containsKey(answerId)) {
-	// UpvoteTuple tuple = getAnswerUpvotes().get(answerId);
-	// tuple.setUpvoteCount(tuple.getUpvoteCount() + 1);
-	// getAnswerUpvotes().put(answerId, tuple);
-	// } else {
-	// UpvoteTuple tuple = new UpvoteTuple(questionId, 1);
-	// getAnswerUpvotes().put(answerId, tuple);
-	// }
-	// // push all upvotes in answer upvote hashtable
-	//
-	// if (checkConnectivity()) {
-	// pushAnswerUpvotes();
-	// } else {
-	// ldm = new LocalDataManager(getContext());
-	// ldm.savePushAnswerUpvotes(answerUpvotes);
-	// }
-	// }
-
-	// if (getQuestionUpvotes().containsKey(questionId)) {
-	// int count = getQuestionUpvotes().get(questionId);
-	// count++;
-	// getQuestionUpvotes().put(questionId, count);
-	// } else {
-	// getQuestionUpvotes().put(questionId, 1);
-	// }
-	//
-	// // push all upvotes in question upvote hashtable
-	//
-	// if (checkConnectivity()) {
-	// pushQuestionUpvotes();
-	// } else {
-	// ldm = new LocalDataManager(getContext());
-	// ldm.savePushQuestionUpvotes(questionUpvotes);
-
-	// public void pushAnswerUpvotes() {
-	//
-	// for (HashMap.Entry<String, UpvoteTuple> entry : getAnswerUpvotes()
-	// .entrySet()) {
-	// Integer upvoteCount = entry.getValue().getUpvoteCount();
-	// String qId = entry.getValue().getQuestionId();
-	// sdm.pushAnswerUpvote(entry.getKey(), qId, upvoteCount);
-	// }
-	// try {
-	// Thread.currentThread().sleep(250);
-	// } catch (InterruptedException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// answerUpvotes.clear();
-	// ldm.savePushAnswerUpvotes(answerUpvotes);
-	// }
-
-	// public static HashMap<String, Integer> getQuestionUpvotes() {
-	// if (questionUpvotes == null) {
-	// questionUpvotes = new HashMap<String, Integer>();
-	// }
-	// return questionUpvotes;
-	// }
-
-	// public static HashMap<String, UpvoteTuple> getAnswerUpvotes() {
-	// if (answerUpvotes == null) {
-	// answerUpvotes = new HashMap<String, UpvoteTuple>();
-	// }
-	// return answerUpvotes;
-	// }
-
-	// public ArrayList<Post> getPushPostsInstance() {
-	// if (pushPosts == null) {
-	// pushPosts = new ArrayList<Post>();
-	// }
-	// return pushPosts;
-	// }
-
-	// public void pushQuestionUpvotes() {
-	//
-	// for (HashMap.Entry<String, Integer> entry : getQuestionUpvotes()
-	// .entrySet()) {
-	// sdm.pushQuestionUpvote(entry.getKey(), entry.getValue());
-	// }
-	// try {
-	// Thread.currentThread().sleep(250);
-	// } catch (InterruptedException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// questionUpvotes.clear();
-	// ldm.savePushQuestionUpvotes(questionUpvotes);
-	// }
 }

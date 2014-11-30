@@ -34,7 +34,6 @@ public class GeoLocationTracker {
 	private Context context;
 	
 	private boolean gpsEnabled = false;
-//	private boolean networkEnabled = false;
 	
 	public GeoLocationTracker(Context context, GeoLocation location) {
 		this.geoLocation = location;
@@ -59,12 +58,6 @@ public class GeoLocationTracker {
         		
         }
         
-//        try {
-//        	networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-//        } catch (Exception ex){ 
-//        	
-//        }
-
         //don't start listeners if no provider is enabled
         if (!gpsEnabled) {
         	showGPSDisabledAlertBox();
@@ -73,9 +66,6 @@ public class GeoLocationTracker {
         if (gpsEnabled) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 35, 0, locationListenerGps);
         }
-//        if (networkEnabled) {
-//            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListenerNetwork);
-//        }
         
         timer = new Timer();
         timer.schedule(new GetLastLocation(), 10000);
@@ -106,25 +96,7 @@ public class GeoLocationTracker {
         }
     };
 
-//    LocationListener locationListenerNetwork = new LocationListener() {
-//    	
-//        public void onLocationChanged(Location location) {
-//            timer.cancel();
-//            geoLocation.setLatitude(location.getLatitude());
-//            geoLocation.setLongitude(location.getLongitude());
-//            locationManager.removeUpdates(this);
-//            locationManager.removeUpdates(locationListenerGps);
-//        }
-//        public void onProviderDisabled(String provider) {
-//        	
-//        }
-//        public void onProviderEnabled(String provider) {
-//        	
-//        }
-//        public void onStatusChanged(String provider, int status, Bundle extras) {
-//        	
-//        }
-//    };
+
 	
     /**
      * This class gets the last known location of the user if 
@@ -137,42 +109,18 @@ public class GeoLocationTracker {
         		public void run() {
         	
 		        	locationManager.removeUpdates(locationListenerGps);
-		//        	locationManager.removeUpdates(locationListenerNetwork);
 		
 		             Location gps_loc=null;
 		             
 		             if (gpsEnabled) {
 		                 gps_loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		             }
-		             
-		//             if (networkEnabled) {
-		//                 net_loc=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		//             }
-		
-		             //if there are both values use the latest one
-		//             if (gps_loc!=null && net_loc!=null) {
-		//            	 
-		//                 if (gps_loc.getTime()>net_loc.getTime()) {
-		//                 	geoLocation.setLatitude(gps_loc.getLatitude());
-		//             		geoLocation.setLongitude(gps_loc.getLongitude());
-		//                 }
-		//                 else {
-		//                  	geoLocation.setLatitude(net_loc.getLatitude());
-		//              		geoLocation.setLongitude(net_loc.getLongitude());
-		//                 }
-		//                 return;
-		//             }
 		
 		             if (gps_loc!=null) {
 		              	geoLocation.setLatitude(gps_loc.getLatitude());
 		          		geoLocation.setLongitude(gps_loc.getLongitude());
 		                 return;
 		             }
-		//             if (net_loc!=null) {
-		//               	geoLocation.setLatitude(net_loc.getLatitude());
-		//           		geoLocation.setLongitude(net_loc.getLongitude());
-		//                 return;
-		//             }
         		}
         	});
         }
