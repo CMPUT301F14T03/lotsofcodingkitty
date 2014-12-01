@@ -22,6 +22,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * This activity includes the details of the selected question
+ * or answer, the details of the comment, and a view of the
+ * image attached to the question or answer. This activity will 
+ * run when the user clicks on the image button on in the 
+ * ViewQuestion activity
+ *
+ */
 public class ViewPicture extends Activity {
 
 	int commentType;
@@ -67,6 +75,9 @@ public class ViewPicture extends Activity {
 	    // TODO Auto-generated method stub
 	}
 	
+	/**
+	 * This method instantiates the view objects
+	 */
 	public void instantiateViews() {
 		pictureTitle = (TextView) findViewById(R.id.picture_title);
 		timeStamp = (TextView) findViewById(R.id.picture_post_timestamp);

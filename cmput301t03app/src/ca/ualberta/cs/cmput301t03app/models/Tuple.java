@@ -37,11 +37,7 @@ public class Tuple {
 	public String getQuestionID() {
 		return qId;
 	}
-
-//	public void setQuestionID(String qId) {
-//		this.qId = qId;
-//	}
-
+	
 	/**
 	 * Returns the answer ID
 	 * @return A answer ID string
@@ -50,10 +46,6 @@ public class Tuple {
 		return aId;
 	}
 
-//	public void setAnswerID(String aId) {
-//		this.aId = aId;
-//	}
-
 	/**
 	 * Returns the Comment object
 	 * @return A Comment Object
@@ -61,9 +53,4 @@ public class Tuple {
 	public Comment getComment() {
 		return comment;
 	}
-
-//	public void setComment(Comment comment) {
-//		this.comment = comment;
-//	}
-
 }

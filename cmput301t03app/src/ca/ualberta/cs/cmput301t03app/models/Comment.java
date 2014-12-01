@@ -26,9 +26,7 @@ public class Comment {
 	}
 	
 
-	
 	/*--------------------Getters-------------------*/
-	
 	
 	public Date getDate() {
 		return this.date;

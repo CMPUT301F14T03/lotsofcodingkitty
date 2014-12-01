@@ -5,7 +5,11 @@ package ca.ualberta.cs.cmput301t03app.models;
 import java.util.ArrayList;
 
 
-
+/**
+ * This class contains the list of SearchHits 
+ *
+ * @param <T>
+ */
 public class Hits<T> {
 	private int total;
 	private float max_score;

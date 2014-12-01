@@ -15,6 +15,14 @@ public class PictureController {
 		this.context = context;
 	}
 
+	/**
+	 * This method shrinks the size of the image
+	 * 
+	 * @param file
+	 * @param width
+	 * @param height
+	 * @return a bitmap file of the image
+	 */
 	public Bitmap ShrinkBitmap(String file, int width, int height) {
 
 		BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
@@ -39,6 +47,11 @@ public class PictureController {
 		return bitmap;
 	}
 
+	/**
+	 * Gets the path of the specified uri
+	 * @param contentURI
+	 * @return A string representing the file path
+	 */
 	//Method taken from: http://stackoverflow.com/questions/2789276/android-get-real-path-by-uri-getpath
 	//Author: m3n0R http://stackoverflow.com/users/689723/m3n0r
 	public String getRealPathFromURI(Uri contentURI) {

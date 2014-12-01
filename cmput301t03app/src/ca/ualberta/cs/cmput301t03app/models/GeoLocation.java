@@ -10,7 +10,8 @@ import java.util.Locale;
 
 /**
  * This class represents a location defined by it's 
- * latitude and longitude.
+ * latitude and longitude. The city name can be converted from 
+ * location coordinates, or can be set manually by the user.
  *
  */
 public class GeoLocation {
@@ -54,7 +55,9 @@ public class GeoLocation {
 	}
 
 	/**
-	 * Takes in a geolocation and returns a city name if available
+	 * Takes a geolocation object and returns a city name.
+	 * This method requires the use of Geocoder.
+	 * 
 	 * @param Geolocation location
 	 * @param context
 	 * @return  a string with the city name

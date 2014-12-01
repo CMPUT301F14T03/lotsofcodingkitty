@@ -2,7 +2,11 @@
 
 package ca.ualberta.cs.cmput301t03app.models;
 
-
+/**
+ * This class represents the result object of a search.
+ *
+ * @param <T>
+ */
 public class SearchHit<T> {
 	private String _index;
 	private String _type;

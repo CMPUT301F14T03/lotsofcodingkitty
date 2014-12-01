@@ -95,10 +95,9 @@ public class MainActivity extends Activity {
 	private PushAsyncTask mTask;
 
 	/**
-	 * onCreate sets up the listview,sets the click listeners and runs the
+	 * onCreate sets up the listview, sets the click listeners and runs the
 	 * setupAdapter() method
 	 */
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -462,101 +461,9 @@ public class MainActivity extends Activity {
 				.show();
 	}
 /*#######################################----END OF ADDING QUESTION----#############################################*/
+
 	
-
-/*###############################----START OF PICTURE METHODS----###################################*/
-	
-	public void pictureChooserDialog() {
-		AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
-		myAlertDialog.setTitle("Pictures Option");
-		myAlertDialog.setMessage("Select Picture Mode");
-
-		myAlertDialog.setPositiveButton("Gallery",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface arg0, int arg1) {
-						takeFromGallery();
-					}
-				});
-
-		myAlertDialog.setNegativeButton("Camera",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface arg0, int arg1) {
-						takeAPhoto();
-					}
-				});
-		myAlertDialog.show();
-
-	}
-	
-	private void takeAPhoto() {
-		/*
-		 * Main Activity is getting pretty bloated so I'm trying to move this
-		 * out into the Utils package
-		 */
-		String path = Environment.getExternalStorageDirectory()
-				.getAbsolutePath() + "/MyCameraTest";
-		File folder = new File(path);
-
-		if (!folder.exists()) {
-			folder.mkdir();
-		}
-		//Makes the time stamp as part of the filename
-		String imagePathAndFileName = path + File.separator
-				+ String.valueOf(System.currentTimeMillis()) + ".jpg"; 
-
-		File imageFile = new File(imagePathAndFileName);
-		imageFileUri = Uri.fromFile(imageFile);
-
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
-		//Sets the ID for when the Camera app sends it back here.
-		startActivityForResult(intent, CAMERA_ACTIVITY_REQUEST_CODE); 
-		// matches the ID to the request code in onActivityResult
-
-	}
-
-	/**
-	 * Opens the gallery
-	 */
-	private void takeFromGallery() {
-
-		Intent intent = new Intent(Intent.ACTION_PICK,
-				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,
-                "Select Picture"), GALLERY_ACTIVITY_REQUEST_CODE);
-	}
-
-	// This method is run after returning back from camera activity:
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-		switch (requestCode) {
-
-		case CAMERA_ACTIVITY_REQUEST_CODE:
-
-
-			if (resultCode == RESULT_OK) {
-				hasPicture = true;
-				Log.d("click", "Imag efile path: " + imageFileUri.getPath());
-
-
-			} else if (resultCode == RESULT_CANCELED) {
-
-			}
-			break;
-		case GALLERY_ACTIVITY_REQUEST_CODE:
-
-			if (resultCode == RESULT_OK) {
-				hasPicture = true;
-				Uri galleryImageUri = data.getData();
-				File imageFile = new File(pictureController.getRealPathFromURI(galleryImageUri));
-				imageFileUri = Uri.fromFile(imageFile);
-			}
-
-		}
-	}
-/*#################################----END OF PICTURE METHODS----#####################################*/
+/*#####################################----START OF USER INITIATED METHODS----#####################################*/
 	
 	/**
 	 * This method runs when the user chooses to answer a question. It creates
@@ -585,7 +492,6 @@ public class MainActivity extends Activity {
 	 *            called from with bitmapfactory
 	 * 
 	 */
-
 	public void addToToRead(final int position) {
 
 		AlertDialog.Builder editDialog = new AlertDialog.Builder(this);
@@ -610,30 +516,6 @@ public class MainActivity extends Activity {
 
 		AlertDialog alertDialog = editDialog.create();
 		alertDialog.show();
-	}
-
-	public AlertDialog getDialog() { // this is for testing purposes
-
-		return alertDialog1;
-	}
-
-	public MainListAdapter getAdapter() { // this is for testing purposes
-
-		return mla;
-	}
-
-
-	/**
-	 * Sets the adapter for the list view.
-	 */
-	private void setupAdapter() {
-
-		lv = (ListView) findViewById(R.id.activity_main_question_list);
-		mla = new MainListAdapter(this, R.layout.activity_main_question_entity,
-				pc.getQuestionsInstance());
-		// TODO: Show questions in question bank when user first opens app if
-		// not connected
-		lv.setAdapter(mla);
 	}
 	
 	/**
@@ -695,7 +577,123 @@ public class MainActivity extends Activity {
 		Toast.makeText(this, "Loaded more questions", Toast.LENGTH_SHORT)
 				.show();
 	}
+	
+/*#####################################----END OF USER INITIATED METHODS----#####################################*/
+	
+/*###############################----START OF PICTURE METHODS----###################################*/
+	
+	private void pictureChooserDialog() {
+		AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
+		myAlertDialog.setTitle("Pictures Option");
+		myAlertDialog.setMessage("Select Picture Mode");
 
+		myAlertDialog.setPositiveButton("Gallery",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface arg0, int arg1) {
+						takeFromGallery();
+					}
+				});
+
+		myAlertDialog.setNegativeButton("Camera",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface arg0, int arg1) {
+						takeAPhoto();
+					}
+				});
+		myAlertDialog.show();
+
+	}
+	/**
+	 * Captures an image from the camera
+	 */
+	private void takeAPhoto() {
+		/*
+		 * Main Activity is getting pretty bloated so I'm trying to move this
+		 * out into the Utils package
+		 */
+		String path = Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + "/MyCameraTest";
+		File folder = new File(path);
+
+		if (!folder.exists()) {
+			folder.mkdir();
+		}
+		//Makes the time stamp as part of the filename
+		String imagePathAndFileName = path + File.separator
+				+ String.valueOf(System.currentTimeMillis()) + ".jpg"; 
+
+		File imageFile = new File(imagePathAndFileName);
+		imageFileUri = Uri.fromFile(imageFile);
+
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+		//Sets the ID for when the Camera app sends it back here.
+		startActivityForResult(intent, CAMERA_ACTIVITY_REQUEST_CODE); 
+		// matches the ID to the request code in onActivityResult
+
+	}
+
+	/**
+	 * Opens the gallery
+	 */
+	private void takeFromGallery() {
+
+		Intent intent = new Intent(Intent.ACTION_PICK,
+				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,
+                "Select Picture"), GALLERY_ACTIVITY_REQUEST_CODE);
+	}
+
+	// This method is run after returning back from camera activity:
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		switch (requestCode) {
+
+		case CAMERA_ACTIVITY_REQUEST_CODE:
+
+
+			if (resultCode == RESULT_OK) {
+				hasPicture = true;
+				Log.d("click", "Imag efile path: " + imageFileUri.getPath());
+
+
+			} else if (resultCode == RESULT_CANCELED) {
+
+			}
+			break;
+			
+		case GALLERY_ACTIVITY_REQUEST_CODE:
+
+			if (resultCode == RESULT_OK) {
+				hasPicture = true;
+				Uri galleryImageUri = data.getData();
+				File imageFile = new File(pictureController.getRealPathFromURI(galleryImageUri));
+				imageFileUri = Uri.fromFile(imageFile);
+			break;
+			}
+
+		}
+	}
+	
+/*#################################----END OF PICTURE METHODS----#####################################*/
+
+
+/*#################################----PRIVATE METHODS----######################################*/
+	/**
+	 * Sets the adapter for the list view.
+	 */
+	private void setupAdapter() {
+
+		lv = (ListView) findViewById(R.id.activity_main_question_list);
+		mla = new MainListAdapter(this, R.layout.activity_main_question_entity,
+				pc.getQuestionsInstance());
+		// TODO: Show questions in question bank when user first opens app if
+		// not connected
+		lv.setAdapter(mla);
+	}
+	
 	/**
 	 * Private method that tells the GUI to update itself when another Thread is running.
 	 */
@@ -706,7 +704,10 @@ public class MainActivity extends Activity {
 		}
 	};
 
-
+	
+/*##############################################----PRIVATE CLASSES----###################################################*/
+	
+	
 	/**
 	 * This Thread is used to push a new Question to the server and updates the GUI after adding
 	 *
@@ -803,6 +804,23 @@ public class MainActivity extends Activity {
 			progress.dismiss();
 			mla.updateAdapter(initList);
 		}
+	}
+	
+	/*#############################----TESTING METHODS----###############################*/
+	/**
+	 * For jUnit tests
+	 * @return
+	 */
+	public AlertDialog getDialog() { // this is for testing purposes
+		return alertDialog1;
+	}
+
+	/**
+	 * For jUnit tests
+	 * @return
+	 */
+	public MainListAdapter getAdapter() { // this is for testing purposes
+		return mla;
 	}
 }
 	
