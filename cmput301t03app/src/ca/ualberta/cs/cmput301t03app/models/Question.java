@@ -21,7 +21,6 @@ public class Question{
 	private String subject;
 	private String body;
 	private String author;
-	private File picture;
 	private byte[] pictureFilePath;
 	private Date date;
 	private int rating;
