@@ -1,77 +1,157 @@
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
 import android.test.ActivityInstrumentationTestCase2;
+import ca.ualberta.cs.cmput301t03app.controllers.PictureController;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 /**
- * This test tests that adding pictures to an answer or Question
- * is done properly and can be seen and saved properly.
- * <br><br> TODO: This still requires implementation
+ * This test tests that pictures are being added to questions properly
  * @category Unit testing
  */
 
 public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> {
-
+	private PictureController pictureController;
 	public PictureTest() {
 		super(MainActivity.class);
 	}
-
-	/**
-	 * This creates a new file path and creates an image that will be asserted
-	 * to see if the file is less than 64KB. (STILL NEED TO
-	 * BE WRITTEN)
-	 */
-
-	public void testensurePicLessThan64k() {
-		File img1 = new File("filepath");
-
-		double img1Bytes = img1.length();
-
-		double imgKB = (img1Bytes / 1024);
-
-		assertTrue("Image not less than 64 kb.", imgKB < 64);
-
+	
+	protected void setUp() throws Exception{
+		pictureController = new PictureController(getInstrumentation()
+				.getTargetContext());
 	}
 
 	/**
-	 * This tests that if a new picture is created and added to a question, that
-	 * the question is correctly adding the picture file and that the getter
-	 * method is working properly.
+	 * This tests adding a picture to question
+	 * @throws IOException 
 	 */
-	public void testAttachPictureToQuestions() {
+	public void testAddingPicToQuestion() throws IOException {
+		
 
-		// Creates new picture from "picture_path"
-		// Creates a new question object
-		// Adds the picture to the question file
-		// attribute. Asserts that the questions file
-		// attribute is the same as the picture we specified.
-
-		//File picture = new File("picture_path");
-		String filePath = "/mnt/sdcard/QandAPictures/image.jpg";
 		Question question = new Question("Title1", "TextBody1", "author");
-		//question.setPicture(filePath);
-		assertEquals("Picture not attached correctly to question.",
-				question.getPicture(), "/mnt/sdcard/QandAPictures/image.jpg");
+		int WIDTH = 100, HEIGHT = 100;
+		Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
+		Bitmap bmp = Bitmap.createBitmap(WIDTH, HEIGHT, conf); // this creates a MUTABLE bitmap
+		
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		bmp.compress(Bitmap.CompressFormat.JPEG,
+				64, bytes);
+		question.setPicture(bytes.toByteArray());
+		assertNotNull("Picture not attached to question.",
+				question.getPicture());
+		
 
 	}
-
+	
 	/**
-	 * This tests that if a new picture is created and added to an answer, that
-	 * the question is correctly adding the picture file and that the getter
-	 * method is working properly.
+	 * This tests adding a picture to answer
+	 * @throws IOException 
 	 */
+	public void testAddingPicToAnswer() throws IOException {
+		
 
-	public void testAttachPictureToAnswers() {
-
-		File picture = new File("picture_path");
-		Answer answer = new Answer("answer", "a author", "1");
-		String filePath = "/mnt/sdcard/QandAPictures/image.jpg";
-		//answer.setPicture(filePath);
-		assertEquals("Picture not attached correctly to answer.",
-				answer.getPicture(), picture);
+		Question question = new Question("Title1", "TextBody1", "author");
+		int WIDTH = 100, HEIGHT = 100;
+		Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
+		Bitmap bmp = Bitmap.createBitmap(WIDTH, HEIGHT, conf); // this creates a MUTABLE bitmap
+		
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		bmp.compress(Bitmap.CompressFormat.JPEG,
+				64, bytes);
+		question.setPicture(bytes.toByteArray());
+		assertNotNull("Picture not attached to question.",
+				question.getPicture());
+		
 
 	}
+	/**
+	 * This tests that a pictureController is correctly shrinking bitmap
+	 * @throws IOException 
+	 */
+	public void testShrinkingBitmap() throws IOException {
+		String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() + 
+                "/TestingPictures";
+		File dir = new File(file_path);
+		if(!dir.exists())
+			dir.mkdirs();
+		File file = new File(dir, "sketchpad.png");
+		FileOutputStream fOut = new FileOutputStream(file);
+		Question question = new Question("Title1", "TextBody1", "author");
+		int WIDTH = 100, HEIGHT = 100;
+		Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
+		Bitmap bmp = Bitmap.createBitmap(WIDTH, HEIGHT, conf); // this creates a MUTABLE bitmap
+		bmp.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+		fOut.flush();
+		fOut.close();
+		
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		bmp.compress(Bitmap.CompressFormat.JPEG,
+				64, bytes);
+		question.setPicture(bytes.toByteArray());
+		assertNotNull("Picture not attached to question.",
+				question.getPicture());
+		
+		Bitmap bmp1;
+		bmp1 = pictureController.ShrinkBitmap(file_path+"/sketchpad.png", 100, 100);
+		assertNotNull("Picture null", bmp1);
+		
+
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//	/**
+//	 * This creates a new file path and creates an image that will be asserted
+//	 * to see if the file is less than 64KB. (STILL NEED TO
+//	 * BE WRITTEN)
+//	 */
+//
+//	public void testensurePicLessThan64k() {
+//		File img1 = new File("filepath");
+//
+//		double img1Bytes = img1.length();
+//
+//		double imgKB = (img1Bytes / 1024);
+//
+//		assertTrue("Image not less than 64 kb.", imgKB < 64);
+//
+//	}
+
+	
+	
+	
+	
+//	/**
+//	 * This tests that if a new picture is created and added to an answer, that
+//	 * the question is correctly adding the picture file and that the getter
+//	 * method is working properly.
+//	 */
+//
+//	public void testAttachPictureToAnswers() {
+//
+//		File picture = new File("picture_path");
+//		Answer answer = new Answer("answer", "a author", "1");
+//		String filePath = "/mnt/sdcard/QandAPictures/image.jpg";
+//		//answer.setPicture(filePath);
+//		assertEquals("Picture not attached correctly to answer.",
+//				answer.getPicture(), picture);
+//
+//	}
 
 }
 
