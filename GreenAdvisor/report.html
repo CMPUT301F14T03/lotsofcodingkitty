@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head><title>Report</title><style>body {background-color:white}h1   {color:black}p    {color:green}div.top {min-height: 40px;padding-left: 20px;padding-right: 20px;background-color: #fafafa;background-image: -moz-linear-gradient(top, #00CC00, #66FF33);background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#00CC00), to(#66FF33));background-image: -webkit-linear-gradient(top, #00CC00, #66FF33);background-image: -o-linear-gradient(top, #00CC00, #66FF33);background-image: linear-gradient(to bottom, #00CC00, #66FF33);background-repeat: repeat-x;border: 1px solid #d4d4d4;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);text-align:center}table {width:80%;  margin-left:10%;     margin-right:10%; }table, th, td {border: 1px solid black;border-collapse: collapse;}th, td {padding: 5px;text-align: left; font-family: 'Inconsolata', sans-serif;}table#t tr:nth-child(even) {background-color:white;}table#t tr:nth-child(odd) {background-color:#f9f9f9;}table#t th {background-color: #f9f9f9;color: #3399FF;}div.dot {border:2px solid grey;margin: 10px auto;border-radius: 5px;width: 1100px;padding:8px;-moz-box-shadow: 0 0 5px 5px #888;-webkit-box-shadow: 0 0 5px 5px#888;box-shadow: 0 0 5px 5px #888;}.dot{font-size:12pt;font-family:sans-serif;color:#660066;}.dot {background:#CCFF99;/*background-image: -moz-linear-gradient(to right, #FFFFCC, #CCFF99); /* FF3.6 */background-image: -webkit-gradient(linear,left,right,color-stop(0, #FFFFCC),color-stop(1, #CCFF99));}#list { background-color: aqua; }.horizontal { display: inline; border-left: 2px solid; border-color: #ff0000; padding-left: 0.3em; }.first { border-left: none; padding-left: 0; }hr.big {height: 12px;border: 0;box-shadow: inset 0 12px 12px -12px rgba(0,0,0,0.5);}hr.small {border: 0;height: 1px;background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); }pre {font-family:  "Droid Sans Mono",Constantia,"Segoe UI","DejaVu Sans Mono";}h2 {text-align: center;}div.energy{background-color: #fafafa;border:2px solid grey;margin: 10px auto;border-radius: 5px;width: 1100px;padding:8px;-moz-box-shadow: 0 0 5px 5px #888;-webkit-box-shadow: 0 0 5px 5px#888;box-shadow: 0 0 5px 5px #888;background-image: -moz-linear-gradient(top, #99CCFF, #9999FF);background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#99CCFF), to(#9999FF));background-image: -webkit-linear-gradient(top, #99CCFF, #9999FF);background-image: -o-linear-gradient(top, #99CCFF, #9999FF);background-image: linear-gradient(to bottom, #99CCFF, #9999FF);background-repeat: repeat-x;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff99CCFF', endColorstr='#ff9999FF', GradientType=0);border: 1px solid #d4d4d4;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);text-align:center}h2 {    color: white;    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;     text-shadow: 0 0 15px rgba(255, 255, 255, 1);}h3 {    color: black;    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;}</style></head></head><body><div class="top"><h2>Green Advisor<h2></div><br><br><center><h3>System Call Change Data and recommendation</h3></center><table id="t">
+<tr>
+<th>System Call</th>
+<th>Significance rating</th>
+<th>%Change(in no of Calls)</th>
+<th>Description</th>
+</tr>
+<tr>
+<td><a href="#access">access</a></td>
+<td>***</td>
+<td>123.58</td>
+<td>Accessing more number of files than the previous version</td>
+</tr>
+<tr>
+<td><a href="#bind">bind</a></td>
+<td>**</td>
+<td>Absent in prior version</td>
+<td>No information about the call</td>
+</tr>
+<tr>
+<td><a href="#brk">brk</a></td>
+<td>***</td>
+<td>1928.85</td>
+<td>Probably using more variables and/or more memory than the previous version</td>
+</tr>
+<tr>
+<td><a href="#chmod">chmod</a></td>
+<td>***</td>
+<td>520.00</td>
+<td>Probably accessing more files than the previous version</td>
+</tr>
+<tr>
+<td><a href="#clock_gettime">clock_gettime</a></td>
+<td>***</td>
+<td>1952.74</td>
+<td>Probably performing more number of calculations than the previous version</td>
+</tr>
+<tr>
+<td><a href="#clone">clone</a></td>
+<td>***</td>
+<td>105.88</td>
+<td>Using more threads than the previous version</td>
+</tr>
+<tr>
+<td><a href="#close">close</a></td>
+<td>***</td>
+<td>214.86</td>
+<td>Doing more number of file operations than the previous version</td>
+</tr>
+<tr>
+<td><a href="#connect">connect</a></td>
+<td>**</td>
+<td>Absent in prior version</td>
+<td>No information about the call</td>
+</tr>
+<tr>
+<td><a href="#dup">dup</a></td>
+<td>***</td>
+<td>2813.95</td>
+<td>No information about the call</td>
+</tr>
+<tr>
+<td><a href="#epoll_ctl">epoll_ctl</a></td>
+<td>***</td>
+<td>3525.00</td>
+<td>No information about the call</td>
+</tr>
+<tr>
+<td><a href="#epoll_wait">epoll_wait</a></td>
+<td>***</td>
+<td>3938.92</td>
+<td>Doing more number of I/O operations than the previous version</td>
+</tr>
+<tr>
+<td><a href="#fcntl64">fcntl64</a></td>
+<td>***</td>
+<td>53.47</td>
+<td>Doing more number of file operations than the previous version</td>
+</tr>
+<tr>
+<td><a href="#fstat64">fstat64</a></td>
+<td>***</td>
+<td>133.56</td>
+<td>Doing more number of file operations than the previous version</td>
+</tr>
+<tr>
+<td><a href="#futex">futex</a></td>
+<td>***</td>
+<td>446.44</td>
+<td>Probably using more memory/threads than the previous version</td>
+</tr>
+<tr>
+<td><a href="#getpid">getpid</a></td>
+<td>***</td>
+<td>3592.38</td>
+<td>Using more threads than the previous version</td>
+</tr>
+<tr>
+<td><a href="#getpriority">getpriority</a></td>
+<td>**</td>
+<td>1615.38</td>
+<td>Probably doing more CPU intensive operations than the previous version</td>
+</tr>
+<tr>
+<td><a href="#getsockname">getsockname</a></td>
+<td>**</td>
+<td>Absent in prior version</td>
+<td>Doing more  network related operations using Database/Web than the previous version</td>
+</tr>
+<tr>
+<td><a href="#getsockopt">getsockopt</a></td>
+<td>**</td>
+<td>Absent in prior version</td>
+<td>No information about the call</td>
+</tr>
+<tr>
+<td><a href="#gettid">gettid</a></td>
+<td>**</td>
+<td>3574.77</td>
+<td>Using more threads than the previous version</td>
+</tr>
+<tr>
+<td><a href="#gettimeofday">gettimeofday</a></td>
+<td>***</td>
+<td>488.27</td>
+<td>Using more calculations or accessing systime more than the previous version</td>
+</tr>
+<tr>
+<td><a href="#getuid32">getuid32</a></td>
+<td>**</td>
+<td>10125.95</td>
+<td>Probably using more file operations than the previous version</td>
+</tr>
+<tr>
+<td><a href="#ioctl">ioctl</a></td>
+<td>***</td>
+<td>1763.23</td>
+<td>Probably using more file operations than the previous version</td>
+</tr>
+<tr>
+<td><a href="#madvise">madvise</a></td>
+<td>***</td>
+<td>246.13</td>
+<td>Probably using more file/memory operations than the previous version</td>
+</tr>
+<tr>
+<td><a href="#mmap2">mmap2</a></td>
+<td>***</td>
+<td>119.16</td>
+<td>Using more memory operations than the previous version</td>
+</tr>
+<tr>
+<td><a href="#mprotect">mprotect</a></td>
+<td>***</td>
+<td>212.34</td>
+<td>Using more memory operations than the previous version</td>
+</tr>
+<tr>
+<td><a href="#munmap">munmap</a></td>
+<td>***</td>
+<td>130.92</td>
+<td>Using more memory operations than the previous version</td>
+</tr>
+<tr>
+<td><a href="#nanosleep">nanosleep</a></td>
+<td>***</td>
+<td>418.24</td>
+<td>Using more sleep operations/synchronization than the previous version</td>
+</tr>
+<tr>
+<td><a href="#open">open</a></td>
+<td>***</td>
+<td>30.69</td>
+<td>Opening more often than the previous version</td>
+</tr>
+<tr>
+<td><a href="#prctl">prctl</a></td>
+<td>***</td>
+<td>87.50</td>
+<td>No information about the call</td>
+</tr>
+<tr>
+<td><a href="#pread64">pread64</a></td>
+<td>***</td>
+<td>375.57</td>
+<td>No information about the call</td>
+</tr>
+<tr>
+<td><a href="#read">read</a></td>
+<td>**</td>
+<td>96.02</td>
+<td>Performing more reading operation on files than the previous version</td>
+</tr>
+<tr>
+<td><a href="#recvfrom">recvfrom</a></td>
+<td>**</td>
+<td>1581.54</td>
+<td>Doing more  network related operations using Web than the previous version</td>
+</tr>
+<tr>
+<td><a href="#sched_setscheduler">sched_setscheduler</a></td>
+<td>**</td>
+<td>2223.00</td>
+<td>No information about the call</td>
+</tr>
+<tr>
+<td><a href="#sched_yield">sched_yield</a></td>
+<td>***</td>
+<td>200.00</td>
+<td>No information about the call</td>
+</tr>
+<tr>
+<td><a href="#sendto">sendto</a></td>
+<td>**</td>
+<td>Absent in prior version</td>
+<td>Doing more  network related operations using Database/Web than the previous version</td>
+</tr>
+<tr>
+<td><a href="#set_thread_area">set_thread_area</a></td>
+<td>***</td>
+<td>87.50</td>
+<td>No information about the call</td>
+</tr>
+<tr>
+<td><a href="#setpriority">setpriority</a></td>
+<td>***</td>
+<td>-54.55</td>
+<td>No information about the call</td>
+</tr>
+<tr>
+<td><a href="#setsockopt">setsockopt</a></td>
+<td>**</td>
+<td>-93.83</td>
+<td>Doing fewer network related operations using 		Database/Web than the previous version</td>
+</tr>
+<tr>
+<td><a href="#sigprocmask">sigprocmask</a></td>
+<td>***</td>
+<td>150.39</td>
+<td>Possibly using more threads than the previous version</td>
+</tr>
+<tr>
+<td><a href="#socket">socket</a></td>
+<td>**</td>
+<td>Absent in prior version</td>
+<td>Doing more  network related operations using Database/Web than the previous version</td>
+</tr>
+<tr>
+<td><a href="#stat64">stat64</a></td>
+<td>**</td>
+<td>52.15</td>
+<td>Probably using more file or I/O operations than the previous version</td>
+</tr>
+<tr>
+<td><a href="#write">write</a></td>
+<td>***</td>
+<td>1960.95</td>
+<td>Writing more often than the previous version</td>
+</tr>
+<tr>
+<td><a href="#writev">writev</a></td>
+<td>***</td>
+<td>1319.07</td>
+<td>Writing more often than the previous version</td>
+</tr>
+</table><div style="background-color:white; color:black; margin:20px; padding:20px;font-family:sans-serif"> <h4>Significance of * rating:</h4>*&nbsp;&nbsp;&nbsp;&nbsp;Significantly Different (0.05 &le; p-value < 0.10)<br>**&nbsp;&nbsp;&nbsp;Moderately Significantly Different (0.01 < p-value &le; 0.05)<br>***&nbsp;Highly Significantly Different (p-value &le; 0.01)<br><br>&nbsp;&nbsp;%<div style="float:left;"><sup>+</sup>&nbsp;&nbsp;&nbsp; Calculated as:&nbsp;&nbsp;</div><div style="float:left"><div style="border-bottom:1px solid;font-size:small;text-align:center;">(Number of invocations in Current Commit - Number of invocations in Previous Commit)&nbsp;&nbsp;</div><div style="font-size:small;text-align:center;">Invocations in Previous commit</div></div></div><br><br><div class="energy"><h3>Energy consumption Prediction:</h3><h3>Your application's energy consumption seems to <font color="white"><b>have changed significantly</b></font> since the last recorded commit<br></h3></div><br><br> <div class="dot"><pre><center><h3>Code Change Associated with System calls between Commits</h3>602f4b3c24f696adaa07fa946b7c7874e1e036d0<font color="black"><b> and </b></font>3491646266cb0ebf71c67529ec8403ba9a34dcbf :</center><br><br>Change inducing lines are highlighted<br><hr class="big"><br><b><a name="getsockname"><h3>getsockname:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="connect"><h3>connect:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="sendto"><h3>sendto:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="close"><h3>close:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="brk"><h3>brk:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="getuid32"><h3>getuid32:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="open"><h3>open:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="setsockopt"><h3>setsockopt:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="ioctl"><h3>ioctl:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="writev"><h3>writev:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="write"><h3>write:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="socket"><h3>socket:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="read"><h3>read:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="futex"><h3>futex:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="set_thread_area"><h3>set_thread_area:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="clone"><h3>clone:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="mprotect"><h3>mprotect:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="pread64"><h3>pread64:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="fstat64"><h3>fstat64:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="prctl"><h3>prctl:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="epoll_wait"><h3>epoll_wait:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="nanosleep"><h3>nanosleep:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="recvfrom"><h3>recvfrom:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="getpid"><h3>getpid:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="madvise"><h3>madvise:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="getsockopt"><h3>getsockopt:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="access"><h3>access:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="clock_gettime"><h3>clock_gettime:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="getpriority"><h3>getpriority:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="gettid"><h3>gettid:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="setpriority"><h3>setpriority:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="gettimeofday"><h3>gettimeofday:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="sched_setscheduler"><h3>sched_setscheduler:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="epoll_ctl"><h3>epoll_ctl:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="dup"><h3>dup:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="sched_yield"><h3>sched_yield:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="stat64"><h3>stat64:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="sigprocmask"><h3>sigprocmask:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="mmap2"><h3>mmap2:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="fcntl64"><h3>fcntl64:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="chmod"><h3>chmod:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="bind"><h3>bind:</h3></a></b><br>Unable to locate the associated code<br><hr class="big"><br><b><a name="munmap"><h3>munmap:</h3></a></b><br>Unable to locate the associated code<br></pre></div></body></html>
