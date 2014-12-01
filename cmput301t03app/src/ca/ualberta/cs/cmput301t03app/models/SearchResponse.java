@@ -4,7 +4,12 @@
 package ca.ualberta.cs.cmput301t03app.models;
 
 
-
+/**
+ * This class gets the outcome of a search and states whether the
+ * search was a success or fail. It also, states whether the search
+ * timed out.
+ * @param <T>
+ */
 public class SearchResponse<T> {
 
 	private int took;
@@ -48,7 +53,9 @@ public class SearchResponse<T> {
 }
 
 	
-
+/**
+ * This class indicates whether a search was a success or fail.
+ */
 class Shard {
 	private int total;
 	private int successful;

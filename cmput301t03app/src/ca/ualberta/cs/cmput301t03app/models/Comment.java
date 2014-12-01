@@ -25,15 +25,7 @@ public class Comment {
 		this.author = author;
 	}
 	
-	public void setGeoLocation(GeoLocation location) {
-		this.location = location;
-	}
-	
 	/*--------------------Getters-------------------*/
-	
-	public GeoLocation getGeoLocation() {
-		return location;
-	}
 	
 	public Date getDate() {
 		return this.date;

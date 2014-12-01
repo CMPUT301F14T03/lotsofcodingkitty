@@ -88,21 +88,26 @@ public class Question{
 		this.rating++; //Rating should be incremented by 1 per upvote press; we do not need to tell the system what score is.
 	}
 	
-	public void setPicture(byte[] bs){
-		//public void setPicture(File picture){
-		//this.picture = picture;
-		this.pictureFilePath = bs;
-	}
-	
 	/**
 	 * Used for replacing answer list with newly upvoted answers
 	 * @param answers
-	 */
-	
+	 */	
 	public void setAnswers(ArrayList<Answer> answers) {
 		this.answers = answers;
 	}
 	
+	/**
+	 * Adds an image to the question object,
+	 * @param pictureFilePath a byte array of an image file
+	 */
+	public void setPicture(byte[] bs){
+		this.pictureFilePath = bs;
+	}
+	
+	/**
+	 * Adds geolocation to the answer object
+	 * @param location A GeoLocation object
+	 */
 	public void setGeoLocation(GeoLocation location) {
 		this.location = location;
 	}
