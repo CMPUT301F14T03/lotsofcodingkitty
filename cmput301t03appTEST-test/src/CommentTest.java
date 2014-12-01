@@ -10,6 +10,7 @@ import ca.ualberta.cs.cmput301t03app.models.Question;
 import ca.ualberta.cs.cmput301t03app.models.Tuple;
 import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 
 public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	
@@ -47,37 +48,36 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		//posts = pc.loadServerPosts();
 		//assertEquals("Retrieved server questions not same and saved questions.", posts, question);
 	
+	// Tests if the questions, answers and comments you write offline are saved
+	// properly to the local device for pushing to the server once the user is able
+	// to connect a network
 	public void testWritePostsOffline() {
 		/* Write comments, questions and answers */
 		/* Check connection */
 			
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		PushController pushCtrl = new PushController(getInstrumentation().getTargetContext());
-
+		LocalDataManager ldm = new LocalDataManager(getInstrumentation().getTargetContext());
+		ldm.deletePushQuestionsIDList();
+		ldm.deletePushTuplelist();
 		Question q1 = new Question("Question title", "Question body", "author");
 		
-		/*
-		 * This method requires connectivity.  Contradicts what your test method is trying to do.  Please double check.
-		 */
 		pc.addPushQuestion(q1);
-		LocalDataManager ldm = new LocalDataManager(getInstrumentation().getTargetContext());
+		
 		ArrayList<String> qIDList = ldm.loadPosts();
-		assertTrue("The question ID is not saved", qIDList.contains(q1.getId()));
+		assertTrue("The question ID is not saved properly", qIDList.contains(q1.getId()));
 		//pushCtrl.addQuestionToServer(q1);
 		
 		pc.getQuestionsInstance().add(q1);
 		Answer a1 = new Answer("My answer", "author","1");
 		
-		/*
-		 * Please check the post controller for the method you want.  I'm not sure what you're trying to test here, as there is no assertion.  I'm assuming you want
-		 * addPushAnsAndComm(String qID, String aID, Comment comment), in which case you need to make the comment first and then add everything all at once.  This
-		 * comment applies the the 3 lines below (one is commented out).
-		 */
 		
 		Comment c1 = new Comment("My comment", "author");
-//		a1.addComment(c1);
 		pc.addPushAnsAndComm(q1.getId(), a1.getId(), c1);
 		ArrayList<Tuple> tupleList = pc.getTupleForPush();
+		assertEquals("The answer ID is not saved properly", tupleList.get(0).getAnswerID(), a1.getId());
+		String body = tupleList.get(0).getComment().getCommentBody();
+		assertEquals("The comment is not saved properly", body, c1.getCommentBody());
 		
 		ServerDataManager sdm = new ServerDataManager();
 		sdm.deleteQuestion(q1.getId());
@@ -87,43 +87,41 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		
 		//while(!pc.checkConnectivity()) {
 	}
-		
-		/* save to server */
-		
-		//pc.pushNewPosts();
-		
-		/* Assert that after pushing, pulling(loading user posts) returns a result */
-		
-		//assertFalse("No posts pushed to server.", pc.loadServerPosts().equals(null));
 
+	// Tests to ensure that a question, answer or comment made is being
+	// pushed to the server properly.  Done by pushing the question, and then
+	// retrieving the same question from the server to ensure that the question
+	// is actually being pushed up.
 	public void testWritePostsOnline() {
-		
+	
 		/* Write comments, questions and answers */
 		/* Check connection */
-		
+		ServerDataManager sdm = new ServerDataManager();
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		PushController pushCtrl = new PushController(getInstrumentation().getTargetContext());
 
 		Question q1 = new Question("Question title", "Question body", "author");
 		pushCtrl.addQuestionToServer(q1);
-		pc.getQuestionsInstance().add(q1);
-		Answer a1 = new Answer("My answer", "author","2");
+		Question q2 = sdm.getQuestion(q1.getId());
+		Log.d("Debug", "Question ID into server is: "+ q1.getId());
+		assertEquals("The questions should be the same", q2.getId(), q1.getId());
 		
-		/*
-		 * Please check the push controller for the method you want.  Again, I'm assuming off the test suite name, as I see no assertion.
-		 * I think the method you are looking for is answerAQuestionToServer(Answer answer, String qID).  I commented out the line
-		 */
-		//pc.addAnswer(a1, q1.getId());
+		Answer answer = new Answer("Answer title", "Answer body", "author");
+		Comment comment = new Comment("Comment body", "author");
 		
-		/*
-		 * I don't think this is the method you want -- this will simply add the comment to the answer object.  If you're trying to push it to the server,
-		 * you'll want to use the push controller method: commentAnAnswerToServer(Comment comment, String aID, String qID)
-		 * This will add the comment to the corresponding answer (and checks for the corresponding question the answer belongs to).
-		 */
-		Comment c1 = new Comment("My comment", "author");
-		a1.addComment(c1);
+		q1.addAnswer(answer);
+		q1.addComment(comment);
 		
-		ServerDataManager sdm = new ServerDataManager();
+		sdm.updateQuestion(q1);
+		q2 = sdm.getQuestion(q1.getId());
+		
+		Answer a2 = q2.getAnswers().get(0);
+		Comment c2 = q2.getComments().get(0);
+		
+		assertEquals("The questions should be the same", q2.getId(), q1.getId());
+		assertEquals("The answers should be the same", a2.getId(), answer.getId());
+		assertEquals("The comment should be the same", c2.getCommentBody(), comment.getCommentBody());
+		
 		sdm.deleteQuestion(q1.getId());
 		
 		//if (pc.checkConnectivity()) {
