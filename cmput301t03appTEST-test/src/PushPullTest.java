@@ -12,10 +12,10 @@ import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
-public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class PushPullTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	
 	
-	public CommentTest() {
+	public PushPullTest() {
 		super(MainActivity.class);
 		// TODO Auto-generated constructor stub
 	}
@@ -23,24 +23,23 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 	// Test creates a new PostController object, infinitely loops until
 	// connectivity is determined, then attempts to pull a posts object
 	// from the server.
-	
-	public void testPullFromServer() {
-		}
+
 		//Object posts = new Object();
 		//posts = pc.loadServerPosts();
 		//assertNotSame("No posts loaded from server.", posts, null);
 	
-	// Test creates a new post object, waits for server connectivity,
-	// calls the postcontroller to save the object to the server
-	// and then loads the pushed object. Asserts that loaded object
-	// and posted object are the same.
+	// Test creates a new post object, then pushes object to server.
+	// Asserts that the push object exists on the server by pulling
+	// it from the server and ensuring it's the same object
 	
-	public void testPushToServer() {
+	public void testPushAndPull() {
 		PostController pc = new PostController(getInstrumentation().getTargetContext());
 		Question question = new Question("Question title", "Question body", "author");
+		ServerDataManager sdm = new ServerDataManager();
 		PushController pushCtrl = new PushController(getInstrumentation().getTargetContext());
 		pushCtrl.addQuestionToServer(question);
-		ServerDataManager sdm = new ServerDataManager();
+		Question q2 = sdm.getQuestion(question.getId());
+		assertEquals("The question should be the same", q2.getId(), question.getId());
 		sdm.deleteQuestion(question.getId());
 		//while (!pc.checkConnectivity()) {
 		}
