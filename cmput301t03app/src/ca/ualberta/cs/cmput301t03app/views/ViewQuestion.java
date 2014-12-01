@@ -136,7 +136,7 @@ public class ViewQuestion extends Activity {
 	}
 
 	/**
-	 * Listeners for the given buttons in the activity
+	 * Creates listeners for the given buttons in the activity
 	 */
 
 	public void setListeners() {
@@ -212,6 +212,11 @@ public class ViewQuestion extends Activity {
 		/* Change icon if has Picture for answers */
 	}
 
+	/**
+	 * Gets the list of answers from the question object and
+	 * replaces the answer list displayed.
+	 * @param question_id A string representing a question id
+	 */
 	public void populateThisQuestionsAnswers(String question_id) {
 
 		answerList.clear();
@@ -220,7 +225,12 @@ public class ViewQuestion extends Activity {
 	}
 
 
-
+	/**
+	 * Returns the view at the specified position.
+	 * @param pos
+	 * @param listView
+	 * @return
+	 */
 	public View getViewByPosition(int pos, ListView listView) {
 		final int firstListItemPosition = listView.getFirstVisiblePosition();
 		final int lastListItemPosition = firstListItemPosition
@@ -275,7 +285,8 @@ public class ViewQuestion extends Activity {
 	}
 
 	/**
-	 * Fills the favorite icon
+	 * Fills the favorite icon if the question is in the
+	 * user favorite's list
 	 */
 	public void setFavoriteIcon() {
 
@@ -285,7 +296,7 @@ public class ViewQuestion extends Activity {
 	}
 
 	/**
-	 * Instrantiates the views
+	 * Instantiates the view objects.
 	 */
 
 	public void instantiateViews() {
@@ -303,13 +314,11 @@ public class ViewQuestion extends Activity {
 		questionPictureButton = (ImageView) findViewById(R.id.question_picture_button);
 	}
 
-	/**
-	 * onClick for commenting on a question
-	 * 
-	 * @param v
-	 *            View where the click happened
-	 */
 
+	/**
+	 * Starts the ViewComment activity for commenting a question
+	 * @param v View where the click happened
+	 */
 	public void toCommentActivityQuestion(View v) {
 
 		/* This method takes user to ViewComment activity for questions */
@@ -320,9 +329,9 @@ public class ViewQuestion extends Activity {
 	}
 
 	/**
-	 * onClick for commenting on an answer
+	 * Starts the ViewComment activity for commenting an answer
 	 * 
-	 * @param v
+	 * @param v View where the click happened
 	 */
 
 	public void toCommentActivityAnswer(View v) {
@@ -337,7 +346,7 @@ public class ViewQuestion extends Activity {
 	}
 
 	/**
-	 * onClick for going to Picture activity for question
+	 * Starts the ViewPicture activity for a question
 	 * 
 	 * @param v
 	 *            View where the click happened
@@ -357,7 +366,7 @@ public class ViewQuestion extends Activity {
 	}
 
 	/**
-	 * onClick for going to Picture activity for question
+	 * Starts the ViewPicture activity for an answer
 	 * 
 	 * @param v
 	 *            View where the click happened
@@ -604,7 +613,8 @@ public class ViewQuestion extends Activity {
 	}
 
 	/**
-	 * onClick method for upvoting the question http://stackoverflow.com/questions/2173936/how-to-set-background-color-of-a-view
+	 * onClick method for upvoting the question 
+	 * http://stackoverflow.com/questions/2173936/how-to-set-background-color-of-a-view
 	 */
 
 	public void increment_upvote() {
@@ -680,14 +690,8 @@ public class ViewQuestion extends Activity {
 		Thread upvoteAnswer = new Upvote(question_id);
 		upvoteAnswer.start();
 	}
-
-	// Used for testing
-	public AlertDialog getDialog() {
-
-		return this.dialog;
-	}
 	
-	public void pictureChooserDialog() {
+	private void pictureChooserDialog() {
 		AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
 		myAlertDialog.setTitle("Pictures Option");
 		myAlertDialog.setMessage("Select Picture Mode");
@@ -709,7 +713,7 @@ public class ViewQuestion extends Activity {
 
 	}
 
-	public void takeAPhoto() {
+	private void takeAPhoto() {
 		/*
 		 * Main Activity is getting pretty bloated so I'm trying to move this
 		 * out into the Utils package
@@ -737,7 +741,7 @@ public class ViewQuestion extends Activity {
 
 	}
 
-	public void takeFromGallery() {
+	private void takeFromGallery() {
 
 		Intent intent = new Intent(Intent.ACTION_PICK,
 				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -763,6 +767,8 @@ public class ViewQuestion extends Activity {
 			} else if (resultCode == RESULT_CANCELED) {
 
 			}
+			break;
+			
 		case GALLERY_ACTIVITY_REQUEST_CODE:
 
 			if (resultCode == RESULT_OK) {
@@ -771,7 +777,7 @@ public class ViewQuestion extends Activity {
 				File imageFile = new File(pictureController.getRealPathFromURI(galleryImageUri));
 				imageFileUri = Uri.fromFile(imageFile);
 			}
-
+			break;
 		}
 	}	
 	
@@ -794,6 +800,10 @@ public class ViewQuestion extends Activity {
     	}
     }
 	
+	/**
+	 * Thread is used to push upvotes to questions
+	 *
+	 */
 	class Upvote extends Thread {
 		private String qID;
 		
@@ -820,6 +830,9 @@ public class ViewQuestion extends Activity {
 		}
 	};
 	
-	
+	// Used for testing
+	public AlertDialog getDialog() {
 
+		return this.dialog;
+	}
 }

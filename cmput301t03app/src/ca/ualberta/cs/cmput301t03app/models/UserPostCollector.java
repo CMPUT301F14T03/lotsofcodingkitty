@@ -21,9 +21,6 @@ public class UserPostCollector {
 	private ArrayList<String> pushQuestions;
 	private ArrayList<Tuple> pushAnswersAndComments;
 	private LocalDataManager local;
-//	private ArrayList<String> postedAnswers;
-
-//	private Context context;
 
 	/** Constructs a {@link #userPostCollector() userPostCollector}.
 	 * @param subject			The subject that the question is asking about.
@@ -148,9 +145,10 @@ public class UserPostCollector {
 	public ArrayList<String> getPostedQuestions() {
 		return this.postedQuestions;
 	}
+	
 
+	/*########################----ADDING METHODS----###########################*/
 
-	/*########################----ADDING METHODS----###########################/
 	/**
 	 * Adds a question object to the question bank
 	 * @param A question object to be added
@@ -195,6 +193,9 @@ public class UserPostCollector {
 		postedQuestions.add(qId);
 	}
 
+	
+	/*##############################----CLEARING----#############################*/
+	
 	//This method is for testing since each test needs to start with a fresh list
 	public void clearLists() {
 		if (favoriteQuestions != null){
@@ -220,27 +221,3 @@ public class UserPostCollector {
 		
 	}
 }
-
-// This is a constructor that is used when the UPC is created using the LocalDataManagers loading methods
-// Unsure about this constructor.....
-
-//public UserPostCollector(ArrayList<String> favoriteQuestions, ArrayList<String> readQuestions,
-//		ArrayList<String> toReadQuestions, ArrayList<String> postedQuestions, ArrayList<String> postedAnswers) {
-//	this.favoriteQuestions = favoriteQuestions;
-//	this.readQuestions = readQuestions;
-//	this.toReadQuestions = toReadQuestions;
-//	this.postedQuestions = postedQuestions;
-//	this.postedAnswers = postedAnswers;
-//}
-
-/**
- * Adds a string which represents an ID to the list
- * @param qId A question ID
- */
-//public void addUserAnswer(String qId) {
-//	postedAnswers.add(qId);
-//}
-
-//public ArrayList<String> getPostedAnswers() {
-//return this.postedAnswers;
-//}

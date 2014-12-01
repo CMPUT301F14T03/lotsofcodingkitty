@@ -46,11 +46,6 @@ public class Answer {
 		this.comments.add(comment);
 	}
 	
-
-	public void setPicture(byte[] pictureFilePath) {
-		this.pictureFilePath = pictureFilePath;
-	}
-	
 	/**
 	 * Increments the score of the answer.
 	 */
@@ -59,6 +54,18 @@ public class Answer {
 	
 	}
 	
+	/**
+	 * Adds an image to the answer object,
+	 * @param pictureFilePath a byte array of an image file
+	 */
+	public void setPicture(byte[] pictureFilePath) {
+		this.pictureFilePath = pictureFilePath;
+	}
+	
+	/**
+	 * Adds geolocation to the answer object
+	 * @param location A GeoLocation object
+	 */
 	public void setGeoLocation(GeoLocation location) {
 		this.location = location;
 	}
