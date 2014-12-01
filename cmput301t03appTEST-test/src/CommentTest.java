@@ -1,9 +1,13 @@
+import java.util.ArrayList;
+
 import ca.ualberta.cs.cmput301t03app.controllers.PostController;
 import ca.ualberta.cs.cmput301t03app.controllers.PushController;
+import ca.ualberta.cs.cmput301t03app.datamanagers.LocalDataManager;
 import ca.ualberta.cs.cmput301t03app.datamanagers.ServerDataManager;
 import ca.ualberta.cs.cmput301t03app.models.Answer;
 import ca.ualberta.cs.cmput301t03app.models.Comment;
 import ca.ualberta.cs.cmput301t03app.models.Question;
+import ca.ualberta.cs.cmput301t03app.models.Tuple;
 import ca.ualberta.cs.cmput301t03app.views.MainActivity;
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -55,7 +59,11 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		/*
 		 * This method requires connectivity.  Contradicts what your test method is trying to do.  Please double check.
 		 */
-		pushCtrl.addQuestionToServer(q1);
+		pc.addPushQuestion(q1);
+		LocalDataManager ldm = new LocalDataManager(getInstrumentation().getTargetContext());
+		ArrayList<String> qIDList = ldm.loadPosts();
+		assertTrue("The question ID is not saved", qIDList.contains(q1.getId()));
+		//pushCtrl.addQuestionToServer(q1);
 		
 		pc.getQuestionsInstance().add(q1);
 		Answer a1 = new Answer("My answer", "author","1");
@@ -65,9 +73,11 @@ public class CommentTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		 * addPushAnsAndComm(String qID, String aID, Comment comment), in which case you need to make the comment first and then add everything all at once.  This
 		 * comment applies the the 3 lines below (one is commented out).
 		 */
-		//pc.addAnswer(a1, q1.getId());	
+		
 		Comment c1 = new Comment("My comment", "author");
-		a1.addComment(c1);
+//		a1.addComment(c1);
+		pc.addPushAnsAndComm(q1.getId(), a1.getId(), c1);
+		ArrayList<Tuple> tupleList = pc.getTupleForPush();
 		
 		ServerDataManager sdm = new ServerDataManager();
 		sdm.deleteQuestion(q1.getId());

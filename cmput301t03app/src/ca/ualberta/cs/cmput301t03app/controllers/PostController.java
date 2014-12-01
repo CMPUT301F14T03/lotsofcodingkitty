@@ -129,10 +129,6 @@ public class PostController {
 		getAnswer(answerId, questionId).upRating();
 	}
 
-	public void loadToBePushed() {
-		ldm = new LocalDataManager(getContext());
-	}
-
 	/*
 	 * ############################----START OF GEOLOCATION
 	 * METHODS----##################################
@@ -566,7 +562,11 @@ public class PostController {
 	 * @param list
 	 *            The sub-question list to be parsed.
 	 */
-	public void loadServerQuestions() {
+
+	public void loadMoreServerQuestions() {
+		// Log.d("Debug", "passed size:"+serverList.size());
+		// Log.d("Debug", "serverListIndex is at "+serverListIndex);
+
 		int checkListSize = serverList.size();
 		int increment = 10;
 		if (checkListSize - serverListIndex < 10) {

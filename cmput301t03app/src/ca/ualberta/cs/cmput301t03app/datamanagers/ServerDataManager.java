@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpDelete;	
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -87,7 +87,6 @@ public class ServerDataManager implements IDataManager{
 			}
 			updateQuestion(q);
 		} catch (Exception e) {
-			
 		}
 	}
 

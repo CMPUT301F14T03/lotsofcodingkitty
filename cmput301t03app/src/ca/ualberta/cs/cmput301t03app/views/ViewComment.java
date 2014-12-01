@@ -110,7 +110,7 @@ public class ViewComment extends Activity
 	}
 
 	/**
-	 * sets the views to correct fields
+	 * This method instantiates all the view objects.
 	 */
 	public void instantiateViews()
 	{
@@ -126,6 +126,9 @@ public class ViewComment extends Activity
 		location = (TextView) findViewById(R.id.comment_location);
 	}
 
+	/**
+	 * Creates the listener for the comment button.
+	 */
 	public void setListeners()
 	{
 
@@ -370,14 +373,6 @@ public class ViewComment extends Activity
 				.show();
 	}
 
-	//Used for testing.
-	public AlertDialog getDialog()
-	{
-
-		return dialog;
-	}
-	
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -447,4 +442,10 @@ public class ViewComment extends Activity
     	}
     }
 	
+	//Used for testing.
+	public AlertDialog getDialog()
+	{
+
+		return dialog;
+	}
 }

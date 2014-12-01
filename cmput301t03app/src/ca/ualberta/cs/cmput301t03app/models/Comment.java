@@ -12,7 +12,7 @@ public class Comment {
 	private Date date;
 	private String comment;
 	private String author;
-	private GeoLocation location;
+
 	
 	/**Constructs a {@link #Comment() Comment}
 	 * @param comment		 The comment or reply text
@@ -25,15 +25,8 @@ public class Comment {
 		this.author = author;
 	}
 	
-	public void setGeoLocation(GeoLocation location) {
-		this.location = location;
-	}
-	
+
 	/*--------------------Getters-------------------*/
-	
-	public GeoLocation getGeoLocation() {
-		return location;
-	}
 	
 	public Date getDate() {
 		return this.date;

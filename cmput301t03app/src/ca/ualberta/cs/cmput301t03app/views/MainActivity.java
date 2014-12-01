@@ -95,10 +95,9 @@ public class MainActivity extends Activity {
 	private PushAsyncTask mTask;
 
 	/**
-	 * onCreate sets up the listview,sets the click listeners and runs the
+	 * onCreate sets up the listview, sets the click listeners and runs the
 	 * setupAdapter() method
 	 */
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -462,11 +461,128 @@ public class MainActivity extends Activity {
 				.show();
 	}
 /*#######################################----END OF ADDING QUESTION----#############################################*/
-	
 
+	
+/*#####################################----START OF USER INITIATED METHODS----#####################################*/
+	
+	/**
+	 * This method runs when the user chooses to answer a question. It creates
+	 * an intent and adds the question ID to the intent then it starts the
+	 * ViewQuestion activity.
+	 * 
+	 * @param position
+	 *            The position of the question clicked
+	 */
+	public void toQuestionActivity(int position) {
+
+		Intent i = new Intent(this, ViewQuestion.class);
+		i.putExtra("question_id", pc.getQuestionsInstance().get(position)
+				.getId());
+		pc.addReadQuestion(pc.getQuestionsInstance().get(position));
+		startActivity(i);
+	}
+
+	/**
+	 * This function is called when the user long clicks on a question in the
+	 * list view. It allows the user to save the question in the ToRead list so
+	 * that they can read the question later.
+	 * 
+	 * @param position
+	 *            A final int from the question position the long click was
+	 *            called from with bitmapfactory
+	 * 
+	 */
+	public void addToToRead(final int position) {
+
+		AlertDialog.Builder editDialog = new AlertDialog.Builder(this);
+		editDialog.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int id) {
+
+						dialog.cancel();
+					}
+				}).setPositiveButton("Add to To-Read",
+				new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int id) {
+
+						pc.addToRead(pc.getQuestionsInstance().get(position));
+						Toast.makeText(MainActivity.this,
+								"Added to To-Read List", Toast.LENGTH_SHORT)
+								.show();
+					}
+				});
+
+		AlertDialog alertDialog = editDialog.create();
+		alertDialog.show();
+	}
+	
+	/**
+	 * This is the onClic
+	 * 
+	 * @param view
+	 */
+
+	public void searchQuestions() {
+		LayoutInflater li = LayoutInflater.from(this);
+		View searchView = li.inflate(R.layout.search_dialog, null);
+		final EditText searchField = (EditText) searchView
+				.findViewById(R.id.searchField);
+
+		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				this);
+		alertDialogBuilder.setView(searchView);
+		alertDialogBuilder.setPositiveButton("Search",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					// Building the dialog for adding
+					public void onClick(DialogInterface dialog, int which) {
+
+						String searchString = "";
+						if (searchField.getText().toString() != ""
+								|| searchField.getText().toString() != null) {
+							searchString = (String) searchField.getText()
+									.toString();
+						}
+
+						final String finalString = searchString;
+						new SearchAsyncTask().execute(finalString);
+					}
+
+				}).setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int id) {
+
+						// Do nothing
+						dialog.cancel();
+					}
+				});
+
+		final AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog1 = alertDialog;
+		alertDialog.show();
+		// alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
+	}
+	
+	/**
+	 * Method for the LOAD MORE button, which loads the next 10 questions from the server into the sub-questions list and displays them. 
+	 * @param view The View it gets called from.
+	 */
+	public void loadMoreQuestions(View view) {
+		pc.loadMoreServerQuestions();
+		mla.updateAdapter(pc.getQuestionsInstance());
+		Toast.makeText(this, "Loaded more questions", Toast.LENGTH_SHORT)
+				.show();
+	}
+	
+/*#####################################----END OF USER INITIATED METHODS----#####################################*/
+	
 /*###############################----START OF PICTURE METHODS----###################################*/
 	
-	public void pictureChooserDialog() {
+	private void pictureChooserDialog() {
 		AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
 		myAlertDialog.setTitle("Pictures Option");
 		myAlertDialog.setMessage("Select Picture Mode");
@@ -487,7 +603,9 @@ public class MainActivity extends Activity {
 		myAlertDialog.show();
 
 	}
-	
+	/**
+	 * Captures an image from the camera
+	 */
 	private void takeAPhoto() {
 		/*
 		 * Main Activity is getting pretty bloated so I'm trying to move this
@@ -545,6 +663,7 @@ public class MainActivity extends Activity {
 
 			}
 			break;
+			
 		case GALLERY_ACTIVITY_REQUEST_CODE:
 
 			if (resultCode == RESULT_OK) {
@@ -552,77 +671,16 @@ public class MainActivity extends Activity {
 				Uri galleryImageUri = data.getData();
 				File imageFile = new File(pictureController.getRealPathFromURI(galleryImageUri));
 				imageFileUri = Uri.fromFile(imageFile);
+			break;
 			}
 
 		}
 	}
-/*#################################----END OF PICTURE METHODS----#####################################*/
 	
-	/**
-	 * This method runs when the user chooses to answer a question. It creates
-	 * an intent and adds the question ID to the intent then it starts the
-	 * ViewQuestion activity.
-	 * 
-	 * @param position
-	 *            The position of the question clicked
-	 */
-	public void toQuestionActivity(int position) {
-
-		Intent i = new Intent(this, ViewQuestion.class);
-		i.putExtra("question_id", pc.getQuestionsInstance().get(position)
-				.getId());
-		pc.addReadQuestion(pc.getQuestionsInstance().get(position));
-		startActivity(i);
-	}
-
-	/**
-	 * This function is called when the user long clicks on a question in the
-	 * list view. It allows the user to save the question in the ToRead list so
-	 * that they can read the question later.
-	 * 
-	 * @param position
-	 *            A final int from the question position the long click was
-	 *            called from with bitmapfactory
-	 * 
-	 */
-
-	public void addToToRead(final int position) {
-
-		AlertDialog.Builder editDialog = new AlertDialog.Builder(this);
-		editDialog.setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener() {
-
-					public void onClick(DialogInterface dialog, int id) {
-
-						dialog.cancel();
-					}
-				}).setPositiveButton("Add to To-Read",
-				new DialogInterface.OnClickListener() {
-
-					public void onClick(DialogInterface dialog, int id) {
-
-						pc.addToRead(pc.getQuestionsInstance().get(position));
-						Toast.makeText(MainActivity.this,
-								"Added to To-Read List", Toast.LENGTH_SHORT)
-								.show();
-					}
-				});
-
-		AlertDialog alertDialog = editDialog.create();
-		alertDialog.show();
-	}
-
-	public AlertDialog getDialog() { // this is for testing purposes
-
-		return alertDialog1;
-	}
-
-	public MainListAdapter getAdapter() { // this is for testing purposes
-
-		return mla;
-	}
+/*#################################----END OF PICTURE METHODS----#####################################*/
 
 
+/*#################################----PRIVATE METHODS----######################################*/
 	/**
 	 * Sets the adapter for the list view.
 	 */
@@ -637,66 +695,6 @@ public class MainActivity extends Activity {
 	}
 	
 	/**
-	 * This is the onClic
-	 * 
-	 * @param view
-	 */
-
-	public void searchQuestions() {
-		LayoutInflater li = LayoutInflater.from(this);
-		View searchView = li.inflate(R.layout.search_dialog, null);
-		final EditText searchField = (EditText) searchView
-				.findViewById(R.id.searchField);
-
-		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				this);
-		alertDialogBuilder.setView(searchView);
-		alertDialogBuilder.setPositiveButton("Search",
-				new DialogInterface.OnClickListener() {
-
-					@Override
-					// Building the dialog for adding
-					public void onClick(DialogInterface dialog, int which) {
-
-						String searchString = "";
-						if (searchField.getText().toString() != ""
-								|| searchField.getText().toString() != null) {
-							searchString = (String) searchField.getText()
-									.toString();
-						}
-
-						final String finalString = searchString;
-						new SearchAsyncTask().execute(finalString);
-					}
-
-				}).setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener() {
-
-					public void onClick(DialogInterface dialog, int id) {
-
-						// Do nothing
-						dialog.cancel();
-					}
-				});
-
-		final AlertDialog alertDialog = alertDialogBuilder.create();
-		alertDialog1 = alertDialog;
-		alertDialog.show();
-		// alertDialog.getButton(AlertDialog.BUTTON1).setEnabled(false);
-	}
-	
-	/**
-	 * Method for the LOAD MORE button, which loads the next 10 questions from the server into the sub-questions list and displays them. 
-	 * @param view The View it gets called from.
-	 */
-	public void loadMoreQuestions(View view) {
-		pc.loadServerQuestions();
-		mla.updateAdapter(pc.getQuestionsInstance());
-		Toast.makeText(this, "Loaded more questions", Toast.LENGTH_SHORT)
-				.show();
-	}
-
-	/**
 	 * Private method that tells the GUI to update itself when another Thread is running.
 	 */
 	private Runnable doUpdateGUIList = new Runnable() {
@@ -706,7 +704,10 @@ public class MainActivity extends Activity {
 		}
 	};
 
-
+	
+/*##############################################----PRIVATE CLASSES----###################################################*/
+	
+	
 	/**
 	 * This Thread is used to push a new Question to the server and updates the GUI after adding
 	 *
@@ -803,6 +804,23 @@ public class MainActivity extends Activity {
 			progress.dismiss();
 			mla.updateAdapter(initList);
 		}
+	}
+	
+	/*#############################----TESTING METHODS----###############################*/
+	/**
+	 * For jUnit tests
+	 * @return
+	 */
+	public AlertDialog getDialog() { // this is for testing purposes
+		return alertDialog1;
+	}
+
+	/**
+	 * For jUnit tests
+	 * @return
+	 */
+	public MainListAdapter getAdapter() { // this is for testing purposes
+		return mla;
 	}
 }
 	
