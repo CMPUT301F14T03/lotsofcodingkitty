@@ -65,14 +65,17 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 		bmp.compress(Bitmap.CompressFormat.JPEG,
 				64, bytes);
-		question.setPicture(bytes.toByteArray());
+		
+		Answer answer = new Answer("I am answering a question", "Me", question.getId());
+		answer.setPicture(bytes.toByteArray());
 		assertNotNull("Picture not attached to question.",
-				question.getPicture());
+				answer.getPicture());
 		
 
 	}
 	/**
 	 * This tests that a pictureController is correctly shrinking bitmap
+	 * to less than 64KB
 	 * @throws IOException 
 	 */
 	public void testShrinkingBitmap() throws IOException {
@@ -100,58 +103,13 @@ public class PictureTest extends ActivityInstrumentationTestCase2<MainActivity> 
 		
 		Bitmap bmp1;
 		bmp1 = pictureController.ShrinkBitmap(file_path+"/sketchpad.png", 100, 100);
-		assertNotNull("Picture null", bmp1);
+		assertNotNull("Picture null", bmp1);	
+		double count = bmp1.getByteCount();
+		double imgKB = (count / 1024);
+		assertTrue("Image not less than 64 kb.", imgKB < 64);
+
 		
 
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//	/**
-//	 * This creates a new file path and creates an image that will be asserted
-//	 * to see if the file is less than 64KB. (STILL NEED TO
-//	 * BE WRITTEN)
-//	 */
-//
-//	public void testensurePicLessThan64k() {
-//		File img1 = new File("filepath");
-//
-//		double img1Bytes = img1.length();
-//
-//		double imgKB = (img1Bytes / 1024);
-//
-//		assertTrue("Image not less than 64 kb.", imgKB < 64);
-//
-//	}
-
-	
-	
-	
-	
-//	/**
-//	 * This tests that if a new picture is created and added to an answer, that
-//	 * the question is correctly adding the picture file and that the getter
-//	 * method is working properly.
-//	 */
-//
-//	public void testAttachPictureToAnswers() {
-//
-//		File picture = new File("picture_path");
-//		Answer answer = new Answer("answer", "a author", "1");
-//		String filePath = "/mnt/sdcard/QandAPictures/image.jpg";
-//		//answer.setPicture(filePath);
-//		assertEquals("Picture not attached correctly to answer.",
-//				answer.getPicture(), picture);
-//
-//	}
-
 }
 
