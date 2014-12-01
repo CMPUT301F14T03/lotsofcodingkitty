@@ -481,31 +481,10 @@ public class ViewQuestion extends Activity {
 								question_id);
 						
 						if (hasPicture){
-							FileInputStream in;
-							BufferedInputStream buf;
-							try {
-								in = new FileInputStream(imageFileUri.getPath());
-								buf = new BufferedInputStream(in);
-								Bitmap _bitmapPreScale = BitmapFactory.decodeStream(buf);
-								int oldWidth = _bitmapPreScale.getWidth();
-								int oldHeight = _bitmapPreScale.getHeight();
-								int newWidth = 200; 
-								int newHeight = 200;
-								
-								float scaleWidth = ((float) newWidth) / oldWidth;
-								float scaleHeight = ((float) newHeight) / oldHeight;
-								
-								Matrix matrix = new Matrix();
-								// resize the bit map
-								matrix.postScale(scaleWidth, scaleHeight);
-								Bitmap _bitmapScaled = Bitmap.createBitmap(_bitmapPreScale, 0, 0,  oldWidth, oldHeight, matrix, true);
+								Bitmap _bitmapScaled = pictureController.ShrinkBitmap(imageFileUri.getPath(), 200,200);
 								ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 								_bitmapScaled.compress(Bitmap.CompressFormat.PNG, 0, bytes);
 								a.setPicture(bytes.toByteArray());
-							} catch (FileNotFoundException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
 						}
 
 						String userLocationString = (String) userLocation.getText()
