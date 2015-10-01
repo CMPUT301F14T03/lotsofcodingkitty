@@ -1,9 +1,0 @@
-I) The cipher texts encoded with ECB and CBC are an extra 8 bytes since it adds another block of padding while the cipher texts encoded with CFB and OFB are unchanged in size.
-
-The impact of the error on the ECB encrypted file after decrypted the error file resulted in the 4th block to be garbage. This is obvious due to the fact that ECB encrypts in 8 byte blocks, so modifying that block will cause problems in decrypting in just that block.
-
-The impact of the error on the CBC encrypted file after decrypted the error file resulted in the 4th block to be garbage, since the modified cipher text will not get the original plain text value after getting “XORed”. 
-
-For the CFB encrypted file, the 6th bit of the fourth block is changed since the cipher text was changed in the 19th byte, XORing the cipher text with the previous block of text only changes that one byte. The fifth block is garbage in result of trying to decrypt a faulty cipher text block.
-
-For the OFB encrypted file, only the 6th bit of the 4th block is changed since the decrypted block of text (that originated from the IV) is not affected by the cipher text, the plain text only changed where the cipher text changed after XORing.
